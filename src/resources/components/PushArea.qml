@@ -115,7 +115,7 @@ Rectangle {
                 target: root
                 property: "scale"
                 from: root.scale
-                to: root.scaleOnPressed? 0.99:1.0
+                to: root.scaleOnPressed? 1.0:1.0
                 duration: 70
                 easing.type: Easing.InOutQuad
             }

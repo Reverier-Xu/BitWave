@@ -9,7 +9,7 @@ Rectangle {
     StackLayout {
         id: stack
         anchors.fill: parent
-        currentIndex: 0
+        currentIndex: display.pageIndex
         PlayerPage { }
         PlaylistPage { }
         SearchPage { }

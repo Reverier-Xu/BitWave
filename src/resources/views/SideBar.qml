@@ -33,7 +33,7 @@ Rectangle {
         placeholder: qsTr("How are you today?")
     }
 
-    PushButton {
+    ActiveTab {
         id: playerPageButton
         height: 36
         anchors.left: parent.left
@@ -45,9 +45,13 @@ Rectangle {
         showIcon: true
         icon: "qrc:/assets/play-large.svg"
         text: qsTr("Player Page")
+        isTabActive: display.activeTabIndex === -1
         onClicked: {
+            display.activeTabIndex = -1
+
             // test area
-            player.playUrl("file://file:///home/reverier/Music/musics/01. Prover.flac");
+            // isTabActive = !isTabActive
+            player.playUrl("file:///home/reverier/Music/musics/01. Prover.flac");
             player.currentMediaTitle = "Prover";
             player.currentMediaCover = "file:///home/reverier/Music/covers/Tell me.jpg";
             player.currentMediaArtist = "milet";
@@ -64,9 +68,20 @@ Rectangle {
         anchors.topMargin: 12
         anchors.bottom: settingsButton.top
         anchors.bottomMargin: 12
+
+        delegate: ActiveTab {
+            width: ListView.view.width
+            height: 36
+            anchors.topMargin: 3
+            flat: true
+            border.color: "transparent"
+            showIcon: true
+            icon: "qrc:/assets/music.svg"
+            isTabActive: index === libraryList.currentIndex
+        }
     }
 
-    PushButton {
+    ActiveTab {
         id: settingsButton
         height: 36
         anchors.left: parent.left
@@ -78,6 +93,10 @@ Rectangle {
         showIcon: true
         icon: "qrc:/assets/settings.svg"
         text: qsTr("Settings")
+        isTabActive: display.activeTabIndex === -2
+        onClicked: {
+            display.activeTabIndex = -2
+        }
     }
 
     states: [

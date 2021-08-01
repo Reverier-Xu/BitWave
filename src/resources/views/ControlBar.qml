@@ -12,7 +12,7 @@ Rectangle {
         id: staticArea
         anchors.fill: parent
         anchors.topMargin: 8
-        color: player.currentMediaIsVideo? (settings.colorStyle? "#a0ffffff":"#d0000000") : "transparent"
+        color: settings.colorStyle? "#a0ffffff":"#d0000000"
 
         Rectangle {
             id: avatarContainer
@@ -176,6 +176,31 @@ Rectangle {
         currentTime: player.currentTime
         onEndDragging: {
             player.userDragHandler(finalTime);
+        }
+
+        color: settings.colorStyle? "#a0ffffff":"#d0000000"
+
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "transparent"
+            }
+            GradientStop {
+                position: 0.3
+                color: settings.colorStyle? "#a0ffffff":"#d0000000"
+            }
+            GradientStop {
+                position: 0.5
+                color: settings.colorStyle? "#a0ffffff":"#d0000000"
+            }
+            GradientStop {
+                position: 0.51
+                color: "transparent"
+            }
+            GradientStop {
+                position: 1.0
+                color: "transparent"
+            }
         }
     }
 }

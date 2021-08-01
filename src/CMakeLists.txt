@@ -18,21 +18,12 @@ set(MANAGERS_SRCS
         managers/provider_manager.cpp
         managers/provider_manager.h
         managers/parser_manager.cpp
-        managers/parser_manager.h)
+        managers/parser_manager.h managers/display_manager.cpp managers/display_manager.h)
 
 set(MODELS_SRCS
         models/media.cpp
         models/media.h
-        models/local_music.cpp
-        models/local_music.h
-        models/local_video.cpp
-        models/local_video.h
-        models/local_netease_music.cpp
-        models/local_netease_music.h
-        models/online_netease_music.cpp
-        models/online_netease_music.h
-        models/online_bilibili_video.cpp
-        models/online_bilibili_video.h)
+        )
 
 set(PARSERS_SRCS
         parsers/local_music_parser.cpp
@@ -44,7 +35,7 @@ set(PARSERS_SRCS
         parsers/online_netease_music_parser.cpp
         parsers/online_netease_music_parser.h
         parsers/online_bilibili_video_parser.cpp
-        parsers/online_bilibili_video_parser.h)
+        parsers/online_bilibili_video_parser.h parsers/base_parser.cpp parsers/base_parser.h parsers/parser_factory.cpp parsers/parser_factory.h)
 
 set(PROVIDERS_SRCS
         providers/local_music_provider.cpp

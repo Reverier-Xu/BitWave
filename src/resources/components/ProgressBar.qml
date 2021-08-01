@@ -9,7 +9,7 @@ Rectangle {
     property double lineHeight: 2
     property bool onDragging: false
     property double totalTime: 90000
-    height: 16
+    height: 24
     color: "transparent"
 
     signal startDragging();

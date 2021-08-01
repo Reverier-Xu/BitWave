@@ -5,6 +5,15 @@
 #ifndef BITWAVE_LOCAL_MUSIC_PARSER_H
 #define BITWAVE_LOCAL_MUSIC_PARSER_H
 
-class LocalMusicParser {};
+#include <QObject>
+#include "base_parser.h"
+
+class LocalMusicParser : public BaseParser {
+    Q_OBJECT
+public:
+    [[nodiscard]] const QStringList& acceptTypes() final;
+
+    [[nodiscard]] bool accepted(const Media& media) final;
+};
 
 #endif  // BITWAVE_LOCAL_MUSIC_PARSER_H

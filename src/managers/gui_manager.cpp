@@ -9,6 +9,7 @@
 #include "player_manager.h"
 #include "resources/components/video_player.h"
 #include "settings_manager.h"
+#include "display_manager.h"
 
 GuiManager *GuiManager::mInstance = nullptr;
 
@@ -24,9 +25,11 @@ void GuiManager::createUI() {
 
 void GuiManager::exportManagers() {
     this->mUiEngine->rootContext()->setContextProperty(
-            "settings", SettingsManager::getInstance());
+            "settings", SettingsManager::getInstance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "player", PlayerManager::getInstance());
+            "player", PlayerManager::getInstance(this->parent()));
+    this->mUiEngine->rootContext()->setContextProperty(
+            "display", DisplayManager::getInstance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
             "lyricsModel", PlayerManager::getInstance()->getLyricsModel());
 }

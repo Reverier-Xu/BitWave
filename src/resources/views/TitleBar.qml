@@ -5,7 +5,7 @@ import "../components"
 
 Rectangle {
     id: root
-    color: player.currentMediaIsVideo? (settings.colorStyle? "#a0ffffff":"#d0000000") : "transparent"
+    color: settings.colorStyle? "#a0ffffff":"#d0000000"
     height: 32
 
     signal foldSideBarTriggered()
