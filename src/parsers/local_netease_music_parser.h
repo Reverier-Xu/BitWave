@@ -10,11 +10,25 @@
 
 
 class LocalNeteaseMusicParser : public BaseParser {
-    Q_OBJECT
-    public:
-        [[nodiscard]] const QStringList& acceptTypes() final;
+Q_OBJECT
+public:
+    explicit LocalNeteaseMusicParser(QObject *parent = nullptr) : BaseParser(parent) {}
 
-        [[nodiscard]] bool accepted(const Media& media) final;
+    LocalNeteaseMusicParser(const LocalNeteaseMusicParser& parser) = default;
+
+    ~LocalNeteaseMusicParser() override = default;
+
+    [[nodiscard]] const QStringList &acceptTypes() final;
+
+    [[nodiscard]] bool accepted(const Media &media) final;
+
+    [[nodiscard]] bool accepted(const QString &path) final;
+
+    [[nodiscard]] const Media parse(const Media &media) final;
+
+    [[nodiscard]] bool fillMetaData(Media& media) final;
+
+    [[nodiscard]] LocalNeteaseMusicParser* clone() final;
 };
 
 #endif  // BITWAVE_LOCAL_NETEASE_MUSIC_PARSER_H

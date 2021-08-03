@@ -26,6 +26,10 @@ set(MODELS_SRCS
         )
 
 set(PARSERS_SRCS
+        parsers/base_parser.cpp
+        parsers/base_parser.h
+        parsers/parser_factory.cpp
+        parsers/parser_factory.h
         parsers/local_music_parser.cpp
         parsers/local_music_parser.h
         parsers/local_video_parser.cpp
@@ -35,7 +39,7 @@ set(PARSERS_SRCS
         parsers/online_netease_music_parser.cpp
         parsers/online_netease_music_parser.h
         parsers/online_bilibili_video_parser.cpp
-        parsers/online_bilibili_video_parser.h parsers/base_parser.cpp parsers/base_parser.h parsers/parser_factory.cpp parsers/parser_factory.h)
+        parsers/online_bilibili_video_parser.h)
 
 set(PROVIDERS_SRCS
         providers/local_music_provider.cpp

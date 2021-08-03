@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 
-const QStringList& LocalMusicParser::acceptTypes() {
+const QStringList &LocalMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty())
         types = QStringList() << "*.mp3"
@@ -17,13 +17,31 @@ const QStringList& LocalMusicParser::acceptTypes() {
                               << "*.m4v"
                               << "*.mp4"
                               << "*.aac"
+                              << "*.ape"
                               << "*.flac"
                               << "*.wma"
-                              << "*.wv";
+                              << "*.wv"
+                              << "*.wav"
+                              << "*.ogg";
     return types;
 }
 
-bool LocalMusicParser::accepted(const Media& media) {
-    QFileInfo info(media.rawUrl());
-    return acceptTypes().contains(info.suffix(), Qt::CaseInsensitive);
+bool LocalMusicParser::accepted(const Media &media) {
+    return this->accepted(media.rawUrl());
+}
+
+bool LocalMusicParser::accepted(const QString &path) {
+    return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
+}
+
+bool LocalMusicParser::fillMetaData(Media &media) {
+    return false;
+}
+
+LocalMusicParser *LocalMusicParser::clone() {
+    return new LocalMusicParser(*this);
+}
+
+const Media LocalMusicParser::parse(const Media &media) {
+    return Media();
 }

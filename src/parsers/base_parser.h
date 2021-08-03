@@ -9,15 +9,27 @@
 #include "models/media.h"
 
 class BaseParser : public QObject {
-    Q_OBJECT
+Q_OBJECT
 public:
-    [[nodiscard]] virtual const QStringList& acceptTypes() = 0;
+    explicit BaseParser(QObject *parent = nullptr) : QObject(parent) {}
 
-    [[nodiscard]] virtual bool accepted(const Media& media) = 0;
+    BaseParser(const BaseParser &parser) {
+        this->setParent(parser.parent());
+    }
 
-    [[nodiscard]] virtual const Media& parse(const Media& media) = 0;
+    ~BaseParser() override = default;
 
-    virtual bool fillMimeData(Media& media) = 0;
+    [[nodiscard]] virtual BaseParser *clone() = 0;
+
+    [[nodiscard]] virtual const QStringList &acceptTypes() = 0;
+
+    [[nodiscard]] virtual bool accepted(const Media &media) = 0;
+
+    [[nodiscard]] virtual bool accepted(const QString &path) = 0;
+
+    [[nodiscard]] virtual const Media parse(const Media &media) = 0;
+
+    virtual bool fillMetaData(Media &media) = 0;
 
 };
 

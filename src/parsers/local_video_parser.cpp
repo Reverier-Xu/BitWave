@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 
-const QStringList& acceptTypes() {
+const QStringList &LocalVideoParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
         types = QStringList() << "*.mp4"
@@ -35,11 +35,28 @@ const QStringList& acceptTypes() {
                               << "*.f4v"
                               << "*.f4p"
                               << "*.f4a"
-                              << "*.f4b";
+                              << "*.f4b"
+                              << "*.vob";
     }
     return types;
 }
-bool accepted(const Media& media) {
-    QFileInfo info(media.rawUrl());
-    return acceptTypes().contains(info.suffix(), Qt::CaseInsensitive);
+
+bool LocalVideoParser::accepted(const Media &media) {
+    return this->accepted(media.rawUrl());
+}
+
+bool LocalVideoParser::accepted(const QString &path) {
+    return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
+}
+
+const Media LocalVideoParser::parse(const Media &media) {
+    return Media();
+}
+
+bool LocalVideoParser::fillMetaData(Media &media) {
+    return false;
+}
+
+LocalVideoParser *LocalVideoParser::clone() {
+    return new LocalVideoParser(*this);
 }

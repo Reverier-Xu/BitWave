@@ -13,19 +13,22 @@
 class ParserFactory : public QObject {
     Q_OBJECT
    private:
-    QMap<QString, BaseParser *> mParsers;
+    QMap<QString, BaseParser *> mParsersMap;
+    QList<BaseParser*> mParserList;
 
    protected:
     static ParserFactory *mInstance;
 
-    ParserFactory(QObject *parent);
+    explicit ParserFactory(QObject *parent);
 
    public:
     static ParserFactory *getInstance(QObject *parent = nullptr);
 
     static void registerParser(BaseParser *parser);
 
-    static BaseParser *getParser(const Media &media);
+    static BaseParser* getParser(const Media &media);
+
+    static BaseParser* getParser(const QString& media_path);
 };
 
 #endif  // BITWAVE_PARSER_FACTORY_H
