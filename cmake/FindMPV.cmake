@@ -5,10 +5,15 @@
 #
 # Based one FindVLC.cmake by:
 # Copyright (c) 2011 Michael Jansen <info@michael-jansen.biz>
-# Modified by Tobias Hieta <tobias@hieta.se>
+# Modified by Tobias Hieta <tobias@hieta.se>, Reverier-Xu <reverier.xu@outlook.com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+###############################################################################
+#
+# CHANGE LOG
+# 0.1.0 Initial version
+# 0.1.1 Added support for Windows MPV libs.
 #
 ###############################################################################
 
@@ -37,13 +42,17 @@ find_path(
         DOC "MPV include directory"
 )
 
-if(WIN32)
-    if(NOT MPV_INCLUDE_DIR)
+if(NOT MPV_INCLUDE_DIR)
+    if(WIN32)
         set(MPV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv/include)
-        message("MPV not found on this Windows PC, Using Embed instead.")
-        message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
-    endif(MPV_INCLUDE_DIR)
-endif(WIN32)
+        message("MPV not found on this Windows PC, Using 3rd/libmpv instead.")
+    endif(WIN32)
+    if(NOT WIN32)
+        message(FATAL_ERROR "MPV not found on this Unix PC, please install it.")
+    endif(NOT WIN32)
+endif(MPV_INCLUDE_DIR)
+
+message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
 
 #
 ### Look for the libraries
