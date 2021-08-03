@@ -37,6 +37,14 @@ find_path(
         DOC "MPV include directory"
 )
 
+if(WIN32)
+    if(NOT MPV_INCLUDE_DIR)
+        set(MPV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv/include)
+        message("MPV not found on this Windows PC, Using Embed instead.")
+        message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
+    endif(MPV_INCLUDE_DIR)
+endif(WIN32)
+
 #
 ### Look for the libraries
 #
@@ -44,6 +52,14 @@ set(_MPV_LIBRARY_NAMES mpv)
 if(PC_MPV_LIBRARIES)
     set(_MPV_LIBRARY_NAMES ${PC_MPV_LIBRARIES})
 endif(PC_MPV_LIBRARIES)
+
+if(WIN32)
+    if(NOT PC_MPV_LIBDIR)
+        set(PC_MPV_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv)
+        message(STATUS "MPV_LIBDIR: ${PC_MPV_LIBDIR}")
+    endif(NOT PC_MPV_LIBDIR)
+endif(WIN32)
+
 
 foreach(l ${_MPV_LIBRARY_NAMES})
     find_library(

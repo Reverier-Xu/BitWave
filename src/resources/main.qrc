@@ -102,6 +102,7 @@
     <file>assets/volume-2.svg</file>
     <file>assets/volume-3.svg</file>
     <file>components/ActiveTab.qml</file>
+    <file>components/Breadcrumb.qml</file>
     <file>components/ContentMenu.qml</file>
     <file>components/ControlButton.qml</file>
     <file>components/DataTable.qml</file>
