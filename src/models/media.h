@@ -34,6 +34,7 @@ Q_OBJECT
     Q_PROPERTY(
             MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE setCollection NOTIFY collectionChanged)
+    Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment NOTIFY commentChanged)
 
 private:
     QString mRawUrl;
@@ -43,6 +44,7 @@ private:
     QString mCollection;
     QString mCoverUrl;
     MediaType mType;
+    QString mComment;
 
 public:
     explicit Media(QObject *parent = nullptr,
@@ -51,13 +53,15 @@ public:
                    const QString &artist = "",
                    const QString &collection="",
                    MediaType type = UNKNOWN,
-                   double duration=0.0) : QObject(parent) {
+                   double duration=0.0,
+                   const QString &comment="") : QObject(parent) {
         mRawUrl = rawUrl;
         mTitle = title;
         mArtist = artist;
         mCollection = collection;
         mType = type;
         mDuration = duration;
+        mComment = comment;
     }
 
     Media(const Media &media) : QObject(media.parent()) {
@@ -68,6 +72,7 @@ public:
         mCollection = media.mCollection;
         mCoverUrl = media.mCoverUrl;
         mType = media.mType;
+        mComment = media.mComment;
     }
 
     Media &operator=(const Media &media) {
@@ -78,6 +83,7 @@ public:
         mArtist = media.mArtist;
         mCoverUrl = media.mCoverUrl;
         mType = media.mType;
+        mComment = media.mComment;
         return *this;
     }
 
@@ -130,6 +136,13 @@ public:
         emit collectionChanged(n);
     }
 
+    [[nodiscard]] const QString &comment() const { return this->mComment; }
+
+    void setComment(const QString &n) {
+        this->mComment = n;
+        emit commentChanged(n);
+    }
+
 signals:
 
     void rawUrlChanged(const QString &n);
@@ -145,4 +158,6 @@ signals:
     void typeChanged(MediaType n);
 
     void collectionChanged(const QString &n);
+
+    void commentChanged(const QString &n);
 };

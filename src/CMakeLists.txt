@@ -73,7 +73,10 @@ set(ENGINES_SRCS
 
 set(UTILITIES_SRCS
         utilities/mpv_helper.h
-        )
+        utilities/color_helper.cpp
+        utilities/color_helper.h
+        utilities/ncm_helper.cpp
+        utilities/ncm_helper.h)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
@@ -82,6 +85,8 @@ set(COMPONENTS_SRCS
 
 set(SRCS
         entry.cpp
+        app_defs.cpp 
+        app_defs.h
         ${PARSERS_SRCS}
         ${PROVIDERS_SRCS}
         ${ENGINES_SRCS}

@@ -18,9 +18,10 @@
 #include "parsers/local_music_parser.h"
 #include "parsers/local_netease_music_parser.h"
 #include "parsers/local_video_parser.h"
+#include "utilities/color_helper.h"
 
 
-ParserManager* ParserManager::mInstance = nullptr;
+ParserManager *ParserManager::mInstance = nullptr;
 
 ParserManager *ParserManager::instance(QObject *parent) {
     if (mInstance == nullptr)
@@ -57,10 +58,16 @@ void ParserManager::handleGetMediaInfoRequest(const QString &path) {
 
 void ParserManager::handleGetMediaCoverRequest(const Media &media) {
     auto parser = ParserFactory::getParser(media);
-    auto url = parser->getMediaCover(media);
-    parser->deleteLater();
-    // qDebug() << "cover finished here.";
-    emit this->mediaCoverIsReady(true, url);
+    try {
+        auto url = parser->getMediaCover(media);
+        parser->deleteLater();
+        // qDebug() << "cover finished here.";
+        emit this->mediaCoverIsReady(true, url);
+    } catch (std::exception& err) {
+        parser->deleteLater();
+        emit this->mediaCoverIsReady(false, "");
+    }
+
 }
 
 void ParserManager::handleGetMediaLyricsRequest(const Media &media) {
@@ -76,19 +83,19 @@ void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
 
 void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
     // get cover theme color here.
-    QColor color;
 
     // -*- begin -*-
     /* TODO: 在这里提取音乐封面的主色调，提取完毕后塞到color里就行，不要return。
      * 此实例跑在另一个线程上，因此不用过于担心效率问题，
      * 理论上讲在一首歌播完之前跑出来就行。
      */
+    // qDebug() << "analyze color started.";
     auto image = QImage();
     image.load(QUrl(cover).path());
 
     // code here.
 
-    color.setRgb(0xff, 0x00, 0x00);
+    auto color = ColorHelper::getImageThemeColor(image.scaled(100, 100));
 
     // -*- END -*-
 

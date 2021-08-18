@@ -104,8 +104,8 @@ void PlayerManager::play(const Media &m) {
     this->setCurrentMediaArtist(m.artist());
     this->setCurrentMediaTitle(m.title());
 
-    emit this->mediaParseRequired(m);
     emit this->mediaCoverRequired(m);
+    emit this->mediaParseRequired(m);
     if (m.type() == AUDIO) emit this->mediaLyricsRequired(m);
     // qDebug() << "mediaParseRequired is emitted.";
 
@@ -140,10 +140,9 @@ void PlayerManager::handleMediaCoverIsReady(bool ok, const QString &m) {
     if (ok) {
         this->setCurrentMediaCover(m);
         emit this->coverColorRequired(m);
-    }
-    else {
+    } else {
         this->setCurrentMediaCover("qrc:/assets/archive-big.svg");
-        emit this->coverColorRequired("qrc:/assets/archive-big.svg");
+        this->setCoverColor(QColor(0xd7, 0x75, 0x87));
     }
 }
 

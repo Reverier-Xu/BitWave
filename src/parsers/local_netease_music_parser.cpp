@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
+#include "utilities/ncm_helper.h"
 
 const QStringList &LocalNeteaseMusicParser::acceptTypes() {
     static QStringList types;
@@ -29,14 +30,17 @@ LocalNeteaseMusicParser *LocalNeteaseMusicParser::clone() {
 }
 
 Media LocalNeteaseMusicParser::getMedia(const QString &path) {
-    return Media();
+    return NcmHelper::getMediaFromPath(path);
 }
 
 Media LocalNeteaseMusicParser::parseMedia(const Media &media) {
-    return Media();
+    auto newPath = NcmHelper::dump(media);
+    auto res = media;
+    res.setRawUrl(newPath);
+    return res;
 }
 
 QString LocalNeteaseMusicParser::getMediaCover(const Media &media) {
-    return "";
+    return NcmHelper::dumpMediaCover(media);
 }
 

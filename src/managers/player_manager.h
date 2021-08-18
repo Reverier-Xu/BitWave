@@ -212,7 +212,7 @@ public:
         emit this->isLyricLoadedChanged(n);
     }
 
-    [[nodiscard]] const QColor &coverColor() const { return this->mCoverColor; }
+    [[nodiscard]] QColor coverColor() const { return this->mCoverColor; }
 
     void setCoverColor(const QColor &n) {
         this->mCoverColor = n;

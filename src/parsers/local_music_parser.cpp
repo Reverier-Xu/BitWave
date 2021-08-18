@@ -90,7 +90,7 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
     // read the format headers
     if (ctx->iformat->read_header(ctx) < 0) {
         avformat_close_input(&ctx);
-        return "qrc:/assets/music-big.svg";
+        throw std::exception();
     }
 
     for (int i = 0; i < ctx->nb_streams; i++){
@@ -106,5 +106,5 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
         }
     }
     avformat_close_input(&ctx);
-    return "qrc:/assets/music-big.svg";
+    throw std::exception();
 }

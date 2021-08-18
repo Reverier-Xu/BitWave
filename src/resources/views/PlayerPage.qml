@@ -44,6 +44,12 @@ Rectangle {
             color: "transparent"
             border.width: 3
             border.color: player.coverColor
+
+            Behavior on border.color {
+                ColorAnimation {
+                    duration: 300
+                }
+            }
             radius: width / 2
 
             Image {

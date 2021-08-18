@@ -102,8 +102,7 @@ void QueueManager::next() {
             break;
         case 2:
             do {
-                next_pos = abs((int) QRandomGenerator::global()->generate());
-                next_pos = next_pos % this->mMainQueue.count(); // random
+                next_pos = QRandomGenerator::global()->bounded(0, this->mMainQueue.count() - 1); // random
             } while (next_pos == this->queuePos() and this->mMainQueue.count() > 1);
             break;
         case 3:
