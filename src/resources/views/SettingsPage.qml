@@ -3,5 +3,10 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: settings.colorStyle? "white" : "black"
+    color: display.colorStyle? "white" : "black"
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
 }

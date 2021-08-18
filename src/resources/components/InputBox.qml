@@ -9,7 +9,7 @@ Rectangle {
     property color hoverColor: "#30808080"
     property color hoverBorderColor: "#A0808080"
     property color focusColor: "transparent"
-    property color focusBorderColor: settings.themeColor
+    property color focusBorderColor: display.themeColor
     property string placeholder: ""
     property string inputText: ""
     property int fontSize: 16
@@ -93,8 +93,8 @@ Rectangle {
         // canPaste: true
         clip: true
         wrapMode: TextEdit.NoWrap
-        color: settings.colorStyle ? "#000000" : "#ffffff"
-        selectedTextColor: settings.colorStyle? "#222222" : "#dddddd"
+        color: display.colorStyle ? "#000000" : "#ffffff"
+        selectedTextColor: display.colorStyle? "#222222" : "#dddddd"
         selectionColor: "#603399ff"
 
         onTextEdited: {
@@ -130,7 +130,7 @@ Rectangle {
 
             width: 2
 
-            color: settings.themeColor
+            color: display.themeColor
 
             Connections {
                 target: inputTextBox

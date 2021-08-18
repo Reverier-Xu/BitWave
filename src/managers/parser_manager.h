@@ -1,10 +1,58 @@
-//
-// Created by Reverier-Xu on 2021/6/26.
-//
+/*
+ * parser_manager.cpp
+ *
+ * Summary: manage parsers and do parse works in new thread.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ *
+ * Created: 2021-06-26
+ * Last Modified: 2021-08-12
+ *
+ */
 
-#ifndef BITWAVE_PARSER_MANAGER_H
-#define BITWAVE_PARSER_MANAGER_H
+#pragma once
 
-class ParserManager {};
+#include <QObject>
 
-#endif  // BITWAVE_PARSER_MANAGER_H
+#include "parsers/base_parser.h"
+#include "parsers/parser_factory.h"
+
+class ParserManager : public QObject {
+Q_OBJECT
+protected:
+    explicit ParserManager(QObject *parent);
+
+    static ParserManager *mInstance;
+
+public:
+    static ParserManager *instance(QObject *parent = nullptr);
+
+    void registerParsersInFactory();
+
+public slots:
+
+    void handleParseMediaRequest(const Media &media);
+
+    void handleGetMediaInfoRequest(const QString &path);
+
+    void handleGetMediaCoverRequest(const Media &media);
+
+    void handleGetMediaLyricsRequest(const Media &media);
+
+    void handleGetExternMediaInfoRequest(const QString &path);
+
+    void handleGetMediaCoverColorRequest(const QPixmap &cover);
+
+signals:
+
+    void mediaInfoIsReady(bool ok, const Media &m);
+
+    void externMediaInfoIsReady(bool ok, const Media &m);
+
+    void mediaIsReady(bool ok, const Media &m);
+
+    void mediaCoverIsReady(bool ok, const QString &m);
+
+    void mediaLyricsIsReady(bool ok, const QString &raw, const QString &trans);
+
+    void mediaCoverColorIsReady(bool ok, const QColor& color);
+};

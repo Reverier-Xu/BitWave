@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/* 
+ * gui_manager.cpp
+ *
+ * Summary: manager of QML Frontend and engines.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-06-25
+ * Last Modified: 2021-08-11
+ * 
+ */
 
 #include "gui_manager.h"
 
@@ -8,8 +15,8 @@
 
 #include "player_manager.h"
 #include "resources/components/video_player.h"
-#include "settings_manager.h"
 #include "display_manager.h"
+#include "queue_manager.h"
 
 GuiManager *GuiManager::mInstance = nullptr;
 
@@ -25,16 +32,16 @@ void GuiManager::createUI() {
 
 void GuiManager::exportManagers() {
     this->mUiEngine->rootContext()->setContextProperty(
-            "settings", SettingsManager::getInstance(this->parent()));
+            "player", PlayerManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "player", PlayerManager::getInstance(this->parent()));
+            "display", DisplayManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "display", DisplayManager::getInstance(this->parent()));
+            "queue", QueueManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "lyricsModel", PlayerManager::getInstance()->getLyricsModel());
+            "lyricsModel", PlayerManager::instance()->getLyricsModel());
 }
 
-GuiManager *GuiManager::getInstance(QObject *parent) {
+GuiManager *GuiManager::instance(QObject *parent) {
     if (mInstance == nullptr) mInstance = new GuiManager(parent);
     return mInstance;
 }

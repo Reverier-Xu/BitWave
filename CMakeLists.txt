@@ -10,21 +10,47 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui Sql OpenGL Network Quick Multimedia)
-set(QT_LIBRARIES  Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Sql Qt5::OpenGL Qt5::Network Qt5::Quick Qt5::Multimedia)
+set(QT_MIN_VERSION 5.6.0)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Widgets Network Sql OpenGL Quick)
+if(HAVE_X11)
+    find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
+    find_package(Qt5DBus ${QT_MIN_VERSION})
+endif()
+if(APPLE)
+    find_package(Qt5 REQUIRED COMPONENTS MacExtras)
+endif()
+if(WIN32)
+    find_package(Qt5 REQUIRED COMPONENTS WinExtras)
+endif()
+
+set(QT_LIBRARIES Qt5::Core Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Quick)
+
+if(Qt5DBus_FOUND)
+    set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::DBus)
+    get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt5::qdbusxml2cpp LOCATION)
+endif()
+if(HAVE_X11)
+    set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::X11Extras)
+endif()
+if(WIN32)
+    set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::WinExtras)
+endif()
+
 find_package(MPV REQUIRED)
+
+find_path(AVFORMAT_INCLUDE_DIR libavformat/avformat.h)
+find_library(AVFORMAT_LIBRARY avformat)
+
+find_path(AVUTIL_INCLUDE_DIR libavutil/avutil.h)
+find_library(AVUTIL_LIBRARY avutil)
 
 add_subdirectory(3rd/QtAES)
 
-if (WIN32)
-    find_package(ZLIB REQUIRED)
-endif (WIN32)
-
 if (NOT WIN32)
-    find_package(Qt5DBus)
+    find_package(Qt5DBus REQUIRED)
     set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::DBus)
     add_definitions(-DQt5DBus_FOUND)
-endif()
+endif ()
 
 add_definitions(${QT_DEFINITIONS})
 

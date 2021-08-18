@@ -12,9 +12,9 @@ Menu {
 
     background: Rectangle {
         border.width: 1
-        border.color: settings.colorStyle? "#cccccc":"#101010"
+        border.color: display.colorStyle? "#cccccc":"#101010"
         radius: 0
-        color: settings.colorStyle? "#eeeeee":"#151515"
+        color: display.colorStyle? "#eeeeee":"#151515"
         implicitWidth: 200
         implicitHeight: 40
     }

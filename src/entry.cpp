@@ -15,6 +15,8 @@ int main(int argc, char *argv[]) {
 
     QApplication::setApplicationDisplayName("Bit Wave");
     QApplication::setApplicationName("BitWave");
+    QApplication::setOrganizationName("Wootec");
+    QApplication::setOrganizationDomain("woooo.tech");
     QApplication::setWindowIcon(QIcon(":/assets/logo-fill.svg"));
 
     auto main_app = AppManager();

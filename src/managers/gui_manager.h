@@ -1,9 +1,15 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/* 
+ * gui_manager.h
+ *
+ * Summary: manager of QML Frontend and engines.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-06-25
+ * Last Modified: 2021-08-11
+ * 
+ */
 
-#ifndef BITWAVE_GUI_MANAGER_H
-#define BITWAVE_GUI_MANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -19,7 +25,7 @@ class GuiManager : public QObject {
     static GuiManager* mInstance;
 
    public:
-    static GuiManager* getInstance(QObject* parent = nullptr);
+    static GuiManager* instance(QObject* parent = nullptr);
 
     void createUI();
 
@@ -27,5 +33,3 @@ class GuiManager : public QObject {
 
     static void exportComponents();
 };
-
-#endif  // BITWAVE_GUI_MANAGER_H

@@ -5,38 +5,39 @@
 #include "local_video_parser.h"
 #include <QFile>
 #include <QFileInfo>
+#include <QUrl>
 
 const QStringList &LocalVideoParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
-        types = QStringList() << "*.mp4"
-                              << "*.avi"
-                              << "*.mkv"
-                              << "*.flv"
-                              << "*.mov"
-                              << "*.wmv"
-                              << "*.mpg"
-                              << "*.mpeg"
-                              << "*.m4v"
-                              << "*.3gp"
-                              << "*.3g2"
-                              << "*.mts"
-                              << "*.m2ts"
-                              << "*.ts"
-                              << "*.m3u8"
-                              << "*.m3u"
-                              << "*.mpd"
-                              << "*.rm"
-                              << "*.rmvb"
-                              << "*.asf"
-                              << "*.wma"
-                              << "*.wmv"
-                              << "*.flv"
-                              << "*.f4v"
-                              << "*.f4p"
-                              << "*.f4a"
-                              << "*.f4b"
-                              << "*.vob";
+        types = QStringList() << "mp4"
+                              << "avi"
+                              << "mkv"
+                              << "flv"
+                              << "mov"
+                              << "wmv"
+                              << "mpg"
+                              << "mpeg"
+                              << "m4v"
+                              << "3gp"
+                              << "3g2"
+                              << "mts"
+                              << "m2ts"
+                              << "ts"
+                              << "m3u8"
+                              << "m3u"
+                              << "mpd"
+                              << "rm"
+                              << "rmvb"
+                              << "asf"
+                              << "wma"
+                              << "wmv"
+                              << "flv"
+                              << "f4v"
+                              << "f4p"
+                              << "f4a"
+                              << "f4b"
+                              << "vob";
     }
     return types;
 }
@@ -49,14 +50,18 @@ bool LocalVideoParser::accepted(const QString &path) {
     return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
 }
 
-const Media LocalVideoParser::parse(const Media &media) {
+LocalVideoParser *LocalVideoParser::clone() {
+    return new LocalVideoParser(*this);
+}
+
+Media LocalVideoParser::getMedia(const QString &path) {
     return Media();
 }
 
-bool LocalVideoParser::fillMetaData(Media &media) {
-    return false;
+Media LocalVideoParser::parseMedia(const Media &media) {
+    return Media();
 }
 
-LocalVideoParser *LocalVideoParser::clone() {
-    return new LocalVideoParser(*this);
+QString LocalVideoParser::getMediaCover(const Media &media) {
+    return "";
 }

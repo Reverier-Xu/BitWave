@@ -18,6 +18,8 @@ Rectangle {
     signal doubleClicked(var mouse)
     signal rightClicked(var mouse)
 
+    state: "Normal"
+
     MouseArea {
         id: m_mousearea;
         anchors.fill: parent;
@@ -94,43 +96,9 @@ Rectangle {
         }
     ]
 
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            ColorAnimation { duration: 70 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 100
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Pressed"
-            ColorAnimation { duration: 70 }
-
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: root.scaleOnPressed? 1.0:1.0
-                duration: 70
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            ColorAnimation { duration: 100 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 100
-                easing.type: Easing.InOutQuad
-            }
+    Behavior on color {
+        ColorAnimation {
+            duration: 100
         }
-    ]
+    }
 }

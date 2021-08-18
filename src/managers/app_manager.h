@@ -1,18 +1,28 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/* 
+ * app_manager.h
+ *
+ * Summary: the whole app manager.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-06-25
+ * Last Modified: 2021-08-11
+ * 
+ */
 
-#ifndef BITWAVE_APP_MANAGER_H
-#define BITWAVE_APP_MANAGER_H
+#pragma once
 
 #include <QObject>
 
 class AppManager : public QObject {
     Q_OBJECT
+private:
+    QThread *parser_thread{};
    public:
     explicit AppManager(QObject *parent = nullptr);
 
-    void initialize();
-};
+    ~AppManager() override;
 
-#endif  // BITWAVE_APP_MANAGER_H
+    void initialize();
+
+    static void registerTypes();
+};

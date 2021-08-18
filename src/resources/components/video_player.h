@@ -2,9 +2,7 @@
 // Created by Reverier-Xu on 2021/6/27.
 //
 
-#ifndef BITWAVE_VIDEO_PLAYER_H
-#define BITWAVE_VIDEO_PLAYER_H
-
+#pragma once
 
 #include <QtWidgets/QOpenGLWidget>
 #include <utility>
@@ -55,6 +53,3 @@ private:
     friend class MpvRenderer;
 
 };
-
-
-#endif //BITWAVE_VIDEO_PLAYER_H

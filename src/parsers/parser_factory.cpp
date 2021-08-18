@@ -3,15 +3,15 @@
 //
 
 #include <QFileInfo>
+#include <QDebug>
 #include "parser_factory.h"
 
 ParserFactory *ParserFactory::mInstance = nullptr;
 
 ParserFactory::ParserFactory(QObject *parent) : QObject(parent) {
-
 }
 
-ParserFactory *ParserFactory::getInstance(QObject *parent) {
+ParserFactory *ParserFactory::instance(QObject *parent) {
     if (!mInstance) {
         mInstance = new ParserFactory(parent);
     }
@@ -20,7 +20,7 @@ ParserFactory *ParserFactory::getInstance(QObject *parent) {
 
 void ParserFactory::registerParser(BaseParser *parser) {
     for (auto &i : parser->acceptTypes())
-        ParserFactory::getInstance()->mParsersMap[i] = parser;
+        ParserFactory::instance()->mParsersMap[i] = parser;
 }
 
 BaseParser *ParserFactory::getParser(const Media &media) {
@@ -29,6 +29,6 @@ BaseParser *ParserFactory::getParser(const Media &media) {
 }
 
 BaseParser *ParserFactory::getParser(const QString &media_path) {
-    return ParserFactory::getInstance()->mParsersMap.value(QFileInfo(media_path).suffix().toLower(),
-                                                           nullptr)->clone();
+    return ParserFactory::instance()->mParsersMap.value(QFileInfo(media_path).suffix().toLower(),
+                                                        nullptr)->clone();
 }

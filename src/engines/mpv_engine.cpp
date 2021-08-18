@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/2/15.
-//
+/* 
+ * mpv_engine.cpp
+ *
+ * Summary: wrapper of mpv engine.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-01-06
+ * Last Modified: 2021-08-11
+ * 
+ */
 
 #include "mpv_engine.h"
 
@@ -24,7 +31,7 @@ MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
     mpv_set_option_string(mpv, "msg-level", "all=info");
     mpv_set_option_string(mpv, "stop-screensaver", "yes");
     mpv_set_option_string(mpv, "audio-display", "no");
-    mpv_set_option_string(mpv, "keep-open", "yes");
+    mpv_set_option_string(mpv, "keep-open", "no");
 
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
@@ -107,7 +114,7 @@ QVariant MpvEngine::getProperty(const QString &name) const {
     return mpv::qt::get_property_variant(mpv, name);
 }
 
-MpvEngine *MpvEngine::getInstance(QObject *parent) {
+MpvEngine *MpvEngine::instance(QObject *parent) {
     if (mMpvEngine == nullptr) {
         mMpvEngine = new MpvEngine(parent);
     }

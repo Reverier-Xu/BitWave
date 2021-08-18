@@ -6,11 +6,12 @@
 
 #include <QFile>
 #include <QFileInfo>
+#include <QUrl>
 
 const QStringList &LocalNeteaseMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
-        types << "*.ncm";
+        types << "ncm";
     }
     return types;
 }
@@ -23,14 +24,19 @@ bool LocalNeteaseMusicParser::accepted(const QString &path) {
     return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
 }
 
-const Media LocalNeteaseMusicParser::parse(const Media &media) {
-    return Media();
-}
-
 LocalNeteaseMusicParser *LocalNeteaseMusicParser::clone() {
     return new LocalNeteaseMusicParser(*this);
 }
 
-bool LocalNeteaseMusicParser::fillMetaData(Media &media) {
-    return false;
+Media LocalNeteaseMusicParser::getMedia(const QString &path) {
+    return Media();
 }
+
+Media LocalNeteaseMusicParser::parseMedia(const Media &media) {
+    return Media();
+}
+
+QString LocalNeteaseMusicParser::getMediaCover(const Media &media) {
+    return "";
+}
+

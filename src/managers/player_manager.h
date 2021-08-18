@@ -2,58 +2,57 @@
 // Created by Reverier-Xu on 2021/6/25.
 //
 
-#ifndef BITWAVE_PLAYER_MANAGER_H
-#define BITWAVE_PLAYER_MANAGER_H
+#pragma once
 
 #include <models/media.h>
 
 #include <QObject>
-
+#include "base_manager.h"
 #include "engines/mpv_engine.h"
 #include "models/ui/lyrics_list_model.h"
 
-class PlayerManager : public QObject {
-    Q_OBJECT
+class PlayerManager : public BaseManager {
+Q_OBJECT
     // this property just show current media is video, do not sig that the media
     // is not paused.
     Q_PROPERTY(bool currentMediaIsVideo MEMBER mCurrentMediaIsVideo READ
-                   currentMediaIsVideo WRITE setCurrentMediaIsVideo NOTIFY
+                       currentMediaIsVideo WRITE setCurrentMediaIsVideo NOTIFY
                        currentMediaIsVideoChanged)
     Q_PROPERTY(bool isPlaying MEMBER mIsPlaying READ isPlaying WRITE setPlaying
-                   NOTIFY isPlayingChanged)
+                       NOTIFY isPlayingChanged)
     Q_PROPERTY(double totalTime MEMBER mTotalTime READ totalTime WRITE
-                   setTotalTime NOTIFY totalTimeChanged)
+                       setTotalTime NOTIFY totalTimeChanged)
     Q_PROPERTY(double currentTime MEMBER mCurrentTime READ currentTime WRITE
-                   setCurrentTime NOTIFY currentTimeChanged)
+                       setCurrentTime NOTIFY currentTimeChanged)
     Q_PROPERTY(double volume MEMBER mVolume READ volume WRITE setVolume NOTIFY
-                   volumeChanged)
+                       volumeChanged)
     Q_PROPERTY(bool isMuted MEMBER mIsMuted READ isMuted WRITE setIsMuted NOTIFY
-                   isMutedChanged)
+                       isMutedChanged)
     Q_PROPERTY(bool isFullScreen MEMBER mIsFullScreen READ isFullScreen WRITE
-                   setIsFullScreen NOTIFY isFullScreenChanged)
-    Q_PROPERTY(
-        QString currentMediaUrl MEMBER mCurrentMediaUrl READ currentMediaUrl
-            WRITE setCurrentMediaUrl NOTIFY currentMediaUrlChanged)
+                       setIsFullScreen NOTIFY isFullScreenChanged)
+    Q_PROPERTY(QString currentMediaUrl MEMBER mCurrentMediaUrl READ currentMediaUrl
+                       WRITE setCurrentMediaUrl NOTIFY currentMediaUrlChanged)
     Q_PROPERTY(QString currentMediaTitle MEMBER mCurrentMediaTitle READ
-                   currentMediaTitle WRITE setCurrentMediaTitle NOTIFY
+                       currentMediaTitle WRITE setCurrentMediaTitle NOTIFY
                        currentMediaTitleChanged)
     Q_PROPERTY(QString currentMediaArtist MEMBER mCurrentMediaArtist READ
-                   currentMediaArtist WRITE setCurrentMediaArtist NOTIFY
+                       currentMediaArtist WRITE setCurrentMediaArtist NOTIFY
                        currentMediaArtistChanged)
     Q_PROPERTY(QString currentMediaAlbum MEMBER mCurrentMediaAlbum READ
-                   currentMediaAlbum WRITE setCurrentMediaAlbum NOTIFY
+                       currentMediaAlbum WRITE setCurrentMediaAlbum NOTIFY
                        currentMediaAlbumChanged)
     Q_PROPERTY(QString currentMediaCover MEMBER mCurrentMediaCover READ
-                   currentMediaCover WRITE setCurrentMediaCover NOTIFY
+                       currentMediaCover WRITE setCurrentMediaCover NOTIFY
                        currentMediaCoverChanged)
     Q_PROPERTY(bool isMediaLoaded MEMBER mIsMediaLoaded READ isMediaLoaded WRITE
-                   setIsMediaLoaded NOTIFY isMediaLoadedChanged)
+                       setIsMediaLoaded NOTIFY isMediaLoadedChanged)
     Q_PROPERTY(int isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
-                   setIsLyricLoaded NOTIFY isLyricLoadedChanged)
-    Q_PROPERTY(
-        int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
-            WRITE setCurrentLyricIndex NOTIFY currentLyricIndexChanged)
-   private:
+                       setIsLyricLoaded NOTIFY isLyricLoadedChanged)
+    Q_PROPERTY(int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
+                       WRITE setCurrentLyricIndex NOTIFY currentLyricIndexChanged)
+    Q_PROPERTY(QColor coverColor MEMBER mCoverColor READ coverColor
+                       WRITE setCoverColor NOTIFY coverColorChanged)
+private:
     bool mCurrentMediaIsVideo = false;
     bool mIsPlaying = false;
     double mTotalTime = 0.0;
@@ -70,19 +69,27 @@ class PlayerManager : public QObject {
     int mIsLyricLoaded = 0;
     int mCurrentLyricIndex = 0;
 
+    QColor mCoverColor = QColor(0x00, 0x78, 0xd6);
+
     LyricsListModel mLyricsModel{};
 
     MpvEngine *mEngine = nullptr;
 
-   protected:
+protected:
     explicit PlayerManager(QObject *parent);
+
+    ~PlayerManager() override;
 
     static PlayerManager *mInstance;
 
     void connectSignals();
 
-   public:
-    static PlayerManager *getInstance(QObject *parent = nullptr);
+public:
+    static PlayerManager *instance(QObject *parent = nullptr);
+
+    void loadSettings() override;
+
+    void saveSettings() override;
 
     [[nodiscard]] bool currentMediaIsVideo() const {
         return this->mCurrentMediaIsVideo;
@@ -205,7 +212,14 @@ class PlayerManager : public QObject {
         emit this->isLyricLoadedChanged(n);
     }
 
-   public slots:
+    [[nodiscard]] const QColor &coverColor() const { return this->mCoverColor; }
+
+    void setCoverColor(const QColor &n) {
+        this->mCoverColor = n;
+        emit this->coverColorChanged(n);
+    }
+
+public slots:
     Q_INVOKABLE void userDragHandler(double t);
 
     Q_INVOKABLE void play(const Media &m);
@@ -216,7 +230,7 @@ class PlayerManager : public QObject {
 
     Q_INVOKABLE void resume();
 
-    Q_INVOKABLE void setLyrics(const QString &raw, const QString &tr);
+    Q_INVOKABLE void setLyrics(const QString &raw, const QString &tr = "");
 
     Q_INVOKABLE [[nodiscard]] LyricsListModel *getLyricsModel() {
         return &(this->mLyricsModel);
@@ -234,7 +248,15 @@ class PlayerManager : public QObject {
         return this->mLyricsModel.getCurrentLyricIndex(this->currentTime());
     }
 
-   signals:
+    Q_INVOKABLE void handleMediaIsReady(bool ok, const Media &m);
+
+    Q_INVOKABLE void handleMediaCoverIsReady(bool ok, const QString &m);
+
+    Q_INVOKABLE void handleMediaLyricsIsReady(bool ok, const QString &raw, const QString &trans);
+
+    Q_INVOKABLE void handleCoverColorIsReady(bool ok, const QColor &color);
+
+signals:
 
     void currentMediaIsVideoChanged(bool n);
 
@@ -260,11 +282,20 @@ class PlayerManager : public QObject {
 
     void currentMediaCoverChanged(QString n);
 
+    void coverColorChanged(const QColor &color);
+
     void isMediaLoadedChanged(bool n);
 
     void isLyricLoadedChanged(int n);
 
     void currentLyricIndexChanged(int n);
+
+    void mediaParseRequired(const Media &m);
+
+    void mediaCoverRequired(const Media &m);
+
+    void mediaLyricsRequired(const Media &m);
+
+    void coverColorRequired(const QPixmap& pixmap);
 };
 
-#endif  // BITWAVE_PLAYER_MANAGER_H

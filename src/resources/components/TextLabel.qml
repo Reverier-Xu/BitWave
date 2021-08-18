@@ -11,7 +11,7 @@ Rectangle {
     property alias bold: buttonText.font.bold
     property bool noOverlay: false
     property alias text: buttonText.text
-    property color contentColor: settings.colorStyle? "#222222" : "#dddddd"
+    property color contentColor: display.colorStyle? "#222222" : "#dddddd"
 
     width: buttonText.width +root.fontSize * 1.4 + (root.showIcon? root.iconSize+root.fontSize*0.5:0)
 
@@ -44,6 +44,11 @@ Rectangle {
         anchors.leftMargin: root.fontSize * 0.5
         anchors.horizontalCenter: root.showIcon? undefined: parent.horizontalCenter
         color: contentColor
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         font.pixelSize: root.fontSize
     }
 }

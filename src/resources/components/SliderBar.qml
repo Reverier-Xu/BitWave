@@ -16,7 +16,7 @@ Rectangle {
         id: progressPart
         height: root.lineHeight
         radius: height / 2
-        color: settings.themeColor
+        color: display.themeColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: onDragging? (currentValue > dragValue ? dragPoint.left : currentProgressPoint.left)
@@ -29,7 +29,7 @@ Rectangle {
         height: root.lineHeight
         radius: height / 2
         visible: root.onDragging
-        color: settings.alertColor
+        color: display.alertColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: currentValue > dragValue ? dragPoint.right : currentProgressPoint.right
         anchors.right: currentValue > dragValue ? currentProgressPoint.left : dragPoint.left
@@ -41,7 +41,7 @@ Rectangle {
         id: unExplorePart
         height: root.lineHeight
         radius: height / 2
-        color: settings.colorStyle? "#80606060" : "#80909090"
+        color: display.colorStyle? "#80606060" : "#80909090"
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: onDragging? (currentValue > dragValue ? currentProgressPoint.right : dragPoint.right)
                                : currentProgressPoint.right
@@ -56,7 +56,7 @@ Rectangle {
         radius: 8
         color: "transparent"
         border.width: 4
-        border.color: settings.themeColor
+        border.color: display.themeColor
         anchors.verticalCenter: parent.verticalCenter
         x: (root.width - 16) * currentValue
     }
@@ -68,7 +68,7 @@ Rectangle {
         radius: 8
         color: "transparent"
         border.width: 4
-        border.color: settings.alertColor
+        border.color: display.alertColor
         anchors.verticalCenter: parent.verticalCenter
         visible: root.onDragging
         x: (root.width - 16) * dragValue
@@ -185,8 +185,8 @@ Rectangle {
             }
             PropertyChanges {
                 target: dragPoint
-                color: settings.alertColor
-                border.color: settings.alertColor
+                color: display.alertColor
+                border.color: display.alertColor
             }
             PropertyChanges {
                 target: root

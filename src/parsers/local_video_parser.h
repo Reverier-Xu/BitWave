@@ -2,8 +2,7 @@
 // Created by Reverier-Xu on 2021/6/25.
 //
 
-#ifndef BITWAVE_LOCAL_VIDEO_PARSER_H
-#define BITWAVE_LOCAL_VIDEO_PARSER_H
+#pragma once
 
 
 #include <QObject>
@@ -24,11 +23,11 @@ public:
 
     [[nodiscard]] bool accepted(const QString &path) final;
 
-    [[nodiscard]] const Media parse(const Media &media) final;
-
-    bool fillMetaData(Media &media) final;
-
     [[nodiscard]] LocalVideoParser* clone() final;
-};
 
-#endif  // BITWAVE_LOCAL_VIDEO_PARSER_H
+    [[nodiscard]] Media getMedia(const QString& path) final;
+
+    [[nodiscard]] Media parseMedia(const Media& media) final;
+
+    [[nodiscard]] QString getMediaCover(const Media& media) final;
+};

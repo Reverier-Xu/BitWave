@@ -2,8 +2,7 @@
 // Created by Reverier-Xu on 2021/7/29.
 //
 
-#ifndef BITWAVE_BASE_PARSER_H
-#define BITWAVE_BASE_PARSER_H
+#pragma once
 
 #include <QObject>
 #include "models/media.h"
@@ -27,11 +26,10 @@ public:
 
     [[nodiscard]] virtual bool accepted(const QString &path) = 0;
 
-    [[nodiscard]] virtual const Media parse(const Media &media) = 0;
+    [[nodiscard]] virtual Media getMedia(const QString& path) = 0;
 
-    virtual bool fillMetaData(Media &media) = 0;
+    [[nodiscard]] virtual Media parseMedia(const Media& media) = 0;
+
+    [[nodiscard]] virtual QString getMediaCover(const Media& media) = 0;
 
 };
-
-
-#endif //BITWAVE_BASE_PARSER_H

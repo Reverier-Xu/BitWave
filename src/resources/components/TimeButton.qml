@@ -4,9 +4,9 @@ import QtGraphicalEffects 1.15
 Rectangle {
     id: root
 
-    property color normalColor: settings.colorStyle?"#30000000":"#20ffffff"
-    property color hoverColor: settings.colorStyle?"#40000000":"#30ffffff"
-    property color pressedColor: settings.colorStyle?"#50000000":"#40ffffff"
+    property color normalColor: display.colorStyle?"#30000000":"#20ffffff"
+    property color hoverColor: display.colorStyle?"#40000000":"#30ffffff"
+    property color pressedColor: display.colorStyle?"#50000000":"#40ffffff"
     property bool scaleWhenPressed: true
     property bool displayActive: true
     property int fontSize: 16
@@ -43,7 +43,12 @@ Rectangle {
     ColorOverlay{
         anchors.fill: m_icon
         source: m_icon
-        color: settings.colorStyle? "#222222":"#dddddd"
+        color: display.colorStyle? "#222222":"#dddddd"
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         smooth: true
         antialiasing: true
         visible: !displayActive
@@ -52,7 +57,12 @@ Rectangle {
     Text {
         id: m_text;
         text: displayText;
-        color: settings.colorStyle? "#222222":"#dddddd"
+        color: display.colorStyle? "#222222":"#dddddd"
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         font.pixelSize: root.fontSize;
         anchors.centerIn: root
         horizontalAlignment: Qt.AlignHCenter
@@ -93,6 +103,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: hoverColor
+                scale: 1
                 displayActive: false
             }
         },
@@ -101,6 +112,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: normalColor
+                scale: 1
                 displayActive: true
             }
         },
@@ -109,49 +121,20 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: pressedColor
+                scale: 0.97
                 displayActive: false
             }
         }
     ]
 
-    //define transmission for the states
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            ColorAnimation { duration: 70 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 100
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Pressed"
-            ColorAnimation { duration: 70 }
-
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: root.scaleWhenPressed? 0.97:1.0
-                duration: 70
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            ColorAnimation { duration: 100 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 100
-                easing.type: Easing.InOutQuad
-            }
+    Behavior on color {
+        ColorAnimation {
+            duration: 100
         }
-    ]
+    }
+    Behavior on scale {
+        NumberAnimation {
+            duration: 200
+        }
+    }
 }

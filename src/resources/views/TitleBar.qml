@@ -1,11 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtGraphicalEffects 1.15
+import Qt.labs.platform 1.1
 import "../components"
 
 Rectangle {
     id: root
-    color: settings.colorStyle? "#a0ffffff":"#d0000000"
+    color: display.colorStyle? "#a0ffffff":"#d0000000"
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
     height: 32
 
     signal foldSideBarTriggered()
@@ -23,7 +29,7 @@ Rectangle {
         width: 54
         height: 32
         onClicked: {
-            window.close();
+            window.hide();
         }
     }
 
@@ -80,7 +86,7 @@ Rectangle {
 
     IconButton {
         id: colorStyleButton
-        icon: settings.colorStyle? "qrc:/assets/sun.svg":"qrc:/assets/moon.svg"
+        icon: display.colorStyle ? "qrc:/assets/sun.svg" : "qrc:/assets/moon.svg"
         iconSize: 16
         flat: true
         anchors.right: minimizeButton.left
@@ -89,7 +95,7 @@ Rectangle {
         width: 54
         height: 32
         onClicked: {
-            settings.colorStyle = !settings.colorStyle
+            display.colorStyle = !display.colorStyle
         }
     }
 
@@ -105,6 +111,33 @@ Rectangle {
         onClicked: {
             root.foldSideBarTriggered();
         }
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: qsTr("Open Media")
+        nameFilters: [
+            "All Support Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg *.ncm *.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob)",
+            "Music Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg)",
+            "Netease Music Files (*.ncm)",
+            "Video Files (*.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob)"
+        ]
+        fileMode: FileDialog.OpenFile
+        onAccepted: {
+            queue.playExternMedia(files[0]);
+        }
+    }
+
+    IconButton {
+        id: openExternMediaButton
+        icon: "qrc:/assets/open.svg"
+        anchors.left: titleButton.right
+        anchors.top: parent.top
+        height: 32
+        width: 54
+        flat: true
+        border.color: "transparent"
+        onClicked: fileDialog.open()
     }
 
     TapHandler {

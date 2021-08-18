@@ -2,8 +2,7 @@
 // Created by Reverier-Xu on 2021/6/25.
 //
 
-#ifndef BITWAVE_MEDIA_H
-#define BITWAVE_MEDIA_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -34,19 +33,31 @@ Q_OBJECT
                        NOTIFY coverUrlChanged)
     Q_PROPERTY(
             MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE setCollection NOTIFY collectionChanged)
 
 private:
     QString mRawUrl;
     double mDuration;
     QString mTitle;
     QString mArtist;
+    QString mCollection;
     QString mCoverUrl;
     MediaType mType;
 
 public:
-    Media(QObject *parent = nullptr, const QString &rawUrl="") : QObject(parent) {
+    explicit Media(QObject *parent = nullptr,
+                   const QString &rawUrl = "",
+                   const QString &title = "",
+                   const QString &artist = "",
+                   const QString &collection="",
+                   MediaType type = UNKNOWN,
+                   double duration=0.0) : QObject(parent) {
         mRawUrl = rawUrl;
-        mType = UNKNOWN;
+        mTitle = title;
+        mArtist = artist;
+        mCollection = collection;
+        mType = type;
+        mDuration = duration;
     }
 
     Media(const Media &media) : QObject(media.parent()) {
@@ -54,8 +65,20 @@ public:
         mDuration = media.mDuration;
         mTitle = media.mTitle;
         mArtist = media.mArtist;
+        mCollection = media.mCollection;
         mCoverUrl = media.mCoverUrl;
         mType = media.mType;
+    }
+
+    Media &operator=(const Media &media) {
+        this->setParent(media.parent());
+        mRawUrl = media.mRawUrl;
+        mDuration = media.mDuration;
+        mTitle = media.mTitle;
+        mArtist = media.mArtist;
+        mCoverUrl = media.mCoverUrl;
+        mType = media.mType;
+        return *this;
     }
 
     [[nodiscard]] QString rawUrl() const { return this->mRawUrl; }
@@ -100,6 +123,13 @@ public:
         emit typeChanged(n);
     }
 
+    [[nodiscard]] const QString &collection() const { return this->mCollection; }
+
+    void setCollection(const QString &n) {
+        this->mCollection = n;
+        emit collectionChanged(n);
+    }
+
 signals:
 
     void rawUrlChanged(const QString &n);
@@ -113,6 +143,6 @@ signals:
     void coverUrlChanged(const QString &n);
 
     void typeChanged(MediaType n);
-};
 
-#endif  // BITWAVE_MEDIA_H
+    void collectionChanged(const QString &n);
+};

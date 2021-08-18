@@ -4,10 +4,10 @@ import QtGraphicalEffects 1.15
 Rectangle {
     id: root
     //properties
-    property color normalColor: settings.themeColor
-    property color hoverColor: settings.colorStyle? Qt.lighter(normalColor, 1.2):Qt.darker(normalColor, 1.2)
-    property color activeColor: settings.alertColor
-    property color pressedColor: settings.colorStyle? Qt.lighter(hoverColor, 1.2):Qt.darker(hoverColor, 1.2)
+    property color normalColor: display.themeColor
+    property color hoverColor: display.colorStyle? Qt.lighter(normalColor, 1.2):Qt.darker(normalColor, 1.2)
+    property color activeColor: display.alertColor
+    property color pressedColor: display.colorStyle? Qt.lighter(hoverColor, 1.2):Qt.darker(hoverColor, 1.2)
     property bool scaleWhenPressed: true
     property bool displayActive: false
     property int fontSize: 16
@@ -17,9 +17,23 @@ Rectangle {
     property double displayTime: 0
 
     color: normalColor
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 200
+        }
+    }
+
+    Behavior on scale {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutExpo
+        }
+    }
+
     border.width: 2
     radius: height / 2
-    border.color: settings.colorStyle? Qt.lighter(color, 1.5):Qt.darker(color, 1.5)
+    border.color: "#10808080"
 
     signal clicked();
 
@@ -101,6 +115,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: hoverColor
+                scale: 1
             }
         },
         State {
@@ -108,6 +123,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: normalColor
+                scale: 1
             }
         },
         State {
@@ -115,6 +131,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: activeColor
+                scale: 1
             }
         },
         State {
@@ -122,59 +139,7 @@ Rectangle {
             PropertyChanges {
                 target: root
                 color: pressedColor
-            }
-        }
-    ]
-
-    //define transmission for the states
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            ColorAnimation { duration: 200 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 200
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Active"
-            ColorAnimation { duration: 150 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 200
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Pressed"
-            ColorAnimation { duration: 150 }
-
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: root.scaleWhenPressed? 0.97 : 1.0
-                duration: 150
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            ColorAnimation { duration: 200 }
-            NumberAnimation {
-                target: root
-                property: "scale"
-                from: root.scale
-                to: 1.0
-                duration: 200
-                easing.type: Easing.InOutQuad
+                scale: root.scaleWhenPressed? 0.97 : 1
             }
         }
     ]

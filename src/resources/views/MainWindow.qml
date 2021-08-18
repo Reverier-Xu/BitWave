@@ -10,13 +10,21 @@ FluentWindow {
     height: 700
     minimumHeight: 700
 
+    SystemTray {}
+
     Rectangle {
         id: centralWidget
         anchors.fill: parent
         anchors.margins: window.visibility === Window.Windowed ? 10 : 0
         border.width: window.visibility === Window.Windowed ? 1 : 0
         border.color: "#40606060"
-        color: settings.colorStyle? "#e0e0e0" : "#151515"
+        color: display.colorStyle? "#e0e0e0" : "#151515"
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 280
+            }
+        }
 
         SideBar {
             id: sideBar

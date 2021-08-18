@@ -2,8 +2,7 @@
 // Created by Reverier-Xu on 2021/7/26.
 //
 
-#ifndef BITWAVE_LYRICS_LIST_MODEL_H
-#define BITWAVE_LYRICS_LIST_MODEL_H
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QAbstractListModel>
@@ -130,4 +129,3 @@ class LyricsListModel : public QAbstractListModel {
     [[nodiscard]] Q_INVOKABLE int getCurrentLyricIndex(double currentTime) const;
 };
 
-#endif  // BITWAVE_LYRICS_LIST_MODEL_H

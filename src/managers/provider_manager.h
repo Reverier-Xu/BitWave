@@ -2,15 +2,26 @@
 // Created by Reverier-Xu on 2021/6/25.
 //
 
-#ifndef BITWAVE_PROVIDER_MANAGER_H
-#define BITWAVE_PROVIDER_MANAGER_H
+#pragma once
 
 #include <QObject>
 
-class provider_manager : public QObject {
-    Q_OBJECT
-    // Q_PROPERTY(QStringList playlists MEMBER mPlaylists READ playlists WRITE
-    // setPlaylists NOTIFY playlistsChanged)
-};
+#include "base_manager.h"
 
-#endif  // BITWAVE_PROVIDER_MANAGER_H
+class ProviderManager : public BaseManager {
+    Q_OBJECT
+protected:
+    explicit ProviderManager(QObject *parent);
+
+    ~ProviderManager() override;
+
+    static ProviderManager *mInstance;
+
+public:
+
+    static ProviderManager *instance(QObject *parent = nullptr);
+
+    void loadSettings() override;
+
+    void saveSettings() override;
+};

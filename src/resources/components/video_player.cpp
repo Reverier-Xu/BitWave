@@ -89,7 +89,7 @@ public:
 VideoPlayer::VideoPlayer(QQuickItem *parent)
         : QQuickFramebufferObject(parent), mpv_gl(nullptr) {
     // qDebug() << "VideoPlayer is initializing!";
-    mpv = MpvEngine::getInstance()->getMpvHandle();
+    mpv = MpvEngine::instance()->getMpvHandle();
     connect(this, &VideoPlayer::onUpdate, this, &VideoPlayer::doUpdate,
             Qt::QueuedConnection);
 }

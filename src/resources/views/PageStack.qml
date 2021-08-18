@@ -4,7 +4,13 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: settings.colorStyle? "#ffffff" : "#000000"
+    color: display.colorStyle? "#ffffff" : "#000000"
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
 
     StackLayout {
         id: stack

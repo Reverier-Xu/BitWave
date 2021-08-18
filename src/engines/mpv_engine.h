@@ -1,9 +1,16 @@
-//
-// Created by Reverier-Xu on 2021/2/15.
-//
+/* 
+ * mpv_engine.h
+ *
+ * Summary: wrapper of mpv engine.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-01-06
+ * Last Modified: 2021-03-14
+ * 
+ */
 
-#ifndef BITWAVE_MPV_ENGINE_H
-#define BITWAVE_MPV_ENGINE_H
+
+#pragma once
 
 #include <mpv/client.h>
 
@@ -34,7 +41,7 @@ class MpvEngine : public QObject {
 
     void operator=(const MpvEngine &) = delete;
 
-    [[nodiscard]] static MpvEngine *getInstance(QObject *parent = nullptr);
+    [[nodiscard]] static MpvEngine *instance(QObject *parent = nullptr);
 
     [[nodiscard]] mpv_handle *getMpvHandle() { return this->mpv; }
 
@@ -69,5 +76,3 @@ class MpvEngine : public QObject {
     void newMusicOpened();
     void newVideoOpened();
 };
-
-#endif  // BITWAVE_MPV_ENGINE_H

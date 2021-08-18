@@ -10,7 +10,7 @@ Rectangle {
     property color hoverColor: "#30808080"
     property color hoverBorderColor: "#A0808080"
     property color focusColor: "transparent"
-    property color focusBorderColor: settings.themeColor
+    property color focusBorderColor: display.themeColor
     property string placeholder: ""
     property string inputText: ""
     property int fontSize: 16
@@ -132,8 +132,13 @@ Rectangle {
             clip: true
             wrapMode: TextEdit.Wrap
             textFormat: TextEdit.PlainText
-            color: settings.colorStyle ? "#000000" : "#ffffff"
-            selectedTextColor: settings.colorStyle? "#222222" : "#dddddd"
+            color: display.colorStyle ? "#000000" : "#ffffff"
+            Behavior on color {
+                ColorAnimation {
+                    duration: 200
+                }
+            }
+            selectedTextColor: display.colorStyle? "#222222" : "#dddddd"
             selectionColor: "#603399ff"
 
             onTextChanged: {
@@ -155,7 +160,7 @@ Rectangle {
 
                 width: 2
 
-                color: settings.themeColor
+                color: display.themeColor
 
                 Connections {
                     target: textBox
@@ -287,20 +292,9 @@ Rectangle {
             }
         }
     ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            ColorAnimation { duration: 150 }
-        },
-        Transition {
-            from: "*"; to: "Focus"
-            ColorAnimation { duration: 150 }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            ColorAnimation { duration: 300 }
+    Behavior on color {
+        ColorAnimation {
+            duration: 200
         }
-    ]
-
+    }
 }

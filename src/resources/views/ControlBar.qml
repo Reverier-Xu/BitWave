@@ -12,7 +12,13 @@ Rectangle {
         id: staticArea
         anchors.fill: parent
         anchors.topMargin: 8
-        color: settings.colorStyle? "#a0ffffff":"#d0000000"
+        color: display.colorStyle? "#a0ffffff":"#d0000000"
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 280
+            }
+        }
 
         Rectangle {
             id: avatarContainer
@@ -41,7 +47,7 @@ Rectangle {
                             anchors.centerIn: parent
                             width: parent.width
                             height: parent.height
-                            radius: 12
+                            radius: 24
                         }
                     }
                 }
@@ -111,6 +117,9 @@ Rectangle {
             anchors.rightMargin: 15
             displayTime: player.currentTime
             icon: "qrc:/assets/previous.svg"
+            onClicked: {
+                queue.previous();
+            }
         }
 
         TimeButton {
@@ -122,6 +131,26 @@ Rectangle {
             anchors.leftMargin: 15
             displayTime: player.totalTime
             icon: "qrc:/assets/next.svg"
+            onClicked: {
+                queue.next();
+            }
+        }
+
+        IconButton {
+            id: playModeButton
+            width: 42
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: muteButton.left
+            anchors.rightMargin: 15
+            radius: width / 2
+            iconSize: 24
+            flat: true
+            icon: queue.playModeIcon
+
+            onClicked: {
+                queue.changeMode();
+            }
         }
 
         IconButton {
@@ -178,7 +207,13 @@ Rectangle {
             player.userDragHandler(finalTime);
         }
 
-        color: settings.colorStyle? "#a0ffffff":"#d0000000"
+        color: display.colorStyle? "#a0ffffff":"#d0000000"
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 280
+            }
+        }
 
         gradient: Gradient {
             GradientStop {
@@ -187,11 +222,21 @@ Rectangle {
             }
             GradientStop {
                 position: 0.3
-                color: settings.colorStyle? "#a0ffffff":"#d0000000"
+                color: display.colorStyle? "#a0ffffff":"#d0000000"
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 280
+                    }
+                }
             }
             GradientStop {
                 position: 0.5
-                color: settings.colorStyle? "#a0ffffff":"#d0000000"
+                color: display.colorStyle? "#a0ffffff":"#d0000000"
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 280
+                    }
+                }
             }
             GradientStop {
                 position: 0.51

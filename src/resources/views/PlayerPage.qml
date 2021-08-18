@@ -1,11 +1,18 @@
 import QtQuick 2.15
 import Reverier.MediaWidgets 1.0
 import QtGraphicalEffects 1.15
+import QtQuick.Particles 2.15
 import "qrc:/components"
 
 Rectangle {
     id: root
-    color: settings.colorStyle? "white" : "black"
+    color: display.colorStyle? "white" : "black"
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
 
     VideoPlayer {
         id: videoPlayer
@@ -15,13 +22,19 @@ Rectangle {
     Rectangle {
         id: musicPlayer
         anchors.fill: videoPlayer
-        color: settings.colorStyle? "white" : "black"
+        color: display.colorStyle? "white" : "black"
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 280
+            }
+        }
         visible: !player.currentMediaIsVideo
 
+        // TODO: 特效才是灵魂。下次写
         Rectangle {
             id: avatarContainer
             clip: true
-            radius: 15
             anchors.bottom: parent.verticalCenter
             anchors.bottomMargin: -height / 3
             anchors.right: parent.horizontalCenter
@@ -29,10 +42,14 @@ Rectangle {
             width: Math.min(parent.height, parent.width) / 2.5
             height: width
             color: "transparent"
+            border.width: 3
+            border.color: player.coverColor
+            radius: width / 2
 
             Image {
                 id: avatar
                 anchors.fill: parent
+                anchors.margins: parent.width / 15
                 smooth: true
                 source: player.currentMediaCover
                 sourceSize: parent.size
@@ -46,9 +63,20 @@ Rectangle {
                             anchors.centerIn: parent
                             width: parent.width
                             height: parent.height
-                            radius: 24
+                            radius: width / 2
                         }
                     }
+                }
+
+                PropertyAnimation {
+                    property: "rotation"
+                    target: avatar
+                    from: 0
+                    to: 360
+                    duration: 30000
+                    running: !player.currentMediaIsVideo
+                    paused: !player.isPlaying
+                    loops: Animation.Infinite
                 }
             }
         }
@@ -103,7 +131,12 @@ Rectangle {
             anchors.horizontalCenter: lyricsBox.horizontalCenter
             font.pixelSize: 32
             text: mediaTitleMetrics.elidedText
-            color: settings.colorStyle ? "#252525" : "#c0c0c0"
+            color: display.colorStyle ? "#252525" : "#c0c0c0"
+            Behavior on color {
+                ColorAnimation {
+                    duration: 280
+                }
+            }
         }
 
         TextMetrics {
@@ -120,7 +153,7 @@ Rectangle {
             anchors.horizontalCenter: mediaTitle.horizontalCenter
             elide: Text.ElideLeft
             text: mediaArtistAndAlbumMetrics.elidedText
-            color: settings.themeColor
+            color: display.themeColor
             font.pixelSize: 16 
         }
     }

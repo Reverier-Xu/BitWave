@@ -7,8 +7,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 qt5_add_resources(RESOURCES ./resources/main.qrc)
 
 set(MANAGERS_SRCS
-        managers/settings_manager.cpp
-        managers/settings_manager.h
+        managers/base_manager.cpp
+        managers/base_manager.h
         managers/gui_manager.cpp
         managers/gui_manager.h
         managers/app_manager.cpp
@@ -18,11 +18,18 @@ set(MANAGERS_SRCS
         managers/provider_manager.cpp
         managers/provider_manager.h
         managers/parser_manager.cpp
-        managers/parser_manager.h managers/display_manager.cpp managers/display_manager.h)
+        managers/parser_manager.h
+        managers/display_manager.cpp
+        managers/display_manager.h
+        managers/queue_manager.cpp
+        managers/queue_manager.h
+        )
 
 set(MODELS_SRCS
         models/media.cpp
         models/media.h
+        models/ui/lyrics_list_model.cpp
+        models/ui/lyrics_list_model.h
         )
 
 set(PARSERS_SRCS
@@ -39,7 +46,8 @@ set(PARSERS_SRCS
         parsers/online_netease_music_parser.cpp
         parsers/online_netease_music_parser.h
         parsers/online_bilibili_video_parser.cpp
-        parsers/online_bilibili_video_parser.h)
+        parsers/online_bilibili_video_parser.h
+        )
 
 set(PROVIDERS_SRCS
         providers/local_music_provider.cpp
@@ -51,22 +59,26 @@ set(PROVIDERS_SRCS
         providers/bilibili_provider.cpp
         providers/bilibili_provider.h
         providers/osu_provider.cpp
-        providers/osu_provider.h)
+        providers/osu_provider.h
+        providers/playlists_provider.cpp
+        providers/playlists_provider.h
+        )
 
 set(ENGINES_SRCS
         engines/mpv_engine.cpp
         engines/mpv_engine.h
         engines/sqlite_engine.cpp
-        engines/sqlite_engine.h)
+        engines/sqlite_engine.h
+        )
 
 set(UTILITIES_SRCS
-        utilities/mpv_helper.h)
+        utilities/mpv_helper.h
+        )
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
         resources/components/video_player.h
-        models/ui/lyrics_list_model.cpp
-        models/ui/lyrics_list_model.h)
+        )
 
 set(SRCS
         entry.cpp
@@ -77,11 +89,12 @@ set(SRCS
         ${COMPONENTS_SRCS}
         ${MANAGERS_SRCS}
         ${MODELS_SRCS}
-        ${RESOURCES})
+        ${RESOURCES}
+        )
 
 add_executable(BitWave ${SRCS})
 
-target_link_libraries(BitWave ${QT_LIBRARIES} ${MPV_LIBRARY} ${TAGLIB_LIBRARIES} QtAES)
+target_link_libraries(BitWave ${QT_LIBRARIES} ${MPV_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} QtAES)
 
 set_target_properties(BitWave
         PROPERTIES

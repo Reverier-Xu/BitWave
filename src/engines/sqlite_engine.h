@@ -1,9 +1,15 @@
-//
-// Created by Reverier-Xu on 2021/7/23.
-//
+/* 
+ * sqlite_engine.h
+ *
+ * Summary: wrapper of sqlite.
+ * Author: Reverier-Xu <reverier.xu@outlook.com>
+ * 
+ * Created: 2021-07-23
+ * Last Modified: 2021-08-11
+ * 
+ */
 
-#ifndef BITWAVE_SQLITE_ENGINE_H
-#define BITWAVE_SQLITE_ENGINE_H
+#pragma once
 
 #include <QObject>
 #include <QSqlDatabase>
@@ -39,7 +45,7 @@ class SQLiteEngine : public QObject {
     static SQLiteEngine* mInstance;
 
    public:
-    static SQLiteEngine* getInstance(QObject* parent=nullptr);
+    static SQLiteEngine* instance(QObject* parent= nullptr);
 
     [[nodiscard]] QString databaseFile() { return this->mDatabaseFile; }
     void setDatabaseFile(const QString& n) { this->mDatabaseFile = n; }
@@ -48,16 +54,14 @@ class SQLiteEngine : public QObject {
     void setDatabaseName(const QString& n) { this->mDatabaseName = n; }
 
     [[nodiscard]] QSqlDatabase database() { return this->mDatabase; }
-    void setDatabase(QSqlDatabase n) { this->mDatabase = n; }
+    void setDatabase(const QSqlDatabase& n) { this->mDatabase = n; }
 
-    [[nodiscard]] bool isOpen() { return this->mIsOpen; }
+    [[nodiscard]] bool isOpen() const { return this->mIsOpen; }
     void setIsOpen(bool n) { this->mIsOpen = n; }
 
-    [[nodiscard]] bool isReadOnly() { return this->mIsReadOnly; }
+    [[nodiscard]] bool isReadOnly() const { return this->mIsReadOnly; }
     void setIsReadOnly(bool n) { this->mIsReadOnly = n; }
 
-    [[nodiscard]] bool isValid() { return this->mIsValid; }
+    [[nodiscard]] bool isValid() const { return this->mIsValid; }
     void setIsValid(bool n) { this->mIsValid = n; }
 };
-
-#endif  // BITWAVE_SQLITE_ENGINE_H

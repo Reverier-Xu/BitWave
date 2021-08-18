@@ -36,6 +36,7 @@
     <file>assets/document.svg</file>
     <file>assets/download.svg</file>
     <file>assets/edit.svg</file>
+    <file>assets/effect-sprite.png</file>
     <file>assets/email.svg</file>
     <file>assets/enter-fullscreen.svg</file>
     <file>assets/exit-fullscreen.svg</file>
@@ -80,11 +81,15 @@
     <file>assets/person.svg</file>
     <file>assets/pin.svg</file>
     <file>assets/play-large.svg</file>
+    <file>assets/play-order.svg</file>
+    <file>assets/play-random.svg</file>
+    <file>assets/play-repeat-all.svg</file>
+    <file>assets/play-repeat-one.svg</file>
+    <file>assets/play-reverse.svg</file>
     <file>assets/previous.svg</file>
     <file>assets/qr-code.svg</file>
     <file>assets/radio-checked.svg</file>
     <file>assets/radio.svg</file>
-    <file>assets/reading-list.svg</file>
     <file>assets/regex.svg</file>
     <file>assets/restore.svg</file>
     <file>assets/ribbon.svg</file>
@@ -96,6 +101,7 @@
     <file>assets/simulation.svg</file>
     <file>assets/star.svg</file>
     <file>assets/sun.svg</file>
+    <file>assets/theme.svg</file>
     <file>assets/up.svg</file>
     <file>assets/volume-0.svg</file>
     <file>assets/volume-1.svg</file>
@@ -105,8 +111,6 @@
     <file>components/Breadcrumb.qml</file>
     <file>components/ContentMenu.qml</file>
     <file>components/ControlButton.qml</file>
-    <file>components/DataTable.qml</file>
-    <file>components/DataTableItem.qml</file>
     <file>components/FluentWindow.qml</file>
     <file>components/IconButton.qml</file>
     <file>components/InputArea.qml</file>
@@ -114,6 +118,8 @@
     <file>components/LyricContent.qml</file>
     <file>components/LyricsBox.qml</file>
     <file>components/MenuButton.qml</file>
+    <file>components/MusicTable.qml</file>
+    <file>components/MusicTableItem.qml</file>
     <file>components/ProgressBar.qml</file>
     <file>components/PushArea.qml</file>
     <file>components/PushButton.qml</file>
@@ -121,7 +127,6 @@
     <file>components/ShortcutEvent.qml</file>
     <file>components/SliderBar.qml</file>
     <file>components/Switch.qml</file>
-    <file>components/TextBrowser.qml</file>
     <file>components/TextLabel.qml</file>
     <file>components/TimeButton.qml</file>
     <file>components/UXScrollBar.qml</file>
@@ -133,6 +138,7 @@
     <file>views/SearchPage.qml</file>
     <file>views/SettingsPage.qml</file>
     <file>views/SideBar.qml</file>
+    <file>views/SystemTray.qml</file>
     <file>views/TitleBar.qml</file>
   </qresource>
 </RCC>

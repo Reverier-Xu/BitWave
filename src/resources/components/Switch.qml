@@ -60,7 +60,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: dot
-                color: settings.themeColor
+                color: display.themeColor
             }
         }
     ]

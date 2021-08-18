@@ -21,7 +21,13 @@ Rectangle {
         verticalAlignment: TextEdit.AlignVCenter
         font.pixelSize: 16
         // font.bold: root.isActive
-        color: root.isActive ? (settings.colorStyle ? "black" : "white") : "#808080"
+        color: root.isActive ? (display.colorStyle ? "black" : "white") : "#808080"
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
     }
 
     PushArea {
