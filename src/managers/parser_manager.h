@@ -40,7 +40,7 @@ public slots:
 
     void handleGetExternMediaInfoRequest(const QString &path);
 
-    void handleGetMediaCoverColorRequest(const QPixmap &cover);
+    void handleGetMediaCoverColorRequest(const QString &cover);
 
 signals:
 

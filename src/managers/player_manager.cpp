@@ -139,11 +139,11 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
 void PlayerManager::handleMediaCoverIsReady(bool ok, const QString &m) {
     if (ok) {
         this->setCurrentMediaCover(m);
-        emit this->coverColorRequired(QPixmap(m));
+        emit this->coverColorRequired(m);
     }
     else {
         this->setCurrentMediaCover("qrc:/assets/archive-big.svg");
-        emit this->coverColorRequired(QPixmap("qrc:/assets/archive-big.svg"));
+        emit this->coverColorRequired("qrc:/assets/archive-big.svg");
     }
 }
 

@@ -97,7 +97,8 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
         if (ctx->streams[i]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
             AVPacket pkt = ctx->streams[i]->attached_pic;
             QImage img = QImage::fromData((uchar*)pkt.data, pkt.size);
-            auto temp_loc = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/covers/" + media.title() + ".jpg";
+            auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/BitWave";
+            auto temp_loc = cachePath + "/Covers/" + media.title() + ".jpg";
             img.save(temp_loc);
             avformat_close_input(&ctx);
             // qDebug() << temp_loc;

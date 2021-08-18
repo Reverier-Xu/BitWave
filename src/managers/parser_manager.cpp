@@ -12,6 +12,8 @@
 #include <QUrl>
 #include <QDebug>
 #include <QColor>
+#include <QPixmap>
+#include <QImage>
 #include "parser_manager.h"
 #include "parsers/local_music_parser.h"
 #include "parsers/local_netease_music_parser.h"
@@ -72,7 +74,7 @@ void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
     emit this->externMediaInfoIsReady(true, res);
 }
 
-void ParserManager::handleGetMediaCoverColorRequest(const QPixmap &cover) {
+void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
     // get cover theme color here.
     QColor color;
 
@@ -81,6 +83,10 @@ void ParserManager::handleGetMediaCoverColorRequest(const QPixmap &cover) {
      * 此实例跑在另一个线程上，因此不用过于担心效率问题，
      * 理论上讲在一首歌播完之前跑出来就行。
      */
+    auto image = QImage();
+    image.load(QUrl(cover).path());
+
+    // code here.
 
     color.setRgb(0xff, 0x00, 0x00);
 

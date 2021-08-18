@@ -296,6 +296,6 @@ signals:
 
     void mediaLyricsRequired(const Media &m);
 
-    void coverColorRequired(const QPixmap& pixmap);
+    void coverColorRequired(const QString &cover);
 };
 
