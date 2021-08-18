@@ -103,13 +103,13 @@ void PlayerManager::play(const Media &m) {
     this->setCurrentMediaAlbum(m.collection());
     this->setCurrentMediaArtist(m.artist());
     this->setCurrentMediaTitle(m.title());
+    this->setIsMediaLoaded(false);
+    this->pause();
 
     emit this->mediaCoverRequired(m);
     emit this->mediaParseRequired(m);
     if (m.type() == AUDIO) emit this->mediaLyricsRequired(m);
     // qDebug() << "mediaParseRequired is emitted.";
-
-    this->resume();
 }
 
 void PlayerManager::pause() {
@@ -130,10 +130,13 @@ void PlayerManager::setLyrics(const QString &raw, const QString &tr) {
 }
 
 void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
-    if (ok)
+    if (ok) {
         this->playUrl(m.rawUrl());
-    else
+        this->setIsMediaLoaded(true);
+        this->resume();
+    } else {
         QueueManager::instance(this->parent())->next();
+    }
 }
 
 void PlayerManager::handleMediaCoverIsReady(bool ok, const QString &m) {
