@@ -99,8 +99,8 @@ Rectangle {
                     from: 0
                     to: 360
                     duration: 30000
-                    running: !player.currentMediaIsVideo
-                    paused: !player.isPlaying
+                    running: true
+                    paused: !player.currentMediaIsVideo && !player.isPlaying
                     loops: Animation.Infinite
                 }
             }
