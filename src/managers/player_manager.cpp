@@ -103,7 +103,7 @@ void PlayerManager::play(const Media &m) {
     this->setCurrentMediaAlbum(m.collection());
     this->setCurrentMediaArtist(m.artist());
     this->setCurrentMediaTitle(m.title());
-    this->setIsMediaLoaded(false);
+    this->setIsMediaLoading(true);
     this->pause();
 
     emit this->mediaCoverRequired(m);
@@ -132,7 +132,7 @@ void PlayerManager::setLyrics(const QString &raw, const QString &tr) {
 void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
     if (ok) {
         this->playUrl(m.rawUrl());
-        this->setIsMediaLoaded(true);
+        this->setIsMediaLoading(false);
         this->resume();
     } else {
         QueueManager::instance(this->parent())->next();

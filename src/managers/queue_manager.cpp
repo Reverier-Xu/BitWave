@@ -67,6 +67,7 @@ void QueueManager::addMediaAtTail(const Media &media) {
 }
 
 void QueueManager::playExternMedia(const QString &path) {
+    // qDebug() << "Extern Media Requested: " << path;
     emit this->playExternMediaRequested(path);
 }
 

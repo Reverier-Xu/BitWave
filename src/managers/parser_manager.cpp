@@ -12,7 +12,6 @@
 #include <QUrl>
 #include <QDebug>
 #include <QColor>
-#include <QPixmap>
 #include <QImage>
 #include "parser_manager.h"
 #include "parsers/local_music_parser.h"
@@ -43,27 +42,39 @@ void ParserManager::registerParsersInFactory() {
 void ParserManager::handleParseMediaRequest(const Media &media) {
     // qDebug() << "parseMediaRequest received here.";
     auto parser = ParserFactory::getParser(media);
-    auto res = parser->parseMedia(media);
-    // qDebug() << "parse finished here.";
-    parser->deleteLater();
-    emit this->mediaIsReady(true, res);
+    try {
+        auto res = parser->parseMedia(media);
+        // qDebug() << "parse finished here.";
+        parser->deleteLater();
+        emit this->mediaIsReady(true, res);
+    } catch (...) {
+        parser->deleteLater();
+        emit this->mediaIsReady(false, Media());
+    }
 }
 
 void ParserManager::handleGetMediaInfoRequest(const QString &path) {
+    // qDebug() << "handleGetMediaInfoRequest received here.";
     auto parser = ParserFactory::getParser(path);
-    auto res = parser->getMedia(path);
-    parser->deleteLater();
-    emit this->mediaInfoIsReady(true, res);
+    try {
+        auto res = parser->getMedia(path);
+        parser->deleteLater();
+        emit this->mediaInfoIsReady(true, res);
+    } catch (...) {
+        parser->deleteLater();
+        emit this->mediaInfoIsReady(false, Media());
+    }
 }
 
 void ParserManager::handleGetMediaCoverRequest(const Media &media) {
+    // qDebug() << "Parse extern media started.";
     auto parser = ParserFactory::getParser(media);
     try {
         auto url = parser->getMediaCover(media);
         parser->deleteLater();
         // qDebug() << "cover finished here.";
         emit this->mediaCoverIsReady(true, url);
-    } catch (std::exception& err) {
+    } catch (...) {
         parser->deleteLater();
         emit this->mediaCoverIsReady(false, "");
     }
@@ -75,10 +86,16 @@ void ParserManager::handleGetMediaLyricsRequest(const Media &media) {
 }
 
 void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
+    // qDebug() << "Analyze extern media info started.";
     auto parser = ParserFactory::getParser(path);
-    auto res = parser->getMedia(path);
-    parser->deleteLater();
-    emit this->externMediaInfoIsReady(true, res);
+    try {
+        auto res = parser->getMedia(path);
+        parser->deleteLater();
+        emit this->externMediaInfoIsReady(true, res);
+    } catch (...) {
+        parser->deleteLater();
+        emit this->externMediaInfoIsReady(false, Media());
+    }
 }
 
 void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
@@ -89,15 +106,23 @@ void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
      * 此实例跑在另一个线程上，因此不用过于担心效率问题，
      * 理论上讲在一首歌播完之前跑出来就行。
      */
-    // qDebug() << "analyze color started.";
+    // qDebug() << "Analyze cover color started.";
     auto image = QImage();
-    image.load(QUrl(cover).path());
+    try {
+        image.load(QUrl(cover).path());
 
-    // code here.
+        // code here.
+        if (image.isNull())
+            throw std::exception();
 
-    auto color = ColorHelper::getImageThemeColor(image.scaled(100, 100));
+        auto color = ColorHelper::getImageThemeColor(image.scaled(100, 100));
 
-    // -*- END -*-
+        emit this->mediaCoverColorIsReady(true, color);
 
-    emit this->mediaCoverColorIsReady(true, color);
+        // qDebug() << "Analyze cover color succeeded.";
+
+    } catch (...) {
+        emit this->mediaCoverColorIsReady(false, QColor());
+        // qDebug() << "Analyze cover color failed.";
+    }
 }

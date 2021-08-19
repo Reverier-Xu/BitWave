@@ -44,8 +44,8 @@ Q_OBJECT
     Q_PROPERTY(QString currentMediaCover MEMBER mCurrentMediaCover READ
                        currentMediaCover WRITE setCurrentMediaCover NOTIFY
                        currentMediaCoverChanged)
-    Q_PROPERTY(bool isMediaLoaded MEMBER mIsMediaLoaded READ isMediaLoaded WRITE
-                       setIsMediaLoaded NOTIFY isMediaLoadedChanged)
+    Q_PROPERTY(bool isMediaLoading MEMBER mIsMediaLoading READ isMediaLoading WRITE
+                       setIsMediaLoading NOTIFY isMediaLoadingChanged)
     Q_PROPERTY(int isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
                        setIsLyricLoaded NOTIFY isLyricLoadedChanged)
     Q_PROPERTY(int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
@@ -65,7 +65,7 @@ private:
     QString mCurrentMediaArtist = tr("No artist");
     QString mCurrentMediaAlbum = tr("No album");
     QString mCurrentMediaCover = "qrc:/assets/music-big.svg";
-    bool mIsMediaLoaded = false;
+    bool mIsMediaLoading = false;
     int mIsLyricLoaded = 0;
     int mCurrentLyricIndex = 0;
 
@@ -198,11 +198,11 @@ public:
         emit this->currentMediaCoverChanged(n);
     }
 
-    [[nodiscard]] bool isMediaLoaded() const { return this->mIsMediaLoaded; }
+    [[nodiscard]] bool isMediaLoading() const { return this->mIsMediaLoading; }
 
-    void setIsMediaLoaded(bool n) {
-        this->mIsMediaLoaded = n;
-        emit this->isMediaLoadedChanged(n);
+    void setIsMediaLoading(bool n) {
+        this->mIsMediaLoading = n;
+        emit this->isMediaLoadingChanged(n);
     }
 
     [[nodiscard]] int isLyricLoaded() const { return this->mIsLyricLoaded; }
@@ -284,7 +284,7 @@ signals:
 
     void coverColorChanged(const QColor &color);
 
-    void isMediaLoadedChanged(bool n);
+    void isMediaLoadingChanged(bool n);
 
     void isLyricLoadedChanged(int n);
 

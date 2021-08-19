@@ -54,6 +54,25 @@ Rectangle {
             }
         }
 
+        Rectangle {
+            id: loadingCover
+            anchors.fill: avatarContainer
+            opacity: player.isMediaLoading ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 200
+                }
+            }
+
+            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+            Loader {
+                id: loader
+                radius: parent.width / 4
+                anchors.centerIn: parent
+                running: player.isMediaLoading
+            }
+        }
+
         TextMetrics {
             id: mediaTitleMetrics
             elide: Text.ElideRight

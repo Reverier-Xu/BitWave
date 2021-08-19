@@ -7,6 +7,11 @@
 #include <QFileInfo>
 #include <QUrl>
 
+extern "C" {
+#include <libavformat/avformat.h>
+}
+
+
 const QStringList &LocalVideoParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
@@ -55,13 +60,42 @@ LocalVideoParser *LocalVideoParser::clone() {
 }
 
 Media LocalVideoParser::getMedia(const QString &path) {
-    return Media();
+    Media media;
+    media.setRawUrl(path);
+    media.setType(VIDEO);
+        AVFormatContext *ctx = nullptr;
+    AVDictionaryEntry *tag = nullptr;
+    AVDictionaryEntry *read_tag;
+    std::string raw_path = path.toStdString();
+    avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
+    avformat_find_stream_info(ctx, nullptr);
+    read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
+    if (read_tag) media.setTitle(read_tag->value);
+    else media.setTitle(QFileInfo(path).baseName());
+    read_tag = av_dict_get(ctx->metadata, "artist", tag, AV_DICT_IGNORE_SUFFIX);
+    if (read_tag) media.setArtist(read_tag->value);
+    else media.setArtist(tr("Unknown Artist"));
+    read_tag = av_dict_get(ctx->metadata, "album", tag, AV_DICT_IGNORE_SUFFIX);
+    if (read_tag) media.setCollection(read_tag->value);
+    else media.setCollection("Unknown Album");
+    if (ctx->duration != AV_NOPTS_VALUE) {
+        int64_t secs, us;
+        int64_t duration = ctx->duration + 5000;
+        secs = duration / AV_TIME_BASE;
+        us = duration % AV_TIME_BASE;
+        media.setDuration(double(secs) + double(us) / AV_TIME_BASE);
+//        qDebug() << secs;
+//        qDebug() << us;
+    }
+//    qDebug() << media.duration();
+    avformat_close_input(&ctx);
+    return media;
 }
 
 Media LocalVideoParser::parseMedia(const Media &media) {
-    return Media();
+    return media;
 }
 
 QString LocalVideoParser::getMediaCover(const Media &media) {
-    return "";
+    return "qrc:/assets/movie-big.svg";
 }

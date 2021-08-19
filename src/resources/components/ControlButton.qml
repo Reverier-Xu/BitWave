@@ -3,7 +3,6 @@ import QtGraphicalEffects 1.15
 
 Rectangle {
     id: root
-    //properties
     property color normalColor: display.themeColor
     property color hoverColor: display.colorStyle? Qt.lighter(normalColor, 1.2):Qt.darker(normalColor, 1.2)
     property color activeColor: display.alertColor

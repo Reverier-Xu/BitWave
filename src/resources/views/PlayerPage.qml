@@ -17,6 +17,25 @@ Rectangle {
     VideoPlayer {
         id: videoPlayer
         anchors.fill: parent
+
+        Rectangle {
+            id: videoPlayerLoaderContainer
+            anchors.fill: parent
+            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+            opacity: player.isMediaLoading ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 200
+                }
+            }
+
+            Loader {
+                id: videoLoader
+                radius: 64
+                anchors.centerIn: parent
+                running: player.isMediaLoading && player.currentMediaIsVideo
+            }
+        }
     }
 
     Rectangle {
@@ -84,6 +103,26 @@ Rectangle {
                     paused: !player.isPlaying
                     loops: Animation.Infinite
                 }
+            }
+        }
+
+        Rectangle {
+            id: loadingCover
+            anchors.fill: avatarContainer
+            opacity: player.isMediaLoading? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 200
+                }
+            }
+            radius: width / 2
+            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+
+            Loader {
+                id: musicAvatarLoader
+                radius: parent.width / 5
+                anchors.centerIn: parent
+                running: player.isMediaLoading
             }
         }
 

@@ -224,7 +224,7 @@ QString NcmHelper::dumpMediaCover(const Media &media) {
         QImage avatar;
         avatar.loadFromData(img);
         auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
-        auto temp_loc = cachePath + "/Covers/" + media.title() + ".jpg";
+        auto temp_loc = cachePath + "/Covers/" + media.title().replace("/", "").replace("\\", "") + ".jpg";
         avatar.save(temp_loc);
         return "file://" + temp_loc;
     } else {

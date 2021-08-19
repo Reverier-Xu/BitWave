@@ -57,6 +57,7 @@
     <file>assets/like-big.svg</file>
     <file>assets/link.svg</file>
     <file>assets/list.svg</file>
+    <file>assets/loading.svg</file>
     <file>assets/location.svg</file>
     <file>assets/lock.svg</file>
     <file>assets/logo-fill.svg</file>
@@ -115,6 +116,7 @@
     <file>components/IconButton.qml</file>
     <file>components/InputArea.qml</file>
     <file>components/InputBox.qml</file>
+    <file>components/Loader.qml</file>
     <file>components/LyricContent.qml</file>
     <file>components/LyricsBox.qml</file>
     <file>components/MenuButton.qml</file>

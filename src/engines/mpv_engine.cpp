@@ -28,7 +28,7 @@ MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
     if (!mpv) throw std::runtime_error("could not create mpv context");
 
     mpv_set_option_string(mpv, "terminal", "yes");
-    mpv_set_option_string(mpv, "msg-level", "all=info");
+    mpv_set_option_string(mpv, "msg-level", "all=warn");
     mpv_set_option_string(mpv, "stop-screensaver", "yes");
     mpv_set_option_string(mpv, "audio-display", "no");
     mpv_set_option_string(mpv, "keep-open", "no");
