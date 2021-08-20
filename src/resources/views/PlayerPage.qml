@@ -2,6 +2,7 @@ import QtQuick 2.15
 import Reverier.MediaWidgets 1.0
 import QtGraphicalEffects 1.15
 import QtQuick.Particles 2.15
+import QtQuick.Window 2.15
 import "qrc:/components"
 
 Rectangle {
@@ -23,6 +24,35 @@ Rectangle {
             anchors.fill: parent
             color: display.colorStyle ? "#e0ffffff" : "#e0000000"
             opacity: player.isMediaLoading ? 1 : 0
+
+            MouseArea {
+                id: pauseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: display.mouseIsActive? Qt.ArrowCursor : Qt.BlankCursor
+
+                onPositionChanged: {
+                    display.delayedHide();
+                }
+
+                onReleased: {
+                    if (player.isPlaying) {
+                        player.pause();
+                    } else {
+                        player.resume();
+                    }
+                }
+
+                onDoubleClicked: {
+                    if (window.visibility === Window.FullScreen) {
+                        window.showNormal();
+                    } else {
+                        window.showFullScreen();
+                        display.sideBarExpanded = false;
+                    }
+                }
+            }
+
             Behavior on opacity {
                 NumberAnimation {
                     duration: 200

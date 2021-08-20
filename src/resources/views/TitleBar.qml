@@ -6,15 +6,19 @@ import "../components"
 
 Rectangle {
     id: root
-    color: display.colorStyle? "#a0ffffff":"#d0000000"
+    color: display.colorStyle ? "#a0ffffff":"#d0000000"
+    opacity: display.mouseIsActive ? 1 : 0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 100
+        }
+    }
     Behavior on color {
         ColorAnimation {
             duration: 280
         }
     }
     height: 32
-
-    signal foldSideBarTriggered()
 
     IconButton {
         id: closeButton
@@ -109,7 +113,7 @@ Rectangle {
         flat: true
         border.color: "transparent"
         onClicked: {
-            root.foldSideBarTriggered();
+            display.sideBarExpanded = !display.sideBarExpanded;
         }
     }
 
@@ -150,6 +154,18 @@ Rectangle {
         onActiveChanged: {
             if (active) {
                 window.startSystemMove();
+            }
+        }
+    }
+
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                // console.log("hovered");
+                display.blockDelayedHide();
+            } else {
+                // console.log("unhovered");
+                display.delayedHide();
             }
         }
     }

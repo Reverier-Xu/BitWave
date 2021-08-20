@@ -51,9 +51,6 @@ FluentWindow {
             anchors.right: parent.right
             anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-            onFoldSideBarTriggered: {
-                sideBar.expanded = !sideBar.expanded
-            }
         }
 
         ControlBar {

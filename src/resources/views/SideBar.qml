@@ -6,7 +6,7 @@ Rectangle {
     color: "transparent"
     width: 280
     clip: true
-    property bool expanded: true
+    property bool expanded: display.sideBarExpanded
     state: expanded? "Expanded":"Folded"
 
     PushButton {

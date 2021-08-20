@@ -26,23 +26,13 @@ public:
 
     [[nodiscard]] Renderer *createRenderer() const override;
 
-protected:
-
-    void mouseMoveEvent(QMouseEvent *event) override;
-
 public slots:
 
     void doUpdate();
 
 signals:
 
-    void mouseMoved();
-
     void onUpdate();
-
-    void videoPlayingChanged(bool m);
-
-    void styleChanged(bool m);
 
 private:
 

@@ -7,6 +7,12 @@ Rectangle {
     id: root
     color: "transparent"
     height: 100
+    opacity: display.mouseIsActive ? 1 : 0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 100
+        }
+    }
 
     Rectangle {
         id: staticArea
@@ -264,6 +270,18 @@ Rectangle {
             GradientStop {
                 position: 1.0
                 color: "transparent"
+            }
+        }
+    }
+
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                // console.log("hovered");
+                display.blockDelayedHide();
+            } else {
+                // console.log("unhovered");
+                display.delayedHide();
             }
         }
     }

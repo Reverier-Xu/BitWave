@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include <QColor>
+#include <QTimer>
 #include "base_manager.h"
 
 class DisplayManager : public BaseManager {
@@ -26,11 +27,18 @@ Q_OBJECT
                        setThemeColor NOTIFY themeColorChanged)
     Q_PROPERTY(QColor alertColor MEMBER mAlertColor READ alertColor WRITE
                        setAlertColor NOTIFY alertColorChanged)
+    Q_PROPERTY(bool sideBarExpanded MEMBER mSideBarExpanded READ sideBarExpanded WRITE
+                       setSideBarExpanded NOTIFY sideBarExpandedChanged)
+    Q_PROPERTY(bool mouseIsActive MEMBER mMouseIsActive READ mouseIsActive WRITE
+                       setMouseIsActive NOTIFY mouseIsActiveChanged)
 private:
     int mActiveTabIndex = -1;
     bool mColorStyle = false;
+    bool mSideBarExpanded = true;
+    bool mMouseIsActive = false;
     QColor mThemeColor = QColor(0x00, 0x78, 0xd6);
     QColor mAlertColor = QColor(0xff, 0x60, 0x33);
+    QTimer *hideTimer;
 protected:
     explicit DisplayManager(QObject *parent);
 
@@ -65,12 +73,25 @@ public:
         emit this->pageIndexChanged(n);
     }
 
-
     [[nodiscard]] bool colorStyle() const { return this->mColorStyle; }
 
     void setColorStyle(bool value) {
         this->mColorStyle = value;
         emit this->colorStyleChanged(value);
+    }
+
+    [[nodiscard]] bool sideBarExpanded() const { return this->mSideBarExpanded; }
+
+    void setSideBarExpanded(bool value) {
+        this->mSideBarExpanded = value;
+        emit this->sideBarExpandedChanged(value);
+    }
+
+    [[nodiscard]] bool mouseIsActive() const { return this->mMouseIsActive; }
+
+    void setMouseIsActive(bool value) {
+        this->mMouseIsActive = value;
+        emit this->mouseIsActiveChanged(value);
     }
 
     [[nodiscard]] QColor themeColor() const { return this->mThemeColor; }
@@ -97,6 +118,12 @@ public:
         emit this->alertColorChanged(value);
     }
 
+public slots:
+
+    Q_INVOKABLE void delayedHide();
+
+    Q_INVOKABLE void blockDelayedHide();
+
 signals:
 
     void activeTabIndexChanged(int n);
@@ -104,6 +131,10 @@ signals:
     void pageIndexChanged(int n);
 
     void colorStyleChanged(bool n);
+
+    void sideBarExpandedChanged(bool n);
+
+    void mouseIsActiveChanged(bool n);
 
     void themeColorChanged(QColor n);
 

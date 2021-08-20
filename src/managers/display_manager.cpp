@@ -9,8 +9,9 @@
  * 
  */
 
-#include "display_manager.h"
 #include <QSettings>
+#include "display_manager.h"
+#include "player_manager.h"
 
 DisplayManager* DisplayManager::mInstance = nullptr;
 
@@ -20,6 +21,22 @@ DisplayManager *DisplayManager::instance(QObject *parent) {
 }
 
 DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
+    this->hideTimer = new QTimer(this);
+    this->hideTimer->setInterval(1000);
+
+    connect(this->hideTimer, &QTimer::timeout, [=]() {
+        if(PlayerManager::instance()->currentMediaIsVideo() && this->pageIndex() == 0)
+            this->setMouseIsActive(false);
+    });
+
+    connect(this, &DisplayManager::pageIndexChanged, [=](int index) {
+        if(index == 0) {
+            this->delayedHide();
+        } else {
+            this->blockDelayedHide();
+        }
+    });
+
     this->loadSettings();
 }
 
@@ -45,4 +62,15 @@ void DisplayManager::saveSettings() {
     settings.endGroup();
 
     settings.sync();
+}
+
+void DisplayManager::delayedHide() {
+    this->setMouseIsActive(true);
+    if (this->hideTimer->isActive()) this->hideTimer->stop();
+    this->hideTimer->start();
+}
+
+void DisplayManager::blockDelayedHide() {
+    this->setMouseIsActive(true);
+    if (this->hideTimer->isActive()) this->hideTimer->stop();
 }

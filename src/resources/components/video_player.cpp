@@ -9,6 +9,7 @@
 #include <QtCore/QMetaObject>
 #include <QEvent>
 #include <QMouseEvent>
+#include <QDebug>
 #include <QPainter>
 #include "engines/mpv_engine.h"
 #include <QtGui/QPainterPath>
@@ -117,9 +118,4 @@ QQuickFramebufferObject::Renderer *VideoPlayer::createRenderer() const {
     window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<VideoPlayer *>(this));
-}
-
-void VideoPlayer::mouseMoveEvent(QMouseEvent *event) {
-    QQuickItem::mouseMoveEvent(event);
-    emit this->mouseMoved();
 }
