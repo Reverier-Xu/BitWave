@@ -27,6 +27,7 @@ Rectangle {
 
             MouseArea {
                 id: pauseArea
+                enabled: player.currentMediaIsVideo
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: display.mouseIsActive? Qt.ArrowCursor : Qt.BlankCursor

@@ -12,6 +12,11 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QThread>
+
+#ifdef Qt5DBus_FOUND
+#include "dbus/mpris2.h"
+#endif
+
 #include "app_manager.h"
 
 #include "gui_manager.h"
@@ -33,6 +38,12 @@ void AppManager::initialize() {
     this->parser_thread = new QThread(this);
     ParserManager::instance()->moveToThread(this->parser_thread);
     this->parser_thread->start();
+
+#ifdef Qt5DBus_FOUND
+    using mpris::Mpris2;
+    new Mpris2(this);
+    qDebug() << "MPRIS2 loaded.";
+#endif
 }
 
 void AppManager::registerTypes() {

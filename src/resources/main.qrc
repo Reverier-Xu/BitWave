@@ -137,6 +137,7 @@
     <file>views/PageStack.qml</file>
     <file>views/PlayerPage.qml</file>
     <file>views/PlaylistPage.qml</file>
+    <file>views/QueueBar.qml</file>
     <file>views/SearchPage.qml</file>
     <file>views/SettingsPage.qml</file>
     <file>views/SideBar.qml</file>

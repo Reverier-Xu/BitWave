@@ -12,12 +12,17 @@
 #pragma once
 
 #include <QObject>
+#include <QFuture>
+#include <QtConcurrent/QtConcurrent>
+#include <QUuid>
 
 #include "parsers/base_parser.h"
 #include "parsers/parser_factory.h"
 
 class ParserManager : public QObject {
 Q_OBJECT
+private:
+    QUuid mParseMediaTaskId;
 protected:
     explicit ParserManager(QObject *parent);
 

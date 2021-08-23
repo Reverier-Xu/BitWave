@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(CMAKE_MODULE_PATH
+        ${CMAKE_SOURCE_DIR}/cmake
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+        ${CMAKE_MODULE_PATH}
+        ${ECM_MODULE_PATH})
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 qt5_add_resources(RESOURCES ./resources/main.qrc)
@@ -15,8 +21,6 @@ set(MANAGERS_SRCS
         managers/app_manager.h
         managers/player_manager.cpp
         managers/player_manager.h
-        managers/provider_manager.cpp
-        managers/provider_manager.h
         managers/parser_manager.cpp
         managers/parser_manager.h
         managers/display_manager.cpp
@@ -49,21 +53,6 @@ set(PARSERS_SRCS
         parsers/online_bilibili_video_parser.h
         )
 
-set(PROVIDERS_SRCS
-        providers/local_music_provider.cpp
-        providers/local_music_provider.h
-        providers/local_video_provider.cpp
-        providers/local_video_provider.h
-        providers/netease_provider.cpp
-        providers/netease_provider.h
-        providers/bilibili_provider.cpp
-        providers/bilibili_provider.h
-        providers/osu_provider.cpp
-        providers/osu_provider.h
-        providers/playlists_provider.cpp
-        providers/playlists_provider.h
-        )
-
 set(ENGINES_SRCS
         engines/mpv_engine.cpp
         engines/mpv_engine.h
@@ -88,13 +77,54 @@ set(SRCS
         app_defs.cpp 
         app_defs.h
         ${PARSERS_SRCS}
-        ${PROVIDERS_SRCS}
         ${ENGINES_SRCS}
         ${UTILITIES_SRCS}
         ${COMPONENTS_SRCS}
         ${MANAGERS_SRCS}
         ${MODELS_SRCS}
         ${RESOURCES}
+        )
+
+# DBUS and MPRIS - Unix specific
+if(UNIX AND Qt5DBus_FOUND)
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
+    message("DBUS FOUND")
+    # MPRIS 2.0 DBUS interfaces
+    qt5_add_dbus_adaptor(SRCS
+            dbus/org.mpris.MediaPlayer2.Player.xml
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_player Mpris2Player)
+    qt5_add_dbus_adaptor(SRCS
+            dbus/org.mpris.MediaPlayer2.xml
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_root Mpris2Root)
+
+    # org.freedesktop.Notifications DBUS interface
+    qt5_add_dbus_interface(SRCS
+            dbus/org.freedesktop.Notifications.xml
+            dbus/notification)
+
+    # org.gnome.SettingsDaemon interface
+    qt5_add_dbus_interface(SRCS
+            dbus/org.gnome.SettingsDaemon.MediaKeys.xml
+            dbus/gnomesettingsdaemon)
+
+    # org.kde.KGlobalAccel interfaces
+    # these are taken from the KGlobalAccel sources (LGPL 2.1)
+    qt5_add_dbus_interface(SRCS
+            dbus/org.kde.KGlobalAccel.xml
+            dbus/kglobalaccel)
+    qt5_add_dbus_interface(SRCS
+            dbus/org.kde.kglobalaccel.Component.xml
+            dbus/kglobalaccelcomponent)
+endif(UNIX AND Qt5DBus_FOUND)
+
+optional_source(Qt5DBus_FOUND
+        SRCS
+        dbus/mpris.cpp
+        dbus/mpris.h
+        dbus/mpris2.cpp
+        dbus/mpris2.h
+        dbus/dbusscreensaver.cpp
+        dbus/dbusscreensaver.h
         )
 
 add_executable(BitWave ${SRCS})

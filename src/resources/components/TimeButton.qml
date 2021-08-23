@@ -4,9 +4,9 @@ import QtGraphicalEffects 1.15
 Rectangle {
     id: root
 
-    property color normalColor: display.colorStyle?"#30000000":"#20ffffff"
-    property color hoverColor: display.colorStyle?"#40000000":"#30ffffff"
-    property color pressedColor: display.colorStyle?"#50000000":"#40ffffff"
+    property color normalColor: display.colorStyle?"#e0cccccc":"#e0333333"
+    property color hoverColor: display.colorStyle?"#e0dddddd":"#e0444444"
+    property color pressedColor: display.colorStyle?"#e0eeeeee":"#e0555555"
     property bool scaleWhenPressed: true
     property bool displayActive: true
     property int fontSize: 16

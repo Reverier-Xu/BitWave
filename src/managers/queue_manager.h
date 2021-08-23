@@ -24,12 +24,15 @@ Q_OBJECT
                        addMediaModeChanged)
     Q_PROPERTY(unsigned int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos NOTIFY queuePosChanged)
     Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName NOTIFY playModeNameChanged)
+    Q_PROPERTY(Media currentMedia READ currentMedia WRITE setCurrentMedia NOTIFY currentMediaChanged)
 private:
+    Media mCurrentMedia{};
     int mPlayMode = 0;
     int mQueuePos = 0;
     QQueue<Media> mMainQueue;
     QStack<int> mHistoryStack;
     int mAddMediaMode = 0;
+    bool mQueueEnded = false;
 
 protected:
     static QueueManager *mInstance;
@@ -111,8 +114,19 @@ public:
     void setQueuePos(int n) {
         this->mQueuePos = n;
         emit this->queuePosChanged(n);
-        auto media = this->mMainQueue.at(n);
-        emit this->currentMediaChanged(media);
+        if (!this->mMainQueue.empty() and this->queuePos() > -1) {
+            auto media = this->mMainQueue.at(n);
+            this->setCurrentMedia(media);
+        }
+    }
+
+    [[nodiscard]] bool queueEnded() const { return this->mQueueEnded; }
+
+    [[nodiscard]] Media currentMedia() const { return this->mCurrentMedia; }
+
+    void setCurrentMedia(const Media& m) {
+        this->mCurrentMedia = m;
+        emit currentMediaChanged(m);
     }
 
 public slots:
@@ -132,11 +146,13 @@ public slots:
 
     Q_INVOKABLE void removeMedia(int index);
 
-    Q_INVOKABLE void clear();
-
     Q_INVOKABLE void next();
 
     Q_INVOKABLE void previous();
+
+    Q_INVOKABLE void clearQueue();
+
+    Q_INVOKABLE void clearHistory();
 
 signals:
 
@@ -155,4 +171,6 @@ signals:
     void playModeNameChanged(const QString& name);
 
     void playExternMediaRequested(const QString& path);
+
+    void playQueueEnded();
 };

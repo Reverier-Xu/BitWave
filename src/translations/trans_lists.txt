@@ -1,3 +1,0 @@
-managers/player_manager.cpp
-managers/player_manager.h
-resources/main.qrc

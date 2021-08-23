@@ -63,19 +63,19 @@ Rectangle {
                 }
                 model: ListModel {
                     ListElement {
-                        itemText: "全选 (Ctrl+A)"
+                        itemText: qsTr("Select All")
                         itemId: 0
                     }
                     ListElement {
-                        itemText: "复制 (Ctrl+C)"
+                        itemText: qsTr("Copy")
                         itemId: 1
                     }
                     ListElement {
-                        itemText: "剪切 (Ctrl+X)"
+                        itemText: qsTr("Cut")
                         itemId: 2
                     }
                     ListElement {
-                        itemText: "粘贴 (Ctrl+V)"
+                        itemText: qsTr("Paste")
                         itemId: 3
                     }
                 }

@@ -57,6 +57,8 @@ class MpvEngine : public QObject {
 
     Q_INVOKABLE void pause();
 
+    Q_INVOKABLE void stop();
+
     Q_INVOKABLE void setTimePos(double msecs);
 
     Q_INVOKABLE void setMute(bool ok);

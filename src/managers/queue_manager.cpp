@@ -68,6 +68,7 @@ void QueueManager::addMediaAtTail(const Media &media) {
 
 void QueueManager::playExternMedia(const QString &path) {
     // qDebug() << "Extern Media Requested: " << path;
+    this->setPlayMode(3);
     emit this->playExternMediaRequested(path);
 }
 
@@ -83,14 +84,18 @@ void QueueManager::removeMedia(int index) {
     emit this->mediaQueueChanged();
 }
 
-void QueueManager::clear() {
-    this->mMainQueue.clear();
-    emit this->mediaQueueChanged();
-}
-
 void QueueManager::next() {
+    // qDebug() << "Next Called.";
     if (this->mMainQueue.empty()) return;
-    this->mHistoryStack.push(this->queuePos());
+    if (this->mQueueEnded) {
+        // qDebug() << "Queue is ended, reboot.";
+        this->mQueueEnded = false;
+        this->setQueuePos(0);
+        return;
+    }
+    if (this->queuePos() <= this->mMainQueue.size() - 1 && this->queuePos() > -1)
+        this->mHistoryStack.push(this->queuePos());
+    if (this->queuePos() < -1) return;
 
     int next_pos;
     switch (this->playMode()) {
@@ -100,6 +105,8 @@ void QueueManager::next() {
             break;
         case 1:
             next_pos = this->queuePos();  // repeat one
+            if (next_pos == -1)
+                next_pos = 0;
             break;
         case 2:
             do {
@@ -117,16 +124,23 @@ void QueueManager::next() {
             break;
     }
     if (next_pos >= 0 and next_pos < this->mMainQueue.count()) {
+        // qDebug() << "Next: " << next_pos;
         this->setQueuePos(next_pos);
+    } else {
+        // qDebug() << "Next failed: " << this->queuePos() << " " << this->mMainQueue.count();
+        // this->setQueuePos(-1);
+        // this->clearQueue();
+        this->mQueueEnded = true;
+        emit this->playQueueEnded();
     }
 }
 
 void QueueManager::previous() {
-    if (this->mHistoryStack.count() > 0) {
-        auto media = this->mMainQueue.at(this->mHistoryStack.top());
+    if (this->mHistoryStack.count() > 0 and
+            this->mHistoryStack.top() < this->mMainQueue.count() and
+            this->mHistoryStack.top() >= 0) {
         this->setQueuePos(this->mHistoryStack.top());
         this->mHistoryStack.pop();
-        emit this->currentMediaChanged(media);
     } else {
         this->next();
     }
@@ -150,7 +164,7 @@ void QueueManager::saveSettings() {
 }
 
 void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
-    this->mMainQueue.clear();
+    this->clearQueue();
     this->mMainQueue.enqueue(media);
     this->next();
 }
@@ -160,4 +174,15 @@ void QueueManager::connectSignals() const {
             &QueueManager::handleExternMediaInfoIsReady);
     connect(this, &QueueManager::playExternMediaRequested, ParserManager::instance(),
             &ParserManager::handleGetExternMediaInfoRequest);
+}
+
+void QueueManager::clearQueue() {
+    this->mMainQueue.clear();
+    this->clearHistory();
+    this->setQueuePos(-1);
+    emit this->mediaQueueChanged();
+}
+
+void QueueManager::clearHistory() {
+    this->mHistoryStack.clear();
 }

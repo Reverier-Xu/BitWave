@@ -47,7 +47,9 @@ PlayerManager *PlayerManager::instance(QObject *parent) {
 
 void PlayerManager::connectSignals() {
     connect(this->mEngine, &MpvEngine::durationChanged,
-            [=](double msecs) { this->setTotalTime(msecs); });
+            [=](double secs) {
+                this->setTotalTime(secs);
+            });
     connect(this->mEngine, &MpvEngine::newMusicOpened,
             [=]() { this->setCurrentMediaIsVideo(false); });
     connect(this->mEngine, &MpvEngine::newVideoOpened,
@@ -56,18 +58,29 @@ void PlayerManager::connectSignals() {
         this->setCurrentTime(msecs);
         this->setCurrentLyricIndex(0);
     });
-    connect(this->mEngine, &MpvEngine::resumed,
-            [=]() { this->setPlaying(true); });
+    connect(this->mEngine, &MpvEngine::resumed, [=]() {
+        this->setPlaying(true);
+        qDebug() << "resumed";
+        emit this->stateChanged();
+    });
     connect(this->mEngine, &MpvEngine::paused, [=]() {
         this->setPlaying(false);
-        // qDebug() << "paused";
+        qDebug() << "paused";
+        emit this->stateChanged();
     });
-    connect(this->mEngine, &MpvEngine::started,
-            [=]() { this->setPlaying(true); });
+    connect(this->mEngine, &MpvEngine::started, [=]() {
+        this->setPlaying(true);
+        this->setIsMediaLoaded(true);
+        qDebug() << "started";
+        emit this->stateChanged();
+    });
     connect(this->mEngine, &MpvEngine::ended, [=]() {
-        // qDebug() << "ended";
-        if (this->totalTime() - this->currentTime() < 0.5)
-            QueueManager::instance(this->parent())->next();
+        this->setIsMediaLoaded(false);
+        qDebug() << "ended";
+        emit this->stateChanged();
+        if (!QueueManager::instance(this->parent())->queueEnded())
+            if (this->totalTime() - this->currentTime() < 0.5)
+                QueueManager::instance(this->parent())->next();
     });
     connect(QueueManager::instance(this->parent()), &QueueManager::currentMediaChanged, this,
             &PlayerManager::play);
@@ -90,6 +103,22 @@ void PlayerManager::connectSignals() {
             &PlayerManager::handleMediaLyricsIsReady, Qt::QueuedConnection);
     connect(ParserManager::instance(), &ParserManager::mediaCoverColorIsReady, this,
             &PlayerManager::handleCoverColorIsReady, Qt::QueuedConnection);
+    connect(QueueManager::instance(), &QueueManager::playQueueEnded, this,
+            &PlayerManager::handlePlayQueueEnded, Qt::QueuedConnection);
+}
+
+void PlayerManager::handlePlayQueueEnded() {
+    this->setPlaying(false);
+    this->setCurrentMediaIsVideo(false);
+    this->setCurrentTime(0);
+    this->setTotalTime(0);
+    this->setCurrentLyricIndex(0);
+    this->setCurrentMediaCover("qrc:/assets/music-big.svg");
+    this->setCurrentMediaTitle("No Media");
+    this->setCoverColor(QColor(0x00, 0x78, 0xd6));
+    this->setCurrentMediaAlbum("No Album");
+    this->setCurrentMediaArtist("No Artist");
+    this->stop();
 }
 
 void PlayerManager::userDragHandler(double t) { this->mEngine->setTimePos(t); }
@@ -122,7 +151,14 @@ void PlayerManager::resume() {
     // qDebug() << "resumed";
 }
 
-void PlayerManager::playUrl(const QString &m) { this->mEngine->playMedia(m); }
+void PlayerManager::stop() {
+    this->mEngine->stop();
+    // qDebug() << "stopped";
+}
+
+void PlayerManager::playUrl(const QString &m) {
+    this->mEngine->playMedia(m);
+}
 
 void PlayerManager::setLyrics(const QString &raw, const QString &tr) {
     this->mLyricsModel.parseLyrics(raw, tr);

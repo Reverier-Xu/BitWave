@@ -2,4 +2,5 @@ build/
 cmake-build-debug/
 .vscode/
 .idea/
+CMakeFiles/
 github-token

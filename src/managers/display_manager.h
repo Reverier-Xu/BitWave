@@ -14,6 +14,7 @@
 #include <QObject>
 #include <QColor>
 #include <QTimer>
+#include "queue_manager.h"
 #include "base_manager.h"
 
 class DisplayManager : public BaseManager {
@@ -31,11 +32,14 @@ Q_OBJECT
                        setSideBarExpanded NOTIFY sideBarExpandedChanged)
     Q_PROPERTY(bool mouseIsActive MEMBER mMouseIsActive READ mouseIsActive WRITE
                        setMouseIsActive NOTIFY mouseIsActiveChanged)
+    Q_PROPERTY(bool isFullScreen MEMBER mIsFullScreen READ isFullScreen WRITE
+                       setFullScreen NOTIFY isFullScreenChanged)
 private:
     int mActiveTabIndex = -1;
     bool mColorStyle = false;
     bool mSideBarExpanded = true;
-    bool mMouseIsActive = false;
+    bool mMouseIsActive = true;
+    bool mIsFullScreen = false;
     QColor mThemeColor = QColor(0x00, 0x78, 0xd6);
     QColor mAlertColor = QColor(0xff, 0x60, 0x33);
     QTimer *hideTimer;
@@ -118,6 +122,13 @@ public:
         emit this->alertColorChanged(value);
     }
 
+    [[nodiscard]] bool isFullScreen() const { return this->mIsFullScreen; }
+
+    void setFullScreen(bool n) {
+        this->mIsFullScreen = n;
+        emit this->isFullScreenChanged(n);
+    }
+
 public slots:
 
     Q_INVOKABLE void delayedHide();
@@ -139,4 +150,6 @@ signals:
     void themeColorChanged(QColor n);
 
     void alertColorChanged(QColor n);
+
+    void isFullScreenChanged(bool n);
 };

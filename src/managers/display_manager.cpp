@@ -37,6 +37,11 @@ DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
         }
     });
 
+    connect(QueueManager::instance(this->parent()), &QueueManager::playQueueEnded, [=]() {
+        this->setMouseIsActive(true);
+        this->setSideBarExpanded(true);
+    });
+
     this->loadSettings();
 }
 

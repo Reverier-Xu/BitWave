@@ -46,6 +46,8 @@ Q_OBJECT
                        currentMediaCoverChanged)
     Q_PROPERTY(bool isMediaLoading MEMBER mIsMediaLoading READ isMediaLoading WRITE
                        setIsMediaLoading NOTIFY isMediaLoadingChanged)
+    Q_PROPERTY(bool isMediaLoaded MEMBER mIsMediaLoaded READ isMediaLoaded WRITE
+                       setIsMediaLoaded NOTIFY isMediaLoadedChanged)
     Q_PROPERTY(int isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
                        setIsLyricLoaded NOTIFY isLyricLoadedChanged)
     Q_PROPERTY(int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
@@ -66,6 +68,7 @@ private:
     QString mCurrentMediaAlbum = tr("No album");
     QString mCurrentMediaCover = "qrc:/assets/music-big.svg";
     bool mIsMediaLoading = false;
+    bool mIsMediaLoaded = false;
     int mIsLyricLoaded = 0;
     int mCurrentLyricIndex = 0;
 
@@ -205,6 +208,13 @@ public:
         emit this->isMediaLoadingChanged(n);
     }
 
+    [[nodiscard]] bool isMediaLoaded() const { return this->mIsMediaLoaded; }
+
+    void setIsMediaLoaded(bool n) {
+        this->mIsMediaLoaded = n;
+        emit this->isMediaLoadedChanged(n);
+    }
+
     [[nodiscard]] int isLyricLoaded() const { return this->mIsLyricLoaded; }
 
     void setIsLyricLoaded(int n) {
@@ -229,6 +239,8 @@ public slots:
     Q_INVOKABLE void pause();
 
     Q_INVOKABLE void resume();
+
+    Q_INVOKABLE void stop();
 
     Q_INVOKABLE void setLyrics(const QString &raw, const QString &tr = "");
 
@@ -255,6 +267,8 @@ public slots:
     Q_INVOKABLE void handleMediaLyricsIsReady(bool ok, const QString &raw, const QString &trans);
 
     Q_INVOKABLE void handleCoverColorIsReady(bool ok, const QColor &color);
+
+    Q_INVOKABLE void handlePlayQueueEnded();
 
 signals:
 
@@ -286,6 +300,8 @@ signals:
 
     void isMediaLoadingChanged(bool n);
 
+    void isMediaLoadedChanged(bool n);
+
     void isLyricLoadedChanged(int n);
 
     void currentLyricIndexChanged(int n);
@@ -297,5 +313,7 @@ signals:
     void mediaLyricsRequired(const Media &m);
 
     void coverColorRequired(const QString &cover);
+
+    void stateChanged();
 };
 

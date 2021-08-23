@@ -136,6 +136,8 @@ void MpvEngine::resume() { this->setProperty("pause", false); }
 
 void MpvEngine::pause() { this->setProperty("pause", true); }
 
+void MpvEngine::stop() { this->command(QStringList() << "stop"); }
+
 void MpvEngine::setTimePos(double secs) {
     this->setProperty("time-pos", secs);
 }

@@ -42,15 +42,31 @@ void ParserManager::registerParsersInFactory() {
 void ParserManager::handleParseMediaRequest(const Media &media) {
     // qDebug() << "parseMediaRequest received here.";
     auto parser = ParserFactory::getParser(media);
-    try {
-        auto res = parser->parseMedia(media);
-        // qDebug() << "parse finished here.";
-        parser->deleteLater();
-        emit this->mediaIsReady(true, res);
-    } catch (...) {
-        parser->deleteLater();
-        emit this->mediaIsReady(false, Media());
-    }
+    parser->setParserId(QUuid::createUuid());
+    this->mParseMediaTaskId = parser->parserId();
+    auto res = QtConcurrent::run(parser, &BaseParser::parseMedia, media);
+    auto *resWatcher = new QFutureWatcher<Media>(this);
+    resWatcher->setFuture(res);
+    connect(resWatcher, &QFutureWatcher<Media>::finished, [=]() {
+        // qDebug() << "Parse Finished here.";
+        try {
+            auto m = resWatcher->result();
+            if (parser->parserId() == this->mParseMediaTaskId) {
+//                qDebug() << "Parse Result is current media.";
+                emit this->mediaIsReady(true, m);
+            } else {
+//                qDebug() << "Parse Result is discarded.";
+            }
+            parser->deleteLater();
+            resWatcher->deleteLater();
+        } catch (...) {
+//            qDebug() << "Parse Result creates an exception.";
+            emit this->mediaIsReady(false, Media());
+            parser->deleteLater();
+            resWatcher->deleteLater();
+        }
+    });
+    // qDebug() << "parse finished here.";
 }
 
 void ParserManager::handleGetMediaInfoRequest(const QString &path) {

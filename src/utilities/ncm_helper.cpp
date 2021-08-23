@@ -12,6 +12,11 @@
 #include <fstream>
 #include <QtWidgets/QLabel>
 #include <QStandardPaths>
+
+extern "C" {
+#include <libavformat/avformat.h>
+}
+
 #include "app_defs.h"
 
 QString getFileFormat(const QString &key);
@@ -183,7 +188,9 @@ void NcmHelper::getMetadataFrom163Key(Media &dst) {
     dst.setTitle(meta_obj["musicName"].toString());
     dst.setCollection(meta_obj["album"].toString());
     dst.setCoverUrl(meta_obj["albumPic"].toString());
-    dst.setDuration(meta_obj["duration"].toVariant().toDouble());
+
+    dst.setDuration(meta_obj["duration"].toVariant().toDouble() / 1000);
+
     auto artists = meta_obj["artist"].toArray();
     QString artist;
     for (auto i: artists) {
