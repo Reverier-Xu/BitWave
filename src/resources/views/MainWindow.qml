@@ -12,6 +12,67 @@ FluentWindow {
 
     SystemTray {}
 
+    KeyTapEvent {
+        id: spaceEvent
+        customKey: qsTr("Space")
+        onClicked: {
+            if (player.isMediaLoaded && player.isPlaying)
+                player.pause()
+            else
+                player.resume()
+        }
+        onDoubleClicked: {
+            if (window.visibility === Window.FullScreen) {
+                window.showNormal();
+            } else {
+                window.showFullScreen();
+                display.sideBarExpanded = false;
+            }
+        }
+    }
+
+    KeyTapEvent {
+        id: exitFullScreenEvent
+        customKey: qsTr("Escape")
+        onClicked: {
+            if (window.visibility === Window.FullScreen) {
+                window.showNormal();
+            }
+        }
+    }
+
+    KeyTapEvent {
+        id: increaseTimeEvent
+        customKey: qsTr("Right")
+        onClicked: {
+            player.userDragHandler(player.currentTime + 3)
+        }
+    }
+
+    KeyTapEvent {
+        id: decreaseTimeEvent
+        customKey: qsTr("Left")
+        onClicked: {
+            player.userDragHandler(player.currentTime - 3)
+        }
+    }
+
+    KeyTapEvent {
+        id: increaseVolumeEvent
+        customKey: qsTr("Up")
+        onClicked: {
+            player.volume += 0.1;
+        }
+    }
+
+    KeyTapEvent {
+        id: decreaseVolumeEvent
+        customKey: qsTr("Down")
+        onClicked: {
+            player.volume -= 0.1;
+        }
+    }
+
     Rectangle {
         id: centralWidget
         anchors.fill: parent

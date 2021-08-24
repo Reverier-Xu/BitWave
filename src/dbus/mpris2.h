@@ -1,24 +1,3 @@
-/* This file is part of Clementine.
-   Copyright 2010-2011, Paweł Bara <keirangtp@gmail.com>
-   Copyright 2010-2012, David Sansome <me@davidsansome.com>
-   Copyright 2011-2012, 2014, John Maguire <john.maguire@gmail.com>
-   Copyright 2013, Aggelos Biboudis <biboudis@gmail.com>
-   Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
-
-   Clementine is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   Clementine is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #pragma once
 
 #include <QMetaObject>
@@ -26,6 +5,9 @@
 #include <QtDBus>
 #include <models/media.h>
 #include <managers/app_manager.h>
+#include <managers/player_manager.h>
+#include <managers/queue_manager.h>
+#include <managers/display_manager.h>
 
 typedef QList<QVariantMap> TrackMetadata;
 Q_DECLARE_METATYPE(TrackMetadata)
@@ -48,7 +30,7 @@ class Mpris2 : public QObject {
 
   // org.mpris.MediaPlayer2 MPRIS 2.2 Root interface
   Q_PROPERTY(bool CanSetFullscreen READ CanSetFullscreen)
-  Q_PROPERTY(bool Fullscreen READ Fullscreen WRITE SetFullscreen)
+  Q_PROPERTY(bool Fullscreen READ Fullscreen)
 
   // org.mpris.MediaPlayer2.Player MPRIS 2.0 Player interface
   Q_PROPERTY(double Rate READ Rate WRITE SetRate)
@@ -65,9 +47,9 @@ class Mpris2 : public QObject {
   Q_PROPERTY(bool CanControl READ CanControl)
 
   // Root Properties
-  [[nodiscard]] bool CanQuit() const;
-  [[nodiscard]] bool CanRaise() const;
-  [[nodiscard]] QString Identity() const;
+  [[nodiscard]] bool CanQuit();
+  [[nodiscard]] bool CanRaise();
+  [[nodiscard]] QString Identity();
   [[nodiscard]] QString DesktopEntry() const;
   [[nodiscard]] QStringList SupportedUriSchemes() const;
   [[nodiscard]] QStringList SupportedMimeTypes() const;
@@ -75,7 +57,6 @@ class Mpris2 : public QObject {
   // Root Properties added in MPRIS 2.2
   [[nodiscard]] bool CanSetFullscreen() const;
   [[nodiscard]] bool Fullscreen() const;
-  void SetFullscreen(bool);
 
   // Methods
   void Raise();
@@ -126,9 +107,9 @@ class Mpris2 : public QObject {
   void EmitNotification(const QString& name, const QVariant& val,
                         const QString& mprisEntity);
 
-  QString PlaybackStatus() const;
+  [[nodiscard]] QString PlaybackStatus() const;
 
-  [[nodiscard]] QString DesktopEntryAbsolutePath() const;
+  [[nodiscard]] QString DesktopEntryAbsolutePath() ;
 
  private:
   static const char* kMprisObjectPath;
@@ -136,6 +117,10 @@ class Mpris2 : public QObject {
   static const char* kFreedesktopPath;
 
   QVariantMap last_metadata_;
+
+  PlayerManager* player_;
+  QueueManager* queue_;
+  DisplayManager* display_;
 };
 
 }  // namespace mpris

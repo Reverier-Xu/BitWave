@@ -54,8 +54,10 @@ Media NcmHelper::getMediaFromPath(const QString &path) {
         }
         media.setComment(modifyData);
         NcmHelper::getMetadataFrom163Key(media);
+        ncmFile.close();
         return media;
     } else {
+        ncmFile.close();
         throw std::exception();
     }
 }
@@ -139,6 +141,7 @@ QString NcmHelper::dump(const Media &media) {
         outMusic.write(musicContent);
     }
     outMusic.close();
+    ncmFile.close();
     return outPath;
 }
 
@@ -207,10 +210,12 @@ QString NcmHelper::dumpMediaCover(const Media &media) {
     quint32 header;
     ncmFile.read(reinterpret_cast<char *>(&header), sizeof(header));
     if (header != (unsigned int) 0x4e455443) {
+        ncmFile.close();
         throw std::exception();
     }
     ncmFile.read(reinterpret_cast<char *>(&header), sizeof(header));
     if (header != (unsigned int) 0x4d414446) {
+        ncmFile.close();
         throw std::exception();
     }
     ncmFile.seek(10);
@@ -233,8 +238,10 @@ QString NcmHelper::dumpMediaCover(const Media &media) {
         auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
         auto temp_loc = cachePath + "/Covers/" + media.title().replace("/", "").replace("\\", "") + ".jpg";
         avatar.save(temp_loc);
+        ncmFile.close();
         return "file://" + temp_loc;
     } else {
+        ncmFile.close();
         throw std::exception();
     }
 }

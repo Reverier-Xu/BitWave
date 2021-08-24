@@ -10,6 +10,7 @@
 #include "base_manager.h"
 #include "engines/mpv_engine.h"
 #include "models/ui/lyrics_list_model.h"
+#include "dbus/screensaver.h"
 
 class PlayerManager : public BaseManager {
 Q_OBJECT
@@ -28,8 +29,6 @@ Q_OBJECT
                        volumeChanged)
     Q_PROPERTY(bool isMuted MEMBER mIsMuted READ isMuted WRITE setIsMuted NOTIFY
                        isMutedChanged)
-    Q_PROPERTY(bool isFullScreen MEMBER mIsFullScreen READ isFullScreen WRITE
-                       setIsFullScreen NOTIFY isFullScreenChanged)
     Q_PROPERTY(QString currentMediaUrl MEMBER mCurrentMediaUrl READ currentMediaUrl
                        WRITE setCurrentMediaUrl NOTIFY currentMediaUrlChanged)
     Q_PROPERTY(QString currentMediaTitle MEMBER mCurrentMediaTitle READ
@@ -54,6 +53,7 @@ Q_OBJECT
                        WRITE setCurrentLyricIndex NOTIFY currentLyricIndexChanged)
     Q_PROPERTY(QColor coverColor MEMBER mCoverColor READ coverColor
                        WRITE setCoverColor NOTIFY coverColorChanged)
+    Q_PROPERTY(bool isReady MEMBER mIsReady READ isReady WRITE setIsReady NOTIFY isReadyChanged)
 private:
     bool mCurrentMediaIsVideo = false;
     bool mIsPlaying = false;
@@ -61,7 +61,7 @@ private:
     double mCurrentTime = 0.0;
     double mVolume = 1.0;
     bool mIsMuted = false;
-    bool mIsFullScreen = false;
+    bool mIsReady = false;
     QString mCurrentMediaUrl = "";
     QString mCurrentMediaTitle = tr("No media");
     QString mCurrentMediaArtist = tr("No artist");
@@ -77,6 +77,8 @@ private:
     LyricsListModel mLyricsModel{};
 
     MpvEngine *mEngine = nullptr;
+
+    Screensaver * mScreensaver;
 
 protected:
     explicit PlayerManager(QObject *parent);
@@ -133,9 +135,9 @@ public:
     [[nodiscard]] double volume() const { return this->mVolume; }
 
     void setVolume(double n) {
-        if (n < 0.0) {
-            n = 0.0;
-        }
+        if (n < 0.0) n = 0.0;
+        if (n > 1.0) n = 1.0;
+        
         this->mVolume = n;
         this->mEngine->setProperty("volume", mVolume * 100);
         emit this->volumeChanged(n);
@@ -149,13 +151,6 @@ public:
         emit this->isMutedChanged(n);
     }
 
-    [[nodiscard]] bool isFullScreen() const { return this->mIsFullScreen; }
-
-    void setIsFullScreen(bool n) {
-        this->mIsFullScreen = n;
-        emit this->isFullScreenChanged(n);
-    }
-
     [[nodiscard]] QString currentMediaUrl() const {
         return this->mCurrentMediaUrl;
     }
@@ -163,6 +158,13 @@ public:
     void setCurrentMediaUrl(const QString &n) {
         this->mCurrentMediaUrl = n;
         emit this->currentMediaUrlChanged(n);
+    }
+
+    [[nodiscard]] bool isReady() const { return this->mIsReady; }
+
+    void setIsReady(bool n) {
+         this->mIsReady = n;
+         emit this->isReadyChanged(n);
     }
 
     [[nodiscard]] QString currentMediaTitle() const {
@@ -315,5 +317,7 @@ signals:
     void coverColorRequired(const QString &cover);
 
     void stateChanged();
+
+    void isReadyChanged(bool n);
 };
 

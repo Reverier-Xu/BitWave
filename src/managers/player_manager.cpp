@@ -13,7 +13,15 @@
 PlayerManager *PlayerManager::mInstance = nullptr;
 
 PlayerManager::PlayerManager(QObject *parent) : BaseManager(parent) {
-    this->mEngine = MpvEngine::instance(this);
+    try {
+        this->mEngine = MpvEngine::instance(this);
+        this->setIsReady(true);
+    } catch (...) {
+        this->setIsReady(false);
+    }
+
+    this->mScreensaver = Screensaver::GetScreensaver();
+
     this->connectSignals();
     this->loadSettings();
 }
@@ -60,23 +68,23 @@ void PlayerManager::connectSignals() {
     });
     connect(this->mEngine, &MpvEngine::resumed, [=]() {
         this->setPlaying(true);
-        qDebug() << "resumed";
+        // qDebug() << "resumed";
         emit this->stateChanged();
     });
     connect(this->mEngine, &MpvEngine::paused, [=]() {
         this->setPlaying(false);
-        qDebug() << "paused";
+        // qDebug() << "paused";
         emit this->stateChanged();
     });
     connect(this->mEngine, &MpvEngine::started, [=]() {
         this->setPlaying(true);
         this->setIsMediaLoaded(true);
-        qDebug() << "started";
+        // qDebug() << "started";
         emit this->stateChanged();
     });
     connect(this->mEngine, &MpvEngine::ended, [=]() {
         this->setIsMediaLoaded(false);
-        qDebug() << "ended";
+        // qDebug() << "ended";
         emit this->stateChanged();
         if (!QueueManager::instance(this->parent())->queueEnded())
             if (this->totalTime() - this->currentTime() < 0.5)
@@ -105,6 +113,29 @@ void PlayerManager::connectSignals() {
             &PlayerManager::handleCoverColorIsReady, Qt::QueuedConnection);
     connect(QueueManager::instance(), &QueueManager::playQueueEnded, this,
             &PlayerManager::handlePlayQueueEnded, Qt::QueuedConnection);
+
+    if (this->mScreensaver != nullptr) {
+        connect(this->mEngine, &MpvEngine::started, [=]() {
+            // qDebug() << "Started";
+            if (this->currentMediaIsVideo()) {
+                // qDebug() << "Inhibit";
+                this->mScreensaver->Inhibit();
+            }
+        });
+        connect(this->mEngine, &MpvEngine::ended, [=]() {
+            this->mScreensaver->UnInhibit();
+            // qDebug() << "UnInhibit";
+        });
+        connect(this, &PlayerManager::isPlayingChanged, [=](bool n) {
+            if (this->currentMediaIsVideo() and n) {
+                // qDebug() << "Inhibit";
+                this->mScreensaver->Inhibit();
+            } else {
+                // qDebug() << "UnInhibit";
+                this->mScreensaver->UnInhibit();
+            }
+        });
+    }
 }
 
 void PlayerManager::handlePlayQueueEnded() {

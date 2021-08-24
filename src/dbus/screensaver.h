@@ -20,7 +20,7 @@
 
 class Screensaver {
  public:
-  virtual ~Screensaver() {}
+  virtual ~Screensaver() = default;
 
   static const char* kGnomeService;
   static const char* kGnomePath;
@@ -31,7 +31,7 @@ class Screensaver {
   static const char* kKdeInterface;
 
   virtual void Inhibit() = 0;
-  virtual void Uninhibit() = 0;
+  virtual void UnInhibit() = 0;
 
   static Screensaver* GetScreensaver();
 

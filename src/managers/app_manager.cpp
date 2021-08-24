@@ -42,7 +42,7 @@ void AppManager::initialize() {
 #ifdef Qt5DBus_FOUND
     using mpris::Mpris2;
     new Mpris2(this);
-    qDebug() << "MPRIS2 loaded.";
+//    qDebug() << "MPRIS2 loaded.";
 #endif
 }
 

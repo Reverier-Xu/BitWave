@@ -65,7 +65,8 @@ set(UTILITIES_SRCS
         utilities/color_helper.cpp
         utilities/color_helper.h
         utilities/ncm_helper.cpp
-        utilities/ncm_helper.h)
+        utilities/ncm_helper.h
+        dbus/screensaver.cpp)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
@@ -126,6 +127,11 @@ optional_source(Qt5DBus_FOUND
         dbus/dbusscreensaver.cpp
         dbus/dbusscreensaver.h
         )
+
+optional_source(WIN32
+        SRCS
+        dbus/windowsscreensaver.cpp
+        dbus/windowsscreensaver.h)
 
 add_executable(BitWave ${SRCS})
 

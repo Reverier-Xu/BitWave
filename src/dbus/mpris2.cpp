@@ -1,31 +1,7 @@
-/* This file is part of Clementine.
-   Copyright 2010-2012, David Sansome <me@davidsansome.com>
-   Copyright 2010-2011, Paweł Bara <keirangtp@gmail.com>
-   Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
-   Copyright 2013, Arnaud Bienner <arnaud.bienner@gmail.com>
-   Copyright 2013, TTSDA <ttsda@ttsda.cc>
-   Copyright 2013, Aggelos Biboudis <biboudis@gmail.com>
-   Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
-
-   Clementine is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   Clementine is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "mpris2.h"
 
 #include <QApplication>
 #include <QDBusConnection>
-#include <algorithm>
 #include <QtMath>
 
 #include "dbus/mpris2_player.h"
@@ -48,23 +24,27 @@ namespace mpris {
         if (!QDBusConnection::sessionBus().registerService(kServiceName)) {
             return;
         }
+        
+        this->player_ = PlayerManager::instance(this->parent());
+        
+        this->queue_ = QueueManager::instance(this->parent());
+        
+        this->display_ = DisplayManager::instance(this->parent());
 
         QDBusConnection::sessionBus().registerObject(kMprisObjectPath, this);
 
-        connect(PlayerManager::instance(), &PlayerManager::currentMediaCoverChanged, [=](const QString &n) {
-            this->MetadataLoaded(QueueManager::instance()->currentMedia(), n);
-        });
-//        connect(PlayerManager::instance(), &PlayerManager::totalTimeChanged, [=](double n) {
-//            this->MetadataLoaded(QueueManager::instance()->currentMedia());
-//        });
-
-        connect(PlayerManager::instance(), &PlayerManager::volumeChanged, this, &Mpris2::VolumeChanged);
-        connect(PlayerManager::instance(), &PlayerManager::currentTimeChanged, this, [=](double n) {
-            emit this->Seeked((qlonglong)(floor(n)) * 1000 * 1000);
+        connect(this->player_, &PlayerManager::currentMediaCoverChanged, [=](const QString &n) {
+            this->MetadataLoaded(this->queue_->currentMedia(), n);
         });
 
-        connect(QueueManager::instance(), &QueueManager::currentMediaChanged, this, &Mpris2::CurrentSongChanged);
-        connect(PlayerManager::instance(), &PlayerManager::stateChanged, this, &Mpris2::EngineStateChanged);
+        connect(this->player_, &PlayerManager::volumeChanged, this, &Mpris2::VolumeChanged);
+        connect(this->player_, &PlayerManager::currentTimeChanged,
+                this, [=](double n) {
+                    emit this->Seeked((qlonglong) (floor(n)) * 1000 * 1000);
+                });
+
+        connect(this->queue_, &QueueManager::currentMediaChanged, this, &Mpris2::CurrentSongChanged);
+        connect(this->player_, &PlayerManager::stateChanged, this, &Mpris2::EngineStateChanged);
     }
 
     void Mpris2::VolumeChanged() { EmitNotification("Volume"); }
@@ -114,13 +94,13 @@ namespace mpris {
 
 // ------------------Root Interface--------------- //
 
-    bool Mpris2::CanQuit() const { return true; }
+    bool Mpris2::CanQuit() { return true; }
 
-    bool Mpris2::CanRaise() const { return true; }
+    bool Mpris2::CanRaise() { return true; }
 
-    QString Mpris2::Identity() const { return QApplication::applicationName(); }
+    QString Mpris2::Identity() { return QApplication::applicationName(); }
 
-    QString Mpris2::DesktopEntryAbsolutePath() const {
+    QString Mpris2::DesktopEntryAbsolutePath() {
         QStringList xdg_data_dirs = QString(getenv("XDG_DATA_DIRS")).split(":");
         xdg_data_dirs.append("/usr/local/share/");
         xdg_data_dirs.append("/usr/share/");
@@ -182,7 +162,7 @@ namespace mpris {
 
     void Mpris2::SetRate(double rate) {
         if (rate == 0) {
-            PlayerManager::instance()->pause();
+            this->player_->pause();
         }
     }
 
@@ -219,12 +199,12 @@ namespace mpris {
         EmitNotification("Metadata", last_metadata_);
     }
 
-    double Mpris2::Volume() const { return PlayerManager::instance()->volume(); }
+    double Mpris2::Volume() const { return this->player_->volume(); }
 
-    void Mpris2::SetVolume(double value) { PlayerManager::instance()->setVolume(value); }
+    void Mpris2::SetVolume(double value) { this->player_->setVolume(value); }
 
     qlonglong Mpris2::Position() const {
-        return qlonglong(PlayerManager::instance()->currentTime() * 1000 * 1000);
+        return qlonglong(this->player_->currentTime() * 1000 * 1000);
     }
 
     double Mpris2::MaximumRate() const { return 1.0; }
@@ -240,80 +220,72 @@ namespace mpris {
     }
 
     bool Mpris2::CanPlay() const {
-        return PlayerManager::instance()->isMediaLoaded() && !PlayerManager::instance()->isPlaying();
+        return this->player_->isMediaLoaded() && !this->player_->isPlaying();
     }
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when
 // the song is already paused or stopped.
     bool Mpris2::CanPause() const {
-        return PlayerManager::instance()->isMediaLoaded() && PlayerManager::instance()->isPlaying();
+        return this->player_->isMediaLoaded() && this->player_->isPlaying();
     }
 
-    bool Mpris2::CanSeek() const { return PlayerManager::instance()->isMediaLoaded(); }
+    bool Mpris2::CanSeek() const { return this->player_->isMediaLoaded(); }
 
-    bool Mpris2::CanControl() const { return true; }
+    bool Mpris2::CanControl() const { return this->player_->isReady(); }
 
     void Mpris2::Next() {
-        if (CanGoNext()) {
-            QueueManager::instance()->next();
-        }
+        this->queue_->next();
     }
 
     void Mpris2::Previous() {
-        if (CanGoPrevious()) {
-            QueueManager::instance()->previous();
-        }
+        this->queue_->previous();
     }
 
     void Mpris2::Pause() {
         if (CanPause()) {
-            PlayerManager::instance()->pause();
+            this->player_->pause();
         }
     }
 
     void Mpris2::PlayPause() {
         if (CanPause()) {
-            PlayerManager::instance()->pause();
+            this->player_->pause();
         } else if (CanPlay()) {
-            PlayerManager::instance()->resume();
+            this->player_->resume();
         }
 
     }
 
-    void Mpris2::Stop() { PlayerManager::instance()->stop(); }
+    void Mpris2::Stop() { this->player_->stop(); }
 
     void Mpris2::Play() {
         if (CanPlay()) {
-            PlayerManager::instance()->resume();
+            this->player_->resume();
         }
     }
 
     void Mpris2::Seek(qlonglong offset) {
         if (CanSeek()) {
             qDebug() << (double) (offset) / 1000000.0;
-            PlayerManager::instance()->userDragHandler((double) (offset) / 1000000.0);
+            this->player_->userDragHandler((double) (offset) / 1000000.0);
         }
     }
 
     void Mpris2::OpenUri(const QString &uri) {
-        QueueManager::instance()->playExternMedia(uri);
+        this->queue_->playExternMedia(uri);
     }
 
     bool Mpris2::CanSetFullscreen() const {
-        return true;
+        return false;
     }
 
     bool Mpris2::Fullscreen() const {
-        return DisplayManager::instance()->isFullScreen();
-    }
-
-    void Mpris2::SetFullscreen(bool n) {
-        DisplayManager::instance()->setFullScreen(n);
+        return this->display_->isFullScreen();
     }
 
     QString Mpris2::PlaybackStatus() const {
-        if (PlayerManager::instance()->isMediaLoaded()) {
-            if (PlayerManager::instance()->isPlaying())
+        if (this->player_->isMediaLoaded()) {
+            if (this->player_->isPlaying())
                 return "Playing";
             else return "Paused";
         } else {
@@ -322,14 +294,14 @@ namespace mpris {
     }
 
     void Mpris2::EngineStateChanged() {
-        if (PlayerManager::instance()->isMediaLoaded() == false) {
+        if (this->player_->isMediaLoaded() == false) {
             // qDebug() << "media is not loaded.";
             last_metadata_ = QVariantMap();
             EmitNotification("Metadata");
         }
-        if (last_metadata_.isEmpty() and PlayerManager::instance()->isMediaLoaded()) {
-            MetadataLoaded(QueueManager::instance()->currentMedia(),
-                           PlayerManager::instance()->currentMediaCover());
+        if (last_metadata_.isEmpty() and this->player_->isMediaLoaded()) {
+            MetadataLoaded(this->queue_->currentMedia(),
+                           this->player_->currentMediaCover());
         }
         EmitNotification("CanPlay");
         EmitNotification("CanPause");

@@ -75,6 +75,8 @@ Media LocalMusicParser::getMedia(const QString &path) {
     }
 //    qDebug() << media.duration();
     avformat_close_input(&ctx);
+    qDebug() << ctx;
+    qDebug() << tag;
     return media;
 }
 

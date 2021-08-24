@@ -112,6 +112,7 @@
     <file>components/Breadcrumb.qml</file>
     <file>components/ContentMenu.qml</file>
     <file>components/ControlButton.qml</file>
+    <file>components/KeyTapEvent.qml</file>
     <file>components/FluentWindow.qml</file>
     <file>components/IconButton.qml</file>
     <file>components/InputArea.qml</file>
