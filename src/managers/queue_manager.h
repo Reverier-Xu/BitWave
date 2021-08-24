@@ -13,6 +13,7 @@
 
 #include "models/media.h"
 #include "base_manager.h"
+#include "utilities/memory_helper.h"
 
 class QueueManager : public BaseManager {
 Q_OBJECT

@@ -68,6 +68,7 @@ void QueueManager::addMediaAtTail(const Media &media) {
 
 void QueueManager::playExternMedia(const QString &path) {
     // qDebug() << "Extern Media Requested: " << path;
+    // MemoryHelper::assertMemory("QueueManager::playExternMedia");
     this->setPlayMode(3);
     emit this->playExternMediaRequested(path);
 }
@@ -86,6 +87,7 @@ void QueueManager::removeMedia(int index) {
 
 void QueueManager::next() {
     // qDebug() << "Next Called.";
+    // MemoryHelper::assertMemory("QueueManager::next Begin");
     if (this->mMainQueue.empty()) return;
     if (this->mQueueEnded) {
         // qDebug() << "Queue is ended, reboot.";
@@ -133,6 +135,7 @@ void QueueManager::next() {
         this->mQueueEnded = true;
         emit this->playQueueEnded();
     }
+    // MemoryHelper::assertMemory("QueueManager::next End");
 }
 
 void QueueManager::previous() {
@@ -164,9 +167,11 @@ void QueueManager::saveSettings() {
 }
 
 void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
+    // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady Begin");
     this->clearQueue();
     this->mMainQueue.enqueue(media);
     this->next();
+    // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady End");
 }
 
 void QueueManager::connectSignals() const {

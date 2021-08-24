@@ -29,9 +29,12 @@ MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
 
     mpv_set_option_string(mpv, "terminal", "yes");
     mpv_set_option_string(mpv, "msg-level", "all=warn");
-    mpv_set_option_string(mpv, "stop-screensaver", "yes");
     mpv_set_option_string(mpv, "audio-display", "no");
     mpv_set_option_string(mpv, "keep-open", "no");
+    mpv_set_option_string(mpv, "demuxer-max-back-bytes", "41943040");
+    mpv_set_option_string(mpv, "demuxer-max-bytes", "41943040");
+    mpv_set_option_string(mpv, "cache", "no");
+    mpv_set_property_string(mpv, "audio-client-name", "BitWave");
 
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");

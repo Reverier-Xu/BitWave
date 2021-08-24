@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
+#include <utilities/memory_helper.h>
 
 extern "C" {
 #include <libavformat/avformat.h>
@@ -60,24 +61,36 @@ LocalVideoParser *LocalVideoParser::clone() {
 }
 
 Media LocalVideoParser::getMedia(const QString &path) {
+    // MemoryHelper::assertMemory("LocalVideoParser::getMedia Begin");
     Media media;
     media.setRawUrl(path);
     media.setType(VIDEO);
-        AVFormatContext *ctx = nullptr;
+    AVFormatContext *ctx = nullptr;
     AVDictionaryEntry *tag = nullptr;
     AVDictionaryEntry *read_tag;
-    std::string raw_path = path.toStdString();
+    auto raw_path = path.toStdString();
+
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 1");
     avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 2");
     avformat_find_stream_info(ctx, nullptr);
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 3");
+
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag) media.setTitle(read_tag->value);
     else media.setTitle(QFileInfo(path).baseName());
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 4");
+
     read_tag = av_dict_get(ctx->metadata, "artist", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag) media.setArtist(read_tag->value);
     else media.setArtist(tr("Unknown Artist"));
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 5");
+
     read_tag = av_dict_get(ctx->metadata, "album", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag) media.setCollection(read_tag->value);
     else media.setCollection("Unknown Album");
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 6");
+
     if (ctx->duration != AV_NOPTS_VALUE) {
         int64_t secs, us;
         int64_t duration = ctx->duration + 5000;
@@ -87,8 +100,10 @@ Media LocalVideoParser::getMedia(const QString &path) {
 //        qDebug() << secs;
 //        qDebug() << us;
     }
+//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 7");
 //    qDebug() << media.duration();
     avformat_close_input(&ctx);
+    // MemoryHelper::assertMemory("LocalVideoParser::getMedia End");
     return media;
 }
 

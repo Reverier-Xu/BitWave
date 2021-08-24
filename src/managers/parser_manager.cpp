@@ -18,6 +18,7 @@
 #include "parsers/local_netease_music_parser.h"
 #include "parsers/local_video_parser.h"
 #include "utilities/color_helper.h"
+#include "utilities/memory_helper.h"
 
 
 ParserManager *ParserManager::mInstance = nullptr;
@@ -40,6 +41,7 @@ void ParserManager::registerParsersInFactory() {
 }
 
 void ParserManager::handleParseMediaRequest(const Media &media) {
+    // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Common Begin");
     // qDebug() << "parseMediaRequest received here.";
     auto parser = ParserFactory::getParser(media);
     parser->setParserId(QUuid::createUuid());
@@ -47,18 +49,21 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
     auto res = QtConcurrent::run(parser, &BaseParser::parseMedia, media);
     auto *resWatcher = new QFutureWatcher<Media>(this);
     resWatcher->setFuture(res);
+    // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Common End");
     connect(resWatcher, &QFutureWatcher<Media>::finished, [=]() {
         // qDebug() << "Parse Finished here.";
         try {
+            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Run Begin");
             auto m = resWatcher->result();
             if (parser->parserId() == this->mParseMediaTaskId) {
-//                qDebug() << "Parse Result is current media.";
+                // qDebug() << "Parse Result is current media.";
                 emit this->mediaIsReady(true, m);
             } else {
-//                qDebug() << "Parse Result is discarded.";
+                // qDebug() << "Parse Result is discarded.";
             }
             parser->deleteLater();
             resWatcher->deleteLater();
+            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Run End");
         } catch (...) {
 //            qDebug() << "Parse Result creates an exception.";
             emit this->mediaIsReady(false, Media());
@@ -71,10 +76,12 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
 
 void ParserManager::handleGetMediaInfoRequest(const QString &path) {
     // qDebug() << "handleGetMediaInfoRequest received here.";
+    // MemoryHelper::assertMemory("ParserManager::handleGetMediaInfoRequest Begin");
     auto parser = ParserFactory::getParser(path);
     try {
         auto res = parser->getMedia(path);
         parser->deleteLater();
+        // MemoryHelper::assertMemory("ParserManager::handleGetMediaInfoRequest End");
         emit this->mediaInfoIsReady(true, res);
     } catch (...) {
         parser->deleteLater();
@@ -84,10 +91,12 @@ void ParserManager::handleGetMediaInfoRequest(const QString &path) {
 
 void ParserManager::handleGetMediaCoverRequest(const Media &media) {
     // qDebug() << "Parse extern media started.";
+    // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverRequest Begin");
     auto parser = ParserFactory::getParser(media);
     try {
         auto url = parser->getMediaCover(media);
         parser->deleteLater();
+        // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverRequest End");
         // qDebug() << "cover finished here.";
         emit this->mediaCoverIsReady(true, url);
     } catch (...) {
@@ -103,10 +112,13 @@ void ParserManager::handleGetMediaLyricsRequest(const Media &media) {
 
 void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
     // qDebug() << "Analyze extern media info started.";
+    // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest Begin");
     auto parser = ParserFactory::getParser(path);
+    // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest GotParser");
     try {
         auto res = parser->getMedia(path);
         parser->deleteLater();
+        // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest End");
         emit this->externMediaInfoIsReady(true, res);
     } catch (...) {
         parser->deleteLater();
@@ -115,6 +127,7 @@ void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
 }
 
 void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
+    // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverColorRequest Begin");
     // get cover theme color here.
 
     // -*- begin -*-
@@ -132,6 +145,8 @@ void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
             throw std::exception();
 
         auto color = ColorHelper::getImageThemeColor(image.scaled(100, 100));
+
+        // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverColorRequest End");
 
         emit this->mediaCoverColorIsReady(true, color);
 

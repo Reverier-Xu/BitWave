@@ -75,8 +75,8 @@ Media LocalMusicParser::getMedia(const QString &path) {
     }
 //    qDebug() << media.duration();
     avformat_close_input(&ctx);
-    qDebug() << ctx;
-    qDebug() << tag;
+    // qDebug() << ctx;
+    // qDebug() << tag;
     return media;
 }
 
@@ -101,6 +101,7 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
             QImage img = QImage::fromData((uchar *) pkt.data, pkt.size);
             auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
             auto temp_loc = cachePath + "/Covers/" + media.title().replace("/", "").replace("\\", "") + ".jpg";
+            img = img.scaled(320, 320);
             img.save(QUrl("file://" + temp_loc).path());
             avformat_close_input(&ctx);
             // qDebug() << QUrl("file://" + temp_loc).path();

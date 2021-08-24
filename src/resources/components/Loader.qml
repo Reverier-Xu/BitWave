@@ -3,10 +3,12 @@ import QtQuick 2.15
 Item {
 
     // ----- Public Properties ----- //
+    id: root
+    width: radius * 2
+    height: radius * 2
 
     property int radius: 25
-    property bool useDouble: false
-    property bool running: true
+    property bool running: false
 
     property color color: display.colorStyle ? "black" : "white"
 
@@ -14,25 +16,6 @@ Item {
 
     property int _innerRadius: radius
 
-    id: root
-    width: radius * 2
-    height: radius * 2
-    onRunningChanged: {
-        if (running === false) {
-            for (var i = 0; i < repeater.model; i++) {
-                if (repeater.itemAt(i)) {
-                    repeater.itemAt(i).stopAnimation();
-                }
-            }
-        }
-        else {
-            for (var i = 0; i < repeater.model; i++) {
-                if (repeater.itemAt(i)) {
-                    repeater.itemAt(i).playAnimation();
-                }
-            }
-        }
-    }
 
     Repeater {
         id: repeater
@@ -52,46 +35,34 @@ Item {
                 y: root._getPosOnCircle(_currentAngle).y - width / 2
                 antialiasing: true
 
-                SequentialAnimation {
+                NumberAnimation {
                     id: anim
-                    loops: Animation.Infinite
-
-                    NumberAnimation {
-                        target: rect
-                        property: "_currentAngle"
-                        duration: root.useDouble ? 1800 : 1000
-                        from: rect._getStartAngle()
-                        to: 360 + rect._getStartAngle()
-                        easing.type: Easing.OutQuad
-                    }
-
-                    PauseAnimation { duration: 300 }
+                    target: rect
+                    property: "_currentAngle"
+                    duration: 1000
+                    from: rect._getStartAngle()
+                    to: 360 + rect._getStartAngle()
+                    easing.type: Easing.OutQuad
                 }
 
-                // ----- Public Functions ----- //
+                // ----- Public Properties ----- //
 
                 function playAnimation() {
-                    if (anim.running == false) {
+                    if (anim.running === false) {
                         anim.start();
-                    }
-                    else if (anim.paused) {
+                    } else {
                         anim.resume();
                     }
                 }
 
                 function stopAnimation() {
-                    if (anim.running) {
-                        anim.pause();
-                    }
+                    anim.stop();
                 }
 
                 // ----- Private Functions ----- //
 
                 function _getStartAngle() {
                     var ang = 90;
-                    if (root.useDouble) {
-                        ang = index < 5 ? 90 : 270;
-                    }
 
                     return ang;
                 }
@@ -101,24 +72,31 @@ Item {
 
     Timer {
         // ----- Private Properties ----- //
-        property int _circleIndex: 0
-
         id: timer
-        interval: 100
+        interval: 1300
+        triggeredOnStart: true
+        property int _circleIndex: 0
         repeat: true
-        running: true
+        running: root.running
         onTriggered: {
-            var maxIndex = root.useDouble ? repeater.model / 2 : repeater.model;
-            if (_circleIndex === maxIndex) {
-                stop();
-                _circleIndex = 0;
-            }
-            else {
-                repeater.itemAt(_circleIndex).playAnimation();
-                if (root.useDouble) {
-                    repeater.itemAt(repeater.model - _circleIndex - 1).playAnimation();
-                }
+            emitTimer.start();
+        }
+    }
 
+    Timer {
+        id: emitTimer
+        interval: 100
+        triggeredOnStart: true
+        property int _circleIndex: 0
+        repeat: true
+        onTriggered: {
+            var maxIndex = repeater.model;
+            if (_circleIndex === maxIndex) {
+                _circleIndex = 0;
+                emitTimer.stop();
+            } else {
+                // console.log("_circleIndex: " + _circleIndex);
+                repeater.itemAt(_circleIndex).playAnimation();
                 _circleIndex++;
             }
         }

@@ -6,9 +6,11 @@
 
 #include <QSettings>
 #include <QPixmap>
+#include <utilities/time_helper.h>
 
 #include "parser_manager.h"
 #include "queue_manager.h"
+#include "utilities/memory_helper.h"
 
 PlayerManager *PlayerManager::mInstance = nullptr;
 
@@ -152,10 +154,15 @@ void PlayerManager::handlePlayQueueEnded() {
     this->stop();
 }
 
-void PlayerManager::userDragHandler(double t) { this->mEngine->setTimePos(t); }
+void PlayerManager::userDragHandler(double t) {
+    this->mEngine->setTimePos(t);
+    emit this->showVideoTips("qrc:/assets/play-large.svg", TimeHelper::getTimeString(t));
+}
 
 void PlayerManager::play(const Media &m) {
     // qDebug() << "playing: " << m.title();
+
+    // MemoryHelper::assertMemory("PlayerManager::play");
 
     this->setCurrentMediaIsVideo(m.type() == VIDEO);
     // qDebug() << media.collection();
@@ -164,7 +171,7 @@ void PlayerManager::play(const Media &m) {
     this->setCurrentMediaArtist(m.artist());
     this->setCurrentMediaTitle(m.title());
     this->setIsMediaLoading(true);
-    this->pause();
+    this->mEngine->pause();
 
     emit this->mediaCoverRequired(m);
     emit this->mediaParseRequired(m);
@@ -174,11 +181,15 @@ void PlayerManager::play(const Media &m) {
 
 void PlayerManager::pause() {
     this->mEngine->pause();
+    if (this->isMediaLoaded() && this->currentMediaIsVideo())
+            emit this->showVideoTips(QString("qrc:/assets/pause-large.svg"), tr("Paused"));
     // qDebug() << "paused";
 }
 
 void PlayerManager::resume() {
     this->mEngine->resume();
+    if (this->isMediaLoaded() && this->currentMediaIsVideo())
+            emit this->showVideoTips(QString("qrc:/assets/play-large.svg"), tr("Resumed"));
     // qDebug() << "resumed";
 }
 
@@ -188,6 +199,7 @@ void PlayerManager::stop() {
 }
 
 void PlayerManager::playUrl(const QString &m) {
+    // MemoryHelper::assertMemory("PlayerManager::playUrl");
     this->mEngine->playMedia(m);
 }
 
@@ -200,7 +212,7 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
     if (ok) {
         this->playUrl(m.rawUrl());
         this->setIsMediaLoading(false);
-        this->resume();
+        this->mEngine->resume(); // prevent show video tips.
     } else {
         QueueManager::instance(this->parent())->next();
     }

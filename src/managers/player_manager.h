@@ -78,7 +78,7 @@ private:
 
     MpvEngine *mEngine = nullptr;
 
-    Screensaver * mScreensaver;
+    Screensaver *mScreensaver;
 
 protected:
     explicit PlayerManager(QObject *parent);
@@ -137,10 +137,14 @@ public:
     void setVolume(double n) {
         if (n < 0.0) n = 0.0;
         if (n > 1.0) n = 1.0;
-        
+
         this->mVolume = n;
         this->mEngine->setProperty("volume", mVolume * 100);
         emit this->volumeChanged(n);
+
+        if (this->isMediaLoaded() && this->currentMediaIsVideo())
+                emit this->showVideoTips(QString("qrc:/assets/volume-%1.svg").arg(3),
+                                         QString::asprintf("%02.1f%%", n * 100));
     }
 
     [[nodiscard]] bool isMuted() const { return this->mIsMuted; }
@@ -149,6 +153,9 @@ public:
         this->mIsMuted = n;
         this->mEngine->setMute(n);
         emit this->isMutedChanged(n);
+        if (this->isMediaLoaded() && this->currentMediaIsVideo())
+                emit this->showVideoTips(QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
+                                         n ? tr("Muted") : tr("UnMuted"));
     }
 
     [[nodiscard]] QString currentMediaUrl() const {
@@ -163,8 +170,8 @@ public:
     [[nodiscard]] bool isReady() const { return this->mIsReady; }
 
     void setIsReady(bool n) {
-         this->mIsReady = n;
-         emit this->isReadyChanged(n);
+        this->mIsReady = n;
+        emit this->isReadyChanged(n);
     }
 
     [[nodiscard]] QString currentMediaTitle() const {
@@ -319,5 +326,7 @@ signals:
     void stateChanged();
 
     void isReadyChanged(bool n);
+
+    void showVideoTips(const QString &icon, const QString &info);
 };
 

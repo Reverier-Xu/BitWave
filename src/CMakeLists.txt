@@ -66,7 +66,9 @@ set(UTILITIES_SRCS
         utilities/color_helper.h
         utilities/ncm_helper.cpp
         utilities/ncm_helper.h
-        dbus/screensaver.cpp)
+        utilities/memory_helper.cpp
+        utilities/memory_helper.h
+        dbus/screensaver.cpp utilities/time_helper.cpp utilities/time_helper.h)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
