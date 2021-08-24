@@ -67,6 +67,41 @@ Rectangle {
                 running: player.isMediaLoading && player.currentMediaIsVideo
             }
         }
+
+        TextLabel {
+            id: tipsLabel
+            anchors.centerIn: parent
+            radius: 4
+            height: 64
+            color: display.colorStyle ? "#c0ffffff" : "#c0000000"
+            iconSize: 32
+            fontSize: 24
+            opacity: 0
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 300;
+                }
+            }
+
+            Timer {
+                id: fadeTimer
+                interval: 800
+                onTriggered: {
+                    tipsLabel.opacity = 0;
+                }
+            }
+
+            Connections {
+                target: player
+                function onShowVideoTips(icon, info) {
+                    tipsLabel.icon = icon;
+                    tipsLabel.text = info;
+                    tipsLabel.opacity = 1;
+                    fadeTimer.restart();
+                }
+            }
+        }
     }
 
     Rectangle {
@@ -81,7 +116,6 @@ Rectangle {
         }
         visible: !player.currentMediaIsVideo
 
-        // TODO: 特效才是灵魂。下次写
         Rectangle {
             id: avatarContainer
             clip: true
@@ -230,7 +264,7 @@ Rectangle {
             elide: Text.ElideLeft
             text: mediaArtistAndAlbumMetrics.elidedText
             color: display.themeColor
-            font.pixelSize: 16 
+            font.pixelSize: 16
         }
     }
 }
