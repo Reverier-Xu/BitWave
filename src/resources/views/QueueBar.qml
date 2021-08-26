@@ -10,11 +10,24 @@ Rectangle {
     property bool expanded: display.queueBarExpanded
     state: expanded? "Expanded" : "Folded"
 
+    Behavior on width {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
+
     StackLayout {
         id: layout
         anchors.fill: parent
         currentIndex: display.queueBarIndex
-        
+
         PlayerToolBox { }
 
         PlayQueueBox { }
@@ -33,27 +46,6 @@ Rectangle {
             PropertyChanges {
                 target: root
                 width: 0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "Expanded"
-            NumberAnimation {
-                target: root
-                property: "width"
-                duration: 300
-                easing.type: Easing.OutExpo
-            }
-        },
-        Transition {
-            from: "*"; to: "Folded"
-            NumberAnimation {
-                target: root
-                property: "width"
-                duration: 300
-                easing.type: Easing.OutExpo
             }
         }
     ]

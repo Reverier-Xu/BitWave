@@ -9,6 +9,13 @@ Rectangle {
     property bool expanded: display.sideBarExpanded
     state: expanded? "Expanded" : "Folded"
 
+    Behavior on width {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+    }
+
     PushButton {
         id: titleButton
         height: 32
@@ -103,27 +110,6 @@ Rectangle {
             PropertyChanges {
                 target: root
                 width: 0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "Expanded"
-            NumberAnimation {
-                target: root
-                property: "width"
-                duration: 300
-                easing.type: Easing.OutExpo
-            }
-        },
-        Transition {
-            from: "*"; to: "Folded"
-            NumberAnimation {
-                target: root
-                property: "width"
-                duration: 300
-                easing.type: Easing.OutExpo
             }
         }
     ]

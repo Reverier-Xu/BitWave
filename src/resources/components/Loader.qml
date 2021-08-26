@@ -10,7 +10,7 @@ Item {
     property int radius: 25
     property bool running: false
 
-    property color color: display.colorStyle ? "black" : "white"
+    property color color: display.contentColor
 
     // ----- Private Properties ----- //
 

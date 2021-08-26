@@ -9,7 +9,7 @@ PushArea {
     property bool showIcon: true
     property bool noOverlay: false
     property alias text: buttonText.text
-    property color contentColor: display.colorStyle? "#222222" : "#dddddd"
+    property color contentColor: display.contentColor
     property bool bold: false
 
     width: buttonText.width +root.fontSize * 1.4 + (root.showIcon? root.iconSize+root.fontSize*0.5:0)

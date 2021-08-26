@@ -21,7 +21,7 @@ Rectangle {
         verticalAlignment: TextEdit.AlignVCenter
         font.pixelSize: 16
         // font.bold: root.isActive
-        color: root.isActive ? (display.colorStyle ? "black" : "white") : "#808080"
+        color: root.isActive ? display.contentColor : "#808080"
 
         Behavior on color {
             ColorAnimation {

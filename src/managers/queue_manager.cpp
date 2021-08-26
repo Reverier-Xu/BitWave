@@ -173,6 +173,7 @@ void QueueManager::saveSettings() {
 void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady Begin");
     this->clearQueue();
+    if (!ok) return;
     this->mMainQueue.enqueue(media);
     this->next();
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady End");

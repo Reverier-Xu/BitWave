@@ -28,6 +28,8 @@ Q_OBJECT
                        setColorStyle NOTIFY colorStyleChanged)
     Q_PROPERTY(QColor themeColor MEMBER mThemeColor READ themeColor WRITE
                        setThemeColor NOTIFY themeColorChanged)
+    Q_PROPERTY(QColor contentColor READ contentColor WRITE
+                       setContentColor NOTIFY contentColorChanged)
     Q_PROPERTY(QColor alertColor MEMBER mAlertColor READ alertColor WRITE
                        setAlertColor NOTIFY alertColorChanged)
     Q_PROPERTY(bool sideBarExpanded MEMBER mSideBarExpanded READ sideBarExpanded WRITE
@@ -99,6 +101,7 @@ public:
     void setColorStyle(bool value) {
         this->mColorStyle = value;
         emit this->colorStyleChanged(value);
+        emit this->contentColorChanged(this->contentColor());
     }
 
     [[nodiscard]] bool sideBarExpanded() const { return this->mSideBarExpanded; }
@@ -146,6 +149,14 @@ public:
         emit this->alertColorChanged(value);
     }
 
+    [[nodiscard]] QColor contentColor() const {
+        return this->colorStyle() ? QColor("#222222") : QColor("#dddddd");
+    }
+
+    void setContentColor(const QColor &value) {
+        emit this->contentColorChanged(this->contentColor());
+    }
+
     [[nodiscard]] bool isFullScreen() const { return this->mIsFullScreen; }
 
     void setFullScreen(bool n) {
@@ -191,4 +202,6 @@ signals:
     void showVideoTimeChanged(bool n);
 
     void showWindowRequested();
+
+    void contentColorChanged(QColor n);
 };

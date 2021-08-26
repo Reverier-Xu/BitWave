@@ -43,7 +43,7 @@ Rectangle {
     ColorOverlay{
         anchors.fill: m_icon
         source: m_icon
-        color: display.colorStyle? "#222222":"#dddddd"
+        color: display.contentColor
         Behavior on color {
             ColorAnimation {
                 duration: 200
@@ -57,7 +57,7 @@ Rectangle {
     Text {
         id: m_text;
         text: displayText;
-        color: display.colorStyle? "#222222":"#dddddd"
+        color: display.contentColor
         Behavior on color {
             ColorAnimation {
                 duration: 200

@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.15
 CircleSliderArea {
     id: root
 
-    property color contentColor: display.colorStyle? "#222222":"#dddddd"
+    property color contentColor: display.contentColor
     property int iconSize: 16
     property bool noOverlay: false
     property alias icon: iconImage.source

@@ -249,7 +249,7 @@ Rectangle {
             anchors.horizontalCenter: lyricsBox.horizontalCenter
             font.pixelSize: 32
             text: mediaTitleMetrics.elidedText
-            color: display.colorStyle ? "#252525" : "#c0c0c0"
+            color: display.contentColor
             Behavior on color {
                 ColorAnimation {
                     duration: 280

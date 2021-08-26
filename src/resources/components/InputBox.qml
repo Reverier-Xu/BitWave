@@ -93,8 +93,8 @@ Rectangle {
         // canPaste: true
         clip: true
         wrapMode: TextEdit.NoWrap
-        color: display.colorStyle ? "#000000" : "#ffffff"
-        selectedTextColor: display.colorStyle? "#222222" : "#dddddd"
+        color: display.contentColor
+        selectedTextColor: display.contentColor
         selectionColor: "#603399ff"
 
         onTextEdited: {

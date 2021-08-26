@@ -132,13 +132,13 @@ Rectangle {
             clip: true
             wrapMode: TextEdit.Wrap
             textFormat: TextEdit.PlainText
-            color: display.colorStyle ? "#000000" : "#ffffff"
+            color: display.contentColor
             Behavior on color {
                 ColorAnimation {
                     duration: 200
                 }
             }
-            selectedTextColor: display.colorStyle? "#222222" : "#dddddd"
+            selectedTextColor: display.contentColor
             selectionColor: "#603399ff"
 
             onTextChanged: {

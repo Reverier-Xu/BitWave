@@ -129,6 +129,7 @@
     <file>components/ProgressBar.qml</file>
     <file>components/PushArea.qml</file>
     <file>components/PushButton.qml</file>
+    <file>components/RadioButton.qml</file>
     <file>components/SearchBox.qml</file>
     <file>components/ShortcutEvent.qml</file>
     <file>components/SliderBar.qml</file>

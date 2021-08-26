@@ -53,7 +53,9 @@ Media LocalMusicParser::getMedia(const QString &path) {
     AVDictionaryEntry *tag = nullptr;
     AVDictionaryEntry *read_tag;
     std::string raw_path = path.toStdString();
-    avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
+    int ret = avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
+    if (ret < 0)
+        throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag) media.setTitle(read_tag->value);
@@ -87,7 +89,9 @@ Media LocalMusicParser::parseMedia(const Media &media) {
 QString LocalMusicParser::getMediaCover(const Media &media) {
     AVFormatContext *ctx = nullptr;
     AVDictionaryEntry *tag = nullptr;
-    avformat_open_input(&ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
+    int ret = avformat_open_input(&ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
+    if (ret < 0)
+        throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     // read the format headers
     if (ctx->iformat->read_header(ctx) < 0) {
