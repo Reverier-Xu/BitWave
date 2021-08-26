@@ -20,7 +20,7 @@
 #
 ### Global Configuration Section
 #
-SET(_MPV_REQUIRED_VARS MPV_INCLUDE_DIR MPV_LIBRARY)
+SET(_MPV_REQUIRED_VARS MPV_INCLUDE_DIR MPV_LIBRARIES)
 
 #
 ### MPV uses pkgconfig.
@@ -57,9 +57,9 @@ message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
 #
 ### Look for the libraries
 #
-set(_MPV_LIBRARY_NAMES mpv)
+set(_MPV_LIBRARIES_NAMES mpv)
 if (PC_MPV_LIBRARIES)
-    set(_MPV_LIBRARY_NAMES ${PC_MPV_LIBRARIES})
+    set(_MPV_LIBRARIES_NAMES ${PC_MPV_LIBRARIES})
 endif (PC_MPV_LIBRARIES)
 
 if (WIN32)
@@ -70,26 +70,26 @@ if (WIN32)
 endif (WIN32)
 
 
-foreach (l ${_MPV_LIBRARY_NAMES})
+foreach (l ${_MPV_LIBRARIES_NAMES})
     find_library(
-            MPV_LIBRARY_${l}
+            MPV_LIBRARIES_${l}
             NAMES ${l}
             HINTS
             ${PC_MPV_LIBDIR}
-            ${PC_MPV_LIBRARY_DIRS} # Unused for MPV but anyway
+            ${PC_MPV_LIBRARIES_DIRS} # Unused for MPV but anyway
             PATH_SUFFIXES lib${LIB_SUFFIX}
     )
-    list(APPEND MPV_LIBRARY ${MPV_LIBRARY_${l}})
+    list(APPEND MPV_LIBRARIES ${MPV_LIBRARIES_${l}})
 endforeach ()
 
-get_filename_component(_MPV_LIBRARY_DIR ${MPV_LIBRARY_mpv} PATH)
-mark_as_advanced(MPV_LIBRARY)
+get_filename_component(_MPV_LIBRARIES_DIR ${MPV_LIBRARIES_mpv} PATH)
+mark_as_advanced(MPV_LIBRARIES)
 
-set(MPV_LIBRARY_DIRS _MPV_LIBRARY_DIR)
-list(REMOVE_DUPLICATES MPV_LIBRARY_DIRS)
+set(MPV_LIBRARIES_DIRS _MPV_LIBRARIES_DIR)
+list(REMOVE_DUPLICATES MPV_LIBRARIES_DIRS)
 
 mark_as_advanced(MPV_INCLUDE_DIR)
-mark_as_advanced(MPV_LIBRARY_DIRS)
+mark_as_advanced(MPV_LIBRARIES_DIRS)
 set(MPV_INCLUDE_DIRS ${MPV_INCLUDE_DIR})
 
 #

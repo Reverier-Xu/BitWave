@@ -34,6 +34,8 @@ set(MODELS_SRCS
         models/media.h
         models/ui/lyrics_list_model.cpp
         models/ui/lyrics_list_model.h
+        models/ui/media_queue_model.cpp
+        models/ui/media_queue_model.h
         )
 
 set(PARSERS_SRCS
@@ -68,7 +70,9 @@ set(UTILITIES_SRCS
         utilities/ncm_helper.h
         utilities/memory_helper.cpp
         utilities/memory_helper.h
-        dbus/screensaver.cpp utilities/time_helper.cpp utilities/time_helper.h)
+        dbus/screensaver.cpp
+        utilities/time_helper.cpp
+        utilities/time_helper.h utilities/single_app_guard.cpp utilities/single_app_guard.h)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
@@ -137,7 +141,11 @@ optional_source(WIN32
 
 add_executable(BitWave ${SRCS})
 
-target_link_libraries(BitWave ${QT_LIBRARIES} ${MPV_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} QtAES)
+target_link_libraries(BitWave
+        ${QT_LIBRARIES}
+        ${MPV_LIBRARIES}
+        ${FFMPEG_LIBRARIES}
+        QtAES)
 
 set_target_properties(BitWave
         PROPERTIES

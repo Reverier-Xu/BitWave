@@ -36,7 +36,7 @@ Rectangle {
                     display.delayedHide();
                 }
 
-                onReleased: {
+                onClicked: {
                     if (player.isPlaying) {
                         player.pause();
                     } else {
@@ -101,6 +101,14 @@ Rectangle {
                     fadeTimer.restart();
                 }
             }
+        }
+
+        VideoIndicator {
+            id: videoIndicator
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: 42
+            anchors.topMargin: 25
         }
     }
 

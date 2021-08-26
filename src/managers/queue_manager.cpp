@@ -1,6 +1,7 @@
 #include <QSettings>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <malloc.h>
 #include "queue_manager.h"
 #include "parser_manager.h"
 
@@ -88,6 +89,9 @@ void QueueManager::removeMedia(int index) {
 void QueueManager::next() {
     // qDebug() << "Next Called.";
     // MemoryHelper::assertMemory("QueueManager::next Begin");
+#ifdef Q_OS_UNIX
+    malloc_trim(0); // free memories.
+#endif
     if (this->mMainQueue.empty()) return;
     if (this->mQueueEnded) {
         // qDebug() << "Queue is ended, reboot.";

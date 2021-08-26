@@ -22,6 +22,8 @@ Q_OBJECT
     Q_PROPERTY(int activeTabIndex MEMBER mActiveTabIndex READ activeTabIndex WRITE setActiveTabIndex
                        NOTIFY activeTabIndexChanged)
     Q_PROPERTY(int pageIndex READ pageIndex WRITE setPageIndex NOTIFY pageIndexChanged)
+    Q_PROPERTY(int queueBarIndex MEMBER mQueueBarIndex READ queueBarIndex WRITE 
+                       setQueueBarIndex NOTIFY queueBarIndexChanged)
     Q_PROPERTY(bool colorStyle MEMBER mColorStyle READ colorStyle WRITE
                        setColorStyle NOTIFY colorStyleChanged)
     Q_PROPERTY(QColor themeColor MEMBER mThemeColor READ themeColor WRITE
@@ -30,16 +32,24 @@ Q_OBJECT
                        setAlertColor NOTIFY alertColorChanged)
     Q_PROPERTY(bool sideBarExpanded MEMBER mSideBarExpanded READ sideBarExpanded WRITE
                        setSideBarExpanded NOTIFY sideBarExpandedChanged)
+    Q_PROPERTY(bool queueBarExpanded MEMBER mQueueBarExpanded READ queueBarExpanded WRITE
+                       setQueueBarExpanded NOTIFY queueBarExpandedChanged)
     Q_PROPERTY(bool mouseIsActive MEMBER mMouseIsActive READ mouseIsActive WRITE
                        setMouseIsActive NOTIFY mouseIsActiveChanged)
     Q_PROPERTY(bool isFullScreen MEMBER mIsFullScreen READ isFullScreen WRITE
                        setFullScreen NOTIFY isFullScreenChanged)
+    Q_PROPERTY(bool showVideoTime MEMBER mShowVideoTime READ showVideoTime WRITE
+                       setShowVideoTime NOTIFY showVideoTimeChanged)
+
 private:
     int mActiveTabIndex = -1;
+    int mQueueBarIndex = -1;
     bool mColorStyle = false;
     bool mSideBarExpanded = true;
+    bool mQueueBarExpanded = false;
     bool mMouseIsActive = true;
     bool mIsFullScreen = false;
+    bool mShowVideoTime = true;
     QColor mThemeColor = QColor(0x00, 0x78, 0xd6);
     QColor mAlertColor = QColor(0xff, 0x60, 0x33);
     QTimer *hideTimer;
@@ -77,6 +87,13 @@ public:
         emit this->pageIndexChanged(n);
     }
 
+    [[nodiscard]] int queueBarIndex() const { return this->mQueueBarIndex; }
+
+    void setQueueBarIndex(int n) {
+        this->mQueueBarIndex = n;
+        emit this->queueBarIndexChanged(n);
+    }
+
     [[nodiscard]] bool colorStyle() const { return this->mColorStyle; }
 
     void setColorStyle(bool value) {
@@ -89,6 +106,13 @@ public:
     void setSideBarExpanded(bool value) {
         this->mSideBarExpanded = value;
         emit this->sideBarExpandedChanged(value);
+    }
+
+    [[nodiscard]] bool queueBarExpanded() const { return this->mQueueBarExpanded; }
+
+    void setQueueBarExpanded(bool value) {
+        this->mQueueBarExpanded = value;
+        emit this->queueBarExpandedChanged(value);
     }
 
     [[nodiscard]] bool mouseIsActive() const { return this->mMouseIsActive; }
@@ -129,6 +153,13 @@ public:
         emit this->isFullScreenChanged(n);
     }
 
+    [[nodiscard]] bool showVideoTime() const { return this->mShowVideoTime; }
+
+    void setShowVideoTime(bool n) {
+        this->mShowVideoTime = n;
+        emit this->showVideoTimeChanged(n);
+    }
+
 public slots:
 
     Q_INVOKABLE void delayedHide();
@@ -141,9 +172,13 @@ signals:
 
     void pageIndexChanged(int n);
 
+    void queueBarIndexChanged(int n);
+
     void colorStyleChanged(bool n);
 
     void sideBarExpandedChanged(bool n);
+
+    void queueBarExpandedChanged(bool n);
 
     void mouseIsActiveChanged(bool n);
 
@@ -152,4 +187,8 @@ signals:
     void alertColorChanged(QColor n);
 
     void isFullScreenChanged(bool n);
+
+    void showVideoTimeChanged(bool n);
+
+    void showWindowRequested();
 };

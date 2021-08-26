@@ -6,6 +6,7 @@
 
 #include <QSettings>
 #include <QPixmap>
+#include "malloc.h"
 #include <utilities/time_helper.h>
 
 #include "parser_manager.h"
@@ -195,6 +196,9 @@ void PlayerManager::resume() {
 
 void PlayerManager::stop() {
     this->mEngine->stop();
+#ifdef Q_OS_UNIX
+    malloc_trim(0); // free memories.
+#endif
     // qDebug() << "stopped";
 }
 

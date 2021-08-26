@@ -122,5 +122,12 @@ FluentWindow {
             anchors.bottomMargin: window.visibility === Window.Windowed ? 1 : 0
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
         }
+
+        QueueBar {
+            id: queueBar
+            anchors.right: titleBar.right
+            anchors.top: titleBar.bottom
+            anchors.bottom: controlBar.top
+        }
     }
 }

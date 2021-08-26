@@ -31,9 +31,10 @@ MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
     mpv_set_option_string(mpv, "msg-level", "all=warn");
     mpv_set_option_string(mpv, "audio-display", "no");
     mpv_set_option_string(mpv, "keep-open", "no");
-    mpv_set_option_string(mpv, "demuxer-max-back-bytes", "41943040");
-    mpv_set_option_string(mpv, "demuxer-max-bytes", "41943040");
-    mpv_set_option_string(mpv, "cache", "no");
+    mpv_set_option_string(mpv, "idle", "yes");
+    // mpv_set_option_string(mpv, "demuxer-max-back-bytes", "32MiB");
+    // mpv_set_option_string(mpv, "demuxer-max-bytes", "32MiB");
+    // mpv_set_option_string(mpv, "cache", "no");
     mpv_set_property_string(mpv, "audio-client-name", "BitWave");
 
     if (mpv_initialize(mpv) < 0)
@@ -135,11 +136,18 @@ void MpvEngine::playMedia(const QString &path) {
     this->command(QStringList() << "loadfile" << path);
 }
 
-void MpvEngine::resume() { this->setProperty("pause", false); }
+void MpvEngine::resume() {
+    this->setProperty("pause", false);
+}
 
-void MpvEngine::pause() { this->setProperty("pause", true); }
+void MpvEngine::pause() {
+    this->setProperty("pause", true);
+}
 
-void MpvEngine::stop() { this->command(QStringList() << "stop"); }
+void MpvEngine::stop() { 
+    this->command(QStringList() << "stop");
+    // this->command(QStringList() << "drop-buffers");
+}
 
 void MpvEngine::setTimePos(double secs) {
     this->setProperty("time-pos", secs);

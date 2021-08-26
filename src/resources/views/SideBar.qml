@@ -7,7 +7,7 @@ Rectangle {
     width: 280
     clip: true
     property bool expanded: display.sideBarExpanded
-    state: expanded? "Expanded":"Folded"
+    state: expanded? "Expanded" : "Folded"
 
     PushButton {
         id: titleButton

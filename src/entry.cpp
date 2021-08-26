@@ -5,12 +5,28 @@
 #include <QApplication>
 #include <QIcon>
 #include <QFont>
+
+#ifdef __unix__
+
+#include <malloc.h>
+
+#endif
+
 #include "managers/app_manager.h"
+#include "utilities/single_app_guard.h"
 
 int main(int argc, char *argv[]) {
+#ifdef Q_OS_UNIX
+    mallopt(M_ARENA_MAX, 1);
+#endif
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     std::setlocale(LC_NUMERIC, "C");
+
+    RunGuard guard("BitWave");
+    if (!guard.tryToRun())
+        return 0;
+
     QApplication app(argc, argv);
 
     QApplication::setApplicationDisplayName("Bit Wave");

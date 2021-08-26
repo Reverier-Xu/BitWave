@@ -23,6 +23,8 @@ GuiManager *GuiManager::mInstance = nullptr;
 GuiManager::GuiManager(QObject *parent) : QObject(parent) {
     std::setlocale(LC_NUMERIC, "C");
     this->mUiEngine = new QQmlApplicationEngine(this);
+
+
 }
 
 void GuiManager::createUI() {

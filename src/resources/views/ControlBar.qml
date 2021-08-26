@@ -166,7 +166,7 @@ Rectangle {
             width: 42
             height: width
             anchors.verticalCenter: parent.verticalCenter
-            anchors.right: muteButton.left
+            anchors.right: toolBarButton.left
             anchors.rightMargin: 15
             radius: width / 2
             iconSize: 24
@@ -179,31 +179,47 @@ Rectangle {
         }
 
         IconButton {
+            id: toolBarButton
+            width: 42
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: muteButton.left
+            anchors.rightMargin: 15
+            radius: width / 2
+            iconSize: 24
+            flat: true
+            icon: "qrc:/assets/options.svg"
+
+            onClicked: {
+                if (display.queueBarIndex == 0 && display.queueBarExpanded) {
+                    display.queueBarExpanded = false;
+                } else {
+                    if (display.queueBarIndex != 0) {
+                        display.queueBarIndex = 0;
+                    }
+                    display.queueBarExpanded = true;
+                }
+            }
+        }
+
+        CircleSliderButton {
             id: muteButton
             width: 42
             height: width
             flat: true
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: queueButton.left
-            anchors.rightMargin: 124
+            anchors.rightMargin: 15
             radius: width / 2
+            progress: player.volume
             icon: "qrc:/assets/volume-" + (player.isMuted? "0" : Math.floor(player.volume*100/34 + 1).toString()) + ".svg"
             iconSize: 24
             onClicked: {
                 player.isMuted = !player.isMuted;
             }
-        }
-
-        SliderBar {
-            id: volumeSlider
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: queueButton.left
-            anchors.rightMargin: 12
-            anchors.left: muteButton.right
-            anchors.leftMargin: 6
-            currentValue: player.volume
-            onEndDragging: {
-                player.volume = finalValue
+            onWheel: {
+                // console.log(wheel.angleDelta.y);
+                player.volume = player.volume + wheel.angleDelta.y / 1200;
             }
         }
 
@@ -218,6 +234,17 @@ Rectangle {
             radius: width / 2
             icon: "qrc:/assets/list.svg"
             iconSize: 24
+
+            onClicked: {
+                if (display.queueBarIndex == 1 && display.queueBarExpanded) {
+                    display.queueBarExpanded = false;
+                } else {
+                    if (display.queueBarIndex != 1) {
+                        display.queueBarIndex = 1;
+                    }
+                    display.queueBarExpanded = true;
+                }
+            }
         }
     }
 

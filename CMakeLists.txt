@@ -41,11 +41,12 @@ endif()
 
 find_package(MPV REQUIRED)
 
-find_path(AVFORMAT_INCLUDE_DIR libavformat/avformat.h)
-find_library(AVFORMAT_LIBRARY avformat)
+find_package(FFmpeg REQUIRED)
 
-find_path(AVUTIL_INCLUDE_DIR libavutil/avutil.h)
-find_library(AVUTIL_LIBRARY avutil)
+set(FFMPEG_LIBRARIES 
+        FFmpeg::avutil
+        FFmpeg::avformat
+        FFmpeg::avfilter)
 
 add_subdirectory(3rd/QtAES)
 

@@ -32,7 +32,6 @@ Item {
         if(keyTime.running){
             if (1 === keyItem.isPressed) {
                 keyItem.isPressed = 0;
-                keyItem.clicked();
                 keyItem.doubleClicked();
                 keyTime.stop();
             }
