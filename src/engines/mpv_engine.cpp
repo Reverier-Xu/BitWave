@@ -114,6 +114,10 @@ void MpvEngine::setProperty(const QString &name, const QVariant &value) {
     mpv::qt::set_property_variant(mpv, name, value);
 }
 
+void MpvEngine::setOption(const QString &name, const QVariant &value) {
+    mpv::qt::set_option_variant(mpv, name, value);
+}
+
 QVariant MpvEngine::getProperty(const QString &name) const {
     return mpv::qt::get_property_variant(mpv, name);
 }

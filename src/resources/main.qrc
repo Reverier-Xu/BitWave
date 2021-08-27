@@ -48,10 +48,12 @@
     <file>assets/folder-open.svg</file>
     <file>assets/folder.svg</file>
     <file>assets/future.svg</file>
+    <file>assets/gamma.svg</file>
     <file>assets/handshake.svg</file>
     <file>assets/headset.svg</file>
     <file>assets/history.svg</file>
     <file>assets/home.svg</file>
+    <file>assets/hue.svg</file>
     <file>assets/language.svg</file>
     <file>assets/left.svg</file>
     <file>assets/like-big.svg</file>
@@ -95,12 +97,14 @@
     <file>assets/restore.svg</file>
     <file>assets/ribbon.svg</file>
     <file>assets/right.svg</file>
+    <file>assets/saturation.svg</file>
     <file>assets/search.svg</file>
     <file>assets/send.svg</file>
     <file>assets/settings.svg</file>
     <file>assets/shifts.svg</file>
     <file>assets/simulation.svg</file>
     <file>assets/star.svg</file>
+    <file>assets/sun-big.svg</file>
     <file>assets/sun.svg</file>
     <file>assets/theme.svg</file>
     <file>assets/up.svg</file>

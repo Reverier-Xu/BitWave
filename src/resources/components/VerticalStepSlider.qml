@@ -48,7 +48,7 @@ Rectangle {
         Behavior on y {
             NumberAnimation {
                 duration: 200
-                easing.type: Easing.OutQuad
+                easing.type: Easing.OutExpo
             }
         }
     }

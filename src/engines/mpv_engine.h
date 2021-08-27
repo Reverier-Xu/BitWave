@@ -49,6 +49,8 @@ class MpvEngine : public QObject {
 
     Q_INVOKABLE void setProperty(const QString &name, const QVariant &value);
 
+    Q_INVOKABLE void setOption(const QString &name, const QVariant &value);
+
     [[nodiscard]] Q_INVOKABLE QVariant getProperty(const QString &name) const;
 
     Q_INVOKABLE void playMedia(const QString &path);

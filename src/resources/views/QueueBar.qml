@@ -25,7 +25,11 @@ Rectangle {
 
     StackLayout {
         id: layout
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        width: 360
+        clip: true
         currentIndex: display.queueBarIndex
 
         PlayerToolBox { }

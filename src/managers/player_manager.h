@@ -55,6 +55,10 @@ Q_OBJECT
                        WRITE setCoverColor NOTIFY coverColorChanged)
     Q_PROPERTY(bool isReady MEMBER mIsReady READ isReady WRITE setIsReady NOTIFY isReadyChanged)
     Q_PROPERTY(int lightness MEMBER mLightness READ lightness WRITE setLightness NOTIFY lightnessChanged)
+    Q_PROPERTY(int contrast MEMBER mContrast READ contrast WRITE setContrast NOTIFY contrastChanged)
+    Q_PROPERTY(int saturation MEMBER mSaturation READ saturation WRITE setSaturation NOTIFY saturationChanged)
+    Q_PROPERTY(int gamma MEMBER mGamma READ gamma WRITE setGamma NOTIFY gammaChanged)
+    Q_PROPERTY(int hue MEMBER mHue READ hue WRITE setHue NOTIFY hueChanged)
 private:
     bool mCurrentMediaIsVideo = false;
     bool mIsPlaying = false;
@@ -64,6 +68,10 @@ private:
     bool mIsMuted = false;
     bool mIsReady = false;
     int mLightness = 0;
+    int mContrast = 0;
+    int mSaturation = 0;
+    int mGamma = 0;
+    int mHue = 0;
     QString mCurrentMediaUrl = "";
     QString mCurrentMediaTitle = tr("No media");
     QString mCurrentMediaArtist = tr("No artist");
@@ -163,8 +171,56 @@ public:
     [[nodiscard]] int lightness() const { return this->mLightness; }
 
     void setLightness(int n) {
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
+        
         this->mLightness = n;
+        this->mEngine->setOption("contrast", n);
         emit this->lightnessChanged(n);
+    }
+
+    [[nodiscard]] int contrast() const { return this->mContrast; }
+
+    void setContrast(int n) {
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
+        
+        this->mContrast = n;
+        this->mEngine->setOption("contrast", n);
+        emit this->contrastChanged(n);
+    }
+
+    [[nodiscard]] int saturation() const { return this->mSaturation; }
+
+    void setSaturation(int n) {
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
+        
+        this->mSaturation = n;
+        this->mEngine->setOption("saturation", n);
+        emit this->saturationChanged(n);
+    }
+
+    [[nodiscard]] int gamma() const { return this->mGamma; }
+
+    void setGamma(int n) {
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
+        
+        this->mGamma = n;
+        this->mEngine->setOption("gamma", n);
+        emit this->gammaChanged(n);
+    }
+
+    [[nodiscard]] int hue() const { return this->mHue; }
+
+    void setHue(int n) {
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
+        
+        this->mHue = n;
+        this->mEngine->setOption("hue", n);
+        emit this->hueChanged(n);
     }
 
     [[nodiscard]] QString currentMediaUrl() const {
@@ -339,5 +395,13 @@ signals:
     void showTips(const QString &icon, const QString &info);
 
     void lightnessChanged(int n);
+
+    void contrastChanged(int n);
+
+    void saturationChanged(int n);
+
+    void gammaChanged(int n);
+
+    void hueChanged(int n);
 };
 

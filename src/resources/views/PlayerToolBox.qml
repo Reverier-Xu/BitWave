@@ -16,6 +16,8 @@ Rectangle {
     }
 
     Flickable {
+        contentWidth: parent.width
+        contentHeight: endLine.y + 25
         anchors.top: queueTitle.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -194,8 +196,11 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 15
             radius: width / 2
-            icon: "qrc:/assets/sun.svg"
+            icon: "qrc:/assets/sun-big.svg"
             iconSize: 24
+            onClicked: {
+                player.lightness = 0;
+            }
         }
 
         HorizontalStepSlider {
@@ -213,95 +218,157 @@ Rectangle {
             }
         }
 
+        IconButton {
+            id: contrastButton
+            width: 42
+            height: width
+            flat: true
+            anchors.top: lightnessButton.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            radius: width / 2
+            icon: "qrc:/assets/theme.svg"
+            iconSize: 24
+            onClicked: {
+                player.contrast = 0;
+            }
+        }
 
-        // RadioButton {
-        //     id: repeatAllPlayModeButton
-        //     anchors.top: playModeTipsLabel.bottom
-        //     flat: true
-        //     height: 32
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: 15
-        //     anchors.right: parent.right
-        //     anchors.rightMargin: 15
-        //     anchors.topMargin: 5
-        //     text: qsTr("Repeat All")
-        //     icon: "qrc:/assets/play-repeat-all.svg"
-        //     chose: queue.playMode === 0
-        //     onClicked: {
-        //         queue.playMode = 0;
-        //     }
-        // }
+        HorizontalStepSlider {
+            id: contrastSlider
+            anchors.verticalCenter: contrastButton.verticalCenter
+            anchors.left: contrastButton.right
+            anchors.right: parent.right
+            anchors.leftMargin: 6
+            anchors.rightMargin: 25
+            currentValue: player.contrast
+            maxValue: 100
+            minValue: -100
+            onEndDragging: {
+                player.contrast = finalValue;
+            }
+        }
 
-        // RadioButton {
-        //     id: repeatOnePlayModeButton
-        //     anchors.top: repeatAllPlayModeButton.bottom
-        //     flat: true
-        //     height: 32
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: 15
-        //     anchors.right: parent.right
-        //     anchors.rightMargin: 15
-        //     anchors.topMargin: 5
-        //     text: qsTr("Repeat One")
-        //     icon: "qrc:/assets/play-repeat-one.svg"
-        //     chose: queue.playMode === 1
-        //     onClicked: {
-        //         queue.playMode = 1;
-        //     }
-        // }
+        IconButton {
+            id: saturationButton
+            width: 42
+            height: width
+            flat: true
+            anchors.top: contrastButton.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            radius: width / 2
+            icon: "qrc:/assets/saturation.svg"
+            iconSize: 24
+            onClicked: {
+                player.saturation = 0;
+            }
+        }
 
-        // RadioButton {
-        //     id: randomPlayModeButton
-        //     anchors.top: repeatOnePlayModeButton.bottom
-        //     flat: true
-        //     height: 32
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: 15
-        //     anchors.right: parent.right
-        //     anchors.rightMargin: 15
-        //     anchors.topMargin: 5
-        //     text: qsTr("Random")
-        //     icon: "qrc:/assets/play-random.svg"
-        //     chose: queue.playMode === 2
-        //     onClicked: {
-        //         queue.playMode = 2;
-        //     }
-        // }
+        HorizontalStepSlider {
+            id: saturationSlider
+            anchors.verticalCenter: saturationButton.verticalCenter
+            anchors.left: saturationButton.right
+            anchors.right: parent.right
+            anchors.leftMargin: 6
+            anchors.rightMargin: 25
+            currentValue: player.saturation
+            maxValue: 100
+            minValue: -100
+            onEndDragging: {
+                player.saturation = finalValue;
+            }
+        }
 
-        // RadioButton {
-        //     id: orderPlayModeButton
-        //     anchors.top: randomPlayModeButton.bottom
-        //     flat: true
-        //     height: 32
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: 15
-        //     anchors.right: parent.right
-        //     anchors.rightMargin: 15
-        //     anchors.topMargin: 5
-        //     text: qsTr("Play in order")
-        //     icon: "qrc:/assets/play-order.svg"
-        //     chose: queue.playMode === 3
-        //     onClicked: {
-        //         queue.playMode = 3;
-        //     }
-        // }
+        IconButton {
+            id: gammaButton
+            width: 42
+            height: width
+            flat: true
+            anchors.top: saturationButton.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            radius: width / 2
+            icon: "qrc:/assets/gamma.svg"
+            iconSize: 24
+            onClicked: {
+                player.gamma = 0;
+            }
+        }
 
-        // RadioButton {
-        //     id: reversePlayModeButton
-        //     anchors.top: orderPlayModeButton.bottom
-        //     flat: true
-        //     height: 32
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: 15
-        //     anchors.right: parent.right
-        //     anchors.rightMargin: 15
-        //     anchors.topMargin: 5
-        //     text: qsTr("Reverse")
-        //     icon: "qrc:/assets/play-reverse.svg"
-        //     chose: queue.playMode === 4
-        //     onClicked: {
-        //         queue.playMode = 4;
-        //     }
-        // }
+        HorizontalStepSlider {
+            id: gammaSlider
+            anchors.verticalCenter: gammaButton.verticalCenter
+            anchors.left: gammaButton.right
+            anchors.right: parent.right
+            anchors.leftMargin: 6
+            anchors.rightMargin: 25
+            currentValue: player.gamma
+            maxValue: 100
+            minValue: -100
+            onEndDragging: {
+                player.gamma = finalValue;
+            }
+        }
+
+        IconButton {
+            id: hueButton
+            width: 42
+            height: width
+            flat: true
+            anchors.top: gammaButton.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            radius: width / 2
+            icon: "qrc:/assets/hue.svg"
+            iconSize: 24
+            onClicked: {
+                player.hue = 0;
+            }
+        }
+
+        HorizontalStepSlider {
+            id: hueSlider
+            anchors.verticalCenter: hueButton.verticalCenter
+            anchors.left: hueButton.right
+            anchors.right: parent.right
+            anchors.leftMargin: 6
+            anchors.rightMargin: 25
+            currentValue: player.hue
+            maxValue: 100
+            minValue: -100
+            onEndDragging: {
+                player.hue = finalValue;
+            }
+        }
+
+        TextLabel {
+            id: displayTipsLabel
+            text: qsTr("DISPLAY OPTIONS")
+            showIcon: false
+            fontSize: 18
+            bold: true
+            contentColor: display.contentColor
+            height: 32
+            anchors.top: hueButton.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 25
+        }
+
+
+
+        Rectangle {
+            id: endLine
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: displayTipsLabel.bottom
+            anchors.topMargin: 25
+            width: parent.width - 100
+            height: 1
+            color: "#80808080"
+        }
     }
 }

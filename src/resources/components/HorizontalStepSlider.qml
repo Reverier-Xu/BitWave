@@ -45,10 +45,10 @@ Rectangle {
             }
         }
         x: ((root.width - 16) * (root.dragValue - root.minValue) / (root.maxValue - root.minValue))
-        Behavior on y {
+        Behavior on x {
             NumberAnimation {
                 duration: 200
-                easing.type: Easing.OutQuad
+                easing.type: Easing.OutExpo
             }
         }
     }
