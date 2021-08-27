@@ -57,7 +57,6 @@
     <file>assets/like-big.svg</file>
     <file>assets/link.svg</file>
     <file>assets/list.svg</file>
-    <file>assets/loading.svg</file>
     <file>assets/location.svg</file>
     <file>assets/lock.svg</file>
     <file>assets/logo-fill.svg</file>
@@ -109,6 +108,7 @@
     <file>assets/volume-1.svg</file>
     <file>assets/volume-2.svg</file>
     <file>assets/volume-3.svg</file>
+    <file>assets/warning.svg</file>
     <file>components/ActiveTab.qml</file>
     <file>components/Breadcrumb.qml</file>
     <file>components/CircleSliderArea.qml</file>
@@ -117,6 +117,7 @@
     <file>components/ControlButton.qml</file>
     <file>components/KeyTapEvent.qml</file>
     <file>components/FluentWindow.qml</file>
+    <file>components/HorizontalStepSlider.qml</file>
     <file>components/IconButton.qml</file>
     <file>components/InputArea.qml</file>
     <file>components/InputBox.qml</file>
@@ -137,6 +138,7 @@
     <file>components/TextLabel.qml</file>
     <file>components/TimeButton.qml</file>
     <file>components/UXScrollBar.qml</file>
+    <file>components/VerticalStepSlider.qml</file>
     <file>views/ControlBar.qml</file>
     <file>views/MainWindow.qml</file>
     <file>views/PageStack.qml</file>

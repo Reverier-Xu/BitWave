@@ -129,5 +129,40 @@ FluentWindow {
             anchors.top: titleBar.bottom
             anchors.bottom: controlBar.top
         }
+
+        TextLabel {
+            id: tipsLabel
+            anchors.centerIn: parent
+            radius: 4
+            height: 64
+            color: display.colorStyle ? "#c0ffffff" : "#c0000000"
+            iconSize: 32
+            fontSize: 24
+            opacity: 0
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 300;
+                }
+            }
+
+            Timer {
+                id: fadeTimer
+                interval: 800
+                onTriggered: {
+                    tipsLabel.opacity = 0;
+                }
+            }
+
+            Connections {
+                target: display
+                function onShowTips(icon, info) {
+                    tipsLabel.icon = icon;
+                    tipsLabel.text = info;
+                    tipsLabel.opacity = 1;
+                    fadeTimer.restart();
+                }
+            }
+        }
     }
 }

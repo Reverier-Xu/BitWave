@@ -157,11 +157,12 @@ void PlayerManager::handlePlayQueueEnded() {
 
 void PlayerManager::userDragHandler(double t) {
     this->mEngine->setTimePos(t);
-    emit this->showVideoTips("qrc:/assets/play-large.svg", TimeHelper::getTimeString(t));
+    if (this->isMediaLoaded() && this->currentMediaIsVideo())
+        emit this->showTips("qrc:/assets/play-large.svg", TimeHelper::getTimeString(t));
 }
 
 void PlayerManager::play(const Media &m) {
-    // qDebug() << "playing: " << m.title();
+    qDebug() << "Current Media:" << m.title();
 
     // MemoryHelper::assertMemory("PlayerManager::play");
 
@@ -183,14 +184,14 @@ void PlayerManager::play(const Media &m) {
 void PlayerManager::pause() {
     this->mEngine->pause();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showVideoTips(QString("qrc:/assets/pause-large.svg"), tr("Paused"));
+            emit this->showTips(QString("qrc:/assets/pause-large.svg"), tr("Paused"));
     // qDebug() << "paused";
 }
 
 void PlayerManager::resume() {
     this->mEngine->resume();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showVideoTips(QString("qrc:/assets/play-large.svg"), tr("Resumed"));
+            emit this->showTips(QString("qrc:/assets/play-large.svg"), tr("Resumed"));
     // qDebug() << "resumed";
 }
 
@@ -204,6 +205,7 @@ void PlayerManager::stop() {
 
 void PlayerManager::playUrl(const QString &m) {
     // MemoryHelper::assertMemory("PlayerManager::playUrl");
+    qDebug() << "Playing URL:" << m;
     this->mEngine->playMedia(m);
 }
 
@@ -218,6 +220,7 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
         this->setIsMediaLoading(false);
         this->mEngine->resume(); // prevent show video tips.
     } else {
+        this->showTips("qrc:/assets/warning.svg", "Play Failed");
         QueueManager::instance(this->parent())->next();
     }
 }

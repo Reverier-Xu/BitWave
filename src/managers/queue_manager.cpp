@@ -138,6 +138,7 @@ void QueueManager::next() {
         // this->clearQueue();
         this->mQueueEnded = true;
         emit this->playQueueEnded();
+        emit this->showTips("qrc:/assets/current.svg", tr("Finished"));
     }
     // MemoryHelper::assertMemory("QueueManager::next End");
 }
@@ -173,7 +174,10 @@ void QueueManager::saveSettings() {
 void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady Begin");
     this->clearQueue();
-    if (!ok) return;
+    if (!ok) {
+        emit this->showTips("qrc:/assets/warning.svg", tr("Open Failed"));
+        return;
+    }
     this->mMainQueue.enqueue(media);
     this->next();
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady End");

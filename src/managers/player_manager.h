@@ -54,6 +54,7 @@ Q_OBJECT
     Q_PROPERTY(QColor coverColor MEMBER mCoverColor READ coverColor
                        WRITE setCoverColor NOTIFY coverColorChanged)
     Q_PROPERTY(bool isReady MEMBER mIsReady READ isReady WRITE setIsReady NOTIFY isReadyChanged)
+    Q_PROPERTY(int lightness MEMBER mLightness READ lightness WRITE setLightness NOTIFY lightnessChanged)
 private:
     bool mCurrentMediaIsVideo = false;
     bool mIsPlaying = false;
@@ -62,6 +63,7 @@ private:
     double mVolume = 1.0;
     bool mIsMuted = false;
     bool mIsReady = false;
+    int mLightness = 0;
     QString mCurrentMediaUrl = "";
     QString mCurrentMediaTitle = tr("No media");
     QString mCurrentMediaArtist = tr("No artist");
@@ -143,7 +145,7 @@ public:
         emit this->volumeChanged(n);
 
         if (this->isMediaLoaded() && this->currentMediaIsVideo())
-                emit this->showVideoTips(QString("qrc:/assets/volume-%1.svg").arg(3),
+                emit this->showTips(QString("qrc:/assets/volume-%1.svg").arg(3),
                                          QString::asprintf("%02.1f%%", n * 100));
     }
 
@@ -154,8 +156,15 @@ public:
         this->mEngine->setMute(n);
         emit this->isMutedChanged(n);
         if (this->isMediaLoaded() && this->currentMediaIsVideo())
-                emit this->showVideoTips(QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
+                emit this->showTips(QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
                                          n ? tr("Muted") : tr("UnMuted"));
+    }
+
+    [[nodiscard]] int lightness() const { return this->mLightness; }
+
+    void setLightness(int n) {
+        this->mLightness = n;
+        emit this->lightnessChanged(n);
     }
 
     [[nodiscard]] QString currentMediaUrl() const {
@@ -327,6 +336,8 @@ signals:
 
     void isReadyChanged(bool n);
 
-    void showVideoTips(const QString &icon, const QString &info);
+    void showTips(const QString &icon, const QString &info);
+
+    void lightnessChanged(int n);
 };
 

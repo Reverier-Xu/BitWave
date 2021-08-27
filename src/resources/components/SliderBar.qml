@@ -9,6 +9,18 @@ Rectangle {
     height: 16
     color: "transparent"
 
+    Behavior on color {
+        ColorAnimation {
+            duration: 200
+        }
+    }
+
+    Behavior on lineHeight {
+        NumberAnimation {
+            duration: 200
+        }
+    }
+
     signal startDragging();
     signal endDragging(double finalValue);
 
@@ -56,7 +68,17 @@ Rectangle {
         radius: 8
         color: "transparent"
         border.width: 4
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         border.color: display.themeColor
+        Behavior on border.color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         anchors.verticalCenter: parent.verticalCenter
         x: (root.width - 16) * currentValue
     }
@@ -67,8 +89,18 @@ Rectangle {
         height: 16
         radius: 8
         color: "transparent"
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         border.width: 4
         border.color: display.alertColor
+        Behavior on border.color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
         anchors.verticalCenter: parent.verticalCenter
         visible: root.onDragging
         x: (root.width - 16) * dragValue
@@ -177,9 +209,6 @@ Rectangle {
         State {
             name: "Pressed"
             PropertyChanges {
-                target: root
-            }
-            PropertyChanges {
                 target: currentProgressPoint
                 color: border.color
             }
@@ -191,36 +220,6 @@ Rectangle {
             PropertyChanges {
                 target: root
                 lineHeight: 4
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            ColorAnimation { duration: 200 }
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
-            }
-        },
-        Transition {
-            from: "*"; to: "Pressed"
-            ColorAnimation { duration: 200 }
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
-            }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            ColorAnimation { duration: 200 }
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
             }
         }
     ]

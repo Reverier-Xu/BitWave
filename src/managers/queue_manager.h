@@ -174,4 +174,6 @@ signals:
     void playExternMediaRequested(const QString& path);
 
     void playQueueEnded();
+
+    void showTips(const QString &icon, const QString &info);
 };

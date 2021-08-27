@@ -42,6 +42,14 @@ DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
         this->setSideBarExpanded(true);
     });
 
+    connect(PlayerManager::instance(), &PlayerManager::showTips, [=](const QString &icon, const QString &info) {
+        emit this->showTips(icon, info);
+    });
+
+    connect(QueueManager::instance(), &QueueManager::showTips, [=](const QString &icon, const QString &info) {
+        emit this->showTips(icon, info);
+    });
+
     this->loadSettings();
 }
 

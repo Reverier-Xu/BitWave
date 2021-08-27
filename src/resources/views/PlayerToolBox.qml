@@ -25,7 +25,7 @@ Rectangle {
 
         TextLabel {
             id: volumeTipsLabel
-            text: "Volume"
+            text: "VOLUME"
             fontSize: 18
             bold: true
             showIcon: false
@@ -70,7 +70,7 @@ Rectangle {
 
         TextLabel {
             id: playModeTipsLabel
-            text: qsTr("Play Mode")
+            text: qsTr("PLAY MODE")
             showIcon: false
             fontSize: 18
             bold: true
@@ -168,6 +168,48 @@ Rectangle {
             iconSize: 24
             onClicked: {
                 queue.playMode = 4;
+            }
+        }
+
+        TextLabel {
+            id: equalizerTipsLabel
+            text: qsTr("EQUALIZER")
+            showIcon: false
+            fontSize: 18
+            bold: true
+            contentColor: display.contentColor
+            height: 32
+            anchors.top: randomPlayModeButton.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 25
+        }
+
+        IconButton {
+            id: lightnessButton
+            width: 42
+            height: width
+            flat: true
+            anchors.top: equalizerTipsLabel.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            radius: width / 2
+            icon: "qrc:/assets/sun.svg"
+            iconSize: 24
+        }
+
+        HorizontalStepSlider {
+            id: lightnessSlider
+            anchors.verticalCenter: lightnessButton.verticalCenter
+            anchors.left: lightnessButton.right
+            anchors.right: parent.right
+            anchors.leftMargin: 6
+            anchors.rightMargin: 25
+            currentValue: player.lightness
+            maxValue: 100
+            minValue: -100
+            onEndDragging: {
+                player.lightness = finalValue;
             }
         }
 

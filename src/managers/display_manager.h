@@ -204,4 +204,6 @@ signals:
     void showWindowRequested();
 
     void contentColorChanged(QColor n);
+
+    void showTips(const QString &icon, const QString &info);
 };
