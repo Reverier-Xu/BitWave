@@ -13,7 +13,7 @@
 #include "display_manager.h"
 #include "player_manager.h"
 
-DisplayManager* DisplayManager::mInstance = nullptr;
+DisplayManager *DisplayManager::mInstance = nullptr;
 
 DisplayManager *DisplayManager::instance(QObject *parent) {
     if (mInstance == nullptr) mInstance = new DisplayManager(parent);
@@ -25,12 +25,12 @@ DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
     this->hideTimer->setInterval(1000);
 
     connect(this->hideTimer, &QTimer::timeout, [=]() {
-        if(PlayerManager::instance()->currentMediaIsVideo() && this->pageIndex() == 0)
+        if (PlayerManager::instance()->currentMediaIsVideo() && this->pageIndex() == 0)
             this->setMouseIsActive(false);
     });
 
     connect(this, &DisplayManager::pageIndexChanged, [=](int index) {
-        if(index == 0) {
+        if (index == 0) {
             this->delayedHide();
         } else {
             this->blockDelayedHide();
@@ -40,6 +40,10 @@ DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
     connect(QueueManager::instance(this->parent()), &QueueManager::playQueueEnded, [=]() {
         this->setMouseIsActive(true);
         this->setSideBarExpanded(true);
+    });
+
+    connect(PlayerManager::instance(), &PlayerManager::currentMediaIsVideoChanged, this, [=](bool n) {
+        if (!n) this->setMouseIsActive(true);
     });
 
     connect(PlayerManager::instance(), &PlayerManager::showTips, [=](const QString &icon, const QString &info) {

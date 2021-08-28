@@ -177,7 +177,9 @@ void PlayerManager::play(const Media &m) {
 
     emit this->mediaCoverRequired(m);
     emit this->mediaParseRequired(m);
-    if (m.type() == AUDIO) emit this->mediaLyricsRequired(m);
+    if (m.type() == AUDIO) {
+        emit this->mediaLyricsRequired(m);
+    }
     // qDebug() << "mediaParseRequired is emitted.";
 }
 
