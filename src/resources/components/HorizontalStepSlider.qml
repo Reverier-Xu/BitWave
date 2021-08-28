@@ -69,8 +69,8 @@ Rectangle {
         height: lineHeight
         anchors.left: dragValue < 0 ? dragger.right : sourcePoint.right
         anchors.right: dragValue < 0 ? sourcePoint.left : dragger.left
-        anchors.leftMargin: 4
-        anchors.rightMargin: 4
+        anchors.leftMargin: dragValue < 0 ? 4 : 8
+        anchors.rightMargin: dragValue < 0 ? 8 : 4
         color: display.themeColor
         radius: height / 2
     }
@@ -81,7 +81,7 @@ Rectangle {
         height: lineHeight
         anchors.left: parent.left
         anchors.right: dragValue < 0 ? dragger.left : sourcePoint.left
-        anchors.rightMargin: 4
+        anchors.rightMargin: dragValue < 0 ? 4 : 8
         color: "#80808080"
         radius: height / 2
     }
@@ -92,7 +92,7 @@ Rectangle {
         height: lineHeight
         anchors.left: dragValue > 0 ? dragger.right : sourcePoint.right
         anchors.right: parent.right
-        anchors.leftMargin: 4
+        anchors.leftMargin: dragValue > 0 ? 4 : 8
         color: "#80808080"
         radius: width / 2
     }

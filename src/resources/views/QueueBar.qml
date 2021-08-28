@@ -4,7 +4,7 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: display.colorStyle? "#e0e0e0e0" : "#e0151515"
+    color: display.colorStyle? "#f0e0e0e0" : "#f0151515"
     width: 360
     clip: true
     property bool expanded: display.queueBarExpanded && display.mouseIsActive
