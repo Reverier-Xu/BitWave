@@ -22,6 +22,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        clip: true
 
         ScrollBar.vertical: UXScrollBar { }
 
@@ -371,4 +372,16 @@ Rectangle {
             color: "#80808080"
         }
     }
+
+    // HoverHandler {
+    //     onHoveredChanged: {
+    //         if (hovered) {
+    //             console.log("hovered");
+    //             display.blockDelayedHide();
+    //         } else {
+    //             console.log("unhovered");
+    //             display.delayedHide();
+    //         }
+    //     }
+    // }
 }

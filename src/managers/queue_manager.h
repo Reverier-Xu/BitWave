@@ -12,6 +12,7 @@
 #include <QStack>
 
 #include "models/media.h"
+#include "models/ui/media_queue_model.h"
 #include "base_manager.h"
 #include "utilities/memory_helper.h"
 
@@ -23,7 +24,7 @@ Q_OBJECT
                        playModeIconChanged)
     Q_PROPERTY(int addMediaMode MEMBER mAddMediaMode READ addMediaMode WRITE setAddMediaMode NOTIFY
                        addMediaModeChanged)
-    Q_PROPERTY(unsigned int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos NOTIFY queuePosChanged)
+    Q_PROPERTY(int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos NOTIFY queuePosChanged)
     Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName NOTIFY playModeNameChanged)
     Q_PROPERTY(Media currentMedia READ currentMedia WRITE setCurrentMedia NOTIFY currentMediaChanged)
 private:
@@ -34,6 +35,7 @@ private:
     QStack<int> mHistoryStack;
     int mAddMediaMode = 0;
     bool mQueueEnded = false;
+    MediaQueueModel *mQueueModel;
 
 protected:
     static QueueManager *mInstance;
@@ -77,6 +79,8 @@ public:
     }
 
     [[nodiscard]] const QQueue<Media> &mainQueue() const { return this->mMainQueue; }
+
+    [[nodiscard]] MediaQueueModel *getQueueModel() const { return this->mQueueModel; }
 
     void setPlayModeIcon(const QUrl &icon) {
         emit this->playModeIconChanged(this->playModeIcon());

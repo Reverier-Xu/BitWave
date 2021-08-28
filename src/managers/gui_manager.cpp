@@ -41,6 +41,8 @@ void GuiManager::exportManagers() {
             "queue", QueueManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
             "lyricsModel", PlayerManager::instance()->getLyricsModel());
+    this->mUiEngine->rootContext()->setContextProperty(
+            "mainQueueModel", QueueManager::instance()->getQueueModel());
 }
 
 GuiManager *GuiManager::instance(QObject *parent) {

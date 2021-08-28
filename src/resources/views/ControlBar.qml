@@ -82,37 +82,42 @@ Rectangle {
         TextMetrics {
             id: mediaTitleMetrics
             elide: Text.ElideRight
-            font.pixelSize: 32
+            font.pixelSize: 16
             text: player.currentMediaTitle
-            elideWidth: previousButton.x - avatarContainer.x - avatarContainer.width
+            elideWidth: mediaTitle.width
         }
 
-        TextLabel {
+        Text {
             id: mediaTitle
             anchors.left: avatarContainer.right
-            anchors.leftMargin: 12
-            anchors.top: avatarContainer.top
+            anchors.leftMargin: 18
+            anchors.right: previousButton.left
+            anchors.rightMargin: 25
             anchors.bottom: avatarContainer.verticalCenter
-            showIcon: false
+            anchors.bottomMargin: (parent.height / 2 - height) / 3.5
+            color: display.contentColor
+            font.pixelSize: 16
             text: mediaTitleMetrics.elidedText
         }
 
         TextMetrics {
             id: mediaArtistMetrics
             elide: Text.ElideRight
-            font.pixelSize: 32
+            font.pixelSize: 16
             text: player.currentMediaArtist
-            elideWidth: previousButton.x - avatarContainer.x - avatarContainer.width
+            elideWidth: mediaArtist.width
         }
 
-        TextLabel {
+        Text {
             id: mediaArtist
             anchors.left: avatarContainer.right
-            anchors.leftMargin: 12
+            anchors.leftMargin: 18
+            anchors.right: previousButton.left
+            anchors.rightMargin: 25
             anchors.top: avatarContainer.verticalCenter
-            anchors.bottom: avatarContainer.bottom
-            contentColor: "#808080"
-            showIcon: false
+            anchors.topMargin: (parent.height / 2 - height) / 3.5
+            color: "#808080"
+            font.pixelSize: 16
             text: mediaArtistMetrics.elidedText
         }
 
@@ -304,10 +309,10 @@ Rectangle {
     HoverHandler {
         onHoveredChanged: {
             if (hovered) {
-                // console.log("hovered");
+                // console.log("control hovered");
                 display.blockDelayedHide();
             } else {
-                // console.log("unhovered");
+                // console.log("control unhovered");
                 display.delayedHide();
             }
         }

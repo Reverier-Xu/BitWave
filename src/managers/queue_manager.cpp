@@ -8,6 +8,9 @@
 QueueManager *QueueManager::mInstance = nullptr;
 
 QueueManager::QueueManager(QObject *parent) : BaseManager(parent) {
+    this->mQueueModel = new MediaQueueModel(this);
+    this->mQueueModel->setMediaQueue(&this->mMainQueue);
+    // qDebug() << this->mQueueModel->rowCount(QModelIndex());
     this->loadSettings();
     this->connectSignals();
     // test area.
@@ -54,23 +57,26 @@ void QueueManager::addMedia(const Media &media) {
 void QueueManager::addMediaAtHead(const Media &media) {
     this->mMainQueue.insert(this->queuePos(), media);
     this->setQueuePos(this->queuePos()); // playing the new media now.
+    this->mQueueModel->reloadQueue();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::addMediaAtNext(const Media &media) { // not support at random mode.
     this->mMainQueue.insert(this->queuePos() + 1, media);
+    this->mQueueModel->reloadQueue();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::addMediaAtTail(const Media &media) {
     this->mMainQueue.enqueue(media);
+    this->mQueueModel->reloadQueue();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::playExternMedia(const QString &path) {
     // qDebug() << "Extern Media Requested: " << path;
     // MemoryHelper::assertMemory("QueueManager::playExternMedia");
-    this->setPlayMode(3);
+    // this->setPlayMode(3);
     emit this->playExternMediaRequested(path);
 }
 
@@ -83,6 +89,7 @@ void QueueManager::removeMedia(int index) {
         this->setQueuePos(index); // stop current media and playing next one.
     }
 
+    this->mQueueModel->reloadQueue();
     emit this->mediaQueueChanged();
 }
 
@@ -145,8 +152,8 @@ void QueueManager::next() {
 
 void QueueManager::previous() {
     if (this->mHistoryStack.count() > 0 and
-            this->mHistoryStack.top() < this->mMainQueue.count() and
-            this->mHistoryStack.top() >= 0) {
+        this->mHistoryStack.top() < this->mMainQueue.count() and
+        this->mHistoryStack.top() >= 0) {
         this->setQueuePos(this->mHistoryStack.top());
         this->mHistoryStack.pop();
     } else {
@@ -173,13 +180,14 @@ void QueueManager::saveSettings() {
 
 void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady Begin");
-    this->clearQueue();
+    // this->clearQueue();
     if (!ok) {
         emit this->showTips("qrc:/assets/warning.svg", tr("Open Failed"));
         return;
     }
     this->mMainQueue.enqueue(media);
-    this->next();
+    this->mQueueModel->reloadQueue();
+    this->setQueuePos(this->mainQueue().count() - 1);
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady End");
 }
 

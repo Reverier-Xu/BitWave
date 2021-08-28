@@ -4,10 +4,10 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: display.colorStyle? "#e0e0e0" : "#151515"
+    color: display.colorStyle? "#e0e0e0e0" : "#e0151515"
     width: 360
     clip: true
-    property bool expanded: display.queueBarExpanded
+    property bool expanded: display.queueBarExpanded && display.mouseIsActive
     state: expanded? "Expanded" : "Folded"
 
     Behavior on width {
@@ -53,4 +53,16 @@ Rectangle {
             }
         }
     ]
+
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                // console.log("Queue hovered");
+                display.blockDelayedHide();
+            } else {
+                // console.log("Queue unhovered");
+                display.delayedHide();
+            }
+        }
+    }
 }
