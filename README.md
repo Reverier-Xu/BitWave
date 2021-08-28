@@ -8,7 +8,7 @@
 
 developing env requirements:
 ```
-$ sudo pacman -Syu mpv qt5 kf5 ffmpeg cmake
+$ sudo pacman -Syu mpv qt5 ffmpeg cmake
 ```
 
 ```
