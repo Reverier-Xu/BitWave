@@ -20,6 +20,7 @@ Rectangle {
         horizontalAlignment: TextEdit.AlignHCenter
         verticalAlignment: TextEdit.AlignVCenter
         font.pixelSize: 16
+        wrapMode: TextEdit.Wrap
         // font.bold: root.isActive
         color: root.isActive ? display.contentColor : "#808080"
 

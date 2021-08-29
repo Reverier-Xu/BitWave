@@ -3,10 +3,11 @@
 //
 
 #include "color_helper.h"
+
 #include <QColor>
+#include <QDebug>
 #include <QPoint>
 #include <QtMath>
-#include <QDebug>
 
 using namespace ColorHelper;
 
@@ -21,12 +22,11 @@ struct Clust {
 };
 
 int getColorDis(const QColor &a, const QColor &b) {
-    return (int) sqrt((a.red() - b.red()) +
-                      (a.blue() - b.blue()) +
-                      (a.green() - b.green()));
+    return (int) sqrt((a.red() - b.red()) + (a.blue() - b.blue()) + (a.green() - b.green()));
 }
 
-QColor ColorHelper::getImageThemeColor(const QImage &image) {
+QColor
+ColorHelper::getImageThemeColor(const QImage &image) {
     const int CLUST_NUM = 25;
 
     int width = image.width(), height = image.height();
@@ -69,9 +69,9 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
             }
         }
 
-        for (auto &centerClust:vec) {
+        for (auto &centerClust : vec) {
             int avgR = 0, avgG = 0, avgB = 0;
-            for (auto &item:centerClust.buff) {
+            for (auto &item : centerClust.buff) {
                 avgR += item.color.red();
                 avgG += item.color.green();
                 avgB += item.color.blue();
@@ -82,7 +82,7 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
             QColor avgColor(avgR, avgG, avgB);
             int currentId = 0, minId = 0;
             double currentDis = MAXFLOAT, minDis = MAXFLOAT;
-            for (auto &item:centerClust.buff) {
+            for (auto &item : centerClust.buff) {
                 currentDis = getColorDis(item.color, avgColor);
                 if (currentDis < minDis) {
                     minId = currentId;
@@ -106,7 +106,7 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
             break;
         }
 
-        for (auto &clust:vec) {
+        for (auto &clust : vec) {
             clust.buff.clear();
             Node node;
             node.color = clust.center.color;
@@ -117,7 +117,7 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
 
     Clust *dst = vec;
     int max = 0;
-    for (auto &i:vec)
+    for (auto &i : vec)
         if (i.buff.count() > max) {
             if (i.center.color.lightness() < 80 || i.center.color.lightness() > 180)
                 continue;
@@ -130,6 +130,7 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
         res = res.lighter();
     while (res.lightness() > 180 and res.lightness() < 255)
         res = res.darker();
-    if (res.lightness() == 0 or res.lightness() == 255) res = QColor(0x80, 0x80, 0x80);
+    if (res.lightness() == 0 or res.lightness() == 255)
+        res = QColor(0x80, 0x80, 0x80);
     return res;
 }

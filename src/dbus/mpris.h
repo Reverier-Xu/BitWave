@@ -4,21 +4,23 @@
 
 namespace mpris {
 
-class Mpris1;
-class Mpris2;
+    class Mpris1;
 
-class Mpris : public QObject {
-  Q_OBJECT
+    class Mpris2;
 
- public:
-  explicit Mpris(QObject* parent = nullptr);
+    class Mpris : public QObject {
+    Q_OBJECT
 
- signals:
-  void RaiseMainWindow();
+    public:
+        explicit Mpris(QObject *parent = nullptr);
 
- private:
-  Mpris1* mpris1_;
-  Mpris2* mpris2_;
-};
+    signals:
 
-}  // namespace mpris
+        void RaiseMainWindow();
+
+    private:
+        Mpris1 *mpris1_;
+        Mpris2 *mpris2_;
+    };
+
+} // namespace mpris

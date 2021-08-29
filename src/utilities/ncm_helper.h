@@ -4,18 +4,26 @@
 
 #pragma once
 
+#include <QObject>
+#include <QString>
+
 #include "models/media.h"
 #include "qaesencryption.h"
-#include <QString>
-#include <QObject>
 
 namespace NcmHelper {
-    QString dump(const Media &media);
+    QString
+    dump(const Media &media);
 
     Media getMediaFromPath(const QString &path);
 
-    void getMetadataFrom163Key(Media& dst);
+    void getMetadataFrom163Key(Media &dst);
 
-    QString dumpMediaCover(const Media &media);
-};
+    QString
+    dumpMediaCover(const Media &media);
 
+    quint64
+    getMusicId(const QString &comment163Key);
+
+    QJsonObject
+    getMusicJsonInfo(const QString &comment163Key);
+}; // namespace NcmHelper

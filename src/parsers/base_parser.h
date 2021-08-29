@@ -6,6 +6,7 @@
 
 #include <QObject>
 #include <QUuid>
+
 #include "models/media.h"
 
 class BaseParser : public QObject {
@@ -14,11 +15,11 @@ private:
     QUuid mParserId = QUuid(nullptr);
 
 public:
-    explicit BaseParser(QObject *parent = nullptr) : QObject(parent) {}
-
-    BaseParser(const BaseParser &parser) {
-        this->setParent(parser.parent());
+    explicit BaseParser(QObject *parent = nullptr)
+            : QObject(parent) {
     }
+
+    BaseParser(const BaseParser &parser) { this->setParent(parser.parent()); }
 
     ~BaseParser() override = default;
 

@@ -3,8 +3,8 @@
 //
 
 #include <QApplication>
-#include <QIcon>
 #include <QFont>
+#include <QIcon>
 
 #ifdef __unix__
 
@@ -16,7 +16,7 @@
 #include "utilities/single_app_guard.h"
 
 int main(int argc, char *argv[]) {
-#ifdef Q_OS_UNIX
+#ifdef Q_OS_LINUX
     mallopt(M_ARENA_MAX, 1);
 #endif
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

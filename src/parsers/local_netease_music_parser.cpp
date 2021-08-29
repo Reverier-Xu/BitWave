@@ -7,9 +7,11 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
+
 #include "utilities/ncm_helper.h"
 
-const QStringList &LocalNeteaseMusicParser::acceptTypes() {
+const QStringList &
+LocalNeteaseMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
         types << "ncm";
@@ -25,7 +27,8 @@ bool LocalNeteaseMusicParser::accepted(const QString &path) {
     return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
 }
 
-LocalNeteaseMusicParser *LocalNeteaseMusicParser::clone() {
+LocalNeteaseMusicParser *
+LocalNeteaseMusicParser::clone() {
     return new LocalNeteaseMusicParser(*this);
 }
 
@@ -40,7 +43,7 @@ Media LocalNeteaseMusicParser::parseMedia(const Media &media) {
     return res;
 }
 
-QString LocalNeteaseMusicParser::getMediaCover(const Media &media) {
+QString
+LocalNeteaseMusicParser::getMediaCover(const Media &media) {
     return NcmHelper::dumpMediaCover(media);
 }
-

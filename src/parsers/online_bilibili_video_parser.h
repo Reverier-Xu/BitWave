@@ -4,5 +4,5 @@
 
 #pragma once
 
-class OnlineBilibiliVideoParser {};
-
+class OnlineBilibiliVideoParser {
+};

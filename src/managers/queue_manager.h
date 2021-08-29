@@ -6,14 +6,14 @@
 
 #include <QList>
 #include <QObject>
-#include <QString>
-#include <QUrl>
 #include <QQueue>
 #include <QStack>
+#include <QString>
+#include <QUrl>
 
+#include "base_manager.h"
 #include "models/media.h"
 #include "models/ui/media_queue_model.h"
-#include "base_manager.h"
 #include "utilities/memory_helper.h"
 
 class QueueManager : public BaseManager {
@@ -22,13 +22,16 @@ Q_OBJECT
                        NOTIFY playModeChanged)
     Q_PROPERTY(QUrl playModeIcon READ playModeIcon WRITE setPlayModeIcon NOTIFY
                        playModeIconChanged)
-    Q_PROPERTY(int addMediaMode MEMBER mAddMediaMode READ addMediaMode WRITE setAddMediaMode NOTIFY
-                       addMediaModeChanged)
-    Q_PROPERTY(int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos NOTIFY queuePosChanged)
-    Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName NOTIFY playModeNameChanged)
-    Q_PROPERTY(Media currentMedia READ currentMedia WRITE setCurrentMedia NOTIFY currentMediaChanged)
+    Q_PROPERTY(int addMediaMode MEMBER mAddMediaMode READ addMediaMode WRITE
+                       setAddMediaMode NOTIFY addMediaModeChanged)
+    Q_PROPERTY(int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos
+                       NOTIFY queuePosChanged)
+    Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName NOTIFY
+                       playModeNameChanged)
+    Q_PROPERTY(Media currentMedia READ currentMedia WRITE setCurrentMedia NOTIFY
+                       currentMediaChanged)
 private:
-    Media mCurrentMedia{};
+    Media mCurrentMedia{ };
     int mPlayMode = 0;
     int mQueuePos = 0;
     QQueue<Media> mMainQueue;
@@ -64,23 +67,27 @@ public:
     [[nodiscard]] QUrl playModeIcon() const {
         switch (this->playMode()) {
             case 0:
-                return QUrl("qrc:/assets/play-repeat-all.svg");  // repeat all
+                return QUrl("qrc:/assets/play-repeat-all.svg"); // repeat all
             case 1:
-                return QUrl("qrc:/assets/play-repeat-one.svg");  // repeat one
+                return QUrl("qrc:/assets/play-repeat-one.svg"); // repeat one
             case 2:
-                return QUrl("qrc:/assets/play-random.svg");  // random
+                return QUrl("qrc:/assets/play-random.svg"); // random
             case 3:
-                return QUrl("qrc:/assets/play-order.svg");  // order
+                return QUrl("qrc:/assets/play-order.svg"); // order
             case 4:
-                return QUrl("qrc:/assets/play-reverse.svg");  // reverse
+                return QUrl("qrc:/assets/play-reverse.svg"); // reverse
             default:
                 return QUrl("qrc:/assets/play-repeat-all.svg");
         }
     }
 
-    [[nodiscard]] const QQueue<Media> &mainQueue() const { return this->mMainQueue; }
+    [[nodiscard]] const QQueue<Media> &mainQueue() const {
+        return this->mMainQueue;
+    }
 
-    [[nodiscard]] MediaQueueModel *getQueueModel() const { return this->mQueueModel; }
+    [[nodiscard]] MediaQueueModel *getQueueModel() const {
+        return this->mQueueModel;
+    }
 
     void setPlayModeIcon(const QUrl &icon) {
         emit this->playModeIconChanged(this->playModeIcon());
@@ -119,7 +126,8 @@ public:
     void setQueuePos(int n) {
         this->mQueuePos = n;
         emit this->queuePosChanged(n);
-        if (n == -1) emit this->playQueueEnded();
+        if (n == -1)
+                emit this->playQueueEnded();
         if (!this->mMainQueue.empty() and this->queuePos() > -1) {
             auto media = this->mMainQueue.at(n);
             this->setCurrentMedia(media);
@@ -130,7 +138,7 @@ public:
 
     [[nodiscard]] Media currentMedia() const { return this->mCurrentMedia; }
 
-    void setCurrentMedia(const Media& m) {
+    void setCurrentMedia(const Media &m) {
         this->mCurrentMedia = m;
         emit currentMediaChanged(m);
     }
@@ -176,9 +184,9 @@ signals:
 
     void queuePosChanged(int n);
 
-    void playModeNameChanged(const QString& name);
+    void playModeNameChanged(const QString &name);
 
-    void playExternMediaRequested(const QString& path);
+    void playExternMediaRequested(const QString &path);
 
     void playQueueEnded();
 

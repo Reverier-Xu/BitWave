@@ -5,8 +5,8 @@ Rectangle {
     border.width: 2
     border.color: "#80808080"
     color: "transparent"
-    property bool isOn: false
-    state: isOn? "Off" : "On"
+    property bool isOn: true
+    state: isOn? "On" : "Off"
     radius: height / 2
     height: 24
     width: 48
@@ -26,15 +26,14 @@ Rectangle {
     }
 
     MouseArea {
-        id: m_mousearea;
-        anchors.fill: parent;
+        id: mMouseArea
+        anchors.fill: parent
         preventStealing: true
-        hoverEnabled: parent.enabled;
+        hoverEnabled: parent.enabled
         acceptedButtons: Qt.LeftButton
         onClicked: {
             root.focus = true;
             root.clicked(mouse);
-            root.isOn = !root.isOn;
         }
     }
 

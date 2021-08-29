@@ -7,7 +7,6 @@
 #include <QString>
 
 namespace TimeHelper {
-    [[nodiscard]] QString getTimeString(double n);
+    [[nodiscard]] QString
+    getTimeString(double n);
 };
-
-

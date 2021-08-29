@@ -5,12 +5,15 @@
 #pragma once
 
 #include <QObject>
+
 #include "base_parser.h"
 
 class LocalMusicParser : public BaseParser {
 Q_OBJECT
 public:
-    explicit LocalMusicParser(QObject *parent = nullptr) : BaseParser(parent) {}
+    explicit LocalMusicParser(QObject *parent = nullptr)
+            : BaseParser(parent) {
+    }
 
     LocalMusicParser(const LocalMusicParser &parser) = default;
 
@@ -24,10 +27,9 @@ public:
 
     [[nodiscard]] bool accepted(const QString &path) final;
 
-    [[nodiscard]] Media getMedia(const QString& path) final;
+    [[nodiscard]] Media getMedia(const QString &path) final;
 
-    [[nodiscard]] Media parseMedia(const Media& media) final;
+    [[nodiscard]] Media parseMedia(const Media &media) final;
 
-    [[nodiscard]] QString getMediaCover(const Media& media) final;
-
+    [[nodiscard]] QString getMediaCover(const Media &media) final;
 };

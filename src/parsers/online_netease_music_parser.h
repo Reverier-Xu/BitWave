@@ -4,4 +4,5 @@
 
 #pragma once
 
-class OnlineNeteaseMusicParser {};
+class OnlineNeteaseMusicParser {
+};

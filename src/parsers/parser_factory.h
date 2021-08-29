@@ -10,22 +10,22 @@
 #include "base_parser.h"
 
 class ParserFactory : public QObject {
-    Q_OBJECT
-   private:
+Q_OBJECT
+private:
     QMap<QString, BaseParser *> mParsersMap;
-    QList<BaseParser*> mParserList;
+    QList<BaseParser *> mParserList;
 
-   protected:
+protected:
     static ParserFactory *mInstance;
 
     explicit ParserFactory(QObject *parent);
 
-   public:
+public:
     static ParserFactory *instance(QObject *parent = nullptr);
 
     static void registerParser(BaseParser *parser);
 
-    static BaseParser* getParser(const Media &media);
+    static BaseParser *getParser(const Media &media);
 
-    static BaseParser* getParser(const QString& media_path);
+    static BaseParser *getParser(const QString &media_path);
 };

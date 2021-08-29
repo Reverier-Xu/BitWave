@@ -3,17 +3,19 @@
 //
 
 #include "local_music_parser.h"
-#include <QFileInfo>
-#include <QUrl>
+
 #include <QDebug>
+#include <QFileInfo>
 #include <QImage>
 #include <QStandardPaths>
+#include <QUrl>
 
 extern "C" {
 #include <libavformat/avformat.h>
 }
 
-const QStringList &LocalMusicParser::acceptTypes() {
+const QStringList &
+LocalMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty())
         types = QStringList() << "mp3"
@@ -41,7 +43,8 @@ bool LocalMusicParser::accepted(const QString &path) {
     return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
 }
 
-LocalMusicParser *LocalMusicParser::clone() {
+LocalMusicParser *
+LocalMusicParser::clone() {
     return new LocalMusicParser(*this);
 }
 
@@ -58,24 +61,35 @@ Media LocalMusicParser::getMedia(const QString &path) {
         throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setTitle(read_tag->value);
-    else media.setTitle(QFileInfo(path).baseName());
+    if (read_tag)
+        media.setTitle(read_tag->value);
+    else
+        media.setTitle(QFileInfo(path).baseName());
     read_tag = av_dict_get(ctx->metadata, "artist", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setArtist(read_tag->value);
-    else media.setArtist(tr("Unknown Artist"));
+    if (read_tag)
+        media.setArtist(read_tag->value);
+    else
+        media.setArtist(tr("Unknown Artist"));
     read_tag = av_dict_get(ctx->metadata, "album", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setCollection(read_tag->value);
-    else media.setCollection("Unknown Album");
+    if (read_tag)
+        media.setCollection(read_tag->value);
+    else
+        media.setCollection("Unknown Album");
+    read_tag = av_dict_get(ctx->metadata, "comment", tag, AV_DICT_IGNORE_SUFFIX);
+    if (read_tag)
+        media.setComment(read_tag->value);
+    else
+        media.setComment("");
     if (ctx->duration != AV_NOPTS_VALUE) {
         int64_t secs, us;
         int64_t duration = ctx->duration + 5000;
         secs = duration / AV_TIME_BASE;
         us = duration % AV_TIME_BASE;
         media.setDuration(double(secs) + double(us) / AV_TIME_BASE);
-//        qDebug() << secs;
-//        qDebug() << us;
+        //        qDebug() << secs;
+        //        qDebug() << us;
     }
-//    qDebug() << media.duration();
+    //    qDebug() << media.duration();
     avformat_close_input(&ctx);
     // qDebug() << ctx;
     // qDebug() << tag;
@@ -86,10 +100,12 @@ Media LocalMusicParser::parseMedia(const Media &media) {
     return media;
 }
 
-QString LocalMusicParser::getMediaCover(const Media &media) {
+QString
+LocalMusicParser::getMediaCover(const Media &media) {
     AVFormatContext *ctx = nullptr;
     AVDictionaryEntry *tag = nullptr;
-    int ret = avformat_open_input(&ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
+    int ret = avformat_open_input(
+            &ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
     if (ret < 0)
         throw std::exception();
     avformat_find_stream_info(ctx, nullptr);

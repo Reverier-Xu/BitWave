@@ -5,15 +5,17 @@
 #pragma once
 
 #include <QObject>
-#include "base_parser.h"
 
+#include "base_parser.h"
 
 class LocalNeteaseMusicParser : public BaseParser {
 Q_OBJECT
 public:
-    explicit LocalNeteaseMusicParser(QObject *parent = nullptr) : BaseParser(parent) {}
+    explicit LocalNeteaseMusicParser(QObject *parent = nullptr)
+            : BaseParser(parent) {
+    }
 
-    LocalNeteaseMusicParser(const LocalNeteaseMusicParser& parser) = default;
+    LocalNeteaseMusicParser(const LocalNeteaseMusicParser &parser) = default;
 
     ~LocalNeteaseMusicParser() override = default;
 
@@ -23,11 +25,11 @@ public:
 
     [[nodiscard]] bool accepted(const QString &path) final;
 
-    [[nodiscard]] LocalNeteaseMusicParser* clone() final;
+    [[nodiscard]] LocalNeteaseMusicParser *clone() final;
 
-    [[nodiscard]] Media getMedia(const QString& path) final;
+    [[nodiscard]] Media getMedia(const QString &path) final;
 
-    [[nodiscard]] Media parseMedia(const Media& media) final;
+    [[nodiscard]] Media parseMedia(const Media &media) final;
 
-    [[nodiscard]] QString getMediaCover(const Media& media) final;
+    [[nodiscard]] QString getMediaCover(const Media &media) final;
 };

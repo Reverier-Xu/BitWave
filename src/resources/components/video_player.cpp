@@ -3,29 +3,33 @@
 //
 
 #include "video_player.h"
-#include <stdexcept>
-#include <QtGui/QOpenGLContext>
+
 #include <QApplication>
-#include <QtCore/QMetaObject>
+#include <QDebug>
 #include <QEvent>
 #include <QMouseEvent>
-#include <QDebug>
-#include <QPainter>
-#include "engines/mpv_engine.h"
-#include <QtGui/QPainterPath>
-#include <QQuickWindow>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
+#include <QPainter>
+#include <QQuickWindow>
+#include <QtCore/QMetaObject>
+#include <QtGui/QOpenGLContext>
+#include <QtGui/QPainterPath>
+#include <stdexcept>
+
+#include "engines/mpv_engine.h"
 
 void on_mpv_redraw(void *ctx) {
     VideoPlayer::on_update(ctx);
 }
 
-static void *get_proc_address_mpv(void *ctx, const char *name) {
+static void *
+get_proc_address_mpv(void *ctx, const char *name) {
     Q_UNUSED(ctx)
 
     QOpenGLContext *glctx = QOpenGLContext::currentContext();
-    if (!glctx) return nullptr;
+    if (!glctx)
+        return nullptr;
 
     return reinterpret_cast<void *>(glctx->getProcAddress(QByteArray(name)));
 }
@@ -35,7 +39,8 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer {
 
 public:
     explicit MpvRenderer(VideoPlayer *new_obj)
-            : obj{new_obj} {}
+            : obj{new_obj} {
+    }
 
     ~MpvRenderer() override = default;
 
@@ -44,9 +49,12 @@ public:
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override {
         // init mpv_gl:
         if (!obj->mpv_gl) {
-            mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr, nullptr};
+            mpv_opengl_init_params gl_init_params{get_proc_address_mpv,
+                                                  nullptr,
+                                                  nullptr};
             mpv_render_param params[]{
-                    {MPV_RENDER_PARAM_API_TYPE,           const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL)},
+                    {MPV_RENDER_PARAM_API_TYPE,
+                                                          const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL)},
                     {MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params},
                     {MPV_RENDER_PARAM_INVALID,            nullptr}
             };
@@ -63,12 +71,10 @@ public:
         obj->window()->resetOpenGLState();
 
         QOpenGLFramebufferObject *fbo = framebufferObject();
-        mpv_opengl_fbo mpfbo{
-                .fbo = static_cast<int>(fbo->handle()),
+        mpv_opengl_fbo mpfbo{.fbo = static_cast<int>(fbo->handle()),
                 .w = fbo->width(),
                 .h = fbo->height(),
-                .internal_format = 0
-        };
+                .internal_format = 0};
         int flip_y{0};
 
         mpv_render_param params[] = {
@@ -91,7 +97,10 @@ VideoPlayer::VideoPlayer(QQuickItem *parent)
         : QQuickFramebufferObject(parent), mpv_gl(nullptr) {
     // qDebug() << "VideoPlayer is initializing!";
     mpv = MpvEngine::instance()->getMpvHandle();
-    connect(this, &VideoPlayer::onUpdate, this, &VideoPlayer::doUpdate,
+    connect(this,
+            &VideoPlayer::onUpdate,
+            this,
+            &VideoPlayer::doUpdate,
             Qt::QueuedConnection);
 }
 
@@ -114,7 +123,8 @@ void VideoPlayer::doUpdate() {
     update();
 }
 
-QQuickFramebufferObject::Renderer *VideoPlayer::createRenderer() const {
+QQuickFramebufferObject::Renderer *
+VideoPlayer::createRenderer() const {
     window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
     return new MpvRenderer(const_cast<VideoPlayer *>(this));

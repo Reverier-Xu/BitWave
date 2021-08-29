@@ -1,12 +1,12 @@
-/* 
+/*
  * mpv_engine.cpp
  *
  * Summary: wrapper of mpv engine.
  * Author: Reverier-Xu <reverier.xu@outlook.com>
- * 
+ *
  * Created: 2021-01-06
  * Last Modified: 2021-08-11
- * 
+ *
  */
 
 #include "mpv_engine.h"
@@ -17,15 +17,18 @@
 
 MpvEngine *MpvEngine::mMpvEngine = nullptr;
 
-static void wakeup(void *ctx) {
+static void
+wakeup(void *ctx) {
     // qDebug() << "[BitWave] wakeup!!!";
-    QMetaObject::invokeMethod((MpvEngine *) ctx, "onMpvEvents",
-                              Qt::QueuedConnection);
+    QMetaObject::invokeMethod(
+            (MpvEngine *) ctx, "onMpvEvents", Qt::QueuedConnection);
 }
 
-MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
+MpvEngine::MpvEngine(QObject *parent)
+        : QObject(parent) {
     this->mpv = mpv_create();
-    if (!mpv) throw std::runtime_error("could not create mpv context");
+    if (!mpv)
+        throw std::runtime_error("could not create mpv context");
 
     mpv_set_option_string(mpv, "terminal", "yes");
     mpv_set_option_string(mpv, "msg-level", "all=warn");
@@ -126,15 +129,16 @@ MpvEngine *MpvEngine::instance(QObject *parent) {
     if (mMpvEngine == nullptr) {
         mMpvEngine = new MpvEngine(parent);
     }
-    if (parent != nullptr) mMpvEngine->setParent(parent);
+    if (parent != nullptr)
+        mMpvEngine->setParent(parent);
     return mMpvEngine;
 }
 
 void MpvEngine::playMedia(const QString &path) {
-    auto media_type = this->type_db.mimeTypeForFile(path);
-    if (media_type.name().startsWith("audio/")) {
+    auto mediaType = this->mimeDatabase.mimeTypeForFile(path);
+    if (mediaType.name().startsWith("audio/")) {
         emit this->newMusicOpened();
-    } else if (media_type.name().startsWith("video/")) {
+    } else if (mediaType.name().startsWith("video/")) {
         emit this->newVideoOpened();
     }
     this->command(QStringList() << "loadfile" << path);
@@ -148,7 +152,7 @@ void MpvEngine::pause() {
     this->setProperty("pause", true);
 }
 
-void MpvEngine::stop() { 
+void MpvEngine::stop() {
     this->command(QStringList() << "stop");
     // this->command(QStringList() << "drop-buffers");
 }

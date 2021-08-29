@@ -27,7 +27,7 @@ set(MANAGERS_SRCS
         managers/display_manager.h
         managers/queue_manager.cpp
         managers/queue_manager.h
-        managers/router_manager.cpp managers/router_manager.h)
+        managers/router_manager.cpp managers/router_manager.h managers/lyric_provider_manager.cpp managers/lyric_provider_manager.h)
 
 set(MODELS_SRCS
         models/media.cpp
@@ -55,6 +55,12 @@ set(PARSERS_SRCS
         parsers/online_bilibili_video_parser.h
         )
 
+set(LYRIC_PROVIDERS_SRCS
+        lyric_providers/base_lyric_provider.cpp
+        lyric_providers/base_lyric_provider.h
+        lyric_providers/netease_lyric_provider.cpp
+        lyric_providers/netease_lyric_provider.h lyric_providers/lyric_provider_factory.cpp lyric_providers/lyric_provider_factory.h)
+
 set(ENGINES_SRCS
         engines/mpv_engine.cpp
         engines/mpv_engine.h
@@ -81,9 +87,10 @@ set(COMPONENTS_SRCS
 
 set(SRCS
         entry.cpp
-        app_defs.cpp 
+        app_defs.cpp
         app_defs.h
         ${PARSERS_SRCS}
+        ${LYRIC_PROVIDERS_SRCS}
         ${ENGINES_SRCS}
         ${UTILITIES_SRCS}
         ${COMPONENTS_SRCS}
@@ -93,7 +100,7 @@ set(SRCS
         )
 
 # DBUS and MPRIS - Unix specific
-if(UNIX AND Qt5DBus_FOUND)
+if (UNIX AND Qt5DBus_FOUND)
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
     message("DBUS FOUND")
     # MPRIS 2.0 DBUS interfaces
@@ -122,7 +129,7 @@ if(UNIX AND Qt5DBus_FOUND)
     qt5_add_dbus_interface(SRCS
             dbus/org.kde.kglobalaccel.Component.xml
             dbus/kglobalaccelcomponent)
-endif(UNIX AND Qt5DBus_FOUND)
+endif (UNIX AND Qt5DBus_FOUND)
 
 optional_source(Qt5DBus_FOUND
         SRCS

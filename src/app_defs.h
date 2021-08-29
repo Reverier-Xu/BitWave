@@ -12,7 +12,6 @@
  *
  */
 
-
 class BitWaveConstants {
 public:
     static QByteArray webApiAesKey();

@@ -8,5 +8,6 @@
 #include <QImage>
 
 namespace ColorHelper {
-    QColor getImageThemeColor(const QImage& image);
+    QColor
+    getImageThemeColor(const QImage &image);
 }

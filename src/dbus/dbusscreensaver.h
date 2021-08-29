@@ -5,17 +5,17 @@
 #include "screensaver.h"
 
 class DBusScreensaver : public Screensaver {
- public:
-  DBusScreensaver(QString  service, QString  path,
-                  QString  interface);
+public:
+    DBusScreensaver(QString service, QString path, QString interface);
 
-  void Inhibit() override;
-  void UnInhibit() override;
+    void Inhibit() override;
 
- private:
-  QString service_;
-  QString path_;
-  QString interface_;
+    void UnInhibit() override;
 
-  quint32 cookie_{};
+private:
+    QString service_;
+    QString path_;
+    QString interface_;
+
+    quint32 cookie_{ };
 };

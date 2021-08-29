@@ -5,14 +5,10 @@
 #pragma once
 
 #include <QObject>
-
-#include <QObject>
 #include <QSharedMemory>
 #include <QSystemSemaphore>
 
-
 class RunGuard {
-
 public:
     explicit RunGuard(const QString &key);
 

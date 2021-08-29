@@ -5,14 +5,15 @@
 #pragma once
 
 #include <QObject>
+
 #include "base_manager.h"
 
 class RouterManager : public BaseManager {
-    Q_OBJECT
+Q_OBJECT
 protected:
-    explicit RouterManager(QObject* parent);
+    explicit RouterManager(QObject *parent);
 
-    static RouterManager* mInstance;
+    static RouterManager *mInstance;
 
 public:
     [[nodiscard]] static RouterManager *instance(QObject *parent);

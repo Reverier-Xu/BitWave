@@ -3,12 +3,14 @@
 //
 
 #include "single_app_guard.h"
+
 #include <QCryptographicHash>
 #include <QDebug>
 
 namespace {
 
-    QString generateKeyHash(const QString &key, const QString &salt) {
+    QString
+    generateKeyHash(const QString &key, const QString &salt) {
         QByteArray data;
 
         data.append(key.toUtf8());
@@ -18,8 +20,7 @@ namespace {
         return data;
     }
 
-}
-
+} // namespace
 
 RunGuard::RunGuard(const QString &key)
         : key(key), memLockKey(generateKeyHash(key, "_@_Wo0t3c_e78ac157")),
@@ -50,7 +51,7 @@ bool RunGuard::isAnotherRunning() {
 }
 
 bool RunGuard::tryToRun() {
-    if (isAnotherRunning())   // Extra check
+    if (isAnotherRunning()) // Extra check
         return false;
     memLock.acquire();
     const bool result = sharedMem.create(sizeof(quint64));

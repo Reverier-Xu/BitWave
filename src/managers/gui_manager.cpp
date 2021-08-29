@@ -1,30 +1,29 @@
-/* 
+/*
  * gui_manager.cpp
  *
  * Summary: manager of QML Frontend and engines.
  * Author: Reverier-Xu <reverier.xu@outlook.com>
- * 
+ *
  * Created: 2021-06-25
  * Last Modified: 2021-08-11
- * 
+ *
  */
 
 #include "gui_manager.h"
 
 #include <QQmlContext>
 
-#include "player_manager.h"
-#include "resources/components/video_player.h"
 #include "display_manager.h"
+#include "player_manager.h"
 #include "queue_manager.h"
+#include "resources/components/video_player.h"
 
 GuiManager *GuiManager::mInstance = nullptr;
 
-GuiManager::GuiManager(QObject *parent) : QObject(parent) {
+GuiManager::GuiManager(QObject *parent)
+        : QObject(parent) {
     std::setlocale(LC_NUMERIC, "C");
     this->mUiEngine = new QQmlApplicationEngine(this);
-
-
 }
 
 void GuiManager::createUI() {
@@ -46,7 +45,8 @@ void GuiManager::exportManagers() {
 }
 
 GuiManager *GuiManager::instance(QObject *parent) {
-    if (mInstance == nullptr) mInstance = new GuiManager(parent);
+    if (mInstance == nullptr)
+        mInstance = new GuiManager(parent);
     return mInstance;
 }
 

@@ -1,8 +1,11 @@
 #include "media_queue_model.h"
-#include <QQueue>
-#include <QDebug>
 
-MediaQueueModel::MediaQueueModel(QObject *parent) : QAbstractListModel(parent) { }
+#include <QDebug>
+#include <QQueue>
+
+MediaQueueModel::MediaQueueModel(QObject *parent)
+        : QAbstractListModel(parent) {
+}
 
 int MediaQueueModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
@@ -19,19 +22,21 @@ QVariant MediaQueueModel::data(const QModelIndex &index, int role) const {
     if (index.row() >= mMediaQueue->size()) {
         return QVariant();
     }
+
     switch (role) {
-    case MediaQueueModel::MediaIDRole:
-        return index.row();
-    case MediaQueueModel::MediaTitleRole:
-        return mMediaQueue->at(index.row()).title();
-    case MediaQueueModel::MediaDurationRole:
-        return mMediaQueue->at(index.row()).duration();
-    default:
-        return QVariant();
+        case MediaQueueModel::MediaIDRole:
+            return index.row();
+        case MediaQueueModel::MediaTitleRole:
+            return mMediaQueue->at(index.row()).title();
+        case MediaQueueModel::MediaDurationRole:
+            return mMediaQueue->at(index.row()).duration();
+        default:
+            return QVariant();
     }
 }
 
-QHash<int, QByteArray> MediaQueueModel::roleNames() const {
+QHash<int, QByteArray>
+MediaQueueModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[MediaIDRole] = "mediaId";
     roles[MediaTitleRole] = "mediaTitle";

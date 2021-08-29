@@ -11,10 +11,10 @@
 
 #pragma once
 
-#include <QObject>
 #include <QFuture>
-#include <QtConcurrent/QtConcurrent>
+#include <QObject>
 #include <QUuid>
+#include <QtConcurrent/QtConcurrent>
 
 #include "parsers/base_parser.h"
 #include "parsers/parser_factory.h"
@@ -23,6 +23,7 @@ class ParserManager : public QObject {
 Q_OBJECT
 private:
     QUuid mParseMediaTaskId;
+
 protected:
     explicit ParserManager(QObject *parent);
 
@@ -59,5 +60,5 @@ signals:
 
     void mediaLyricsIsReady(bool ok, const QString &raw, const QString &trans);
 
-    void mediaCoverColorIsReady(bool ok, const QColor& color);
+    void mediaCoverColorIsReady(bool ok, const QColor &color);
 };

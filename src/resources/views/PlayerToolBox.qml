@@ -360,28 +360,36 @@ Rectangle {
             anchors.topMargin: 25
         }
 
+        TextLabel {
+            id: displayVideoIndicatorLabel
+            text: qsTr("Show time")
+            showIcon: false
+            height: 32
+            anchors.top: displayTipsLabel.bottom
+            anchors.topMargin: 6
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+        }
 
+        Switch {
+            id: displayVideoIndicatorSwitch
+            anchors.verticalCenter: displayVideoIndicatorLabel.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 30
+            isOn: display.showVideoTime
+            onClicked: {
+                display.showVideoTime = !display.showVideoTime;
+            }
+        }
 
         Rectangle {
             id: endLine
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: displayTipsLabel.bottom
+            anchors.top: displayVideoIndicatorLabel.bottom
             anchors.topMargin: 25
             width: parent.width - 100
             height: 1
             color: "#80808080"
         }
     }
-
-    // HoverHandler {
-    //     onHoveredChanged: {
-    //         if (hovered) {
-    //             console.log("hovered");
-    //             display.blockDelayedHide();
-    //         } else {
-    //             console.log("unhovered");
-    //             display.delayedHide();
-    //         }
-    //     }
-    // }
 }

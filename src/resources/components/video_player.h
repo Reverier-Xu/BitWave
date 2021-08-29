@@ -4,11 +4,13 @@
 
 #pragma once
 
-#include <QtWidgets/QOpenGLWidget>
-#include <utility>
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
+
 #include <QtQuick/QQuickFramebufferObject>
+#include <QtWidgets/QOpenGLWidget>
+#include <utility>
+
 #include "utilities/mpv_helper.h"
 
 class MpvRenderer;
@@ -17,7 +19,6 @@ class VideoPlayer : public QQuickFramebufferObject {
 Q_OBJECT
 
 public:
-
     static void on_update(void *ctx);
 
     explicit VideoPlayer(QQuickItem *parent = nullptr);
@@ -35,11 +36,9 @@ signals:
     void onUpdate();
 
 private:
-
     mpv_handle *mpv;
 
     mpv_render_context *mpv_gl;
 
     friend class MpvRenderer;
-
 };

@@ -3,11 +3,13 @@
 //
 
 #pragma once
+
 #include <QAbstractListModel>
+
 #include "models/media.h"
 
 class MediaQueueModel : public QAbstractListModel {
-    Q_OBJECT
+Q_OBJECT
 public:
     enum MediaQueueRoles {
         MediaIDRole = Qt::UserRole + 1,
@@ -19,7 +21,8 @@ public:
 
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
-    [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override;
+    [[nodiscard]] QVariant data(const QModelIndex &index,
+                                int role) const override;
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
@@ -28,7 +31,7 @@ public:
     void reloadQueue();
 
 private:
-    QQueue<Media> *mMediaQueue{};
+    QQueue<Media> *mMediaQueue{ };
 
     int currentPlayingIndex = 0;
 };

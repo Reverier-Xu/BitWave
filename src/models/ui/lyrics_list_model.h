@@ -10,37 +10,41 @@
 #include <QStringList>
 
 class LyricContent : public QObject {
-    Q_OBJECT
+Q_OBJECT
     Q_PROPERTY(QString content MEMBER mContent READ content WRITE setContent
-                   NOTIFY contentChanged)
+                       NOTIFY contentChanged)
     Q_PROPERTY(double startTime MEMBER mStartTime READ startTime WRITE
-                   setStartTime NOTIFY startTimeChanged)
-    Q_PROPERTY(double endTime MEMBER mEndTime READ endTime WRITE setEndTime
-                   NOTIFY endTimeChanged)
-   private:
+                       setStartTime NOTIFY startTimeChanged)
+    Q_PROPERTY(double endTime MEMBER mEndTime READ endTime WRITE setEndTime NOTIFY
+                       endTimeChanged)
+private:
     QString mContent;
     double mStartTime;
     double mEndTime;
 
-   public:
+public:
     explicit LyricContent(QObject *parent = nullptr,
-                 const QString &contentSrc = QString(),
-                 const QString &contentTr = QString(), double start = 0,
-                 double end = 0)
-        : QObject(parent) {
+                          const QString &contentSrc = QString(),
+                          const QString &contentTr = QString(),
+                          double start = 0,
+                          double end = 0)
+            : QObject(parent) {
         mStartTime = start;
         mEndTime = end;
         mContent = contentSrc + "\n" + contentTr;
     }
 
-    LyricContent(const LyricContent &other) : QObject(other.parent()) {
+    LyricContent(const LyricContent &other)
+            : QObject(other.parent()) {
         mContent = other.mContent;
         mStartTime = other.mStartTime;
         mEndTime = other.mEndTime;
     }
 
-    explicit LyricContent(QObject *parent = nullptr, const QString &content = QString(),
-                 double start = 0, double end = 0) {
+    explicit LyricContent(QObject *parent = nullptr,
+                          const QString &content = QString(),
+                          double start = 0,
+                          double end = 0) {
         mContent = content;
         mStartTime = start;
         mEndTime = end;
@@ -49,6 +53,7 @@ class LyricContent : public QObject {
     ~LyricContent() override = default;
 
     [[nodiscard]] const QString &content() const { return mContent; }
+
     void setContent(const QString &content) {
         if (mContent != content) {
             mContent = content;
@@ -57,6 +62,7 @@ class LyricContent : public QObject {
     }
 
     [[nodiscard]] double startTime() const { return mStartTime; }
+
     void setStartTime(double startTime) {
         if (mStartTime != startTime) {
             mStartTime = startTime;
@@ -65,6 +71,7 @@ class LyricContent : public QObject {
     }
 
     [[nodiscard]] double endTime() const { return mEndTime; }
+
     void setEndTime(double endTime) {
         if (mEndTime != endTime) {
             mEndTime = endTime;
@@ -76,41 +83,48 @@ class LyricContent : public QObject {
         return this->startTime() < b.startTime();
     }
 
-    LyricContent& operator=(const LyricContent &b) {
+    LyricContent &operator=(const LyricContent &b) {
         mContent = b.mContent;
         mStartTime = b.mStartTime;
         mEndTime = b.mEndTime;
         return *this;
     }
 
-   signals:
+signals:
+
     void contentChanged();
+
     void contentSrcChanged();
+
     void contentTrChanged();
+
     void startTimeChanged();
+
     void endTimeChanged();
 };
 
 class LyricsListModel : public QAbstractListModel {
-    Q_OBJECT
-   private:
-    QList<LyricContent> mLyrics{};
+Q_OBJECT
+private:
+    QList<LyricContent> mLyrics{ };
 
-   public:
+public:
     enum LyricRoles {
         LyricContentRole = Qt::UserRole + 1,
         LyricStartTimeRole,
         LyricEndTimeRole
     };
 
-    explicit LyricsListModel(QObject *parent = nullptr) : QAbstractListModel(parent) {}
+    explicit LyricsListModel(QObject *parent = nullptr)
+            : QAbstractListModel(parent) {
+    }
 
     ~LyricsListModel() override = default;
 
     [[nodiscard]] int rowCount(const QModelIndex &parent) const override;
 
     [[nodiscard]] QVariant data(const QModelIndex &index,
-                  int role) const override;
+                                int role) const override;
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
@@ -128,4 +142,3 @@ class LyricsListModel : public QAbstractListModel {
 
     [[nodiscard]] Q_INVOKABLE int getCurrentLyricIndex(double currentTime) const;
 };
-

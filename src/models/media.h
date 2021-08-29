@@ -8,7 +8,9 @@
 #include <QString>
 
 enum MediaType {
-    AUDIO, VIDEO, UNKNOWN
+    AUDIO,
+    VIDEO,
+    UNKNOWN
 };
 
 enum MediaSourceType {
@@ -25,16 +27,18 @@ Q_OBJECT
                        rawUrlChanged)
     Q_PROPERTY(double duration MEMBER mDuration READ duration WRITE setDuration
                        NOTIFY durationChanged)
-    Q_PROPERTY(QString title MEMBER mTitle READ title WRITE setTitle NOTIFY
-                       titleChanged)
+    Q_PROPERTY(
+            QString title MEMBER mTitle READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QString artist MEMBER mArtist READ artist WRITE setArtist NOTIFY
                        artistChanged)
     Q_PROPERTY(QString coverUrl MEMBER mCoverUrl READ coverUrl WRITE setCoverUrl
                        NOTIFY coverUrlChanged)
     Q_PROPERTY(
             MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE setCollection NOTIFY collectionChanged)
-    Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment NOTIFY commentChanged)
+    Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE
+                       setCollection NOTIFY collectionChanged)
+    Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment
+                       NOTIFY commentChanged)
 
 private:
     QString mRawUrl;
@@ -51,10 +55,11 @@ public:
                    const QString &rawUrl = "",
                    const QString &title = "",
                    const QString &artist = "",
-                   const QString &collection="",
+                   const QString &collection = "",
                    MediaType type = UNKNOWN,
-                   double duration=0.0,
-                   const QString &comment="") : QObject(parent) {
+                   double duration = 0.0,
+                   const QString &comment = "")
+            : QObject(parent) {
         mRawUrl = rawUrl;
         mTitle = title;
         mArtist = artist;
@@ -64,7 +69,8 @@ public:
         mComment = comment;
     }
 
-    Media(const Media &media) : QObject(media.parent()) {
+    Media(const Media &media)
+            : QObject(media.parent()) {
         mRawUrl = media.mRawUrl;
         mDuration = media.mDuration;
         mTitle = media.mTitle;

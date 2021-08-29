@@ -7,6 +7,7 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake
         ${CMAKE_MODULE_PATH}
         ${ECM_MODULE_PATH})
+
 include(cmake/ParseArguments.cmake)
 include(cmake/OptionalSource.cmake)
 include(cmake/Summary.cmake)

@@ -6,10 +6,10 @@
 
 #include "dbus/mpris2_player.h"
 #include "dbus/mpris2_root.h"
-#include "mpris_common.h"
 #include "managers/display_manager.h"
-#include "managers/queue_manager.h"
 #include "managers/player_manager.h"
+#include "managers/queue_manager.h"
+#include "mpris_common.h"
 
 namespace mpris {
 
@@ -17,43 +17,56 @@ namespace mpris {
     const char *Mpris2::kServiceName = "org.mpris.MediaPlayer2.BitWave";
     const char *Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
 
-    Mpris2::Mpris2(QObject *parent) : QObject(parent) {
+    Mpris2::Mpris2(QObject *parent)
+            : QObject(parent) {
         new Mpris2Root(this);
         new Mpris2Player(this);
 
         if (!QDBusConnection::sessionBus().registerService(kServiceName)) {
             return;
         }
-        
+
         this->player_ = PlayerManager::instance(this->parent());
-        
+
         this->queue_ = QueueManager::instance(this->parent());
-        
+
         this->display_ = DisplayManager::instance(this->parent());
 
         QDBusConnection::sessionBus().registerObject(kMprisObjectPath, this);
 
-        connect(this->player_, &PlayerManager::currentMediaCoverChanged, [=](const QString &n) {
-            this->MetadataLoaded(this->queue_->currentMedia(), n);
-        });
+        connect(this->player_,
+                &PlayerManager::currentMediaCoverChanged,
+                [=](const QString &n) {
+                    this->MetadataLoaded(this->queue_->currentMedia(), n);
+                });
 
-        connect(this->player_, &PlayerManager::volumeChanged, this, &Mpris2::VolumeChanged);
-        connect(this->player_, &PlayerManager::currentTimeChanged,
-                this, [=](double n) {
+        connect(
+                this->player_, &PlayerManager::volumeChanged, this, &Mpris2::VolumeChanged);
+        connect(
+                this->player_, &PlayerManager::currentTimeChanged, this, [=](double n) {
                     emit this->Seeked((qlonglong) (floor(n)) * 1000 * 1000);
                 });
 
-        connect(this->queue_, &QueueManager::currentMediaChanged, this, &Mpris2::CurrentSongChanged);
-        connect(this->player_, &PlayerManager::stateChanged, this, &Mpris2::EngineStateChanged);
+        connect(this->queue_,
+                &QueueManager::currentMediaChanged,
+                this,
+                &Mpris2::CurrentSongChanged);
+        connect(this->player_,
+                &PlayerManager::stateChanged,
+                this,
+                &Mpris2::EngineStateChanged);
     }
 
-    void Mpris2::VolumeChanged() { EmitNotification("Volume"); }
+    void Mpris2::VolumeChanged() {
+        EmitNotification("Volume");
+    }
 
     void Mpris2::EmitNotification(const QString &name, const QVariant &val) {
         EmitNotification(name, val, "org.mpris.MediaPlayer2.Player");
     }
 
-    void Mpris2::EmitNotification(const QString &name, const QVariant &val,
+    void Mpris2::EmitNotification(const QString &name,
+                                  const QVariant &val,
                                   const QString &mprisEntity) {
         QDBusMessage msg = QDBusMessage::createSignal(
                 kMprisObjectPath, kFreedesktopPath, "PropertiesChanged");
@@ -89,16 +102,23 @@ namespace mpris {
         else if (name == "CanPause")
             value = CanPause();
 
-        if (value.isValid()) EmitNotification(name, value);
+        if (value.isValid())
+            EmitNotification(name, value);
     }
 
 // ------------------Root Interface--------------- //
 
-    bool Mpris2::CanQuit() { return true; }
+    bool Mpris2::CanQuit() {
+        return true;
+    }
 
-    bool Mpris2::CanRaise() { return true; }
+    bool Mpris2::CanRaise() {
+        return true;
+    }
 
-    QString Mpris2::Identity() { return QApplication::applicationName(); }
+    QString Mpris2::Identity() {
+        return QApplication::applicationName();
+    }
 
     QString Mpris2::DesktopEntryAbsolutePath() {
         QStringList xdg_data_dirs = QString(getenv("XDG_DATA_DIRS")).split(":");
@@ -106,10 +126,10 @@ namespace mpris {
         xdg_data_dirs.append("/usr/share/");
 
         for (const QString &directory : xdg_data_dirs) {
-            QString path =
-                    QString("%1/applications/%2.desktop")
-                            .arg(directory, QApplication::applicationName().toLower());
-            if (QFile::exists(path)) return path;
+            QString path = QString("%1/applications/%2.desktop")
+                    .arg(directory, QApplication::applicationName().toLower());
+            if (QFile::exists(path))
+                return path;
         }
         return QString();
     }
@@ -154,11 +174,17 @@ namespace mpris {
         return res;
     }
 
-    void Mpris2::Raise() { emit RaiseMainWindow(); }
+    void Mpris2::Raise() {
+        emit RaiseMainWindow();
+    }
 
-    void Mpris2::Quit() { QApplication::quit(); }
+    void Mpris2::Quit() {
+        QApplication::quit();
+    }
 
-    double Mpris2::Rate() const { return 1.0; }
+    double Mpris2::Rate() const {
+        return 1.0;
+    }
 
     void Mpris2::SetRate(double rate) {
         if (rate == 0) {
@@ -166,7 +192,9 @@ namespace mpris {
         }
     }
 
-    QVariantMap Mpris2::Metadata() const { return last_metadata_; }
+    QVariantMap Mpris2::Metadata() const {
+        return last_metadata_;
+    }
 
 // We send Metadata change notification as soon as the process of
 // changing song starts...
@@ -189,8 +217,7 @@ namespace mpris {
         AddMetadata("xesam:title", song.title(), &last_metadata_);
         AddMetadata("xesam:album", song.collection(), &last_metadata_);
         AddMetadata("xesam:url", song.rawUrl(), &last_metadata_);
-        AddMetadata("mpris:length", song.duration() * 1000000,
-                    &last_metadata_);
+        AddMetadata("mpris:length", song.duration() * 1000000, &last_metadata_);
 
         if (!art_uri.isEmpty()) {
             AddMetadata("mpris:artUrl", art_uri, &last_metadata_);
@@ -199,17 +226,25 @@ namespace mpris {
         EmitNotification("Metadata", last_metadata_);
     }
 
-    double Mpris2::Volume() const { return this->player_->volume(); }
+    double Mpris2::Volume() const {
+        return this->player_->volume();
+    }
 
-    void Mpris2::SetVolume(double value) { this->player_->setVolume(value); }
+    void Mpris2::SetVolume(double value) {
+        this->player_->setVolume(value);
+    }
 
     qlonglong Mpris2::Position() const {
         return qlonglong(this->player_->currentTime() * 1000 * 1000);
     }
 
-    double Mpris2::MaximumRate() const { return 1.0; }
+    double Mpris2::MaximumRate() const {
+        return 1.0;
+    }
 
-    double Mpris2::MinimumRate() const { return 1.0; }
+    double Mpris2::MinimumRate() const {
+        return 1.0;
+    }
 
     bool Mpris2::CanGoNext() const {
         return true;
@@ -229,9 +264,13 @@ namespace mpris {
         return this->player_->isMediaLoaded() && this->player_->isPlaying();
     }
 
-    bool Mpris2::CanSeek() const { return this->player_->isMediaLoaded(); }
+    bool Mpris2::CanSeek() const {
+        return this->player_->isMediaLoaded();
+    }
 
-    bool Mpris2::CanControl() const { return this->player_->isReady(); }
+    bool Mpris2::CanControl() const {
+        return this->player_->isReady();
+    }
 
     void Mpris2::Next() {
         this->queue_->next();
@@ -253,10 +292,11 @@ namespace mpris {
         } else if (CanPlay()) {
             this->player_->resume();
         }
-
     }
 
-    void Mpris2::Stop() { this->player_->stop(); }
+    void Mpris2::Stop() {
+        this->player_->stop();
+    }
 
     void Mpris2::Play() {
         if (CanPlay()) {
@@ -287,7 +327,8 @@ namespace mpris {
         if (this->player_->isMediaLoaded()) {
             if (this->player_->isPlaying())
                 return "Playing";
-            else return "Paused";
+            else
+                return "Paused";
         } else {
             return "Stopped";
         }
@@ -310,4 +351,4 @@ namespace mpris {
         EmitNotification("CanGoNext");
         EmitNotification("CanGoPrevious");
     }
-}  // namespace mpris
+} // namespace mpris

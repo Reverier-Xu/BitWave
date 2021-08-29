@@ -3,15 +3,16 @@
 //
 
 #include "ncm_helper.h"
+
+#include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
-#include <QByteArray>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
-#include <fstream>
-#include <QtWidgets/QLabel>
 #include <QStandardPaths>
+#include <QtWidgets/QLabel>
+#include <fstream>
 
 extern "C" {
 #include <libavformat/avformat.h>
@@ -19,7 +20,11 @@ extern "C" {
 
 #include "app_defs.h"
 
-QString getFileFormat(const QString &key);
+QString
+getFileFormat(const QString &key);
+
+QByteArray
+getDecryptedData(const QString &comment163Key);
 
 Media NcmHelper::getMediaFromPath(const QString &path) {
     QFile ncmFile(QUrl(path).path());
@@ -62,7 +67,8 @@ Media NcmHelper::getMediaFromPath(const QString &path) {
     }
 }
 
-QString NcmHelper::dump(const Media &media) {
+QString
+NcmHelper::dump(const Media &media) {
     QFile ncmFile(QUrl(media.rawUrl()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
@@ -106,7 +112,8 @@ QString NcmHelper::dump(const Media &media) {
         swap = mCoreKeyBox[i];
         quint8 b = (swap + last_byte + (unsigned char) (m_core_key[17 + key_offset++]));
         c = (b & 0xff);
-        if (key_offset >= m_core_key.length() - 17) key_offset = 0;
+        if (key_offset >= m_core_key.length() - 17)
+            key_offset = 0;
         mCoreKeyBox[i] = mCoreKeyBox[c];
         mCoreKeyBox[c] = swap;
         last_byte = c;
@@ -125,8 +132,10 @@ QString NcmHelper::dump(const Media &media) {
     QByteArray musicContent;
     auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
     auto outPath = cachePath + "/CachedSongs/" + QFileInfo(QUrl(media.rawUrl()).path()).baseName();
-    if (getFileFormat(media.comment()) == "mp3") outPath += ".mp3";
-    else outPath += ".flac";
+    if (getFileFormat(media.comment()) == "mp3")
+        outPath += ".mp3";
+    else
+        outPath += ".flac";
     QFile outMusic(outPath);
     outMusic.open(QFile::WriteOnly);
 
@@ -145,49 +154,14 @@ QString NcmHelper::dump(const Media &media) {
     return outPath;
 }
 
-QString getFileFormat(const QString &key) {
-    QByteArray modifyData = key.toLocal8Bit();
-    QByteArray swapModifyData;
-    QByteArray modifyOutData;
-    QByteArray modifyDecryptData;
-
-    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
-
-    swapModifyData = modifyData.right(modifyData.length() - 22);
-
-    modifyOutData = QByteArray::fromBase64(swapModifyData);
-
-    modifyDecryptData = encryption.decode(modifyOutData, BitWaveConstants::ncmModifyKey());
-
-    // escape `music:`
-    modifyDecryptData = modifyDecryptData.right(modifyDecryptData.length() - 6);
-
-    modifyDecryptData = modifyDecryptData.left(
-            modifyDecryptData.length() - modifyDecryptData[modifyDecryptData.length() - 1]);
-    QJsonObject meta_obj = QJsonDocument::fromJson(modifyDecryptData).object();
+QString
+getFileFormat(const QString &key) {
+    QJsonObject meta_obj = NcmHelper::getMusicJsonInfo(key);
     return meta_obj["format"].toString();
 }
 
 void NcmHelper::getMetadataFrom163Key(Media &dst) {
-    QByteArray modifyData = dst.comment().toLocal8Bit();
-    QByteArray swapModifyData;
-    QByteArray modifyOutData;
-    QByteArray modifyDecryptData;
-
-    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
-
-    swapModifyData = modifyData.right(modifyData.length() - 22);
-
-    modifyOutData = QByteArray::fromBase64(swapModifyData);
-
-    modifyDecryptData = encryption.decode(modifyOutData, BitWaveConstants::ncmModifyKey());
-
-    // escape `music:`
-    modifyDecryptData = modifyDecryptData.right(modifyDecryptData.length() - 6);
-
-    modifyDecryptData = modifyDecryptData.left(
-            modifyDecryptData.length() - modifyDecryptData[modifyDecryptData.length() - 1]);
-    QJsonObject meta_obj = QJsonDocument::fromJson(modifyDecryptData).object();
+    QJsonObject meta_obj = NcmHelper::getMusicJsonInfo(dst.comment());
     dst.setTitle(meta_obj["musicName"].toString());
     dst.setCollection(meta_obj["album"].toString());
     dst.setCoverUrl(meta_obj["albumPic"].toString());
@@ -196,14 +170,15 @@ void NcmHelper::getMetadataFrom163Key(Media &dst) {
 
     auto artists = meta_obj["artist"].toArray();
     QString artist;
-    for (auto i: artists) {
+    for (auto i : artists) {
         artist += i.toArray()[0].toString() + "/";
     }
     artist = artist.left(artist.length() - 1);
     dst.setArtist(artist);
 }
 
-QString NcmHelper::dumpMediaCover(const Media &media) {
+QString
+NcmHelper::dumpMediaCover(const Media &media) {
     QFile ncmFile(QUrl(media.rawUrl()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
@@ -245,4 +220,39 @@ QString NcmHelper::dumpMediaCover(const Media &media) {
         ncmFile.close();
         throw std::exception();
     }
+}
+
+quint64
+NcmHelper::getMusicId(const QString &comment163Key) {
+    auto metaObj = NcmHelper::getMusicJsonInfo(comment163Key);
+    return metaObj["musicId"].toVariant().toLongLong();
+}
+
+QJsonObject
+NcmHelper::getMusicJsonInfo(const QString &comment163Key) {
+    auto decryptedData = getDecryptedData(comment163Key);
+    return QJsonDocument::fromJson(decryptedData).object();
+}
+
+QByteArray
+getDecryptedData(const QString &comment163Key) {
+    QByteArray modifyData = comment163Key.toLocal8Bit();
+    QByteArray swapModifyData;
+    QByteArray modifyOutData;
+    QByteArray modifyDecryptData;
+
+    QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
+
+    swapModifyData = modifyData.right(modifyData.length() - 22);
+
+    modifyOutData = QByteArray::fromBase64(swapModifyData);
+
+    modifyDecryptData = encryption.decode(modifyOutData, BitWaveConstants::ncmModifyKey());
+
+    // escape `music:`
+    modifyDecryptData = modifyDecryptData.right(modifyDecryptData.length() - 6);
+
+    modifyDecryptData = modifyDecryptData.left(
+            modifyDecryptData.length() - modifyDecryptData[modifyDecryptData.length() - 1]);
+    return modifyDecryptData;
 }

@@ -1,30 +1,34 @@
-/* 
+/*
  * display_manager.cpp
  *
  * Summary: misc variables for QML frontend.
  * Author: Reverier-Xu <reverier.xu@outlook.com>
- * 
+ *
  * Created: 2021-06-25
  * Last Modified: 2021-08-11
- * 
+ *
  */
 
-#include <QSettings>
 #include "display_manager.h"
+
+#include <QSettings>
+
 #include "player_manager.h"
 
 DisplayManager *DisplayManager::mInstance = nullptr;
 
 DisplayManager *DisplayManager::instance(QObject *parent) {
-    if (mInstance == nullptr) mInstance = new DisplayManager(parent);
+    if (mInstance == nullptr)
+        mInstance = new DisplayManager(parent);
     return mInstance;
 }
 
-DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
-    this->hideTimer = new QTimer(this);
-    this->hideTimer->setInterval(1000);
+DisplayManager::DisplayManager(QObject *parent)
+        : BaseManager(parent) {
+    this->mHideTimer = new QTimer(this);
+    this->mHideTimer->setInterval(1000);
 
-    connect(this->hideTimer, &QTimer::timeout, [=]() {
+    connect(this->mHideTimer, &QTimer::timeout, [=]() {
         if (PlayerManager::instance()->currentMediaIsVideo() && this->pageIndex() == 0)
             this->setMouseIsActive(false);
     });
@@ -37,22 +41,32 @@ DisplayManager::DisplayManager(QObject *parent) : BaseManager(parent) {
         }
     });
 
-    connect(QueueManager::instance(this->parent()), &QueueManager::playQueueEnded, [=]() {
-        this->setMouseIsActive(true);
-        this->setSideBarExpanded(true);
-    });
+    connect(QueueManager::instance(this->parent()),
+            &QueueManager::playQueueEnded,
+            [=]() {
+                this->setMouseIsActive(true);
+                this->setSideBarExpanded(true);
+            });
 
-    connect(PlayerManager::instance(), &PlayerManager::currentMediaIsVideoChanged, this, [=](bool n) {
-        if (!n) this->setMouseIsActive(true);
-    });
+    connect(PlayerManager::instance(),
+            &PlayerManager::currentMediaIsVideoChanged,
+            this,
+            [=](bool n) {
+                if (!n)
+                    this->setMouseIsActive(true);
+            });
 
-    connect(PlayerManager::instance(), &PlayerManager::showTips, [=](const QString &icon, const QString &info) {
-        emit this->showTips(icon, info);
-    });
+    connect(PlayerManager::instance(),
+            &PlayerManager::showTips,
+            [=](const QString &icon, const QString &info) {
+                emit this->showTips(icon, info);
+            });
 
-    connect(QueueManager::instance(), &QueueManager::showTips, [=](const QString &icon, const QString &info) {
-        emit this->showTips(icon, info);
-    });
+    connect(QueueManager::instance(),
+            &QueueManager::showTips,
+            [=](const QString &icon, const QString &info) {
+                emit this->showTips(icon, info);
+            });
 
     this->loadSettings();
 }
@@ -83,11 +97,13 @@ void DisplayManager::saveSettings() {
 
 void DisplayManager::delayedHide() {
     this->setMouseIsActive(true);
-    if (this->hideTimer->isActive()) this->hideTimer->stop();
-    this->hideTimer->start();
+    if (this->mHideTimer->isActive())
+        this->mHideTimer->stop();
+    this->mHideTimer->start();
 }
 
 void DisplayManager::blockDelayedHide() {
     this->setMouseIsActive(true);
-    if (this->hideTimer->isActive()) this->hideTimer->stop();
+    if (this->mHideTimer->isActive())
+        this->mHideTimer->stop();
 }

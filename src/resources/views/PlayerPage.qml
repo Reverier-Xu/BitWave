@@ -187,16 +187,6 @@ Rectangle {
                 font.pixelSize: 16
                 color: "#e0808080"
             }
-
-            Text {
-                id: loadingLyricLabel
-                text: qsTr("Loading Lyrics...")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.centerIn: parent
-                visible: player.isLyricLoaded === 1
-                font.pixelSize: 16
-                color: "#e0808080"
-            }
         }
 
         TextMetrics {

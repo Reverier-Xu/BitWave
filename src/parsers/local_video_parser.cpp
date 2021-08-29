@@ -3,17 +3,19 @@
 //
 
 #include "local_video_parser.h"
+
+#include <utilities/memory_helper.h>
+
 #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
-#include <utilities/memory_helper.h>
 
 extern "C" {
 #include <libavformat/avformat.h>
 }
 
-
-const QStringList &LocalVideoParser::acceptTypes() {
+const QStringList &
+LocalVideoParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
         types = QStringList() << "mp4"
@@ -56,7 +58,8 @@ bool LocalVideoParser::accepted(const QString &path) {
     return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
 }
 
-LocalVideoParser *LocalVideoParser::clone() {
+LocalVideoParser *
+LocalVideoParser::clone() {
     return new LocalVideoParser(*this);
 }
 
@@ -70,26 +73,32 @@ Media LocalVideoParser::getMedia(const QString &path) {
     AVDictionaryEntry *read_tag;
     auto raw_path = path.toStdString();
 
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 1");
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 1");
     avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 2");
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 2");
     avformat_find_stream_info(ctx, nullptr);
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 3");
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 3");
 
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setTitle(read_tag->value);
-    else media.setTitle(QFileInfo(path).baseName());
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 4");
+    if (read_tag)
+        media.setTitle(read_tag->value);
+    else
+        media.setTitle(QFileInfo(path).baseName());
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 4");
 
     read_tag = av_dict_get(ctx->metadata, "artist", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setArtist(read_tag->value);
-    else media.setArtist(tr("Unknown Artist"));
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 5");
+    if (read_tag)
+        media.setArtist(read_tag->value);
+    else
+        media.setArtist(tr("Unknown Artist"));
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 5");
 
     read_tag = av_dict_get(ctx->metadata, "album", tag, AV_DICT_IGNORE_SUFFIX);
-    if (read_tag) media.setCollection(read_tag->value);
-    else media.setCollection("Unknown Album");
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 6");
+    if (read_tag)
+        media.setCollection(read_tag->value);
+    else
+        media.setCollection("Unknown Album");
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 6");
 
     if (ctx->duration != AV_NOPTS_VALUE) {
         int64_t secs, us;
@@ -97,11 +106,11 @@ Media LocalVideoParser::getMedia(const QString &path) {
         secs = duration / AV_TIME_BASE;
         us = duration % AV_TIME_BASE;
         media.setDuration(double(secs) + double(us) / AV_TIME_BASE);
-//        qDebug() << secs;
-//        qDebug() << us;
+        //        qDebug() << secs;
+        //        qDebug() << us;
     }
-//    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 7");
-//    qDebug() << media.duration();
+    //    MemoryHelper::assertMemory("LocalVideoParser::getMedia Mid 7");
+    //    qDebug() << media.duration();
     avformat_close_input(&ctx);
     // MemoryHelper::assertMemory("LocalVideoParser::getMedia End");
     return media;
@@ -111,6 +120,7 @@ Media LocalVideoParser::parseMedia(const Media &media) {
     return media;
 }
 
-QString LocalVideoParser::getMediaCover(const Media &media) {
+QString
+LocalVideoParser::getMediaCover(const Media &media) {
     return "qrc:/assets/movie-big.svg";
 }

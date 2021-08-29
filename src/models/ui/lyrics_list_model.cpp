@@ -11,6 +11,7 @@
 int LyricsListModel::rowCount(const QModelIndex &parent) const {
     return mLyrics.size();
 }
+
 QVariant LyricsListModel::data(const QModelIndex &index, int role) const {
     if (index.isValid() && index.row() < mLyrics.size()) {
         switch (role) {
@@ -47,7 +48,9 @@ void LyricsListModel::addLyric(const LyricContent &lyric) {
     endInsertRows();
 }
 
-void LyricsListModel::insertLyric(const QString &content, double start, double end,
+void LyricsListModel::insertLyric(const QString &content,
+                                  double start,
+                                  double end,
                                   int row) {
     beginInsertRows(QModelIndex(), row, row);
     mLyrics.insert(row, LyricContent(this, content, start, end));
@@ -70,26 +73,25 @@ void LyricsListModel::removeLyric(int row) {
 
 typedef struct Lyric {
     QString content;
-    double start{};
+    double start{ };
 } Lyric;
 
 void splitLyric(QList<Lyric> &lyrics, const QString &raw) {
     QStringList rawList = raw.split("\n");
     QRegExp rx(R"(\[\d+:\d+\.\d+\])");
     for (int i = 0; i < rawList.size(); i++) {
-        const QString& line = rawList.at(i);
+        const QString &line = rawList.at(i);
         if (rx.indexIn(line) != -1) {
             QString content = line;
             content.remove(rx);
-            for (const auto& j :rx.capturedTexts()) {
+            for (const auto &j : rx.capturedTexts()) {
                 QString captured = j.trimmed();
                 captured = captured.mid(1, captured.length() - 2);
                 QStringList capturedList = captured.split(":");
                 if (capturedList.size() == 2) {
                     Lyric lyric;
                     lyric.content = content;
-                    lyric.start = capturedList.at(0).toDouble() * 60 +
-                                  capturedList.at(1).toDouble();
+                    lyric.start = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
                     lyrics << lyric;
                 }
             }
@@ -101,17 +103,16 @@ void insertLyricTr(QList<Lyric> &lyrics, const QString &tr) {
     QStringList trList = tr.split("\n");
     QRegExp rx(R"(\[\d+:\d+\.\d+\])");
     for (int i = 0; i < trList.size(); i++) {
-        const QString& line = trList.at(i);
+        const QString &line = trList.at(i);
         if (rx.indexIn(line) != -1) {
             QString content = line;
             content.remove(rx);
-            for (const auto& j : rx.capturedTexts()) {
+            for (const auto &j : rx.capturedTexts()) {
                 QString captured = j.trimmed();
                 captured = captured.mid(1, captured.length() - 2);
                 QStringList capturedList = captured.split(":");
                 if (capturedList.size() == 2) {
-                    double start = capturedList.at(0).toDouble() * 60 +
-                                   capturedList.at(1).toDouble();
+                    double start = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
                     // 二分法
                     int left = 0;
                     int right = lyrics.size() - 1;
@@ -136,7 +137,8 @@ void insertLyricTr(QList<Lyric> &lyrics, const QString &tr) {
 void LyricsListModel::parseLyrics(const QString &raw, const QString &tr) {
     QList<Lyric> lyrics;
     splitLyric(lyrics, raw);
-    if (!tr.isEmpty()) insertLyricTr(lyrics, tr);
+    if (!tr.isEmpty())
+        insertLyricTr(lyrics, tr);
     beginResetModel();
     mLyrics.clear();
     for (auto i = 0; i < lyrics.size(); i++) {

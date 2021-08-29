@@ -5,12 +5,13 @@
 #include "screensaver.h"
 
 class WindowsScreensaver : public Screensaver {
- public:
-  WindowsScreensaver();
+public:
+    WindowsScreensaver();
 
-  void Inhibit() override;
-  void UnInhibit() override;
+    void Inhibit() override;
 
- private:
-  EXECUTION_STATE previous_state_;
+    void UnInhibit() override;
+
+private:
+    EXECUTION_STATE previous_state_;
 };
