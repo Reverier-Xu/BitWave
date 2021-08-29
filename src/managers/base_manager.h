@@ -16,8 +16,8 @@
 class BaseManager : public QObject {
     Q_OBJECT
 public:
-    BaseManager(QObject *parent = 0): QObject(parent) { }
-    virtual ~BaseManager() = default;
+    explicit BaseManager(QObject *parent = nullptr): QObject(parent) { }
+    ~BaseManager() override = default;
     virtual void loadSettings() = 0;
     virtual void saveSettings() = 0;
 };

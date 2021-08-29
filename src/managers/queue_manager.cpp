@@ -73,6 +73,17 @@ void QueueManager::addMediaAtTail(const Media &media) {
     emit this->mediaQueueChanged();
 }
 
+void QueueManager::moveMedia(int index, int offset) {
+    if (index < this->queuePos() and index + offset >= this->queuePos())
+        this->mQueuePos--;
+    else if (index > this->queuePos() and index + offset <= this->queuePos())
+        this->mQueuePos++;
+    else if (index == this->queuePos())
+        this->mQueuePos = index + offset;
+    this->mMainQueue.move(index, index+offset);
+    this->mQueueModel->reloadQueue();
+}
+
 void QueueManager::playExternMedia(const QString &path) {
     // qDebug() << "Extern Media Requested: " << path;
     // MemoryHelper::assertMemory("QueueManager::playExternMedia");
@@ -203,6 +214,7 @@ void QueueManager::clearQueue() {
     this->clearHistory();
     this->setQueuePos(-1);
     emit this->mediaQueueChanged();
+    this->mQueueModel->reloadQueue();
 }
 
 void QueueManager::clearHistory() {

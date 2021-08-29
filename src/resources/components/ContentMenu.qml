@@ -14,7 +14,7 @@ Menu {
         border.width: 1
         border.color: display.colorStyle? "#cccccc":"#101010"
         radius: 0
-        color: display.colorStyle? "#eeeeee":"#151515"
+        color: display.colorStyle? "#c0c0c0":"#303030"
         implicitWidth: 200
         implicitHeight: 40
     }
@@ -32,7 +32,8 @@ Menu {
             property var itemStoreId: itemId
             onClicked: {
                 contentMenu.itemClicked(itemStoreId);
-                contentMenu.close();
+                if (typeof contentMenu !== "undefined")
+                    contentMenu.close();
             }
         }
     }

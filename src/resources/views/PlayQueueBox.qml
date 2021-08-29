@@ -33,6 +33,15 @@ Rectangle {
             onClicked: {
                 queue.queuePos = mediaId;
             }
+            onPlayTriggered: {
+                queue.queuePos = triggerId;
+            }
+            onRemoveTriggered: {
+                queue.removeMedia(triggerId);
+            }
+            onClearTriggered: {
+                queue.clearQueue();
+            }
         }
     }
 }

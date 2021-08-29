@@ -82,7 +82,7 @@ Rectangle {
                 else if (event.key === Qt.Key_Tab)
                     root.tabPressed()
             }
-    
+
             ContentMenu {
                 id: contentMenu
                 onItemClicked: {
@@ -101,23 +101,23 @@ Rectangle {
                 }
                 model: ListModel {
                     ListElement {
-                        itemText: "全选 (Ctrl+A)"
+                        itemText: "Select All"
                         itemId: 0
                     }
                     ListElement {
-                        itemText: "复制 (Ctrl+C)"
+                        itemText: "Copy"
                         itemId: 1
                     }
                     ListElement {
-                        itemText: "剪切 (Ctrl+X)"
+                        itemText: "Cut"
                         itemId: 2
                     }
                     ListElement {
-                        itemText: "粘贴 (Ctrl+V)"
+                        itemText: "Paste"
                         itemId: 3
                     }
                     ListElement {
-                        itemText: "撤销 (Ctrl+Z)"
+                        itemText: "Undo"
                         itemId: 4
                     }
                 }

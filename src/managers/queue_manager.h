@@ -119,6 +119,7 @@ public:
     void setQueuePos(int n) {
         this->mQueuePos = n;
         emit this->queuePosChanged(n);
+        if (n == -1) emit this->playQueueEnded();
         if (!this->mMainQueue.empty() and this->queuePos() > -1) {
             auto media = this->mMainQueue.at(n);
             this->setCurrentMedia(media);
@@ -150,6 +151,8 @@ public slots:
     Q_INVOKABLE void handleExternMediaInfoIsReady(bool ok, const Media &media);
 
     Q_INVOKABLE void removeMedia(int index);
+
+    Q_INVOKABLE void moveMedia(int index, int offset);
 
     Q_INVOKABLE void next();
 

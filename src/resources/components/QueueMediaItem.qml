@@ -11,6 +11,10 @@ PushArea {
 
     height: 36
 
+    signal playTriggered(int triggerId);
+    signal removeTriggered(int triggerId);
+    signal clearTriggered();
+
     Rectangle {
         anchors.fill: parent
         color: theId % 2 == 0 ? "#20808080" : "transparent"
@@ -84,5 +88,37 @@ PushArea {
         font.pixelSize: 16
         color: display.contentColor
         text: titleMetrics.elidedText
+    }
+
+    ContentMenu {
+        id: contentMenu
+        onItemClicked: {
+            switch (itemId) {
+            case 0: root.playTriggered(root.theId);
+                break;
+            case 1: root.removeTriggered(root.theId);
+                break;
+            case 2: root.clearTriggered();
+                break;
+            }
+        }
+        model: ListModel {
+            ListElement {
+                itemText: "Play"
+                itemId: 0
+            }
+            ListElement {
+                itemText: "Remove"
+                itemId: 1
+            }
+            ListElement {
+                itemText: "Clear Queue"
+                itemId: 2
+            }
+        }
+    }
+
+    onRightClicked: {
+        contentMenu.popup();
     }
 }

@@ -27,7 +27,7 @@ set(MANAGERS_SRCS
         managers/display_manager.h
         managers/queue_manager.cpp
         managers/queue_manager.h
-        )
+        managers/router_manager.cpp managers/router_manager.h)
 
 set(MODELS_SRCS
         models/media.cpp
