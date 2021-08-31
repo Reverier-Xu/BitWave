@@ -6,4 +6,6 @@ cmake-build-relwithdebinfo/
 .vscode/
 .idea/
 CMakeFiles/
+3rd/libmpv/
+3rd/ffmpeg/
 github-token
