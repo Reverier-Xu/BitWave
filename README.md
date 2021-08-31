@@ -21,6 +21,29 @@ BitWave/build $ cmake .. && make
 BitWave/build $ ./bin/BitWave
 ```
 
+## Windows
+
+需要Visual Studio 2019， MSVC 2017，Qt 5.15.2+
+
+将`ffmpeg`与`libmpv`放置于`3rd/`下，相关lib请自行下载。
+
+```
+|- 3rd
+| |- libmpv
+| | |- mpv-1.dll
+| | |- libmpv.dll.a
+| | -- ...
+| |
+| |- ffmpeg
+| | |- include
+| | |- libs
+| | -- ...
+| |
+| -- QtAES
+|
+|- ...
+```
+
 ## Status
 
 - 支持播放绝大部分格式的各种音频文件。
