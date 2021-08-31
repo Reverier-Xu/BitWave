@@ -27,7 +27,7 @@ set(MANAGERS_SRCS
         managers/display_manager.h
         managers/queue_manager.cpp
         managers/queue_manager.h
-        managers/router_manager.cpp managers/router_manager.h managers/lyric_provider_manager.cpp managers/lyric_provider_manager.h)
+        managers/service_manager.cpp managers/service_manager.h managers/lyric_provider_manager.cpp managers/lyric_provider_manager.h)
 
 set(MODELS_SRCS
         models/media.cpp
@@ -78,7 +78,9 @@ set(UTILITIES_SRCS
         utilities/memory_helper.h
         dbus/screensaver.cpp
         utilities/time_helper.cpp
-        utilities/time_helper.h utilities/single_app_guard.cpp utilities/single_app_guard.h)
+        utilities/time_helper.h
+        utilities/single_app_guard.cpp
+        utilities/single_app_guard.h)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
@@ -97,7 +99,7 @@ set(SRCS
         ${MANAGERS_SRCS}
         ${MODELS_SRCS}
         ${RESOURCES}
-        )
+        services/base_service.cpp services/base_service.h)
 
 # DBUS and MPRIS - Unix specific
 if (UNIX AND Qt5DBus_FOUND)

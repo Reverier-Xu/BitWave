@@ -8,7 +8,7 @@
 #include <QString>
 
 enum MediaType {
-    AUDIO,
+    AUDIO = 0,
     VIDEO,
     UNKNOWN
 };
@@ -31,8 +31,6 @@ Q_OBJECT
             QString title MEMBER mTitle READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QString artist MEMBER mArtist READ artist WRITE setArtist NOTIFY
                        artistChanged)
-    Q_PROPERTY(QString coverUrl MEMBER mCoverUrl READ coverUrl WRITE setCoverUrl
-                       NOTIFY coverUrlChanged)
     Q_PROPERTY(
             MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE
@@ -40,13 +38,13 @@ Q_OBJECT
     Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment
                        NOTIFY commentChanged)
 
-private:
+private:        // data
+    uint mId;   // for database use only
     QString mRawUrl;
     double mDuration;
     QString mTitle;
     QString mArtist;
     QString mCollection;
-    QString mCoverUrl;
     MediaType mType;
     QString mComment;
 
@@ -76,7 +74,6 @@ public:
         mTitle = media.mTitle;
         mArtist = media.mArtist;
         mCollection = media.mCollection;
-        mCoverUrl = media.mCoverUrl;
         mType = media.mType;
         mComment = media.mComment;
     }
@@ -87,7 +84,6 @@ public:
         mDuration = media.mDuration;
         mTitle = media.mTitle;
         mArtist = media.mArtist;
-        mCoverUrl = media.mCoverUrl;
         mType = media.mType;
         mComment = media.mComment;
         return *this;
@@ -121,13 +117,6 @@ public:
         emit artistChanged(n);
     }
 
-    [[nodiscard]] QString coverUrl() const { return this->mCoverUrl; }
-
-    void setCoverUrl(const QString &n) {
-        this->mCoverUrl = n;
-        emit coverUrlChanged(n);
-    }
-
     [[nodiscard]] MediaType type() const { return this->mType; }
 
     void setType(MediaType n) {
@@ -158,8 +147,6 @@ signals:
     void titleChanged(const QString &n);
 
     void artistChanged(const QString &n);
-
-    void coverUrlChanged(const QString &n);
 
     void typeChanged(MediaType n);
 

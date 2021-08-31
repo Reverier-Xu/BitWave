@@ -61,7 +61,6 @@ set(_MPV_LIBRARIES_NAMES mpv)
 if (PC_MPV_LIBRARIES)
     set(_MPV_LIBRARIES_NAMES ${PC_MPV_LIBRARIES})
 endif (PC_MPV_LIBRARIES)
-
 if (WIN32)
     if (NOT PC_MPV_LIBDIR)
         set(PC_MPV_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv)
@@ -69,8 +68,10 @@ if (WIN32)
     endif (NOT PC_MPV_LIBDIR)
 endif (WIN32)
 
+message("MPV_LIB_NAMES: ${_MPV_LIBRARIES_NAMES}")
 
 foreach (l ${_MPV_LIBRARIES_NAMES})
+    message("${l}")
     find_library(
             MPV_LIBRARIES_${l}
             NAMES ${l}

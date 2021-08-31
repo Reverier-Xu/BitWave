@@ -8,15 +8,15 @@
 
 #include "base_manager.h"
 
-class RouterManager : public BaseManager {
+class ServiceManager : public BaseManager {
 Q_OBJECT
 protected:
-    explicit RouterManager(QObject *parent);
+    explicit ServiceManager(QObject *parent);
 
-    static RouterManager *mInstance;
+    static ServiceManager *mInstance;
 
 public:
-    [[nodiscard]] static RouterManager *instance(QObject *parent);
+    [[nodiscard]] static ServiceManager *instance(QObject *parent);
 
     void loadSettings() override;
 

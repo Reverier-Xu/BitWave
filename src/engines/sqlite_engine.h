@@ -17,6 +17,8 @@
 #include <QSqlQuery>
 #include <QString>
 
+#include "models/media.h"
+
 class SQLiteEngine : public QObject {
 Q_OBJECT
 
@@ -35,9 +37,9 @@ private:
     QString mDatabaseFile;
     QString mDatabaseName;
     QSqlDatabase mDatabase;
-    bool mIsOpen;
-    bool mIsReadOnly;
-    bool mIsValid;
+    bool mIsOpen{};
+    bool mIsReadOnly{};
+    bool mIsValid{};
 
 protected:
     explicit SQLiteEngine(QObject *parent);
@@ -70,4 +72,28 @@ public:
     [[nodiscard]] bool isValid() const { return this->mIsValid; }
 
     void setIsValid(bool n) { this->mIsValid = n; }
+
+public slots:
+    bool open(const QString &db);
+
+    void close();
+
+    void createMediaList(const QString &tableName, const QList<Media> &mediaList = QList<Media>());
+
+    bool dropMediaList(const QString &tableName);
+
+    bool addMedia(const QString &tableName, const Media& media);
+
+    bool deleteMedia(const QString &tableName, const Media& media);
+
+    QList<Media> getMediaList(const QString &tableName);
+
+    bool isMediaExist(const QString &tableName, const Media& media);
+
+    bool updateMedia(const QString &tableName, const Media& media);
+
+    bool updateMediaList(const QString &tableName, const QList<Media> &mediaList);
+
+    QStringList getMediaLists();
+
 };

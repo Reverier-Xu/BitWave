@@ -20,11 +20,9 @@ extern "C" {
 
 #include "app_defs.h"
 
-QString
-getFileFormat(const QString &key);
+QString getFileFormat(const QString &key);
 
-QByteArray
-getDecryptedData(const QString &comment163Key);
+QByteArray getDecryptedData(const QString &comment163Key);
 
 Media NcmHelper::getMediaFromPath(const QString &path) {
     QFile ncmFile(QUrl(path).path());
@@ -67,8 +65,7 @@ Media NcmHelper::getMediaFromPath(const QString &path) {
     }
 }
 
-QString
-NcmHelper::dump(const Media &media) {
+QString NcmHelper::dump(const Media &media) {
     QFile ncmFile(QUrl(media.rawUrl()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
@@ -154,8 +151,7 @@ NcmHelper::dump(const Media &media) {
     return outPath;
 }
 
-QString
-getFileFormat(const QString &key) {
+QString getFileFormat(const QString &key) {
     QJsonObject meta_obj = NcmHelper::getMusicJsonInfo(key);
     return meta_obj["format"].toString();
 }
@@ -164,7 +160,6 @@ void NcmHelper::getMetadataFrom163Key(Media &dst) {
     QJsonObject meta_obj = NcmHelper::getMusicJsonInfo(dst.comment());
     dst.setTitle(meta_obj["musicName"].toString());
     dst.setCollection(meta_obj["album"].toString());
-    dst.setCoverUrl(meta_obj["albumPic"].toString());
 
     dst.setDuration(meta_obj["duration"].toVariant().toDouble() / 1000);
 
@@ -177,8 +172,7 @@ void NcmHelper::getMetadataFrom163Key(Media &dst) {
     dst.setArtist(artist);
 }
 
-QString
-NcmHelper::dumpMediaCover(const Media &media) {
+QString NcmHelper::dumpMediaCover(const Media &media) {
     QFile ncmFile(QUrl(media.rawUrl()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
@@ -222,20 +216,17 @@ NcmHelper::dumpMediaCover(const Media &media) {
     }
 }
 
-quint64
-NcmHelper::getMusicId(const QString &comment163Key) {
+quint64 NcmHelper::getMusicId(const QString &comment163Key) {
     auto metaObj = NcmHelper::getMusicJsonInfo(comment163Key);
     return metaObj["musicId"].toVariant().toLongLong();
 }
 
-QJsonObject
-NcmHelper::getMusicJsonInfo(const QString &comment163Key) {
+QJsonObject NcmHelper::getMusicJsonInfo(const QString &comment163Key) {
     auto decryptedData = getDecryptedData(comment163Key);
     return QJsonDocument::fromJson(decryptedData).object();
 }
 
-QByteArray
-getDecryptedData(const QString &comment163Key) {
+QByteArray getDecryptedData(const QString &comment163Key) {
     QByteArray modifyData = comment163Key.toLocal8Bit();
     QByteArray swapModifyData;
     QByteArray modifyOutData;
