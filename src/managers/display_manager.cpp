@@ -11,6 +11,7 @@
 
 #include "display_manager.h"
 
+#include <QObject>
 #include <QSettings>
 
 #include "player_manager.h"
@@ -24,7 +25,7 @@ DisplayManager *DisplayManager::instance(QObject *parent) {
 }
 
 DisplayManager::DisplayManager(QObject *parent)
-        : BaseManager(parent) {
+        : QObject(parent) {
     this->mHideTimer = new QTimer(this);
     this->mHideTimer->setInterval(1000);
 
@@ -84,7 +85,7 @@ void DisplayManager::loadSettings() {
     settings.endGroup();
 }
 
-void DisplayManager::saveSettings() {
+void DisplayManager::saveSettings() const {
     QSettings settings;
     settings.beginGroup("Display");
     settings.setValue("ThemeColor", this->themeColor().name());

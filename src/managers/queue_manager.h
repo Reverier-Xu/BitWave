@@ -11,12 +11,11 @@
 #include <QString>
 #include <QUrl>
 
-#include "base_manager.h"
 #include "models/media.h"
 #include "models/ui/media_queue_model.h"
 #include "utilities/memory_helper.h"
 
-class QueueManager : public BaseManager {
+class QueueManager : public QObject {
 Q_OBJECT
     Q_PROPERTY(int playMode MEMBER mPlayMode READ playMode WRITE setPlayMode
                        NOTIFY playModeChanged)
@@ -52,9 +51,9 @@ protected:
 public:
     static QueueManager *instance(QObject *parent = nullptr);
 
-    void loadSettings() override;
+    void loadSettings();
 
-    void saveSettings() override;
+    void saveSettings() const;
 
     [[nodiscard]] int playMode() const { return this->mPlayMode; };
 

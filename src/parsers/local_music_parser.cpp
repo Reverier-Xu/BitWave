@@ -103,7 +103,6 @@ Media LocalMusicParser::parseMedia(const Media &media) {
 QString
 LocalMusicParser::getMediaCover(const Media &media) {
     AVFormatContext *ctx = nullptr;
-    AVDictionaryEntry *tag = nullptr;
     int ret = avformat_open_input(
             &ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
     if (ret < 0)

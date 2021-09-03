@@ -24,14 +24,29 @@ Rectangle {
         anchors.bottom: parent.bottom
         model: mainQueueModel
         ScrollBar.vertical: UXScrollBar { }
+        add: Transition {
+            NumberAnimation { properties: "x"; from: 100; duration: 300; easing.type: Easing.OutExpo; }
+            NumberAnimation { properties: "opacity"; from: 0; to: 1; duration: 200; }
+        }
+        addDisplaced: Transition {
+            NumberAnimation { properties: "y"; duration: 200; easing.type: Easing.OutExpo; }
+        }
+        removeDisplaced: Transition {
+            PauseAnimation { duration: 300; }
+            NumberAnimation { properties: "y"; duration: 200 }
+        }
+        remove: Transition {
+            NumberAnimation { properties: "x"; to: 100; duration: 300; easing.type: Easing.OutExpo; }
+            NumberAnimation { properties: "opacity"; from: 1; to: 0; duration: 300; easing.type: Easing.OutExpo; }
+        }
         delegate: QueueMediaItem {
             width: ListView.view.width
-            theId: mediaId
+            theId: index
             theTitle: mediaTitle
             theDuration: mediaDuration
-            theStatus: mediaId === queue.queuePos
+            theStatus: index === queue.queuePos
             onClicked: {
-                queue.queuePos = mediaId;
+                queue.queuePos = index;
             }
             onPlayTriggered: {
                 queue.queuePos = triggerId;

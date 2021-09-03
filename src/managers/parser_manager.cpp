@@ -12,7 +12,7 @@
 #include "parser_manager.h"
 
 #include <QColor>
-#include <QDebug>
+// #include <QDebug>
 #include <QImage>
 #include <QUrl>
 
@@ -20,7 +20,7 @@
 #include "parsers/local_netease_music_parser.h"
 #include "parsers/local_video_parser.h"
 #include "utilities/color_helper.h"
-#include "utilities/memory_helper.h"
+// #include "utilities/memory_helper.h"
 
 ParserManager *ParserManager::mInstance = nullptr;
 

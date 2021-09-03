@@ -1,5 +1,5 @@
 //
-// Created by reverier on 2021/8/29.
+// Created by Reverier-Xu on 2021/8/29.
 //
 
 #include "service_manager.h"
@@ -13,11 +13,16 @@ ServiceManager *ServiceManager::instance(QObject *parent) {
 }
 
 ServiceManager::ServiceManager(QObject *parent)
-        : BaseManager(parent) {
+        : QObject(parent) {
+    this->loadSettings();
 }
 
 void ServiceManager::loadSettings() {
 }
 
-void ServiceManager::saveSettings() {
+void ServiceManager::saveSettings() const {
+}
+
+ServiceManager::~ServiceManager() {
+    this->saveSettings();
 }

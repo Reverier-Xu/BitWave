@@ -49,17 +49,17 @@ namespace mpris {
         Q_PROPERTY(bool CanControl READ CanControl)
 
         // Root Properties
-        [[nodiscard]] bool CanQuit();
+        [[nodiscard]] static bool CanQuit();
 
-        [[nodiscard]] bool CanRaise();
+        [[nodiscard]] static bool CanRaise();
 
-        [[nodiscard]] QString Identity();
+        [[nodiscard]] static QString Identity();
 
-        [[nodiscard]] QString DesktopEntry() const;
+        [[nodiscard]] static QString DesktopEntry() ;
 
-        [[nodiscard]] QStringList SupportedUriSchemes() const;
+        [[nodiscard]] static QStringList SupportedUriSchemes() ;
 
-        [[nodiscard]] QStringList SupportedMimeTypes() const;
+        [[nodiscard]] static QStringList SupportedMimeTypes() ;
 
         // Root Properties added in MPRIS 2.2
         [[nodiscard]] bool CanSetFullscreen() const;
@@ -69,10 +69,10 @@ namespace mpris {
         // Methods
         void Raise();
 
-        void Quit();
+        static void Quit();
 
         // Player Properties
-        [[nodiscard]] double Rate() const;
+        [[nodiscard]] static double Rate() ;
 
         void SetRate(double value);
 
@@ -84,13 +84,13 @@ namespace mpris {
 
         [[nodiscard]] qlonglong Position() const;
 
-        [[nodiscard]] double MaximumRate() const;
+        [[nodiscard]] static double MaximumRate() ;
 
-        [[nodiscard]] double MinimumRate() const;
+        [[nodiscard]] static double MinimumRate() ;
 
-        [[nodiscard]] bool CanGoNext() const;
+        [[nodiscard]] static bool CanGoNext() ;
 
-        [[nodiscard]] bool CanGoPrevious() const;
+        [[nodiscard]] static bool CanGoPrevious() ;
 
         [[nodiscard]] bool CanPlay() const;
 
@@ -137,15 +137,15 @@ namespace mpris {
     private:
         void EmitNotification(const QString &name);
 
-        void EmitNotification(const QString &name, const QVariant &val);
+        static void EmitNotification(const QString &name, const QVariant &val);
 
-        void EmitNotification(const QString &name,
+        static void EmitNotification(const QString &name,
                               const QVariant &val,
                               const QString &mprisEntity);
 
         [[nodiscard]] QString PlaybackStatus() const;
 
-        [[nodiscard]] QString DesktopEntryAbsolutePath();
+        [[nodiscard]] static QString DesktopEntryAbsolutePath();
 
     private:
         static const char *kMprisObjectPath;

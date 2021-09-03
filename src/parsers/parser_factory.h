@@ -13,7 +13,6 @@ class ParserFactory : public QObject {
 Q_OBJECT
 private:
     QMap<QString, BaseParser *> mParsersMap;
-    QList<BaseParser *> mParserList;
 
 protected:
     static ParserFactory *mInstance;

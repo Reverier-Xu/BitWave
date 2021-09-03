@@ -1,8 +1,13 @@
 #include "queue_manager.h"
+#include <qglobal.h>
+
+#ifdef Q_OS_LINUX
 
 #include <malloc.h>
 
-#include <QDebug>
+#endif
+
+// #include <QDebug>
 #include <QRandomGenerator>
 #include <QSettings>
 
@@ -11,7 +16,7 @@
 QueueManager *QueueManager::mInstance = nullptr;
 
 QueueManager::QueueManager(QObject *parent)
-        : BaseManager(parent) {
+        : QObject(parent) {
     this->mQueueModel = new MediaQueueModel(this);
     this->mQueueModel->setMediaQueue(&this->mMainQueue);
     // qDebug() << this->mQueueModel->rowCount(QModelIndex());
@@ -51,25 +56,29 @@ void QueueManager::addMedia(const Media &media) {
 }
 
 void QueueManager::addMediaAtHead(const Media &media) {
+    this->mQueueModel->beginInsertMedia(this->queuePos());
     this->mMainQueue.insert(this->queuePos(), media);
     this->setQueuePos(this->queuePos()); // playing the new media now.
-    this->mQueueModel->reloadQueue();
+    this->mQueueModel->endInsertMedia();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::addMediaAtNext(const Media &media) { // not support at random mode.
+    this->mQueueModel->beginInsertMedia(this->queuePos()+1);
     this->mMainQueue.insert(this->queuePos() + 1, media);
-    this->mQueueModel->reloadQueue();
+    this->mQueueModel->endInsertMedia();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::addMediaAtTail(const Media &media) {
+    this->mQueueModel->beginInsertMedia(this->mainQueue().count());
     this->mMainQueue.enqueue(media);
-    this->mQueueModel->reloadQueue();
+    this->mQueueModel->endInsertMedia();
     emit this->mediaQueueChanged();
 }
 
 void QueueManager::moveMedia(int index, int offset) {
+    // TODO: model has not impl move actions.
     if (index < this->queuePos() and index + offset >= this->queuePos())
         this->mQueuePos--;
     else if (index > this->queuePos() and index + offset <= this->queuePos())
@@ -77,7 +86,6 @@ void QueueManager::moveMedia(int index, int offset) {
     else if (index == this->queuePos())
         this->mQueuePos = index + offset;
     this->mMainQueue.move(index, index + offset);
-    this->mQueueModel->reloadQueue();
 }
 
 void QueueManager::playExternMedia(const QString &path) {
@@ -91,19 +99,20 @@ void QueueManager::playExternMedia(const QString &path) {
 }
 
 void QueueManager::removeMedia(int index) {
+    this->mQueueModel->beginRemoveMedia(index);
     this->mMainQueue.removeAt(index);
 
     if (index < this->queuePos()) {
         this->mQueuePos -= 1; // do not disturb playing.
     } else if (index == this->queuePos() and index < this->mMainQueue.count()) {
         this->setQueuePos(index); // stop current media and playing next one.
-    } else if (index >= this->mMainQueue.count()) { // media is the last one in the queue.
+    } else if (index > this->mMainQueue.count()) { // media is the last one in the queue.
         this->mQueueEnded = true;
         emit this->playQueueEnded();
         emit this->showTips("qrc:/assets/current.svg", tr("Finished"));
     }
 
-    this->mQueueModel->reloadQueue();
+    this->mQueueModel->endRemoveMedia();
     emit this->mediaQueueChanged();
 }
 
@@ -184,7 +193,7 @@ void QueueManager::loadSettings() {
     settings.endGroup();
 }
 
-void QueueManager::saveSettings() {
+void QueueManager::saveSettings() const {
     QSettings settings;
     settings.beginGroup("PlayQueue");
     settings.setValue("AddMediaMode", this->addMediaMode());
@@ -200,9 +209,10 @@ void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
         emit this->showTips("qrc:/assets/warning.svg", tr("Open Failed"));
         return;
     }
-    this->mMainQueue.enqueue(media);
-    this->mQueueModel->reloadQueue();
-    this->setQueuePos(this->mainQueue().count() - 1);
+    this->mQueueModel->beginInsertMedia(this->queuePos());
+    this->mMainQueue.insert(this->queuePos(), media);
+    this->mQueueModel->endInsertMedia();
+    this->setQueuePos(this->queuePos());
     // MemoryHelper::assertMemory("QueueManager::handleExternMediaInfoIsReady
     // End");
 }

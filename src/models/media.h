@@ -38,10 +38,10 @@ Q_OBJECT
     Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment
                        NOTIFY commentChanged)
 
-private:        // data
-    uint mId;   // for database use only
+private:           // data
+    uint mId{ };   // for database use only
     QString mRawUrl;
-    double mDuration;
+    double mDuration{ };
     QString mTitle;
     QString mArtist;
     QString mCollection;

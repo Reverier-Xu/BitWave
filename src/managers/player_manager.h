@@ -6,13 +6,12 @@
 
 #include <QObject>
 
-#include "base_manager.h"
 #include "dbus/screensaver.h"
 #include "engines/mpv_engine.h"
 #include "models/media.h"
 #include "models/ui/lyrics_list_model.h"
 
-class PlayerManager : public BaseManager {
+class PlayerManager : public QObject {
 Q_OBJECT
     // this property just show current media is video, do not sig that the media
     // is not paused.
@@ -108,9 +107,9 @@ protected:
 public:
     static PlayerManager *instance(QObject *parent = nullptr);
 
-    void loadSettings() override;
+    void loadSettings();
 
-    void saveSettings() override;
+    void saveSettings() const;
 
     [[nodiscard]] bool currentMediaIsVideo() const {
         return this->mCurrentMediaIsVideo;

@@ -44,7 +44,7 @@ find_package(MPV REQUIRED)
 
 find_package(FFmpeg REQUIRED)
 
-set(FFMPEG_LIBRARIES 
+set(FFMPEG_LIBRARIES
         FFmpeg::avutil
         FFmpeg::avformat
         FFmpeg::avfilter)

@@ -6,7 +6,7 @@
 
 #include <utilities/memory_helper.h>
 
-#include <QFile>
+// #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
 

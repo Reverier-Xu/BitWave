@@ -12,8 +12,7 @@ class MediaQueueModel : public QAbstractListModel {
 Q_OBJECT
 public:
     enum MediaQueueRoles {
-        MediaIDRole = Qt::UserRole + 1,
-        MediaTitleRole,
+        MediaTitleRole = Qt::UserRole + 1,
         MediaDurationRole,
     };
 
@@ -30,8 +29,14 @@ public:
 
     void reloadQueue();
 
+    void beginRemoveMedia(int pos); // [begin, end]
+
+    void endRemoveMedia();
+
+    void beginInsertMedia(int pos);
+
+    void endInsertMedia();
+
 private:
     QQueue<Media> *mMediaQueue{ };
-
-    int currentPlayingIndex = 0;
 };

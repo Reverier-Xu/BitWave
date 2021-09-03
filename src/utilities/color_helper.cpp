@@ -25,8 +25,7 @@ int getColorDis(const QColor &a, const QColor &b) {
     return (int) sqrt((a.red() - b.red()) + (a.blue() - b.blue()) + (a.green() - b.green()));
 }
 
-QColor
-ColorHelper::getImageThemeColor(const QImage &image) {
+QColor ColorHelper::getImageThemeColor(const QImage &image) {
     const int CLUST_NUM = 25;
 
     int width = image.width(), height = image.height();

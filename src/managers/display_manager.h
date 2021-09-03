@@ -15,10 +15,9 @@
 #include <QObject>
 #include <QTimer>
 
-#include "base_manager.h"
 #include "queue_manager.h"
 
-class DisplayManager : public BaseManager {
+class DisplayManager : public QObject {
 Q_OBJECT
     Q_PROPERTY(int activeTabIndex MEMBER mActiveTabIndex READ activeTabIndex WRITE
                        setActiveTabIndex NOTIFY activeTabIndexChanged)
@@ -64,9 +63,9 @@ protected:
 
     ~DisplayManager() override;
 
-    void loadSettings() override;
+    void loadSettings();
 
-    void saveSettings() override;
+    void saveSettings() const;
 
     static DisplayManager *mInstance;
 
@@ -160,7 +159,7 @@ public:
     }
 
     [[nodiscard]] QColor contentColor() const {
-        return this->colorStyle() ? QColor("#222222") : QColor("#dddddd");
+        return this->colorStyle() ? QColor(0x222222) : QColor(0xdddddd);
     }
 
     void setContentColor(const QColor &value) {

@@ -52,7 +52,7 @@ if (NOT MPV_INCLUDE_DIR)
     endif (NOT WIN32)
 endif (NOT MPV_INCLUDE_DIR)
 
-message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
+# message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
 
 #
 ### Look for the libraries
@@ -64,14 +64,14 @@ endif (PC_MPV_LIBRARIES)
 if (WIN32)
     if (NOT PC_MPV_LIBDIR)
         set(PC_MPV_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv)
-        message(STATUS "MPV_LIBDIR: ${PC_MPV_LIBDIR}")
+        # message(STATUS "MPV_LIBDIR: ${PC_MPV_LIBDIR}")
     endif (NOT PC_MPV_LIBDIR)
 endif (WIN32)
 
-message("MPV_LIB_NAMES: ${_MPV_LIBRARIES_NAMES}")
+# message("MPV_LIB_NAMES: ${_MPV_LIBRARIES_NAMES}")
 
 foreach (l ${_MPV_LIBRARIES_NAMES})
-    message("${l}")
+    # message("${l}")
     find_library(
             MPV_LIBRARIES_${l}
             NAMES ${l}

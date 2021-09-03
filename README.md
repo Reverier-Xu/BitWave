@@ -25,7 +25,7 @@ BitWave/build $ ./bin/BitWave
 
 需要Visual Studio 2019， MSVC 2017，Qt 5.15.2+
 
-将`ffmpeg`与`libmpv`放置于`3rd/`下，相关lib请自行下载。
+将`libmpv`放置于`3rd/`下，同时保证能够使用pkgconfig与ffmpeg，相关lib请自行下载。
 
 ```
 |- 3rd
@@ -34,12 +34,7 @@ BitWave/build $ ./bin/BitWave
 | | |- libmpv.dll.a
 | | -- ...
 | |
-| |- ffmpeg
-| | |- include
-| | |- libs
-| | -- ...
-| |
-| -- QtAES
+| -- QtAES ...
 |
 |- ...
 ```

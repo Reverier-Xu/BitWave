@@ -4,7 +4,7 @@
 
 #include "local_netease_music_parser.h"
 
-#include <QFile>
+// #include <QFile>
 #include <QFileInfo>
 #include <QUrl>
 

@@ -5,11 +5,14 @@
 #pragma once
 
 #include <QObject>
+#include <QMap>
 
-#include "base_manager.h"
+#include "services/base_service.h"
 
-class ServiceManager : public BaseManager {
+class ServiceManager : public QObject {
 Q_OBJECT
+private:
+    BaseService* mRootService{};
 protected:
     explicit ServiceManager(QObject *parent);
 
@@ -18,7 +21,9 @@ protected:
 public:
     [[nodiscard]] static ServiceManager *instance(QObject *parent);
 
-    void loadSettings() override;
+    ~ServiceManager() override;
 
-    void saveSettings() override;
+    void loadSettings();
+
+    void saveSettings() const;
 };

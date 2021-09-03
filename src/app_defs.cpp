@@ -38,53 +38,43 @@ const unsigned char NCM_DEC_S_MODIFY_KEY[16] = {0x23, 0x31, 0x34, 0x6C,
 const unsigned char NCM_DEC_PNG_HEADER[8] = {0x89, 0x50, 0x4E, 0x47,
                                              0x0D, 0x0A, 0x1A, 0x0A};
 
-QByteArray
-BitWaveConstants::webApiAesKey() {
+QByteArray BitWaveConstants::webApiAesKey() {
     return QByteArray(WEB_API_AES_KEY);
 }
 
-QByteArray
-BitWaveConstants::webApiAesIv() {
+QByteArray BitWaveConstants::webApiAesIv() {
     return QByteArray(WEB_API_AES_IV);
 }
 
-QString
-BitWaveConstants::webApiRsaPubkeyN() {
+QString BitWaveConstants::webApiRsaPubkeyN() {
     return QString(WEB_API_RSA_PUBKEY_N);
 }
 
-QByteArray
-BitWaveConstants::linuxApiAesKey() {
+QByteArray BitWaveConstants::linuxApiAesKey() {
     return QByteArray(LINUX_API_AES_KEY);
 }
 
-QByteArray
-BitWaveConstants::cliApiDigestSalt() {
+QByteArray BitWaveConstants::cliApiDigestSalt() {
     return QByteArray(CLI_API_DIGEST_SALT);
 }
 
-QByteArray
-BitWaveConstants::cliApiDataSalt() {
+QByteArray BitWaveConstants::cliApiDataSalt() {
     return QByteArray(CLI_API_DATA_SALT);
 }
 
-QByteArray
-BitWaveConstants::cliApiAesKey() {
+QByteArray BitWaveConstants::cliApiAesKey() {
     return QByteArray(CLI_API_AES_KEY);
 }
 
-QByteArray
-BitWaveConstants::base62Table() {
+QByteArray BitWaveConstants::base62Table() {
     return QByteArray(BASE62);
 }
 
-QByteArray
-BitWaveConstants::cliApiUa() {
+QByteArray BitWaveConstants::cliApiUa() {
     return QByteArray(CLI_API_UA);
 }
 
-QByteArray
-BitWaveConstants::ncmCoreKey() {
+QByteArray BitWaveConstants::ncmCoreKey() {
     QByteArray res;
     for (auto i : NCM_DEC_S_CORE_KEY) {
         res.append(i);
@@ -92,8 +82,7 @@ BitWaveConstants::ncmCoreKey() {
     return res;
 }
 
-QByteArray
-BitWaveConstants::ncmModifyKey() {
+QByteArray BitWaveConstants::ncmModifyKey() {
     QByteArray res;
     for (auto i : NCM_DEC_S_MODIFY_KEY) {
         res.append(i);
@@ -101,8 +90,7 @@ BitWaveConstants::ncmModifyKey() {
     return res;
 }
 
-QByteArray
-BitWaveConstants::pngHeader() {
+QByteArray BitWaveConstants::pngHeader() {
     QByteArray res;
     for (auto i : NCM_DEC_PNG_HEADER) {
         res.append(i);
@@ -110,7 +98,6 @@ BitWaveConstants::pngHeader() {
     return res;
 }
 
-QString
-BitWaveConstants::getNeteaseLyricsApiAddress(const QString &musicId) {
+QString BitWaveConstants::getNeteaseLyricsApiAddress(const QString &musicId) {
     return "https://music.163.com/api/song/lyric?id=" + musicId + "&lv=1&kv=-1&tv=1";
 }

@@ -8,7 +8,7 @@ MediaQueueModel::MediaQueueModel(QObject *parent)
 }
 
 int MediaQueueModel::rowCount(const QModelIndex &parent) const {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
     // qDebug() << "rowCount:" << mMediaQueue->count();
     return mMediaQueue->count();
 }
@@ -24,8 +24,6 @@ QVariant MediaQueueModel::data(const QModelIndex &index, int role) const {
     }
 
     switch (role) {
-        case MediaQueueModel::MediaIDRole:
-            return index.row();
         case MediaQueueModel::MediaTitleRole:
             return mMediaQueue->at(index.row()).title();
         case MediaQueueModel::MediaDurationRole:
@@ -38,7 +36,6 @@ QVariant MediaQueueModel::data(const QModelIndex &index, int role) const {
 QHash<int, QByteArray>
 MediaQueueModel::roleNames() const {
     QHash<int, QByteArray> roles;
-    roles[MediaIDRole] = "mediaId";
     roles[MediaTitleRole] = "mediaTitle";
     roles[MediaDurationRole] = "mediaDuration";
     // qDebug() << roles;
@@ -54,4 +51,20 @@ void MediaQueueModel::setMediaQueue(QQueue<Media> *mediaQueue) {
 void MediaQueueModel::reloadQueue() {
     beginResetModel();
     endResetModel();
+}
+
+void MediaQueueModel::beginRemoveMedia(int pos) {
+    beginRemoveRows(QModelIndex(), pos, pos);
+}
+
+void MediaQueueModel::endRemoveMedia() {
+    endRemoveRows();
+}
+
+void MediaQueueModel::beginInsertMedia(int pos) {
+    beginInsertRows(QModelIndex(), pos, pos);
+}
+
+void MediaQueueModel::endInsertMedia() {
+    endInsertRows();
 }

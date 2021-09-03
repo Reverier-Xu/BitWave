@@ -134,17 +134,17 @@ namespace mpris {
         return QString();
     }
 
-    QString Mpris2::DesktopEntry() const {
+    QString Mpris2::DesktopEntry() {
         return QApplication::applicationName().toLower();
     }
 
-    QStringList Mpris2::SupportedUriSchemes() const {
+    QStringList Mpris2::SupportedUriSchemes() {
         static QStringList res = QStringList() << "file"
                                                << "http";
         return res;
     }
 
-    QStringList Mpris2::SupportedMimeTypes() const {
+    QStringList Mpris2::SupportedMimeTypes() {
         static QStringList res = QStringList() << "application/ogg"
                                                << "application/x-ogg"
                                                << "application/x-ogm-audio"
@@ -182,7 +182,7 @@ namespace mpris {
         QApplication::quit();
     }
 
-    double Mpris2::Rate() const {
+    double Mpris2::Rate() {
         return 1.0;
     }
 
@@ -238,19 +238,19 @@ namespace mpris {
         return qlonglong(this->player_->currentTime() * 1000 * 1000);
     }
 
-    double Mpris2::MaximumRate() const {
+    double Mpris2::MaximumRate() {
         return 1.0;
     }
 
-    double Mpris2::MinimumRate() const {
+    double Mpris2::MinimumRate() {
         return 1.0;
     }
 
-    bool Mpris2::CanGoNext() const {
+    bool Mpris2::CanGoNext() {
         return true;
     }
 
-    bool Mpris2::CanGoPrevious() const {
+    bool Mpris2::CanGoPrevious() {
         return true;
     }
 
@@ -335,7 +335,7 @@ namespace mpris {
     }
 
     void Mpris2::EngineStateChanged() {
-        if (this->player_->isMediaLoaded() == false) {
+        if (!this->player_->isMediaLoaded()) {
             // qDebug() << "media is not loaded.";
             last_metadata_ = QVariantMap();
             EmitNotification("Metadata");

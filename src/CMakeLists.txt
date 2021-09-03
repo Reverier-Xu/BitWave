@@ -13,8 +13,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 qt5_add_resources(RESOURCES ./resources/main.qrc)
 
 set(MANAGERS_SRCS
-        managers/base_manager.cpp
-        managers/base_manager.h
         managers/gui_manager.cpp
         managers/gui_manager.h
         managers/app_manager.cpp
@@ -36,7 +34,7 @@ set(MODELS_SRCS
         models/ui/lyrics_list_model.h
         models/ui/media_queue_model.cpp
         models/ui/media_queue_model.h
-        )
+        models/ui/sidebar_playlist_model.cpp models/ui/sidebar_playlist_model.h)
 
 set(PARSERS_SRCS
         parsers/base_parser.cpp
@@ -104,7 +102,7 @@ set(SRCS
 # DBUS and MPRIS - Unix specific
 if (UNIX AND Qt5DBus_FOUND)
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
-    message("DBUS FOUND")
+    # message("DBUS FOUND")
     # MPRIS 2.0 DBUS interfaces
     qt5_add_dbus_adaptor(SRCS
             dbus/org.mpris.MediaPlayer2.Player.xml

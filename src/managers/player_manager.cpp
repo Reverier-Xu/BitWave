@@ -18,7 +18,7 @@
 PlayerManager *PlayerManager::mInstance = nullptr;
 
 PlayerManager::PlayerManager(QObject *parent)
-        : BaseManager(parent) {
+        : QObject(parent) {
     try {
         this->mEngine = MpvEngine::instance(this);
         this->setIsReady(true);
@@ -44,7 +44,7 @@ void PlayerManager::loadSettings() {
     settings.endGroup();
 }
 
-void PlayerManager::saveSettings() {
+void PlayerManager::saveSettings() const {
     QSettings settings;
     settings.beginGroup("Player");
     settings.setValue("Volume", this->volume());
