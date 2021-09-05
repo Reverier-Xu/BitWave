@@ -51,6 +51,7 @@ PushArea {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: roundRect.right
         anchors.leftMargin: root.fontSize * 0.7
+        sourceSize: Qt.size(iconSize, iconSize)
         smooth: true
         antialiasing: true
         visible: root.noOverlay?true:false

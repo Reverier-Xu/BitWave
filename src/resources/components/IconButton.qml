@@ -15,6 +15,7 @@ PushArea {
         width: root.iconSize
         height: root.iconSize
         anchors.centerIn: parent
+        sourceSize: Qt.size(iconSize, iconSize)
         smooth: true
         antialiasing: true
         visible: root.noOverlay?true:false

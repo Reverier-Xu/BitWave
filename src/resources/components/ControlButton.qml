@@ -54,6 +54,7 @@ Rectangle {
         id: m_icon
         width: iconSize
         height: iconSize
+        sourceSize: Qt.size(iconSize, iconSize)
         anchors.centerIn: parent
         source: icon
 

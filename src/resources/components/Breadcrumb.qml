@@ -32,7 +32,7 @@ Item {
             height: crumbList.height
             width: ListView.view.width
             flat: true
-            icon: "qrc:/assets/chevron_right.svg"
+            icon: "qrc:/assets/chevron-right.svg"
             iconSize: 16
         }
     }

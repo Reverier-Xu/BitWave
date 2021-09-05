@@ -157,7 +157,7 @@ public slots:
 
     Q_INVOKABLE void handleExternMediaInfoIsReady(bool ok, const Media &media);
 
-    Q_INVOKABLE void removeMedia(int index);
+    Q_INVOKABLE void removeMedia(int removed);
 
     Q_INVOKABLE void moveMedia(int index, int offset);
 

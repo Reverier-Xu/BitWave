@@ -180,7 +180,7 @@ void PlayerManager::handlePlayQueueEnded() {
     this->setCurrentTime(0);
     this->setTotalTime(0);
     this->setCurrentLyricIndex(0);
-    this->setCurrentMediaCover("qrc:/assets/music-big.svg");
+    this->setCurrentMediaCover("qrc:/assets/music-colorful.svg");
     this->setCurrentMediaTitle("No Media");
     this->setCoverColor(QColor(0x00, 0x78, 0xd6));
     this->setCurrentMediaAlbum("No Album");
@@ -193,7 +193,7 @@ void PlayerManager::handlePlayQueueEnded() {
 void PlayerManager::userDragHandler(double t) {
     this->mEngine->setTimePos(t);
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips("qrc:/assets/play-large.svg",
+            emit this->showTips("qrc:/assets/play.svg",
                                 TimeHelper::getTimeString(t));
 }
 
@@ -223,14 +223,14 @@ void PlayerManager::play(const Media &m) {
 void PlayerManager::pause() {
     this->mEngine->pause();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(QString("qrc:/assets/pause-large.svg"), tr("Paused"));
+            emit this->showTips(QString("qrc:/assets/pause.svg"), tr("Paused"));
     // qDebug() << "paused";
 }
 
 void PlayerManager::resume() {
     this->mEngine->resume();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(QString("qrc:/assets/play-large.svg"), tr("Resumed"));
+            emit this->showTips(QString("qrc:/assets/play.svg"), tr("Resumed"));
     // qDebug() << "resumed";
 }
 
@@ -271,7 +271,7 @@ void PlayerManager::handleMediaCoverIsReady(bool ok, const QString &m) {
         this->setCurrentMediaCover(m);
         emit this->coverColorRequired(m);
     } else {
-        this->setCurrentMediaCover("qrc:/assets/archive-big.svg");
+        this->setCurrentMediaCover("qrc:/assets/archive-colorful.svg");
         this->setCoverColor(QColor(0xd7, 0x75, 0x87));
     }
 }

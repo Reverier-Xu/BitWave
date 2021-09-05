@@ -21,9 +21,10 @@ PushArea {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: root.left
         anchors.leftMargin: root.fontSize * 0.7
+        sourceSize: Qt.size(iconSize, iconSize)
         smooth: true
         antialiasing: true
-        visible: root.noOverlay?true:false
+        visible: root.noOverlay && root.showIcon
     }
 
     ColorOverlay {
@@ -38,7 +39,7 @@ PushArea {
         }
         smooth: true
         antialiasing: true
-        visible: root.noOverlay?false:true
+        visible: !root.noOverlay && root.showIcon
     }
 
     Text {

@@ -128,7 +128,7 @@ Rectangle {
             anchors.centerIn: parent
             displayActive: progressBar.onDragging
             displayTime: progressBar.dragTime
-            icon: player.isPlaying? "qrc:/assets/pause-large.svg" : "qrc:/assets/play-large.svg"
+            icon: player.isPlaying? "qrc:/assets/pause.svg" : "qrc:/assets/play.svg"
 
             onClicked: {
                 if (player.isPlaying)

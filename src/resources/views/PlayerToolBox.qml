@@ -197,7 +197,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 15
             radius: width / 2
-            icon: "qrc:/assets/sun-big.svg"
+            icon: "qrc:/assets/sun.svg"
             iconSize: 24
             onClicked: {
                 player.lightness = 0;

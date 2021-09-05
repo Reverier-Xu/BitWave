@@ -81,7 +81,7 @@ private:
     QString mCurrentMediaTitle = tr("No media");
     QString mCurrentMediaArtist = tr("No artist");
     QString mCurrentMediaAlbum = tr("No album");
-    QString mCurrentMediaCover = "qrc:/assets/music-big.svg";
+    QString mCurrentMediaCover = "qrc:/assets/music-colorful.svg";
     bool mIsMediaLoading = false;
     bool mIsMediaLoaded = false;
     int mIsLyricLoaded = 0;

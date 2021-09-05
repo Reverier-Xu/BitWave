@@ -98,18 +98,19 @@ void QueueManager::playExternMedia(const QString &path) {
     emit this->playExternMediaRequested(path);
 }
 
-void QueueManager::removeMedia(int index) {
-    this->mQueueModel->beginRemoveMedia(index);
-    this->mMainQueue.removeAt(index);
+void QueueManager::removeMedia(int removed) {
+    this->mQueueModel->beginRemoveMedia(removed);
 
-    if (index < this->queuePos()) {
-        this->mQueuePos -= 1; // do not disturb playing.
-    } else if (index == this->queuePos() and index < this->mMainQueue.count()) {
-        this->setQueuePos(index); // stop current media and playing next one.
-    } else if (index > this->mMainQueue.count()) { // media is the last one in the queue.
+    if (removed < this->queuePos()) this->mQueuePos--;
+
+    this->mMainQueue.removeAt(removed);
+
+    if (!this->mMainQueue.count()) { // media is the last one in the queue.
         this->mQueueEnded = true;
         emit this->playQueueEnded();
         emit this->showTips("qrc:/assets/current.svg", tr("Finished"));
+    } else if (removed == this->queuePos()) {
+        this->next();
     }
 
     this->mQueueModel->endRemoveMedia();
@@ -149,7 +150,7 @@ void QueueManager::next() {
         case 2:
             do {
                 next_pos = QRandomGenerator::global()->bounded(
-                        0, this->mMainQueue.count() - 1); // random
+                        0, this->mMainQueue.count()); // random
             } while (next_pos == this->queuePos() and this->mMainQueue.count() > 1);
             break;
         case 3:

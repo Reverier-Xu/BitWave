@@ -35,6 +35,7 @@ Rectangle {
         height: iconSize
         anchors.centerIn: parent
         source: icon
+        sourceSize: Qt.size(iconSize, iconSize)
 
         smooth: true;
         visible: false;

@@ -37,6 +37,7 @@ PushArea {
         height: 16
         anchors.verticalCenter: parent.verticalCenter
         anchors.centerIn: idLabel
+        sourceSize: Qt.size(iconSize, iconSize)
         smooth: true
         antialiasing: true
         visible: false

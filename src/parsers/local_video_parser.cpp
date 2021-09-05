@@ -122,5 +122,5 @@ Media LocalVideoParser::parseMedia(const Media &media) {
 
 QString
 LocalVideoParser::getMediaCover(const Media &media) {
-    return "qrc:/assets/movie-big.svg";
+    return "qrc:/assets/movie-colorful.svg";
 }

@@ -14,6 +14,7 @@ CircleSliderArea {
         id: iconImage
         width: root.iconSize
         height: root.iconSize
+        sourceSize: Qt.size(iconSize, iconSize)
         anchors.centerIn: parent
         smooth: true
         antialiasing: true

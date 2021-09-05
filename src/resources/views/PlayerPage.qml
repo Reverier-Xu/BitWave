@@ -230,4 +230,18 @@ Rectangle {
             font.pixelSize: 16
         }
     }
+
+    DropArea {
+        anchors.fill: parent
+        onDropped: {
+            // TODO: should handle multiple files
+            if (drop.hasUrls) {
+                // for(var i = 0; i < drop.urls.length; i++) {
+                //     // console.log(drop.urls.length);
+                //     queue.playExternMedia(drop.urls[i]);
+                // }
+                queue.playExternMedia(drop.urls[0]);
+            }
+        }
+    }
 }

@@ -130,6 +130,10 @@ void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
     auto parser = ParserFactory::getParser(path);
     // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
     // GotParser");
+    if (!parser) {
+        emit this->mediaIsReady(false, Media());
+        return;
+    }
     try {
         auto res = parser->getMedia(path);
         parser->deleteLater();

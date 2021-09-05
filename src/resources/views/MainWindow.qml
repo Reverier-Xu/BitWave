@@ -42,6 +42,14 @@ FluentWindow {
     }
 
     KeyTapEvent {
+        id: exitAppEvent
+        customKey: qsTr("Ctrl+Q")
+        onClicked: {
+            Qt.exit(0);
+        }
+    }
+
+    KeyTapEvent {
         id: increaseTimeEvent
         customKey: qsTr("Right")
         onClicked: {
