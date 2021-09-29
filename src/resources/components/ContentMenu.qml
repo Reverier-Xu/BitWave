@@ -24,6 +24,7 @@ Menu {
         height: 32*count
         delegate: PushButton {
             showIcon: true
+            icon: itemIcon
             text: itemText
             width: ListView.view.width
             flat: true

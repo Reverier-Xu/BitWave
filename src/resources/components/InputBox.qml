@@ -63,19 +63,23 @@ Rectangle {
                 }
                 model: ListModel {
                     ListElement {
-                        itemText: qsTr("Select All")
+                        itemText: "Select All"
+                        itemIcon: "qrc:/assets/select-all.svg"
                         itemId: 0
                     }
                     ListElement {
-                        itemText: qsTr("Copy")
+                        itemText: "Copy"
+                        itemIcon: "qrc:/assets/copy.svg"
                         itemId: 1
                     }
                     ListElement {
-                        itemText: qsTr("Cut")
+                        itemText: "Cut"
+                        itemIcon: "qrc:/assets/cut.svg"
                         itemId: 2
                     }
                     ListElement {
-                        itemText: qsTr("Paste")
+                        itemText: "Paste"
+                        itemIcon: "qrc:/assets/clipboard.svg"
                         itemId: 3
                     }
                 }

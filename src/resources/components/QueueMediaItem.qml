@@ -37,7 +37,7 @@ PushArea {
         height: 16
         anchors.verticalCenter: parent.verticalCenter
         anchors.centerIn: idLabel
-        sourceSize: Qt.size(iconSize, iconSize)
+        sourceSize: Qt.size(16, 16)
         smooth: true
         antialiasing: true
         visible: false
@@ -106,14 +106,17 @@ PushArea {
         model: ListModel {
             ListElement {
                 itemText: "Play"
+                itemIcon: "qrc:/assets/play.svg"
                 itemId: 0
             }
             ListElement {
                 itemText: "Remove"
+                itemIcon: "qrc:/assets/delete.svg"
                 itemId: 1
             }
             ListElement {
                 itemText: "Clear Queue"
+                itemIcon: "qrc:/assets/close.svg"
                 itemId: 2
             }
         }

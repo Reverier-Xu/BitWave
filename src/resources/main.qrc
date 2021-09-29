@@ -18,6 +18,7 @@
         <file>assets/alert-urgent.svg</file>
         <file>assets/radio.svg</file>
         <file>assets/communication.svg</file>
+        <file>assets/undo.svg</file>
         <file>assets/lock.svg</file>
         <file>assets/home.svg</file>
         <file>assets/current.svg</file>
@@ -46,6 +47,7 @@
         <file>assets/star.svg</file>
         <file>assets/app-title.svg</file>
         <file>assets/flag.svg</file>
+        <file>assets/cut.svg</file>
         <file>assets/navigation.svg</file>
         <file>assets/next.svg</file>
         <file>assets/add.svg</file>
@@ -54,11 +56,13 @@
         <file>assets/folder.svg</file>
         <file>assets/minimize.svg</file>
         <file>assets/arrow-right.svg</file>
+        <file>assets/copy.svg</file>
         <file>assets/collection-colorful.svg</file>
         <file>assets/alert-off.svg</file>
         <file>assets/gamma.svg</file>
         <file>assets/channel.svg</file>
         <file>assets/close.svg</file>
+        <file>assets/select-all.svg</file>
         <file>assets/ribbon.svg</file>
         <file>assets/open.svg</file>
         <file>assets/pause.svg</file>

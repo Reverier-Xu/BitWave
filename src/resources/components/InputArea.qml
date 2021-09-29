@@ -102,22 +102,27 @@ Rectangle {
                 model: ListModel {
                     ListElement {
                         itemText: "Select All"
+                        itemIcon: "qrc:/assets/select-all.svg"
                         itemId: 0
                     }
                     ListElement {
                         itemText: "Copy"
+                        itemIcon: "qrc:/assets/copy.svg"
                         itemId: 1
                     }
                     ListElement {
                         itemText: "Cut"
+                        itemIcon: "qrc:/assets/cut.svg"
                         itemId: 2
                     }
                     ListElement {
                         itemText: "Paste"
+                        itemIcon: "qrc:/assets/clipboard.svg"
                         itemId: 3
                     }
                     ListElement {
                         itemText: "Undo"
+                        itemIcon: "qrc:/assets/undo.svg"
                         itemId: 4
                     }
                 }
