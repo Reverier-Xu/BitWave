@@ -1,33 +1,47 @@
-//
-// Created by Reverier-Xu on 2021/8/31.
-//
+/**
+ * @file base_service.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
-#include <QObject>
 #include <QMap>
+#include <QObject>
+
 #include "models/media.h"
 
 class BaseService : public QObject {
-Q_OBJECT
-    Q_PROPERTY(QString name MEMBER mName READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString icon MEMBER mIcon READ icon WRITE setIcon NOTIFY iconChanged)
-    Q_PROPERTY(QStringList router READ router WRITE setRouter NOTIFY routerChanged)
-    Q_PROPERTY(bool isEndpoint MEMBER mIsEndpoint WRITE setIsEndpoint NOTIFY isEndpointChanged)
-    Q_PROPERTY(bool hasStorage MEMBER mHasStorage READ hasStorage WRITE hasStorageChanged)
-    Q_PROPERTY(bool readOnly MEMBER mReadOnly READ readOnly WRITE readOnlyChanged)
+    Q_OBJECT
+    Q_PROPERTY(
+        QString name MEMBER mName READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(
+        QString icon MEMBER mIcon READ icon WRITE setIcon NOTIFY iconChanged)
+    Q_PROPERTY(
+        QStringList router READ router WRITE setRouter NOTIFY routerChanged)
+    Q_PROPERTY(bool isEndpoint MEMBER mIsEndpoint WRITE setIsEndpoint NOTIFY
+                   isEndpointChanged)
+    Q_PROPERTY(bool hasStorage MEMBER mHasStorage READ hasStorage WRITE
+                   hasStorageChanged)
+    Q_PROPERTY(
+        bool readOnly MEMBER mReadOnly READ readOnly WRITE readOnlyChanged)
 
-private:
+   private:
     QString mName;
     QString mIcon;
-    bool mIsEndpoint{ };
-    bool mHasStorage{ };
-    bool mReadOnly{ };
+    bool mIsEndpoint{};
+    bool mHasStorage{};
+    bool mReadOnly{};
 
-    QMap<QString, BaseService*> mSubServices;
+    QMap<QString, BaseService *> mSubServices;
 
-public:
-    explicit BaseService(BaseService *parent = nullptr) : QObject(parent) { }
+   public:
+    explicit BaseService(BaseService *parent = nullptr) : QObject(parent) {}
 
     ~BaseService() override = default;
 
@@ -35,7 +49,7 @@ public:
 
     bool removeSubService(BaseService *service);
 
-    BaseService* getSubService(const QStringList &router);
+    BaseService *getSubService(const QStringList &router);
 
     [[nodiscard]] QString name() const { return this->mName; }
 
@@ -57,7 +71,9 @@ public:
 
     [[nodiscard]] QStringList router() const {
         if (this->parent() != nullptr) {
-            return QStringList() << qobject_cast<BaseService *>(parent())->name() << this->name();
+            return QStringList()
+                   << qobject_cast<BaseService *>(parent())->name()
+                   << this->name();
         }
         return QStringList() << this->name();
     }
@@ -93,7 +109,7 @@ public:
         }
     }
 
-public slots:
+   public slots:
 
     virtual void handleSearchRequest(const QString &keyword) = 0;
 
@@ -105,7 +121,7 @@ public slots:
 
     virtual void handleGetContentRequest() = 0;
 
-signals:
+   signals:
 
     void nameChanged(const QString &name);
 
@@ -132,6 +148,4 @@ signals:
     void getContentMediaIsCompleted(bool ok, QList<Media> data);
 
     void getSubServicesIsCompleted(bool ok, QStringList routerNames);
-
 };
-

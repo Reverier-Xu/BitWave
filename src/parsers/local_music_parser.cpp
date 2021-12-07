@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file local_music_parser.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "local_music_parser.h"
 
@@ -14,8 +21,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
-const QStringList &
-LocalMusicParser::acceptTypes() {
+const QStringList &LocalMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty())
         types = QStringList() << "mp3"
@@ -40,11 +46,11 @@ bool LocalMusicParser::accepted(const Media &media) {
 }
 
 bool LocalMusicParser::accepted(const QString &path) {
-    return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
+    return acceptTypes().contains(QFileInfo(path).suffix(),
+                                  Qt::CaseInsensitive);
 }
 
-LocalMusicParser *
-LocalMusicParser::clone() {
+LocalMusicParser *LocalMusicParser::clone() {
     return new LocalMusicParser(*this);
 }
 
@@ -57,8 +63,7 @@ Media LocalMusicParser::getMedia(const QString &path) {
     AVDictionaryEntry *read_tag;
     std::string raw_path = path.toStdString();
     int ret = avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
-    if (ret < 0)
-        throw std::exception();
+    if (ret < 0) throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag)
@@ -75,7 +80,8 @@ Media LocalMusicParser::getMedia(const QString &path) {
         media.setCollection(read_tag->value);
     else
         media.setCollection("Unknown Album");
-    read_tag = av_dict_get(ctx->metadata, "comment", tag, AV_DICT_IGNORE_SUFFIX);
+    read_tag =
+        av_dict_get(ctx->metadata, "comment", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag)
         media.setComment(read_tag->value);
     else
@@ -96,17 +102,13 @@ Media LocalMusicParser::getMedia(const QString &path) {
     return media;
 }
 
-Media LocalMusicParser::parseMedia(const Media &media) {
-    return media;
-}
+Media LocalMusicParser::parseMedia(const Media &media) { return media; }
 
-QString
-LocalMusicParser::getMediaCover(const Media &media) {
+QString LocalMusicParser::getMediaCover(const Media &media) {
     AVFormatContext *ctx = nullptr;
-    int ret = avformat_open_input(
-            &ctx, media.rawUrl().toStdString().c_str(), nullptr, nullptr);
-    if (ret < 0)
-        throw std::exception();
+    int ret = avformat_open_input(&ctx, media.rawUrl().toStdString().c_str(),
+                                  nullptr, nullptr);
+    if (ret < 0) throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     // read the format headers
     if (ctx->iformat->read_header(ctx) < 0) {
@@ -117,9 +119,13 @@ LocalMusicParser::getMediaCover(const Media &media) {
     for (int i = 0; i < ctx->nb_streams; i++) {
         if (ctx->streams[i]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
             AVPacket pkt = ctx->streams[i]->attached_pic;
-            QImage img = QImage::fromData((uchar *) pkt.data, pkt.size);
-            auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
-            auto temp_loc = cachePath + "/Covers/" + media.title().replace("/", "").replace("\\", "") + ".jpg";
+            QImage img = QImage::fromData((uchar *)pkt.data, pkt.size);
+            auto cachePath =
+                QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
+                "/BitWave";
+            auto temp_loc = cachePath + "/Covers/" +
+                            media.title().replace("/", "").replace("\\", "") +
+                            ".jpg";
             img = img.scaled(320, 320);
             img.save(QUrl("file://" + temp_loc).path());
             avformat_close_input(&ctx);

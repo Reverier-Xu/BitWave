@@ -85,6 +85,10 @@ set(COMPONENTS_SRCS
         resources/components/video_player.h
         )
 
+set(SERVICES_SRCS
+        services/base_service.cpp
+        services/base_service.h)
+        
 set(SRCS
         entry.cpp
         app_defs.cpp
@@ -96,8 +100,8 @@ set(SRCS
         ${COMPONENTS_SRCS}
         ${MANAGERS_SRCS}
         ${MODELS_SRCS}
-        ${RESOURCES}
-        services/base_service.cpp services/base_service.h)
+        ${SERVICES_SRCS}
+        ${RESOURCES})
 
 # DBUS and MPRIS - Unix specific
 if (UNIX AND Qt5DBus_FOUND)

@@ -1,12 +1,12 @@
-/*
- * parser_manager.h
- *
- * Summary: manage parsers and do parse works in new thread.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-06-26
- * Last Modified: 2021-08-12
- *
+/**
+ * @file parser_manager.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #include "parser_manager.h"
@@ -25,13 +25,11 @@
 ParserManager *ParserManager::mInstance = nullptr;
 
 ParserManager *ParserManager::instance(QObject *parent) {
-    if (mInstance == nullptr)
-        mInstance = new ParserManager(parent);
+    if (mInstance == nullptr) mInstance = new ParserManager(parent);
     return mInstance;
 }
 
-ParserManager::ParserManager(QObject *parent)
-        : QObject(parent) {
+ParserManager::ParserManager(QObject *parent) : QObject(parent) {
     this->registerParsersInFactory();
 }
 
@@ -62,8 +60,8 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
     connect(resWatcher, &QFutureWatcher<Media>::finished, [=]() {
         // qDebug() << "Parse Finished here.";
         try {
-            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Run
-            // Begin");
+            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest
+            // Run Begin");
             auto m = resWatcher->result();
             if (parser->parserId() == this->mParseMediaTaskId) {
                 // qDebug() << "Parse Result is current media.";
@@ -73,8 +71,8 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
             }
             parser->deleteLater();
             resWatcher->deleteLater();
-            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest Run
-            // End");
+            // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest
+            // Run End");
         } catch (...) {
             //            qDebug() << "Parse Result creates an exception.";
             emit this->mediaIsReady(false, Media());
@@ -152,17 +150,16 @@ void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
 
     // -*- begin -*-
     /* 在这里提取音乐封面的主色调，提取完毕后塞到color里就行，不要return。
-   * 此实例跑在另一个线程上，因此不用过于担心效率问题，
-   * 理论上讲在一首歌播完之前跑出来就行。
-   */
+     * 此实例跑在另一个线程上，因此不用过于担心效率问题，
+     * 理论上讲在一首歌播完之前跑出来就行。
+     */
     // qDebug() << "Analyze cover color started.";
     auto image = QImage();
     try {
         image.load(QUrl(cover).path());
 
         // code here.
-        if (image.isNull())
-            throw std::exception();
+        if (image.isNull()) throw std::exception();
 
         auto color = ColorHelper::getImageThemeColor(image.scaled(100, 100));
 

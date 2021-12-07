@@ -1,13 +1,19 @@
-//
-// Created by reverier on 2021/8/29.
-//
+/**
+ * @file lyric_provider_manager.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "lyric_provider_manager.h"
 
 LyricProviderManager *LyricProviderManager::mInstance = nullptr;
 
-LyricProviderManager::LyricProviderManager(QObject *parent)
-        : QObject(parent) {
+LyricProviderManager::LyricProviderManager(QObject *parent) : QObject(parent) {
     this->registerProvidersInFactory();
 }
 
@@ -40,9 +46,7 @@ void LyricProviderManager::handleGetLyricsRequest(const Media &media) {
     provider->setProviderId(QUuid::createUuid());
     this->setNeededLyricsUuid(provider->providerId());
     provider->getLyricsRequest(media);
-    connect(provider,
-            &BaseLyricProvider::lyricsIsReady,
-            this,
+    connect(provider, &BaseLyricProvider::lyricsIsReady, this,
             [=](bool ok, const QString &raw, const QString &tr) {
                 if (this->neededLyricsUuid() == provider->providerId()) {
                     emit this->lyricsIsReady(ok, raw, tr);

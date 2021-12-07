@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file player_manager.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "player_manager.h"
 
@@ -17,8 +24,7 @@
 
 PlayerManager *PlayerManager::mInstance = nullptr;
 
-PlayerManager::PlayerManager(QObject *parent)
-        : QObject(parent) {
+PlayerManager::PlayerManager(QObject *parent) : QObject(parent) {
     try {
         this->mEngine = MpvEngine::instance(this);
         this->setIsReady(true);
@@ -32,9 +38,7 @@ PlayerManager::PlayerManager(QObject *parent)
     this->loadSettings();
 }
 
-PlayerManager::~PlayerManager() {
-    this->saveSettings();
-}
+PlayerManager::~PlayerManager() { this->saveSettings(); }
 
 void PlayerManager::loadSettings() {
     QSettings settings;
@@ -55,21 +59,17 @@ void PlayerManager::saveSettings() const {
 }
 
 PlayerManager *PlayerManager::instance(QObject *parent) {
-    if (mInstance == nullptr)
-        mInstance = new PlayerManager(parent);
+    if (mInstance == nullptr) mInstance = new PlayerManager(parent);
     return mInstance;
 }
 
 void PlayerManager::connectSignals() {
-    connect(this->mEngine, &MpvEngine::durationChanged, [=](double secs) {
-        this->setTotalTime(secs);
-    });
-    connect(this->mEngine, &MpvEngine::newMusicOpened, [=]() {
-        this->setCurrentMediaIsVideo(false);
-    });
-    connect(this->mEngine, &MpvEngine::newVideoOpened, [=]() {
-        this->setCurrentMediaIsVideo(true);
-    });
+    connect(this->mEngine, &MpvEngine::durationChanged,
+            [=](double secs) { this->setTotalTime(secs); });
+    connect(this->mEngine, &MpvEngine::newMusicOpened,
+            [=]() { this->setCurrentMediaIsVideo(false); });
+    connect(this->mEngine, &MpvEngine::newVideoOpened,
+            [=]() { this->setCurrentMediaIsVideo(true); });
     connect(this->mEngine, &MpvEngine::positionChanged, [=](double msecs) {
         this->setCurrentTime(msecs);
         this->setCurrentLyricIndex(0);
@@ -99,56 +99,32 @@ void PlayerManager::connectSignals() {
                 QueueManager::instance(this->parent())->next();
     });
     connect(QueueManager::instance(this->parent()),
-            &QueueManager::currentMediaChanged,
-            this,
-            &PlayerManager::play);
+            &QueueManager::currentMediaChanged, this, &PlayerManager::play);
 
-    connect(this,
-            &PlayerManager::mediaParseRequired,
-            ParserManager::instance(),
-            &ParserManager::handleParseMediaRequest,
-            Qt::QueuedConnection);
-    connect(this,
-            &PlayerManager::mediaCoverRequired,
-            ParserManager::instance(),
-            &ParserManager::handleGetMediaCoverRequest,
-            Qt::QueuedConnection);
-    connect(this,
-            &PlayerManager::coverColorRequired,
-            ParserManager::instance(),
+    connect(this, &PlayerManager::mediaParseRequired, ParserManager::instance(),
+            &ParserManager::handleParseMediaRequest, Qt::QueuedConnection);
+    connect(this, &PlayerManager::mediaCoverRequired, ParserManager::instance(),
+            &ParserManager::handleGetMediaCoverRequest, Qt::QueuedConnection);
+    connect(this, &PlayerManager::coverColorRequired, ParserManager::instance(),
             &ParserManager::handleGetMediaCoverColorRequest,
             Qt::QueuedConnection);
-    connect(this,
-            &PlayerManager::mediaLyricsRequired,
+    connect(this, &PlayerManager::mediaLyricsRequired,
             LyricProviderManager::instance(),
             &LyricProviderManager::handleGetLyricsRequest,
             Qt::QueuedConnection);
 
-    connect(ParserManager::instance(),
-            &ParserManager::mediaCoverIsReady,
-            this,
-            &PlayerManager::handleMediaCoverIsReady,
-            Qt::QueuedConnection);
-    connect(ParserManager::instance(),
-            &ParserManager::mediaIsReady,
-            this,
-            &PlayerManager::handleMediaIsReady,
-            Qt::QueuedConnection);
+    connect(ParserManager::instance(), &ParserManager::mediaCoverIsReady, this,
+            &PlayerManager::handleMediaCoverIsReady, Qt::QueuedConnection);
+    connect(ParserManager::instance(), &ParserManager::mediaIsReady, this,
+            &PlayerManager::handleMediaIsReady, Qt::QueuedConnection);
     connect(LyricProviderManager::instance(),
-            &LyricProviderManager::lyricsIsReady,
-            this,
-            &PlayerManager::handleMediaLyricsIsReady,
+            &LyricProviderManager::lyricsIsReady, this,
+            &PlayerManager::handleMediaLyricsIsReady, Qt::QueuedConnection);
+    connect(ParserManager::instance(), &ParserManager::mediaCoverColorIsReady,
+            this, &PlayerManager::handleCoverColorIsReady,
             Qt::QueuedConnection);
-    connect(ParserManager::instance(),
-            &ParserManager::mediaCoverColorIsReady,
-            this,
-            &PlayerManager::handleCoverColorIsReady,
-            Qt::QueuedConnection);
-    connect(QueueManager::instance(),
-            &QueueManager::playQueueEnded,
-            this,
-            &PlayerManager::handlePlayQueueEnded,
-            Qt::QueuedConnection);
+    connect(QueueManager::instance(), &QueueManager::playQueueEnded, this,
+            &PlayerManager::handlePlayQueueEnded, Qt::QueuedConnection);
 
     if (this->mScreensaver != nullptr) {
         connect(this->mEngine, &MpvEngine::started, [=]() {
@@ -193,8 +169,8 @@ void PlayerManager::handlePlayQueueEnded() {
 void PlayerManager::userDragHandler(double t) {
     this->mEngine->setTimePos(t);
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips("qrc:/assets/play.svg",
-                                TimeHelper::getTimeString(t));
+        emit this->showTips("qrc:/assets/play.svg",
+                            TimeHelper::getTimeString(t));
 }
 
 void PlayerManager::play(const Media &m) {
@@ -223,14 +199,14 @@ void PlayerManager::play(const Media &m) {
 void PlayerManager::pause() {
     this->mEngine->pause();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(QString("qrc:/assets/pause.svg"), tr("Paused"));
+        emit this->showTips(QString("qrc:/assets/pause.svg"), tr("Paused"));
     // qDebug() << "paused";
 }
 
 void PlayerManager::resume() {
     this->mEngine->resume();
     if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(QString("qrc:/assets/play.svg"), tr("Resumed"));
+        emit this->showTips(QString("qrc:/assets/play.svg"), tr("Resumed"));
     // qDebug() << "resumed";
 }
 
@@ -239,7 +215,7 @@ void PlayerManager::stop() {
     this->setIsLyricLoaded(0);
     this->setLyrics("", "");
 #ifdef Q_OS_LINUX
-    malloc_trim(0); // free memories.
+    malloc_trim(0);  // free memories.
 #endif
     // qDebug() << "stopped";
 }
@@ -259,7 +235,7 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
     if (ok) {
         this->playUrl(m.rawUrl());
         this->setIsMediaLoading(false);
-        this->mEngine->resume(); // prevent show video tips.
+        this->mEngine->resume();  // prevent show video tips.
     } else {
         this->showTips("qrc:/assets/warning.svg", "Play Failed");
         QueueManager::instance(this->parent())->next();
@@ -276,8 +252,7 @@ void PlayerManager::handleMediaCoverIsReady(bool ok, const QString &m) {
     }
 }
 
-void PlayerManager::handleMediaLyricsIsReady(bool ok,
-                                             const QString &raw,
+void PlayerManager::handleMediaLyricsIsReady(bool ok, const QString &raw,
                                              const QString &trans) {
     if (ok)
         this->setLyrics(raw, trans);

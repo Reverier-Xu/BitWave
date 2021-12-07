@@ -1,31 +1,28 @@
-/*
- * sqlite_engine.cpp
- *
- * Summary: wrapper of sqlite.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-07-23
- * Last Modified: 2021-08-11
- *
+/**
+ * @file sqlite_engine.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #include "sqlite_engine.h"
 
+#include <QDebug>
 #include <QSettings>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QSqlError>
-#include <QDebug>
+#include <QSqlQuery>
 
 SQLiteEngine *SQLiteEngine::mInstance = nullptr;
 
-SQLiteEngine::SQLiteEngine(QObject *parent) {
-    this->mDatabaseFile = "";
-}
+SQLiteEngine::SQLiteEngine(QObject *parent) { this->mDatabaseFile = ""; }
 
 SQLiteEngine *SQLiteEngine::instance(QObject *parent) {
-    if (mInstance == nullptr)
-        mInstance = new SQLiteEngine(parent);
+    if (mInstance == nullptr) mInstance = new SQLiteEngine(parent);
     return mInstance;
 }
 
@@ -49,11 +46,10 @@ bool SQLiteEngine::open(const QString &db) {
     return true;
 }
 
-void SQLiteEngine::close() {
-    this->mDatabase.close();
-}
+void SQLiteEngine::close() { this->mDatabase.close(); }
 
-void SQLiteEngine::createMediaList(const QString &tableName, const QList<Media> &mediaList) {
+void SQLiteEngine::createMediaList(const QString &tableName,
+                                   const QList<Media> &mediaList) {
     if (this->isOpen() && this->isValid()) {
         QStringList sql;
         sql << "CREATE TABLE IF NOT EXISTS " + tableName + " ("
@@ -178,7 +174,7 @@ bool SQLiteEngine::isMediaExist(const QString &tableName, const Media &media) {
         QStringList sql;
         sql << "SELECT * FROM :tableName WHERE "
             << "url=:url;";
-        QSqlQuery query(sql.join(" "),this->database());
+        QSqlQuery query(sql.join(" "), this->database());
         query.bindValue(":tableName", tableName);
         query.bindValue(":url", media.rawUrl());
         query.exec();
@@ -220,7 +216,8 @@ bool SQLiteEngine::updateMedia(const QString &tableName, const Media &media) {
     }
 }
 
-bool SQLiteEngine::updateMediaList(const QString &tableName, const QList<Media> &mediaList) {
+bool SQLiteEngine::updateMediaList(const QString &tableName,
+                                   const QList<Media> &mediaList) {
     bool res = true;
     if (this->isOpen() && this->isValid()) {
         for (const auto &media : mediaList) {
@@ -234,7 +231,8 @@ QStringList SQLiteEngine::getMediaLists() {
     QStringList mediaLists;
     if (this->isOpen() && this->isValid()) {
         QStringList sql;
-        sql << "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';";
+        sql << "SELECT name FROM sqlite_master WHERE type='table' AND name NOT "
+               "LIKE 'sqlite_%';";
         QSqlQuery query(this->mDatabase);
         query.exec(sql.join(" "));
         while (query.next()) {

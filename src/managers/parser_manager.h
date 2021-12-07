@@ -1,12 +1,12 @@
-/*
- * parser_manager.cpp
- *
- * Summary: manage parsers and do parse works in new thread.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-06-26
- * Last Modified: 2021-08-12
- *
+/**
+ * @file parser_manager.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #pragma once
@@ -20,21 +20,21 @@
 #include "parsers/parser_factory.h"
 
 class ParserManager : public QObject {
-Q_OBJECT
-private:
+    Q_OBJECT
+   private:
     QUuid mParseMediaTaskId;
 
-protected:
+   protected:
     explicit ParserManager(QObject *parent);
 
     static ParserManager *mInstance;
 
-public:
+   public:
     static ParserManager *instance(QObject *parent = nullptr);
 
     void registerParsersInFactory();
 
-public slots:
+   public slots:
 
     void handleParseMediaRequest(const Media &media);
 
@@ -48,7 +48,7 @@ public slots:
 
     void handleGetMediaCoverColorRequest(const QString &cover);
 
-signals:
+   signals:
 
     void mediaInfoIsReady(bool ok, const Media &m);
 

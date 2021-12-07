@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file local_netease_music_parser.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "local_netease_music_parser.h"
 
@@ -10,8 +17,7 @@
 
 #include "utilities/ncm_helper.h"
 
-const QStringList &
-LocalNeteaseMusicParser::acceptTypes() {
+const QStringList &LocalNeteaseMusicParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
         types << "ncm";
@@ -24,11 +30,11 @@ bool LocalNeteaseMusicParser::accepted(const Media &media) {
 }
 
 bool LocalNeteaseMusicParser::accepted(const QString &path) {
-    return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
+    return acceptTypes().contains(QFileInfo(path).suffix(),
+                                  Qt::CaseInsensitive);
 }
 
-LocalNeteaseMusicParser *
-LocalNeteaseMusicParser::clone() {
+LocalNeteaseMusicParser *LocalNeteaseMusicParser::clone() {
     return new LocalNeteaseMusicParser(*this);
 }
 
@@ -43,7 +49,6 @@ Media LocalNeteaseMusicParser::parseMedia(const Media &media) {
     return res;
 }
 
-QString
-LocalNeteaseMusicParser::getMediaCover(const Media &media) {
+QString LocalNeteaseMusicParser::getMediaCover(const Media &media) {
     return NcmHelper::dumpMediaCover(media);
 }

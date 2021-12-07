@@ -1,8 +1,19 @@
+/**
+ * @file screensaver.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 #ifndef SCREENSAVER_H
 #define SCREENSAVER_H
 
 class Screensaver {
-public:
+   public:
     virtual ~Screensaver() = default;
 
     static const char *kGnomeService;
@@ -19,7 +30,7 @@ public:
 
     static Screensaver *GetScreensaver();
 
-private:
+   private:
     static Screensaver *screensaver_;
 };
 

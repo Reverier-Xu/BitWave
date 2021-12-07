@@ -1,12 +1,12 @@
-/*
- * display_manager.h
- *
- * Summary: misc variables for QML frontend.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-06-25
- * Last Modified: 2021-08-11
- *
+/**
+ * @file display_manager.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #pragma once
@@ -18,34 +18,34 @@
 #include "queue_manager.h"
 
 class DisplayManager : public QObject {
-Q_OBJECT
-    Q_PROPERTY(int activeTabIndex MEMBER mActiveTabIndex READ activeTabIndex WRITE
-                       setActiveTabIndex NOTIFY activeTabIndexChanged)
+    Q_OBJECT
+    Q_PROPERTY(int activeTabIndex MEMBER mActiveTabIndex READ activeTabIndex
+                   WRITE setActiveTabIndex NOTIFY activeTabIndexChanged)
     Q_PROPERTY(
-            int pageIndex READ pageIndex WRITE setPageIndex NOTIFY pageIndexChanged)
+        int pageIndex READ pageIndex WRITE setPageIndex NOTIFY pageIndexChanged)
     Q_PROPERTY(int queueBarIndex MEMBER mQueueBarIndex READ queueBarIndex WRITE
-                       setQueueBarIndex NOTIFY queueBarIndexChanged)
+                   setQueueBarIndex NOTIFY queueBarIndexChanged)
     Q_PROPERTY(bool colorStyle MEMBER mColorStyle READ colorStyle WRITE
-                       setColorStyle NOTIFY colorStyleChanged)
+                   setColorStyle NOTIFY colorStyleChanged)
     Q_PROPERTY(QColor themeColor MEMBER mThemeColor READ themeColor WRITE
-                       setThemeColor NOTIFY themeColorChanged)
-    Q_PROPERTY(QColor contentColor READ contentColor WRITE setContentColor NOTIFY
-                       contentColorChanged)
+                   setThemeColor NOTIFY themeColorChanged)
+    Q_PROPERTY(QColor contentColor READ contentColor WRITE setContentColor
+                   NOTIFY contentColorChanged)
     Q_PROPERTY(QColor alertColor MEMBER mAlertColor READ alertColor WRITE
-                       setAlertColor NOTIFY alertColorChanged)
+                   setAlertColor NOTIFY alertColorChanged)
     Q_PROPERTY(bool sideBarExpanded MEMBER mSideBarExpanded READ sideBarExpanded
-                       WRITE setSideBarExpanded NOTIFY sideBarExpandedChanged)
+                   WRITE setSideBarExpanded NOTIFY sideBarExpandedChanged)
     Q_PROPERTY(
-            bool queueBarExpanded MEMBER mQueueBarExpanded READ queueBarExpanded WRITE
-            setQueueBarExpanded NOTIFY queueBarExpandedChanged)
+        bool queueBarExpanded MEMBER mQueueBarExpanded READ queueBarExpanded
+            WRITE setQueueBarExpanded NOTIFY queueBarExpandedChanged)
     Q_PROPERTY(bool mouseIsActive MEMBER mMouseIsActive READ mouseIsActive WRITE
-                       setMouseIsActive NOTIFY mouseIsActiveChanged)
+                   setMouseIsActive NOTIFY mouseIsActiveChanged)
     Q_PROPERTY(bool isFullScreen MEMBER mIsFullScreen READ isFullScreen WRITE
-                       setFullScreen NOTIFY isFullScreenChanged)
+                   setFullScreen NOTIFY isFullScreenChanged)
     Q_PROPERTY(bool showVideoTime MEMBER mShowVideoTime READ showVideoTime WRITE
-                       setShowVideoTime NOTIFY showVideoTimeChanged)
+                   setShowVideoTime NOTIFY showVideoTimeChanged)
 
-private:
+   private:
     int mActiveTabIndex = -1;
     int mQueueBarIndex = -1;
     bool mColorStyle = false;
@@ -58,7 +58,7 @@ private:
     QColor mAlertColor = QColor(0xff, 0x60, 0x33);
     QTimer *mHideTimer;
 
-protected:
+   protected:
     explicit DisplayManager(QObject *parent);
 
     ~DisplayManager() override;
@@ -69,7 +69,7 @@ protected:
 
     static DisplayManager *mInstance;
 
-public:
+   public:
     static DisplayManager *instance(QObject *parent = nullptr);
 
     [[nodiscard]] int activeTabIndex() const { return this->mActiveTabIndex; }
@@ -111,7 +111,9 @@ public:
         emit this->contentColorChanged(this->contentColor());
     }
 
-    [[nodiscard]] bool sideBarExpanded() const { return this->mSideBarExpanded; }
+    [[nodiscard]] bool sideBarExpanded() const {
+        return this->mSideBarExpanded;
+    }
 
     void setSideBarExpanded(bool value) {
         this->mSideBarExpanded = value;
@@ -180,13 +182,13 @@ public:
         emit this->showVideoTimeChanged(n);
     }
 
-public slots:
+   public slots:
 
     Q_INVOKABLE void delayedHide();
 
     Q_INVOKABLE void blockDelayedHide();
 
-signals:
+   signals:
 
     void activeTabIndexChanged(int n);
 

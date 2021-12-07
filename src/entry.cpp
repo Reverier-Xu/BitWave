@@ -1,6 +1,14 @@
-//
-// Created by Reverier-Xu on 2021/6/11.
-//
+/**
+ * @file entry.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 
 #include <QApplication>
 #include <QFont>
@@ -24,8 +32,7 @@ int main(int argc, char *argv[]) {
     std::setlocale(LC_NUMERIC, "C");
 
     RunGuard guard("BitWave");
-    if (!guard.tryToRun())
-        return 0;
+    if (!guard.tryToRun()) return 0;
 
     QApplication app(argc, argv);
 

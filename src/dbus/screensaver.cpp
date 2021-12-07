@@ -1,3 +1,14 @@
+/**
+ * @file screensaver.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 #include "screensaver.h"
 
 #include <QtGlobal>
@@ -32,10 +43,13 @@ Screensaver *Screensaver::GetScreensaver() {
         // qDebug() << "ScreenSaver inited here.";
         if (QDBusConnection::sessionBus().interface()->isServiceRegistered(
                 kGnomeService)) {
-            screensaver_ = new DBusScreensaver(kGnomeService, kGnomePath, kGnomeInterface);
-        } else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(
-                kKdeService)) {
-            screensaver_ = new DBusScreensaver(kKdeService, kKdePath, kKdeInterface);
+            screensaver_ =
+                new DBusScreensaver(kGnomeService, kGnomePath, kGnomeInterface);
+        } else if (QDBusConnection::sessionBus()
+                       .interface()
+                       ->isServiceRegistered(kKdeService)) {
+            screensaver_ =
+                new DBusScreensaver(kKdeService, kKdePath, kKdeInterface);
         }
         // qDebug() << &screensaver_;
 #endif

@@ -1,6 +1,14 @@
-//
-// Created by reverier on 2021/8/26.
-//
+/**
+ * @file single_app_guard.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 
 #pragma once
 
@@ -9,7 +17,7 @@
 #include <QSystemSemaphore>
 
 class RunGuard {
-public:
+   public:
     explicit RunGuard(const QString &key);
 
     ~RunGuard();
@@ -20,7 +28,7 @@ public:
 
     void release();
 
-private:
+   private:
     const QString key;
     const QString memLockKey;
     const QString sharedMemKey;

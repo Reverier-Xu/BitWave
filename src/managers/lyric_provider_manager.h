@@ -1,6 +1,13 @@
-//
-// Created by reverier on 2021/8/29.
-//
+/**
+ * @file lyric_provider_manager.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -15,16 +22,16 @@
 #include "models/media.h"
 
 class LyricProviderManager : public QObject {
-Q_OBJECT
-private:
+    Q_OBJECT
+   private:
     QUuid mNeededLyricsUuid;
 
-protected:
+   protected:
     static LyricProviderManager *mInstance;
 
     explicit LyricProviderManager(QObject *parent);
 
-public:
+   public:
     static LyricProviderManager *instance(QObject *parent = nullptr);
 
     void registerProvidersInFactory();
@@ -33,11 +40,11 @@ public:
 
     QUuid neededLyricsUuid();
 
-public slots:
+   public slots:
 
     void handleGetLyricsRequest(const Media &media);
 
-signals:
+   signals:
 
     void lyricsIsReady(bool ok, const QString &raw, const QString &tr);
 };

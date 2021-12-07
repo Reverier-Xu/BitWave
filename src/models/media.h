@@ -1,17 +1,20 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file media.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
 #include <QObject>
 #include <QString>
 
-enum MediaType {
-    AUDIO = 0,
-    VIDEO,
-    UNKNOWN
-};
+enum MediaType { AUDIO = 0, VIDEO, UNKNOWN };
 
 enum MediaSourceType {
     LOCAL_MUSIC,
@@ -22,42 +25,38 @@ enum MediaSourceType {
 };
 
 class Media : public QObject {
-Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(QString rawUrl MEMBER mRawUrl READ rawUrl WRITE setRawUrl NOTIFY
-                       rawUrlChanged)
+                   rawUrlChanged)
     Q_PROPERTY(double duration MEMBER mDuration READ duration WRITE setDuration
-                       NOTIFY durationChanged)
-    Q_PROPERTY(
-            QString title MEMBER mTitle READ title WRITE setTitle NOTIFY titleChanged)
+                   NOTIFY durationChanged)
+    Q_PROPERTY(QString title MEMBER mTitle READ title WRITE setTitle NOTIFY
+                   titleChanged)
     Q_PROPERTY(QString artist MEMBER mArtist READ artist WRITE setArtist NOTIFY
-                       artistChanged)
+                   artistChanged)
     Q_PROPERTY(
-            MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
+        MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE
-                       setCollection NOTIFY collectionChanged)
+                   setCollection NOTIFY collectionChanged)
     Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment
-                       NOTIFY commentChanged)
+                   NOTIFY commentChanged)
 
-private:           // data
-    uint mId{ };   // for database use only
+   private:      // data
+    uint mId{};  // for database use only
     QString mRawUrl;
-    double mDuration{ };
+    double mDuration{};
     QString mTitle;
     QString mArtist;
     QString mCollection;
     MediaType mType;
     QString mComment;
 
-public:
-    explicit Media(QObject *parent = nullptr,
-                   const QString &rawUrl = "",
-                   const QString &title = "",
-                   const QString &artist = "",
-                   const QString &collection = "",
-                   MediaType type = UNKNOWN,
-                   double duration = 0.0,
-                   const QString &comment = "")
-            : QObject(parent) {
+   public:
+    explicit Media(QObject *parent = nullptr, const QString &rawUrl = "",
+                   const QString &title = "", const QString &artist = "",
+                   const QString &collection = "", MediaType type = UNKNOWN,
+                   double duration = 0.0, const QString &comment = "")
+        : QObject(parent) {
         mRawUrl = rawUrl;
         mTitle = title;
         mArtist = artist;
@@ -67,8 +66,7 @@ public:
         mComment = comment;
     }
 
-    Media(const Media &media)
-            : QObject(media.parent()) {
+    Media(const Media &media) : QObject(media.parent()) {
         mRawUrl = media.mRawUrl;
         mDuration = media.mDuration;
         mTitle = media.mTitle;
@@ -124,7 +122,9 @@ public:
         emit typeChanged(n);
     }
 
-    [[nodiscard]] const QString &collection() const { return this->mCollection; }
+    [[nodiscard]] const QString &collection() const {
+        return this->mCollection;
+    }
 
     void setCollection(const QString &n) {
         this->mCollection = n;
@@ -138,7 +138,7 @@ public:
         emit commentChanged(n);
     }
 
-signals:
+   signals:
 
     void rawUrlChanged(const QString &n);
 

@@ -1,12 +1,12 @@
-/*
- * mpv_engine.h
- *
- * Summary: wrapper of mpv engine.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-01-06
- * Last Modified: 2021-03-14
- *
+/**
+ * @file mpv_engine.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #pragma once
@@ -21,9 +21,9 @@
 #include "utilities/mpv_helper.h"
 
 class MpvEngine : public QObject {
-Q_OBJECT
+    Q_OBJECT
 
-private:
+   private:
     mpv_handle *mpv;
 
     void handleMpvEvent(mpv_event *event);
@@ -32,10 +32,10 @@ private:
 
     QMimeDatabase mimeDatabase;
 
-protected:
+   protected:
     static MpvEngine *mMpvEngine;
 
-public:
+   public:
     MpvEngine(MpvEngine &other) = delete;
 
     void operator=(const MpvEngine &) = delete;
@@ -64,11 +64,11 @@ public:
 
     Q_INVOKABLE void setMute(bool ok);
 
-public slots:
+   public slots:
 
     void onMpvEvents();
 
-signals:
+   signals:
 
     void durationChanged(double msecs);
 

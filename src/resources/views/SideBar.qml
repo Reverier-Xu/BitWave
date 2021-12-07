@@ -51,7 +51,7 @@ Rectangle {
         border.color: "transparent"
         showIcon: true
         icon: "qrc:/assets/play.svg"
-        text: qsTr("Player Page")
+        text: qsTr("Playing Now")
         isTabActive: display.activeTabIndex === -1
         onClicked: {
             display.activeTabIndex = -1

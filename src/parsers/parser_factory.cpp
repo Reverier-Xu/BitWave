@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/8/1.
-//
+/**
+ * @file parser_factory.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "parser_factory.h"
 
@@ -9,9 +16,7 @@
 
 ParserFactory *ParserFactory::mInstance = nullptr;
 
-ParserFactory::ParserFactory(QObject *parent)
-        : QObject(parent) {
-}
+ParserFactory::ParserFactory(QObject *parent) : QObject(parent) {}
 
 ParserFactory *ParserFactory::instance(QObject *parent) {
     if (!mInstance) {
@@ -31,9 +36,10 @@ BaseParser *ParserFactory::getParser(const Media &media) {
 }
 
 BaseParser *ParserFactory::getParser(const QString &media_path) {
-    if (!ParserFactory::instance()->mParsersMap.contains(QFileInfo(media_path).suffix().toLower()))
+    if (!ParserFactory::instance()->mParsersMap.contains(
+            QFileInfo(media_path).suffix().toLower()))
         return nullptr;
     return ParserFactory::instance()
-            ->mParsersMap.value(QFileInfo(media_path).suffix().toLower(), nullptr)
-            ->clone();
+        ->mParsersMap.value(QFileInfo(media_path).suffix().toLower(), nullptr)
+        ->clone();
 }

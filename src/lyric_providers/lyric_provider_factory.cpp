@@ -1,14 +1,19 @@
-//
-// Created by reverier on 2021/8/29.
-//
+/**
+ * @file lyric_provider_factory.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "lyric_provider_factory.h"
 
 LyricProviderFactory *LyricProviderFactory::mInstance = nullptr;
 
-LyricProviderFactory::LyricProviderFactory(QObject *parent)
-        : QObject(parent) {
-}
+LyricProviderFactory::LyricProviderFactory(QObject *parent) : QObject(parent) {}
 
 LyricProviderFactory *LyricProviderFactory::instance(QObject *parent) {
     if (mInstance == nullptr) {

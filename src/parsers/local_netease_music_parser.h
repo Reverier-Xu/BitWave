@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file local_netease_music_parser.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -9,11 +16,10 @@
 #include "base_parser.h"
 
 class LocalNeteaseMusicParser : public BaseParser {
-Q_OBJECT
-public:
+    Q_OBJECT
+   public:
     explicit LocalNeteaseMusicParser(QObject *parent = nullptr)
-            : BaseParser(parent) {
-    }
+        : BaseParser(parent) {}
 
     LocalNeteaseMusicParser(const LocalNeteaseMusicParser &parser) = default;
 

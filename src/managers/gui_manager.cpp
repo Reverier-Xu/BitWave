@@ -1,12 +1,12 @@
-/*
- * gui_manager.cpp
- *
- * Summary: manager of QML Frontend and engines.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-06-25
- * Last Modified: 2021-08-11
- *
+/**
+ * @file gui_manager.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #include "gui_manager.h"
@@ -20,8 +20,7 @@
 
 GuiManager *GuiManager::mInstance = nullptr;
 
-GuiManager::GuiManager(QObject *parent)
-        : QObject(parent) {
+GuiManager::GuiManager(QObject *parent) : QObject(parent) {
     std::setlocale(LC_NUMERIC, "C");
     this->mUiEngine = new QQmlApplicationEngine(this);
 }
@@ -33,20 +32,19 @@ void GuiManager::createUI() {
 
 void GuiManager::exportManagers() {
     this->mUiEngine->rootContext()->setContextProperty(
-            "player", PlayerManager::instance(this->parent()));
+        "player", PlayerManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "display", DisplayManager::instance(this->parent()));
+        "display", DisplayManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "queue", QueueManager::instance(this->parent()));
+        "queue", QueueManager::instance(this->parent()));
     this->mUiEngine->rootContext()->setContextProperty(
-            "lyricsModel", PlayerManager::instance()->getLyricsModel());
+        "lyricsModel", PlayerManager::instance()->getLyricsModel());
     this->mUiEngine->rootContext()->setContextProperty(
-            "mainQueueModel", QueueManager::instance()->getQueueModel());
+        "mainQueueModel", QueueManager::instance()->getQueueModel());
 }
 
 GuiManager *GuiManager::instance(QObject *parent) {
-    if (mInstance == nullptr)
-        mInstance = new GuiManager(parent);
+    if (mInstance == nullptr) mInstance = new GuiManager(parent);
     return mInstance;
 }
 

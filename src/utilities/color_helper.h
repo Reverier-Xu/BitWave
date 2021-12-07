@@ -1,6 +1,14 @@
-//
-// Created by Reverier on 2021/8/18.
-//
+/**
+ * @file color_helper.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 
 #pragma once
 
@@ -8,5 +16,5 @@
 #include <QImage>
 
 namespace ColorHelper {
-    QColor getImageThemeColor(const QImage &image);
+QColor getImageThemeColor(const QImage &image);
 }

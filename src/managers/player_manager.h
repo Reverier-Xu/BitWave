@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file player_manager.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -12,59 +19,60 @@
 #include "models/ui/lyrics_list_model.h"
 
 class PlayerManager : public QObject {
-Q_OBJECT
+    Q_OBJECT
     // this property just show current media is video, do not sig that the media
     // is not paused.
     Q_PROPERTY(bool currentMediaIsVideo MEMBER mCurrentMediaIsVideo READ
-                       currentMediaIsVideo WRITE setCurrentMediaIsVideo NOTIFY
+                   currentMediaIsVideo WRITE setCurrentMediaIsVideo NOTIFY
                        currentMediaIsVideoChanged)
     Q_PROPERTY(bool isPlaying MEMBER mIsPlaying READ isPlaying WRITE setPlaying
-                       NOTIFY isPlayingChanged)
+                   NOTIFY isPlayingChanged)
     Q_PROPERTY(double totalTime MEMBER mTotalTime READ totalTime WRITE
-                       setTotalTime NOTIFY totalTimeChanged)
+                   setTotalTime NOTIFY totalTimeChanged)
     Q_PROPERTY(double currentTime MEMBER mCurrentTime READ currentTime WRITE
-                       setCurrentTime NOTIFY currentTimeChanged)
+                   setCurrentTime NOTIFY currentTimeChanged)
     Q_PROPERTY(double volume MEMBER mVolume READ volume WRITE setVolume NOTIFY
-                       volumeChanged)
+                   volumeChanged)
     Q_PROPERTY(bool isMuted MEMBER mIsMuted READ isMuted WRITE setIsMuted NOTIFY
-                       isMutedChanged)
+                   isMutedChanged)
     Q_PROPERTY(
-            QString currentMediaUrl MEMBER mCurrentMediaUrl READ currentMediaUrl
+        QString currentMediaUrl MEMBER mCurrentMediaUrl READ currentMediaUrl
             WRITE setCurrentMediaUrl NOTIFY currentMediaUrlChanged)
     Q_PROPERTY(QString currentMediaTitle MEMBER mCurrentMediaTitle READ
-                       currentMediaTitle WRITE setCurrentMediaTitle NOTIFY
+                   currentMediaTitle WRITE setCurrentMediaTitle NOTIFY
                        currentMediaTitleChanged)
     Q_PROPERTY(QString currentMediaArtist MEMBER mCurrentMediaArtist READ
-                       currentMediaArtist WRITE setCurrentMediaArtist NOTIFY
+                   currentMediaArtist WRITE setCurrentMediaArtist NOTIFY
                        currentMediaArtistChanged)
     Q_PROPERTY(QString currentMediaAlbum MEMBER mCurrentMediaAlbum READ
-                       currentMediaAlbum WRITE setCurrentMediaAlbum NOTIFY
+                   currentMediaAlbum WRITE setCurrentMediaAlbum NOTIFY
                        currentMediaAlbumChanged)
     Q_PROPERTY(QString currentMediaCover MEMBER mCurrentMediaCover READ
-                       currentMediaCover WRITE setCurrentMediaCover NOTIFY
+                   currentMediaCover WRITE setCurrentMediaCover NOTIFY
                        currentMediaCoverChanged)
     Q_PROPERTY(bool isMediaLoading MEMBER mIsMediaLoading READ isMediaLoading
-                       WRITE setIsMediaLoading NOTIFY isMediaLoadingChanged)
+                   WRITE setIsMediaLoading NOTIFY isMediaLoadingChanged)
     Q_PROPERTY(bool isMediaLoaded MEMBER mIsMediaLoaded READ isMediaLoaded WRITE
-                       setIsMediaLoaded NOTIFY isMediaLoadedChanged)
+                   setIsMediaLoaded NOTIFY isMediaLoadedChanged)
     Q_PROPERTY(int isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
-                       setIsLyricLoaded NOTIFY isLyricLoadedChanged)
-    Q_PROPERTY(int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
-                       WRITE setCurrentLyricIndex NOTIFY currentLyricIndexChanged)
-    Q_PROPERTY(QColor coverColor MEMBER mCoverColor READ coverColor WRITE
-                       setCoverColor NOTIFY coverColorChanged)
-    Q_PROPERTY(bool isReady MEMBER mIsReady READ isReady WRITE setIsReady NOTIFY
-                       isReadyChanged)
-    Q_PROPERTY(int lightness MEMBER mLightness READ lightness WRITE setLightness
-                       NOTIFY lightnessChanged)
-    Q_PROPERTY(int contrast MEMBER mContrast READ contrast WRITE setContrast
-                       NOTIFY contrastChanged)
-    Q_PROPERTY(int saturation MEMBER mSaturation READ saturation WRITE
-                       setSaturation NOTIFY saturationChanged)
+                   setIsLyricLoaded NOTIFY isLyricLoadedChanged)
     Q_PROPERTY(
-            int gamma MEMBER mGamma READ gamma WRITE setGamma NOTIFY gammaChanged)
+        int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
+            WRITE setCurrentLyricIndex NOTIFY currentLyricIndexChanged)
+    Q_PROPERTY(QColor coverColor MEMBER mCoverColor READ coverColor WRITE
+                   setCoverColor NOTIFY coverColorChanged)
+    Q_PROPERTY(bool isReady MEMBER mIsReady READ isReady WRITE setIsReady NOTIFY
+                   isReadyChanged)
+    Q_PROPERTY(int lightness MEMBER mLightness READ lightness WRITE setLightness
+                   NOTIFY lightnessChanged)
+    Q_PROPERTY(int contrast MEMBER mContrast READ contrast WRITE setContrast
+                   NOTIFY contrastChanged)
+    Q_PROPERTY(int saturation MEMBER mSaturation READ saturation WRITE
+                   setSaturation NOTIFY saturationChanged)
+    Q_PROPERTY(
+        int gamma MEMBER mGamma READ gamma WRITE setGamma NOTIFY gammaChanged)
     Q_PROPERTY(int hue MEMBER mHue READ hue WRITE setHue NOTIFY hueChanged)
-private:
+   private:
     bool mCurrentMediaIsVideo = false;
     bool mIsPlaying = false;
     double mTotalTime = 0.0;
@@ -89,13 +97,13 @@ private:
 
     QColor mCoverColor = QColor(0x00, 0x78, 0xd6);
 
-    LyricsListModel mLyricsModel{ };
+    LyricsListModel mLyricsModel{};
 
     MpvEngine *mEngine = nullptr;
 
     Screensaver *mScreensaver;
 
-protected:
+   protected:
     explicit PlayerManager(QObject *parent);
 
     ~PlayerManager() override;
@@ -104,7 +112,7 @@ protected:
 
     void connectSignals();
 
-public:
+   public:
     static PlayerManager *instance(QObject *parent = nullptr);
 
     void loadSettings();
@@ -150,18 +158,16 @@ public:
     [[nodiscard]] double volume() const { return this->mVolume; }
 
     void setVolume(double n) {
-        if (n < 0.0)
-            n = 0.0;
-        if (n > 1.0)
-            n = 1.0;
+        if (n < 0.0) n = 0.0;
+        if (n > 1.0) n = 1.0;
 
         this->mVolume = n;
         this->mEngine->setProperty("volume", mVolume * 100);
         emit this->volumeChanged(n);
 
         if (this->isMediaLoaded() && this->currentMediaIsVideo())
-                emit this->showTips(QString("qrc:/assets/volume-%1.svg").arg(3),
-                                    QString::asprintf("%02.1f%%", n * 100));
+            emit this->showTips(QString("qrc:/assets/volume-%1.svg").arg(3),
+                                QString::asprintf("%02.1f%%", n * 100));
     }
 
     [[nodiscard]] bool isMuted() const { return this->mIsMuted; }
@@ -171,18 +177,16 @@ public:
         this->mEngine->setMute(n);
         emit this->isMutedChanged(n);
         if (this->isMediaLoaded() && this->currentMediaIsVideo())
-                emit this->showTips(
-                    QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
-                    n ? tr("Muted") : tr("UnMuted"));
+            emit this->showTips(
+                QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
+                n ? tr("Muted") : tr("UnMuted"));
     }
 
     [[nodiscard]] int lightness() const { return this->mLightness; }
 
     void setLightness(int n) {
-        if (n < -100)
-            n = -100;
-        if (n > 100)
-            n = 100;
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
 
         this->mLightness = n;
         this->mEngine->setOption("contrast", n);
@@ -192,10 +196,8 @@ public:
     [[nodiscard]] int contrast() const { return this->mContrast; }
 
     void setContrast(int n) {
-        if (n < -100)
-            n = -100;
-        if (n > 100)
-            n = 100;
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
 
         this->mContrast = n;
         this->mEngine->setOption("contrast", n);
@@ -205,10 +207,8 @@ public:
     [[nodiscard]] int saturation() const { return this->mSaturation; }
 
     void setSaturation(int n) {
-        if (n < -100)
-            n = -100;
-        if (n > 100)
-            n = 100;
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
 
         this->mSaturation = n;
         this->mEngine->setOption("saturation", n);
@@ -218,10 +218,8 @@ public:
     [[nodiscard]] int gamma() const { return this->mGamma; }
 
     void setGamma(int n) {
-        if (n < -100)
-            n = -100;
-        if (n > 100)
-            n = 100;
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
 
         this->mGamma = n;
         this->mEngine->setOption("gamma", n);
@@ -231,10 +229,8 @@ public:
     [[nodiscard]] int hue() const { return this->mHue; }
 
     void setHue(int n) {
-        if (n < -100)
-            n = -100;
-        if (n > 100)
-            n = 100;
+        if (n < -100) n = -100;
+        if (n > 100) n = 100;
 
         this->mHue = n;
         this->mEngine->setOption("hue", n);
@@ -321,7 +317,7 @@ public:
         emit this->coverColorChanged(n);
     }
 
-public slots:
+   public slots:
     Q_INVOKABLE void userDragHandler(double t);
 
     Q_INVOKABLE void play(const Media &m);
@@ -363,7 +359,7 @@ public slots:
 
     Q_INVOKABLE void handlePlayQueueEnded();
 
-signals:
+   signals:
 
     void currentMediaIsVideoChanged(bool n);
 

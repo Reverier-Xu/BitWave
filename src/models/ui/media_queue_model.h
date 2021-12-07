@@ -1,6 +1,13 @@
-//
-// Created by: Reverier-Xu on 2021.08.26
-//
+/**
+ * @file media_queue_model.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -9,8 +16,8 @@
 #include "models/media.h"
 
 class MediaQueueModel : public QAbstractListModel {
-Q_OBJECT
-public:
+    Q_OBJECT
+   public:
     enum MediaQueueRoles {
         MediaTitleRole = Qt::UserRole + 1,
         MediaDurationRole,
@@ -27,9 +34,9 @@ public:
 
     void setMediaQueue(QQueue<Media> *mediaQueue);
 
-    void reloadQueue();
+    void reloadQueue(QQueue<Media> *mediaQueue);
 
-    void beginRemoveMedia(int pos); // [begin, end]
+    void beginRemoveMedia(int pos);  // [begin, end]
 
     void endRemoveMedia();
 
@@ -37,6 +44,6 @@ public:
 
     void endInsertMedia();
 
-private:
-    QQueue<Media> *mMediaQueue{ };
+   private:
+    QQueue<Media> *mMediaQueue{};
 };

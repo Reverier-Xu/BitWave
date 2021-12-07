@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/27.
-//
+/**
+ * @file video_player.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -16,9 +23,9 @@
 class MpvRenderer;
 
 class VideoPlayer : public QQuickFramebufferObject {
-Q_OBJECT
+    Q_OBJECT
 
-public:
+   public:
     static void on_update(void *ctx);
 
     explicit VideoPlayer(QQuickItem *parent = nullptr);
@@ -27,15 +34,15 @@ public:
 
     [[nodiscard]] Renderer *createRenderer() const override;
 
-public slots:
+   public slots:
 
     void doUpdate();
 
-signals:
+   signals:
 
     void onUpdate();
 
-private:
+   private:
     mpv_handle *mpv;
 
     mpv_render_context *mpv_gl;

@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/8/7.
-//
+/**
+ * @file queue_manager.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -16,21 +23,21 @@
 #include "utilities/memory_helper.h"
 
 class QueueManager : public QObject {
-Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(int playMode MEMBER mPlayMode READ playMode WRITE setPlayMode
-                       NOTIFY playModeChanged)
+                   NOTIFY playModeChanged)
     Q_PROPERTY(QUrl playModeIcon READ playModeIcon WRITE setPlayModeIcon NOTIFY
-                       playModeIconChanged)
+                   playModeIconChanged)
     Q_PROPERTY(int addMediaMode MEMBER mAddMediaMode READ addMediaMode WRITE
-                       setAddMediaMode NOTIFY addMediaModeChanged)
+                   setAddMediaMode NOTIFY addMediaModeChanged)
     Q_PROPERTY(int queuePos MEMBER mQueuePos READ queuePos WRITE setQueuePos
-                       NOTIFY queuePosChanged)
-    Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName NOTIFY
-                       playModeNameChanged)
+                   NOTIFY queuePosChanged)
+    Q_PROPERTY(QString playModeName READ playModeName WRITE setPlayModeName
+                   NOTIFY playModeNameChanged)
     Q_PROPERTY(Media currentMedia READ currentMedia WRITE setCurrentMedia NOTIFY
-                       currentMediaChanged)
-private:
-    Media mCurrentMedia{ };
+                   currentMediaChanged)
+   private:
+    Media mCurrentMedia{};
     int mPlayMode = 0;
     int mQueuePos = 0;
     QQueue<Media> mMainQueue;
@@ -39,7 +46,7 @@ private:
     bool mQueueEnded = false;
     MediaQueueModel *mQueueModel;
 
-protected:
+   protected:
     static QueueManager *mInstance;
 
     explicit QueueManager(QObject *parent);
@@ -48,7 +55,7 @@ protected:
 
     ~QueueManager() override;
 
-public:
+   public:
     static QueueManager *instance(QObject *parent = nullptr);
 
     void loadSettings();
@@ -66,15 +73,15 @@ public:
     [[nodiscard]] QUrl playModeIcon() const {
         switch (this->playMode()) {
             case 0:
-                return QUrl("qrc:/assets/play-repeat-all.svg"); // repeat all
+                return QUrl("qrc:/assets/play-repeat-all.svg");  // repeat all
             case 1:
-                return QUrl("qrc:/assets/play-repeat-one.svg"); // repeat one
+                return QUrl("qrc:/assets/play-repeat-one.svg");  // repeat one
             case 2:
-                return QUrl("qrc:/assets/play-random.svg"); // random
+                return QUrl("qrc:/assets/play-random.svg");  // random
             case 3:
-                return QUrl("qrc:/assets/play-order.svg"); // order
+                return QUrl("qrc:/assets/play-order.svg");  // order
             case 4:
-                return QUrl("qrc:/assets/play-reverse.svg"); // reverse
+                return QUrl("qrc:/assets/play-reverse.svg");  // reverse
             default:
                 return QUrl("qrc:/assets/play-repeat-all.svg");
         }
@@ -125,8 +132,7 @@ public:
     void setQueuePos(int n) {
         this->mQueuePos = n;
         emit this->queuePosChanged(n);
-        if (n == -1)
-                emit this->playQueueEnded();
+        if (n == -1) emit this->playQueueEnded();
         if (!this->mMainQueue.empty() and this->queuePos() > -1) {
             auto media = this->mMainQueue.at(n);
             this->setCurrentMedia(media);
@@ -142,7 +148,7 @@ public:
         emit currentMediaChanged(m);
     }
 
-public slots:
+   public slots:
     Q_INVOKABLE void changeMode();
 
     Q_INVOKABLE void addMedia(const Media &media);
@@ -169,7 +175,7 @@ public slots:
 
     Q_INVOKABLE void clearHistory();
 
-signals:
+   signals:
 
     void playModeChanged(int mode);
 

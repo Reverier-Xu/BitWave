@@ -1,12 +1,12 @@
-/*
- * mpv_engine.cpp
- *
- * Summary: wrapper of mpv engine.
- * Author: Reverier-Xu <reverier.xu@outlook.com>
- *
- * Created: 2021-01-06
- * Last Modified: 2021-08-11
- *
+/**
+ * @file mpv_engine.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
  */
 
 #include "mpv_engine.h"
@@ -17,18 +17,15 @@
 
 MpvEngine *MpvEngine::mMpvEngine = nullptr;
 
-static void
-wakeup(void *ctx) {
+static void wakeup(void *ctx) {
     // qDebug() << "[BitWave] wakeup!!!";
-    QMetaObject::invokeMethod(
-            (MpvEngine *) ctx, "onMpvEvents", Qt::QueuedConnection);
+    QMetaObject::invokeMethod((MpvEngine *)ctx, "onMpvEvents",
+                              Qt::QueuedConnection);
 }
 
-MpvEngine::MpvEngine(QObject *parent)
-        : QObject(parent) {
+MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
     this->mpv = mpv_create();
-    if (!mpv)
-        throw std::runtime_error("could not create mpv context");
+    if (!mpv) throw std::runtime_error("could not create mpv context");
 
     mpv_set_option_string(mpv, "terminal", "yes");
     mpv_set_option_string(mpv, "msg-level", "all=warn");
@@ -56,22 +53,22 @@ void MpvEngine::handleMpvEvent(mpv_event *event) {
     switch (event->event_id) {
         // qDebug() << event->event_id;
         case MPV_EVENT_PROPERTY_CHANGE: {
-            auto *prop = (mpv_event_property *) event->data;
+            auto *prop = (mpv_event_property *)event->data;
             if (strcmp(prop->name, "time-pos") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double *) prop->data;
+                    double time = *(double *)prop->data;
                     emit positionChanged(time);
                     // qDebug() << "cursor: " << time;
                 }
             } else if (strcmp(prop->name, "duration") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double *) prop->data;
+                    double time = *(double *)prop->data;
                     emit durationChanged(time);
                     // qDebug() << "total: " << time;
                 }
             } else if (strcmp(prop->name, "volume") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double volume = *(double *) prop->data;
+                    double volume = *(double *)prop->data;
                     emit volumeChanged(volume);
                     // qDebug() << "total: " << time;
                 }
@@ -129,8 +126,7 @@ MpvEngine *MpvEngine::instance(QObject *parent) {
     if (mMpvEngine == nullptr) {
         mMpvEngine = new MpvEngine(parent);
     }
-    if (parent != nullptr)
-        mMpvEngine->setParent(parent);
+    if (parent != nullptr) mMpvEngine->setParent(parent);
     return mMpvEngine;
 }
 
@@ -144,22 +140,16 @@ void MpvEngine::playMedia(const QString &path) {
     this->command(QStringList() << "loadfile" << path);
 }
 
-void MpvEngine::resume() {
-    this->setProperty("pause", false);
-}
+void MpvEngine::resume() { this->setProperty("pause", false); }
 
-void MpvEngine::pause() {
-    this->setProperty("pause", true);
-}
+void MpvEngine::pause() { this->setProperty("pause", true); }
 
 void MpvEngine::stop() {
     this->command(QStringList() << "stop");
     // this->command(QStringList() << "drop-buffers");
 }
 
-void MpvEngine::setTimePos(double secs) {
-    this->setProperty("time-pos", secs);
-}
+void MpvEngine::setTimePos(double secs) { this->setProperty("time-pos", secs); }
 
 void MpvEngine::setMute(bool ok) {
     this->setProperty("mute", ok ? "yes" : "no");

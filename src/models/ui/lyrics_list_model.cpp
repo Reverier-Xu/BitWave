@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/7/26.
-//
+/**
+ * @file lyrics_list_model.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "lyrics_list_model.h"
 
@@ -36,7 +43,8 @@ QHash<int, QByteArray> LyricsListModel::roleNames() const {
     return roles;
 }
 
-void LyricsListModel::addLyric(const QString &content, double start, double end) {
+void LyricsListModel::addLyric(const QString &content, double start,
+                               double end) {
     beginInsertRows(QModelIndex(), mLyrics.size(), mLyrics.size());
     mLyrics << LyricContent(this, content, start, end);
     endInsertRows();
@@ -48,10 +56,8 @@ void LyricsListModel::addLyric(const LyricContent &lyric) {
     endInsertRows();
 }
 
-void LyricsListModel::insertLyric(const QString &content,
-                                  double start,
-                                  double end,
-                                  int row) {
+void LyricsListModel::insertLyric(const QString &content, double start,
+                                  double end, int row) {
     beginInsertRows(QModelIndex(), row, row);
     mLyrics.insert(row, LyricContent(this, content, start, end));
     endInsertRows();
@@ -73,7 +79,7 @@ void LyricsListModel::removeLyric(int row) {
 
 typedef struct Lyric {
     QString content;
-    double start{ };
+    double start{};
 } Lyric;
 
 void splitLyric(QList<Lyric> &lyrics, const QString &raw) {
@@ -91,7 +97,8 @@ void splitLyric(QList<Lyric> &lyrics, const QString &raw) {
                 if (capturedList.size() == 2) {
                     Lyric lyric;
                     lyric.content = content;
-                    lyric.start = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
+                    lyric.start = capturedList.at(0).toDouble() * 60 +
+                                  capturedList.at(1).toDouble();
                     lyrics << lyric;
                 }
             }
@@ -112,7 +119,8 @@ void insertLyricTr(QList<Lyric> &lyrics, const QString &tr) {
                 captured = captured.mid(1, captured.length() - 2);
                 QStringList capturedList = captured.split(":");
                 if (capturedList.size() == 2) {
-                    double start = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
+                    double start = capturedList.at(0).toDouble() * 60 +
+                                   capturedList.at(1).toDouble();
                     // 二分法
                     int left = 0;
                     int right = lyrics.size() - 1;
@@ -137,8 +145,7 @@ void insertLyricTr(QList<Lyric> &lyrics, const QString &tr) {
 void LyricsListModel::parseLyrics(const QString &raw, const QString &tr) {
     QList<Lyric> lyrics;
     splitLyric(lyrics, raw);
-    if (!tr.isEmpty())
-        insertLyricTr(lyrics, tr);
+    if (!tr.isEmpty()) insertLyricTr(lyrics, tr);
     beginResetModel();
     mLyrics.clear();
     for (auto i = 0; i < lyrics.size(); i++) {

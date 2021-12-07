@@ -1,6 +1,14 @@
-//
-// Created by reverier on 2021/8/18.
-//
+/**
+ * @file color_helper.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 
 #include "color_helper.h"
 
@@ -22,7 +30,8 @@ struct Clust {
 };
 
 int getColorDis(const QColor &a, const QColor &b) {
-    return (int) sqrt((a.red() - b.red()) + (a.blue() - b.blue()) + (a.green() - b.green()));
+    return (int)sqrt((a.red() - b.red()) + (a.blue() - b.blue()) +
+                     (a.green() - b.green()));
 }
 
 QColor ColorHelper::getImageThemeColor(const QImage &image) {
@@ -59,8 +68,7 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
                 }
                 int minDisClustId = 0;
                 for (int i = 1; i < CLUST_NUM; ++i)
-                    if (dis[i] < dis[minDisClustId])
-                        minDisClustId = i;
+                    if (dis[i] < dis[minDisClustId]) minDisClustId = i;
                 Node node;
                 node.color = posColor;
                 node.point = QPoint(cols, rows);
@@ -118,17 +126,16 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
     int max = 0;
     for (auto &i : vec)
         if (i.buff.count() > max) {
-            if (i.center.color.lightness() < 80 || i.center.color.lightness() > 180)
+            if (i.center.color.lightness() < 80 ||
+                i.center.color.lightness() > 180)
                 continue;
             max = i.buff.count();
             dst = &i;
         }
     // qDebug() << dst->center.color.lightness();
     auto res = dst->center.color;
-    while (res.lightness() < 80 and res.lightness() > 0)
-        res = res.lighter();
-    while (res.lightness() > 180 and res.lightness() < 255)
-        res = res.darker();
+    while (res.lightness() < 80 and res.lightness() > 0) res = res.lighter();
+    while (res.lightness() > 180 and res.lightness() < 255) res = res.darker();
     if (res.lightness() == 0 or res.lightness() == 255)
         res = QColor(0x80, 0x80, 0x80);
     return res;

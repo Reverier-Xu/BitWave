@@ -1,11 +1,21 @@
+/**
+ * @file media_queue_model.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 #include "media_queue_model.h"
 
 #include <QDebug>
 #include <QQueue>
 
 MediaQueueModel::MediaQueueModel(QObject *parent)
-        : QAbstractListModel(parent) {
-}
+    : QAbstractListModel(parent) {}
 
 int MediaQueueModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent)
@@ -14,7 +24,7 @@ int MediaQueueModel::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant MediaQueueModel::data(const QModelIndex &index, int role) const {
-    // qDebug() << index << role;
+    //    qDebug() << index << role;
     if (!index.isValid()) {
         return QVariant();
     }
@@ -33,8 +43,7 @@ QVariant MediaQueueModel::data(const QModelIndex &index, int role) const {
     }
 }
 
-QHash<int, QByteArray>
-MediaQueueModel::roleNames() const {
+QHash<int, QByteArray> MediaQueueModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[MediaTitleRole] = "mediaTitle";
     roles[MediaDurationRole] = "mediaDuration";
@@ -48,7 +57,7 @@ void MediaQueueModel::setMediaQueue(QQueue<Media> *mediaQueue) {
     endResetModel();
 }
 
-void MediaQueueModel::reloadQueue() {
+void MediaQueueModel::reloadQueue(QQueue<Media> *mediaQueue) {
     beginResetModel();
     endResetModel();
 }
@@ -57,14 +66,10 @@ void MediaQueueModel::beginRemoveMedia(int pos) {
     beginRemoveRows(QModelIndex(), pos, pos);
 }
 
-void MediaQueueModel::endRemoveMedia() {
-    endRemoveRows();
-}
+void MediaQueueModel::endRemoveMedia() { endRemoveRows(); }
 
 void MediaQueueModel::beginInsertMedia(int pos) {
     beginInsertRows(QModelIndex(), pos, pos);
 }
 
-void MediaQueueModel::endInsertMedia() {
-    endInsertRows();
-}
+void MediaQueueModel::endInsertMedia() { endInsertRows(); }

@@ -1,4 +1,16 @@
+/**
+ * @file queue_manager.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
+
 #include "queue_manager.h"
+
 #include <qglobal.h>
 
 #ifdef Q_OS_LINUX
@@ -15,8 +27,7 @@
 
 QueueManager *QueueManager::mInstance = nullptr;
 
-QueueManager::QueueManager(QObject *parent)
-        : QObject(parent) {
+QueueManager::QueueManager(QObject *parent) : QObject(parent) {
     this->mQueueModel = new MediaQueueModel(this);
     this->mQueueModel->setMediaQueue(&this->mMainQueue);
     // qDebug() << this->mQueueModel->rowCount(QModelIndex());
@@ -24,9 +35,7 @@ QueueManager::QueueManager(QObject *parent)
     this->connectSignals();
 }
 
-QueueManager::~QueueManager() {
-    this->saveSettings();
-}
+QueueManager::~QueueManager() { this->saveSettings(); }
 
 QueueManager *QueueManager::instance(QObject *parent) {
     if (mInstance == nullptr) {
@@ -58,13 +67,14 @@ void QueueManager::addMedia(const Media &media) {
 void QueueManager::addMediaAtHead(const Media &media) {
     this->mQueueModel->beginInsertMedia(this->queuePos());
     this->mMainQueue.insert(this->queuePos(), media);
-    this->setQueuePos(this->queuePos()); // playing the new media now.
+    this->setQueuePos(this->queuePos());  // playing the new media now.
     this->mQueueModel->endInsertMedia();
     emit this->mediaQueueChanged();
 }
 
-void QueueManager::addMediaAtNext(const Media &media) { // not support at random mode.
-    this->mQueueModel->beginInsertMedia(this->queuePos()+1);
+void QueueManager::addMediaAtNext(
+    const Media &media) {  // not support at random mode.
+    this->mQueueModel->beginInsertMedia(this->queuePos() + 1);
     this->mMainQueue.insert(this->queuePos() + 1, media);
     this->mQueueModel->endInsertMedia();
     emit this->mediaQueueChanged();
@@ -93,7 +103,7 @@ void QueueManager::playExternMedia(const QString &path) {
     // MemoryHelper::assertMemory("QueueManager::playExternMedia");
     // this->setPlayMode(3);
 #ifdef Q_OS_LINUX
-    malloc_trim(0); // free memories.
+    malloc_trim(0);  // free memories.
 #endif
     emit this->playExternMediaRequested(path);
 }
@@ -105,7 +115,7 @@ void QueueManager::removeMedia(int removed) {
 
     this->mMainQueue.removeAt(removed);
 
-    if (!this->mMainQueue.count()) { // media is the last one in the queue.
+    if (!this->mMainQueue.count()) {  // media is the last one in the queue.
         this->mQueueEnded = true;
         emit this->playQueueEnded();
         emit this->showTips("qrc:/assets/current.svg", tr("Finished"));
@@ -121,43 +131,42 @@ void QueueManager::next() {
     // qDebug() << "Next Called.";
     // MemoryHelper::assertMemory("QueueManager::next Begin");
 #ifdef Q_OS_LINUX
-    malloc_trim(0); // free memories.
+    malloc_trim(0);  // free memories.
 #endif
-    if (this->mMainQueue.empty())
-        return;
+    if (this->mMainQueue.empty()) return;
     if (this->mQueueEnded) {
         // qDebug() << "Queue is ended, reboot.";
         this->mQueueEnded = false;
         this->setQueuePos(0);
         return;
     }
-    if (this->queuePos() <= this->mMainQueue.size() - 1 && this->queuePos() > -1)
+    if (this->queuePos() <= this->mMainQueue.size() - 1 &&
+        this->queuePos() > -1)
         this->mHistoryStack.push(this->queuePos());
-    if (this->queuePos() < -1)
-        return;
+    if (this->queuePos() < -1) return;
 
     int next_pos;
     switch (this->playMode()) {
         case 0:
-            next_pos = this->queuePos() + 1; // repeat all
+            next_pos = this->queuePos() + 1;  // repeat all
             next_pos = next_pos % this->mMainQueue.count();
             break;
         case 1:
-            next_pos = this->queuePos(); // repeat one
-            if (next_pos == -1)
-                next_pos = 0;
+            next_pos = this->queuePos();  // repeat one
+            if (next_pos == -1) next_pos = 0;
             break;
         case 2:
             do {
                 next_pos = QRandomGenerator::global()->bounded(
-                        0, this->mMainQueue.count()); // random
-            } while (next_pos == this->queuePos() and this->mMainQueue.count() > 1);
+                    0, this->mMainQueue.count());  // random
+            } while (next_pos == this->queuePos() and
+                     this->mMainQueue.count() > 1);
             break;
         case 3:
-            next_pos = this->queuePos() + 1; // order
+            next_pos = this->queuePos() + 1;  // order
             break;
         case 4:
-            next_pos = this->queuePos() - 1; // reverse
+            next_pos = this->queuePos() - 1;  // reverse
             break;
         default:
             next_pos = -1;
@@ -177,7 +186,8 @@ void QueueManager::next() {
 }
 
 void QueueManager::previous() {
-    if (this->mHistoryStack.count() > 0 and this->mHistoryStack.top() < this->mMainQueue.count() and
+    if (this->mHistoryStack.count() > 0 and
+        this->mHistoryStack.top() < this->mMainQueue.count() and
         this->mHistoryStack.top() >= 0) {
         this->setQueuePos(this->mHistoryStack.top());
         this->mHistoryStack.pop();
@@ -219,12 +229,9 @@ void QueueManager::handleExternMediaInfoIsReady(bool ok, const Media &media) {
 }
 
 void QueueManager::connectSignals() const {
-    connect(ParserManager::instance(),
-            &ParserManager::externMediaInfoIsReady,
-            this,
-            &QueueManager::handleExternMediaInfoIsReady);
-    connect(this,
-            &QueueManager::playExternMediaRequested,
+    connect(ParserManager::instance(), &ParserManager::externMediaInfoIsReady,
+            this, &QueueManager::handleExternMediaInfoIsReady);
+    connect(this, &QueueManager::playExternMediaRequested,
             ParserManager::instance(),
             &ParserManager::handleGetExternMediaInfoRequest);
 }
@@ -232,11 +239,11 @@ void QueueManager::connectSignals() const {
 void QueueManager::clearQueue() {
     this->mMainQueue.clear();
     this->clearHistory();
-    this->setQueuePos(-1);
+    this->setQueuePos(0);
+    this->mQueueEnded = false;
+    emit this->playQueueEnded();
     emit this->mediaQueueChanged();
-    this->mQueueModel->reloadQueue();
+    this->mQueueModel->reloadQueue(&this->mMainQueue);
 }
 
-void QueueManager::clearHistory() {
-    this->mHistoryStack.clear();
-}
+void QueueManager::clearHistory() { this->mHistoryStack.clear(); }

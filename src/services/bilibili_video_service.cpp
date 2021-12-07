@@ -1,5 +1,5 @@
 /**
- * @file online_bilibili_video_parser.h
+ * @file bilibili_video_service.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
  * @brief 
  * @version 0.1
@@ -9,6 +9,3 @@
  * 
  */
 
-#pragma once
-
-class OnlineBilibiliVideoParser {};

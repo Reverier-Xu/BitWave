@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file local_video_parser.cpp
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #include "local_video_parser.h"
 
@@ -14,8 +21,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
-const QStringList &
-LocalVideoParser::acceptTypes() {
+const QStringList &LocalVideoParser::acceptTypes() {
     static QStringList types;
     if (types.isEmpty()) {
         types = QStringList() << "mp4"
@@ -55,11 +61,11 @@ bool LocalVideoParser::accepted(const Media &media) {
 }
 
 bool LocalVideoParser::accepted(const QString &path) {
-    return acceptTypes().contains(QFileInfo(path).suffix(), Qt::CaseInsensitive);
+    return acceptTypes().contains(QFileInfo(path).suffix(),
+                                  Qt::CaseInsensitive);
 }
 
-LocalVideoParser *
-LocalVideoParser::clone() {
+LocalVideoParser *LocalVideoParser::clone() {
     return new LocalVideoParser(*this);
 }
 
@@ -116,11 +122,8 @@ Media LocalVideoParser::getMedia(const QString &path) {
     return media;
 }
 
-Media LocalVideoParser::parseMedia(const Media &media) {
-    return media;
-}
+Media LocalVideoParser::parseMedia(const Media &media) { return media; }
 
-QString
-LocalVideoParser::getMediaCover(const Media &media) {
+QString LocalVideoParser::getMediaCover(const Media &media) {
     return "qrc:/assets/movie-colorful.svg";
 }

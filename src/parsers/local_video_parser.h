@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/6/25.
-//
+/**
+ * @file local_video_parser.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -9,11 +16,9 @@
 #include "base_parser.h"
 
 class LocalVideoParser : public BaseParser {
-Q_OBJECT
-public:
-    explicit LocalVideoParser(QObject *parent = nullptr)
-            : BaseParser(parent) {
-    }
+    Q_OBJECT
+   public:
+    explicit LocalVideoParser(QObject *parent = nullptr) : BaseParser(parent) {}
 
     LocalVideoParser(const LocalVideoParser &parser) = default;
 

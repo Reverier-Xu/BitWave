@@ -1,6 +1,13 @@
-//
-// Created by Reverier-Xu on 2021/7/29.
-//
+/**
+ * @file base_parser.h
+ * @author Reverier-Xu (reverier.xu@outlook.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-12-08
+ * 
+ * @copyright Copyright (c) 2021 Wootec
+ * 
+ */
 
 #pragma once
 
@@ -10,14 +17,12 @@
 #include "models/media.h"
 
 class BaseParser : public QObject {
-Q_OBJECT
-private:
+    Q_OBJECT
+   private:
     QUuid mParserId = QUuid(nullptr);
 
-public:
-    explicit BaseParser(QObject *parent = nullptr)
-            : QObject(parent) {
-    }
+   public:
+    explicit BaseParser(QObject *parent = nullptr) : QObject(parent) {}
 
     BaseParser(const BaseParser &parser) { this->setParent(parser.parent()); }
 
@@ -44,7 +49,7 @@ public:
         emit this->parserIdChanged(n);
     }
 
-signals:
+   signals:
 
     void parserIdChanged(const QUuid &n);
 };

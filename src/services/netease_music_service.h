@@ -1,5 +1,5 @@
 /**
- * @file online_bilibili_video_parser.h
+ * @file netease_music_service.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
  * @brief 
  * @version 0.1
@@ -8,7 +8,3 @@
  * @copyright Copyright (c) 2021 Wootec
  * 
  */
-
-#pragma once
-
-class OnlineBilibiliVideoParser {};
