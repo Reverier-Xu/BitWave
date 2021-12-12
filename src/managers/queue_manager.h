@@ -52,7 +52,7 @@ class QueueManager : public QObject {
 
     explicit QueueManager(QObject *parent);
 
-    void connectSignals() const;
+    void connectSignals();
 
     ~QueueManager() override;
 
@@ -107,9 +107,7 @@ class QueueManager : public QObject {
 
     Q_INVOKABLE void addMediaAtTail(const Media &media);
 
-    Q_INVOKABLE void playExternMedia(const QString &path);
-
-    Q_INVOKABLE void handleExternMediaInfoIsReady(bool ok, const Media &media);
+    Q_INVOKABLE void addExternMedia(const QString &path);
 
     Q_INVOKABLE void removeMedia(int removed);
 
@@ -145,9 +143,9 @@ class QueueManager : public QObject {
 
     void playModeNameChanged(const QString &name);
 
-    void playExternMediaRequested(const QString &path);
-
     void playQueueEnded();
+
+    void externMediaInfoRequested(const QString& path);
 
     void showTips(const QString &icon, const QString &info);
 };

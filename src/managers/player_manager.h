@@ -291,6 +291,8 @@ class PlayerManager : public QObject {
 
     void stateChanged();
 
+    void playEnded();
+
     void playFailed();
 
     void isReadyChanged(bool n);
