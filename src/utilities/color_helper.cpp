@@ -133,8 +133,8 @@ QColor ColorHelper::getImageThemeColor(const QImage &image) {
         }
     // qDebug() << dst->center.color.lightness();
     auto res = dst->center.color;
-    while (res.lightness() < 80 and res.lightness() > 0) res = res.lighter();
-    while (res.lightness() > 180 and res.lightness() < 255) res = res.darker();
+    while (res.lightness() < 80 && res.lightness() > 0) res = res.lighter();
+    while (res.lightness() > 180 && res.lightness() < 255) res = res.darker();
     if (res.lightness() == 0 or res.lightness() == 255)
         res = QColor(0x80, 0x80, 0x80);
     return res;

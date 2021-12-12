@@ -274,7 +274,7 @@ void Mpris2::Seek(qlonglong offset) {
     }
 }
 
-void Mpris2::OpenUri(const QString &uri) { queue_->playExternMedia(uri); }
+void Mpris2::OpenUri(const QString &uri) { queue_->addExternMedia(uri); }
 
 bool Mpris2::CanSetFullscreen() const { return false; }
 
@@ -297,7 +297,7 @@ void Mpris2::EngineStateChanged() {
         last_metadata_ = QVariantMap();
         EmitNotification("Metadata");
     }
-    if (last_metadata_.isEmpty() and player_->isMediaLoaded()) {
+    if (last_metadata_.isEmpty() && player_->isMediaLoaded()) {
         MetadataLoaded(queue_->currentMedia(), player_->currentMediaCover());
     }
     EmitNotification("CanPlay");

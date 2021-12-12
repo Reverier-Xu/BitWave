@@ -97,6 +97,7 @@ void PlayerManager::connectSignals() {
         setIsMediaLoaded(false);
         // qDebug() << "ended";
         emit stateChanged();
+        emit playEnded();
     });
 
     connect(this, &PlayerManager::mediaParseRequired, ParserManager::instance(),
@@ -135,7 +136,7 @@ void PlayerManager::connectSignals() {
             // qDebug() << "UnInhibit";
         });
         connect(this, &PlayerManager::isPlayingChanged, [=](bool n) {
-            if (currentMediaIsVideo() and n) {
+            if (currentMediaIsVideo() && n) {
                 // qDebug() << "Inhibit";
                 mScreensaver->Inhibit();
             } else {

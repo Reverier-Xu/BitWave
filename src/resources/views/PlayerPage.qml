@@ -240,7 +240,7 @@ Rectangle {
                 //     // console.log(drop.urls.length);
                 //     queue.playExternMedia(drop.urls[i]);
                 // }
-                queue.playExternMedia(drop.urls[0]);
+                queue.addExternMedia(drop.urls[0]);
             }
         }
     }
