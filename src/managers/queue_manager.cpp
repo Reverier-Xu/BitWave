@@ -210,11 +210,12 @@ void QueueManager::connectSignals() {
 void QueueManager::clearQueue() {
     mMainQueue.clear();
     clearHistory();
-    setQueuePos(0);
+    setQueuePos(-1);
     mQueueEnded = false;
     emit playQueueEnded();
     emit mediaQueueChanged();
     mQueueModel->reloadQueue(&mMainQueue);
+    PlayerManager::instance(this->parent())->resetPlayer();
 }
 
 void QueueManager::clearHistory() { mHistoryStack.clear(); }
