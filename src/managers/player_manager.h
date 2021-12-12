@@ -1,12 +1,12 @@
 /**
  * @file player_manager.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -119,206 +119,92 @@ class PlayerManager : public QObject {
 
     void saveSettings() const;
 
-    [[nodiscard]] bool currentMediaIsVideo() const {
-        return this->mCurrentMediaIsVideo;
-    }
+    [[nodiscard]] bool currentMediaIsVideo() const;
 
-    void setCurrentMediaIsVideo(bool n) {
-        this->mCurrentMediaIsVideo = n;
-        emit this->currentMediaIsVideoChanged(n);
-    }
+    void setCurrentMediaIsVideo(bool n);
 
-    [[nodiscard]] bool isPlaying() const { return this->mIsPlaying; }
+    [[nodiscard]] bool isPlaying() const;
 
-    void setPlaying(bool n) {
-        this->mIsPlaying = n;
-        emit this->isPlayingChanged(n);
-    }
+    void setPlaying(bool n);
 
-    [[nodiscard]] double totalTime() const { return this->mTotalTime; }
+    [[nodiscard]] double totalTime() const;
 
-    void setTotalTime(double n) {
-        if (n < 0.0) {
-            n = 0.0;
-        }
-        this->mTotalTime = n;
-        emit this->totalTimeChanged(n);
-    }
+    void setTotalTime(double n);
 
-    [[nodiscard]] double currentTime() const { return this->mCurrentTime; }
+    [[nodiscard]] double currentTime() const;
 
-    void setCurrentTime(double n) {
-        if (n < 0.0) {
-            n = 0.0;
-        }
-        this->mCurrentTime = n;
-        emit this->currentTimeChanged(n);
-    }
+    void setCurrentTime(double n);
 
-    [[nodiscard]] double volume() const { return this->mVolume; }
+    [[nodiscard]] double volume() const;
 
-    void setVolume(double n) {
-        if (n < 0.0) n = 0.0;
-        if (n > 1.0) n = 1.0;
+    void setVolume(double n);
 
-        this->mVolume = n;
-        this->mEngine->setProperty("volume", mVolume * 100);
-        emit this->volumeChanged(n);
+    [[nodiscard]] bool isMuted() const;
 
-        if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(QString("qrc:/assets/volume-%1.svg").arg(3),
-                                QString::asprintf("%02.1f%%", n * 100));
-    }
+    void setIsMuted(bool n);
 
-    [[nodiscard]] bool isMuted() const { return this->mIsMuted; }
+    [[nodiscard]] int lightness() const;
 
-    void setIsMuted(bool n) {
-        this->mIsMuted = n;
-        this->mEngine->setMute(n);
-        emit this->isMutedChanged(n);
-        if (this->isMediaLoaded() && this->currentMediaIsVideo())
-            emit this->showTips(
-                QString("qrc:/assets/volume-%1.svg").arg(n ? 0 : 3),
-                n ? tr("Muted") : tr("UnMuted"));
-    }
+    void setLightness(int n);
 
-    [[nodiscard]] int lightness() const { return this->mLightness; }
+    [[nodiscard]] int contrast() const;
 
-    void setLightness(int n) {
-        if (n < -100) n = -100;
-        if (n > 100) n = 100;
+    void setContrast(int n);
 
-        this->mLightness = n;
-        this->mEngine->setOption("contrast", n);
-        emit this->lightnessChanged(n);
-    }
+    [[nodiscard]] int saturation() const;
 
-    [[nodiscard]] int contrast() const { return this->mContrast; }
+    void setSaturation(int n);
 
-    void setContrast(int n) {
-        if (n < -100) n = -100;
-        if (n > 100) n = 100;
+    [[nodiscard]] int gamma() const;
 
-        this->mContrast = n;
-        this->mEngine->setOption("contrast", n);
-        emit this->contrastChanged(n);
-    }
+    void setGamma(int n);
 
-    [[nodiscard]] int saturation() const { return this->mSaturation; }
+    [[nodiscard]] int hue() const;
 
-    void setSaturation(int n) {
-        if (n < -100) n = -100;
-        if (n > 100) n = 100;
+    void setHue(int n);
 
-        this->mSaturation = n;
-        this->mEngine->setOption("saturation", n);
-        emit this->saturationChanged(n);
-    }
+    [[nodiscard]] QString currentMediaUrl() const;
 
-    [[nodiscard]] int gamma() const { return this->mGamma; }
+    void setCurrentMediaUrl(const QString &n);
 
-    void setGamma(int n) {
-        if (n < -100) n = -100;
-        if (n > 100) n = 100;
+    [[nodiscard]] bool isReady() const;
 
-        this->mGamma = n;
-        this->mEngine->setOption("gamma", n);
-        emit this->gammaChanged(n);
-    }
+    void setIsReady(bool n);
 
-    [[nodiscard]] int hue() const { return this->mHue; }
+    [[nodiscard]] QString currentMediaTitle() const;
 
-    void setHue(int n) {
-        if (n < -100) n = -100;
-        if (n > 100) n = 100;
+    void setCurrentMediaTitle(const QString &n);
 
-        this->mHue = n;
-        this->mEngine->setOption("hue", n);
-        emit this->hueChanged(n);
-    }
+    [[nodiscard]] QString currentMediaArtist() const;
 
-    [[nodiscard]] QString currentMediaUrl() const {
-        return this->mCurrentMediaUrl;
-    }
+    void setCurrentMediaArtist(const QString &n);
 
-    void setCurrentMediaUrl(const QString &n) {
-        this->mCurrentMediaUrl = n;
-        emit this->currentMediaUrlChanged(n);
-    }
+    [[nodiscard]] QString currentMediaAlbum() const;
 
-    [[nodiscard]] bool isReady() const { return this->mIsReady; }
+    void setCurrentMediaAlbum(const QString &n);
 
-    void setIsReady(bool n) {
-        this->mIsReady = n;
-        emit this->isReadyChanged(n);
-    }
+    [[nodiscard]] QString currentMediaCover() const;
 
-    [[nodiscard]] QString currentMediaTitle() const {
-        return this->mCurrentMediaTitle;
-    }
+    void setCurrentMediaCover(const QString &n);
 
-    void setCurrentMediaTitle(const QString &n) {
-        this->mCurrentMediaTitle = n;
-        emit this->currentMediaTitleChanged(n);
-    }
+    [[nodiscard]] bool isMediaLoading() const;
 
-    [[nodiscard]] QString currentMediaArtist() const {
-        return this->mCurrentMediaArtist;
-    }
+    void setIsMediaLoading(bool n);
 
-    void setCurrentMediaArtist(const QString &n) {
-        this->mCurrentMediaArtist = n;
-        emit this->currentMediaArtistChanged(n);
-    }
+    [[nodiscard]] bool isMediaLoaded() const;
 
-    [[nodiscard]] QString currentMediaAlbum() const {
-        return this->mCurrentMediaAlbum;
-    }
+    void setIsMediaLoaded(bool n);
 
-    void setCurrentMediaAlbum(const QString &n) {
-        this->mCurrentMediaAlbum = n;
-        emit this->currentMediaAlbumChanged(n);
-    }
+    [[nodiscard]] int isLyricLoaded() const;
 
-    [[nodiscard]] QString currentMediaCover() const {
-        return this->mCurrentMediaCover;
-    }
+    void setIsLyricLoaded(int n);
 
-    void setCurrentMediaCover(const QString &n) {
-        this->mCurrentMediaCover = n;
-        emit this->currentMediaCoverChanged(n);
-    }
+    [[nodiscard]] QColor coverColor() const;
 
-    [[nodiscard]] bool isMediaLoading() const { return this->mIsMediaLoading; }
-
-    void setIsMediaLoading(bool n) {
-        this->mIsMediaLoading = n;
-        emit this->isMediaLoadingChanged(n);
-    }
-
-    [[nodiscard]] bool isMediaLoaded() const { return this->mIsMediaLoaded; }
-
-    void setIsMediaLoaded(bool n) {
-        this->mIsMediaLoaded = n;
-        emit this->isMediaLoadedChanged(n);
-    }
-
-    [[nodiscard]] int isLyricLoaded() const { return this->mIsLyricLoaded; }
-
-    void setIsLyricLoaded(int n) {
-        this->mIsLyricLoaded = n;
-        emit this->isLyricLoadedChanged(n);
-    }
-
-    [[nodiscard]] QColor coverColor() const { return this->mCoverColor; }
-
-    void setCoverColor(const QColor &n) {
-        this->mCoverColor = n;
-        emit this->coverColorChanged(n);
-    }
+    void setCoverColor(const QColor &n);
 
    public slots:
-    Q_INVOKABLE void userDragHandler(double t);
+    Q_INVOKABLE void handleUserSeekRequest(double t);
 
     Q_INVOKABLE void play(const Media &m);
 
@@ -333,19 +219,19 @@ class PlayerManager : public QObject {
     Q_INVOKABLE void setLyrics(const QString &raw, const QString &tr = "");
 
     Q_INVOKABLE [[nodiscard]] LyricsListModel *getLyricsModel() {
-        return &(this->mLyricsModel);
+        return &(mLyricsModel);
     }
 
     Q_INVOKABLE void setCurrentLyricIndex(int n) {
         auto cntIndex = currentLyricIndex();
-        if (this->mCurrentLyricIndex != cntIndex) {
-            this->mCurrentLyricIndex = cntIndex;
-            emit this->currentLyricIndexChanged(this->mCurrentLyricIndex);
+        if (mCurrentLyricIndex != cntIndex) {
+            mCurrentLyricIndex = cntIndex;
+            emit currentLyricIndexChanged(mCurrentLyricIndex);
         }
     }
 
     Q_INVOKABLE [[nodiscard]] int currentLyricIndex() const {
-        return this->mLyricsModel.getCurrentLyricIndex(this->currentTime());
+        return mLyricsModel.getCurrentLyricIndex(currentTime());
     }
 
     Q_INVOKABLE void handleMediaIsReady(bool ok, const Media &m);
@@ -357,7 +243,7 @@ class PlayerManager : public QObject {
 
     Q_INVOKABLE void handleCoverColorIsReady(bool ok, const QColor &color);
 
-    Q_INVOKABLE void handlePlayQueueEnded();
+    Q_INVOKABLE void resetPlayer();
 
    signals:
 
@@ -404,6 +290,8 @@ class PlayerManager : public QObject {
     void coverColorRequired(const QString &cover);
 
     void stateChanged();
+
+    void playFailed();
 
     void isReadyChanged(bool n);
 

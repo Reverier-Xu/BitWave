@@ -1,12 +1,12 @@
 /**
  * @file media.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -66,77 +66,37 @@ class Media : public QObject {
         mComment = comment;
     }
 
-    Media(const Media &media) : QObject(media.parent()) {
-        mRawUrl = media.mRawUrl;
-        mDuration = media.mDuration;
-        mTitle = media.mTitle;
-        mArtist = media.mArtist;
-        mCollection = media.mCollection;
-        mType = media.mType;
-        mComment = media.mComment;
-    }
+    Media(const Media &media);
 
-    Media &operator=(const Media &media) {
-        this->setParent(media.parent());
-        mRawUrl = media.mRawUrl;
-        mDuration = media.mDuration;
-        mTitle = media.mTitle;
-        mArtist = media.mArtist;
-        mType = media.mType;
-        mComment = media.mComment;
-        return *this;
-    }
+    Media &operator=(const Media &media);
 
-    [[nodiscard]] QString rawUrl() const { return this->mRawUrl; }
+    [[nodiscard]] QString rawUrl() const;
 
-    void setRawUrl(const QString &n) {
-        this->mRawUrl = n;
-        emit rawUrlChanged(n);
-    }
+    void setRawUrl(const QString &n);
 
-    [[nodiscard]] double duration() const { return this->mDuration; }
+    [[nodiscard]] double duration() const;
 
-    void setDuration(double n) {
-        this->mDuration = n;
-        emit durationChanged(n);
-    }
+    void setDuration(double n);
 
-    [[nodiscard]] QString title() const { return this->mTitle; }
+    [[nodiscard]] QString title() const;
 
-    void setTitle(const QString &n) {
-        this->mTitle = n;
-        emit titleChanged(n);
-    }
+    void setTitle(const QString &n);
 
-    [[nodiscard]] QString artist() const { return this->mArtist; }
+    [[nodiscard]] QString artist() const;
 
-    void setArtist(const QString &n) {
-        this->mArtist = n;
-        emit artistChanged(n);
-    }
+    void setArtist(const QString &n);
 
-    [[nodiscard]] MediaType type() const { return this->mType; }
+    [[nodiscard]] MediaType type() const;
 
-    void setType(MediaType n) {
-        this->mType = n;
-        emit typeChanged(n);
-    }
+    void setType(MediaType n);
 
-    [[nodiscard]] const QString &collection() const {
-        return this->mCollection;
-    }
+    [[nodiscard]] const QString &collection() const;
 
-    void setCollection(const QString &n) {
-        this->mCollection = n;
-        emit collectionChanged(n);
-    }
+    void setCollection(const QString &n);
 
-    [[nodiscard]] const QString &comment() const { return this->mComment; }
+    [[nodiscard]] const QString &comment() const;
 
-    void setComment(const QString &n) {
-        this->mComment = n;
-        emit commentChanged(n);
-    }
+    void setComment(const QString &n);
 
    signals:
 

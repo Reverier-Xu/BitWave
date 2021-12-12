@@ -1,12 +1,12 @@
 /**
  * @file mpris2.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "mpris2.h"
@@ -36,29 +36,27 @@ Mpris2::Mpris2(QObject *parent) : QObject(parent) {
         return;
     }
 
-    this->player_ = PlayerManager::instance(this->parent());
+    player_ = PlayerManager::instance(this->parent());
 
-    this->queue_ = QueueManager::instance(this->parent());
+    queue_ = QueueManager::instance(this->parent());
 
-    this->display_ = DisplayManager::instance(this->parent());
+    display_ = DisplayManager::instance(this->parent());
 
     QDBusConnection::sessionBus().registerObject(kMprisObjectPath, this);
 
-    connect(this->player_, &PlayerManager::currentMediaCoverChanged,
-            [=](const QString &n) {
-                this->MetadataLoaded(this->queue_->currentMedia(), n);
-            });
+    connect(
+        player_, &PlayerManager::currentMediaCoverChanged,
+        [=](const QString &n) { MetadataLoaded(queue_->currentMedia(), n); });
 
-    connect(this->player_, &PlayerManager::volumeChanged, this,
+    connect(player_, &PlayerManager::volumeChanged, this,
             &Mpris2::VolumeChanged);
-    connect(this->player_, &PlayerManager::currentTimeChanged, this,
-            [=](double n) {
-                emit this->Seeked((qlonglong)(floor(n)) * 1000 * 1000);
-            });
+    connect(player_, &PlayerManager::currentTimeChanged, this, [=](double n) {
+        emit Seeked((qlonglong)(floor(n)) * 1000 * 1000);
+    });
 
-    connect(this->queue_, &QueueManager::currentMediaChanged, this,
+    connect(queue_, &QueueManager::currentMediaChanged, this,
             &Mpris2::CurrentSongChanged);
-    connect(this->player_, &PlayerManager::stateChanged, this,
+    connect(player_, &PlayerManager::stateChanged, this,
             &Mpris2::EngineStateChanged);
 }
 
@@ -177,7 +175,7 @@ double Mpris2::Rate() { return 1.0; }
 
 void Mpris2::SetRate(double rate) {
     if (rate == 0) {
-        this->player_->pause();
+        player_->pause();
     }
 }
 
@@ -213,12 +211,12 @@ void Mpris2::MetadataLoaded(const Media &song, const QString &art_uri) {
     EmitNotification("Metadata", last_metadata_);
 }
 
-double Mpris2::Volume() const { return this->player_->volume(); }
+double Mpris2::Volume() const { return player_->volume(); }
 
-void Mpris2::SetVolume(double value) { this->player_->setVolume(value); }
+void Mpris2::SetVolume(double value) { player_->setVolume(value); }
 
 qlonglong Mpris2::Position() const {
-    return qlonglong(this->player_->currentTime() * 1000 * 1000);
+    return qlonglong(player_->currentTime() * 1000 * 1000);
 }
 
 double Mpris2::MaximumRate() { return 1.0; }
@@ -230,61 +228,61 @@ bool Mpris2::CanGoNext() { return true; }
 bool Mpris2::CanGoPrevious() { return true; }
 
 bool Mpris2::CanPlay() const {
-    return this->player_->isMediaLoaded() && !this->player_->isPlaying();
+    return player_->isMediaLoaded() && !player_->isPlaying();
 }
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when
 // the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-    return this->player_->isMediaLoaded() && this->player_->isPlaying();
+    return player_->isMediaLoaded() && player_->isPlaying();
 }
 
-bool Mpris2::CanSeek() const { return this->player_->isMediaLoaded(); }
+bool Mpris2::CanSeek() const { return player_->isMediaLoaded(); }
 
-bool Mpris2::CanControl() const { return this->player_->isReady(); }
+bool Mpris2::CanControl() const { return player_->isReady(); }
 
-void Mpris2::Next() { this->queue_->next(); }
+void Mpris2::Next() { queue_->next(); }
 
-void Mpris2::Previous() { this->queue_->previous(); }
+void Mpris2::Previous() { queue_->previous(); }
 
 void Mpris2::Pause() {
     if (CanPause()) {
-        this->player_->pause();
+        player_->pause();
     }
 }
 
 void Mpris2::PlayPause() {
     if (CanPause()) {
-        this->player_->pause();
+        player_->pause();
     } else if (CanPlay()) {
-        this->player_->resume();
+        player_->resume();
     }
 }
 
-void Mpris2::Stop() { this->player_->stop(); }
+void Mpris2::Stop() { player_->stop(); }
 
 void Mpris2::Play() {
     if (CanPlay()) {
-        this->player_->resume();
+        player_->resume();
     }
 }
 
 void Mpris2::Seek(qlonglong offset) {
     if (CanSeek()) {
         qDebug() << (double)(offset) / 1000000.0;
-        this->player_->userDragHandler((double)(offset) / 1000000.0);
+        player_->handleUserSeekRequest((double)(offset) / 1000000.0);
     }
 }
 
-void Mpris2::OpenUri(const QString &uri) { this->queue_->playExternMedia(uri); }
+void Mpris2::OpenUri(const QString &uri) { queue_->playExternMedia(uri); }
 
 bool Mpris2::CanSetFullscreen() const { return false; }
 
-bool Mpris2::Fullscreen() const { return this->display_->isFullScreen(); }
+bool Mpris2::Fullscreen() const { return display_->isFullScreen(); }
 
 QString Mpris2::PlaybackStatus() const {
-    if (this->player_->isMediaLoaded()) {
-        if (this->player_->isPlaying())
+    if (player_->isMediaLoaded()) {
+        if (player_->isPlaying())
             return "Playing";
         else
             return "Paused";
@@ -294,14 +292,13 @@ QString Mpris2::PlaybackStatus() const {
 }
 
 void Mpris2::EngineStateChanged() {
-    if (!this->player_->isMediaLoaded()) {
+    if (!player_->isMediaLoaded()) {
         // qDebug() << "media is not loaded.";
         last_metadata_ = QVariantMap();
         EmitNotification("Metadata");
     }
-    if (last_metadata_.isEmpty() and this->player_->isMediaLoaded()) {
-        MetadataLoaded(this->queue_->currentMedia(),
-                       this->player_->currentMediaCover());
+    if (last_metadata_.isEmpty() and player_->isMediaLoaded()) {
+        MetadataLoaded(queue_->currentMedia(), player_->currentMediaCover());
     }
     EmitNotification("CanPlay");
     EmitNotification("CanPause");

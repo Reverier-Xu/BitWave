@@ -23,6 +23,13 @@ Rectangle {
         }
     }
 
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 280
+            easing.type: Easing.OutExpo
+        }
+    }
+
     StackLayout {
         id: layout
         anchors.top: parent.top
@@ -43,13 +50,15 @@ Rectangle {
             PropertyChanges {
                 target: root
                 width: 360
+                opacity: 1
             }
         },
         State {
             name: "Folded"
             PropertyChanges {
                 target: root
-                width: 0
+                width: 240
+                opacity: 0
             }
         }
     ]

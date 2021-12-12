@@ -2,27 +2,48 @@ import QtQuick 2.15
 
 Rectangle {
     id: root
-    border.width: 2
-    border.color: "#80808080"
     color: "transparent"
     property bool isOn: true
     state: isOn? "On" : "Off"
-    radius: height / 2
     height: 24
     width: 48
 
     signal clicked(var mouse)
 
     Rectangle {
+        id: knob
+        color: root.isOn ? display.themeColor : "#808080"
+        opacity: 0.5
+        height: 6
+        radius: height / 2
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 12
+        anchors.rightMargin: 12
+        anchors.verticalCenter: parent.verticalCenter
+
+        Behavior on color {
+            ColorAnimation {
+                easing.type: Easing.OutExpo
+                duration: 500
+            }
+        }
+    }
+
+    Rectangle {
         id: dot
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 5
-        anchors.rightMargin: 5
         radius: height / 2
-        height: root.height - 10
+        height: root.height - 8
         width: height
-        color: "#80808080"
+        color: root.isOn ? display.themeColor : "#808080"
+
+        Behavior on color {
+            ColorAnimation {
+                easing.type: Easing.OutExpo
+                duration: 500
+            }
+        }
     }
 
     MouseArea {
@@ -45,10 +66,6 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.right: undefined
             }
-            PropertyChanges {
-                target: dot
-                color: "#80808080"
-            }
         },
         State {
             name: "On"
@@ -57,20 +74,12 @@ Rectangle {
                 anchors.left: undefined
                 anchors.right: parent.right
             }
-            PropertyChanges {
-                target: dot
-                color: display.themeColor
-            }
         }
     ]
 
     transitions: [
         Transition {
             AnchorAnimation {
-                easing.type: Easing.OutExpo
-                duration: 500
-            }
-            ColorAnimation {
                 easing.type: Easing.OutExpo
                 duration: 500
             }

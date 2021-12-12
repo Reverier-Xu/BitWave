@@ -1,12 +1,12 @@
 /**
  * @file lyrics_list_model.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "lyrics_list_model.h"
@@ -174,4 +174,67 @@ int LyricsListModel::getCurrentLyricIndex(double currentTime) const {
         }
     }
     return left;
+}
+
+LyricsListModel::LyricsListModel(QObject *parent)
+    : QAbstractListModel(parent) {}
+
+LyricContent::LyricContent(QObject *parent, const QString &contentSrc,
+                           const QString &contentTr, double start, double end)
+    : QObject(parent) {
+    mStartTime = start;
+    mEndTime = end;
+    mContent = contentSrc + "\n" + contentTr;
+}
+
+LyricContent::LyricContent(const LyricContent &other)
+    : QObject(other.parent()) {
+    mContent = other.mContent;
+    mStartTime = other.mStartTime;
+    mEndTime = other.mEndTime;
+}
+
+LyricContent::LyricContent(QObject *parent, const QString &content,
+                           double start, double end) {
+    mContent = content;
+    mStartTime = start;
+    mEndTime = end;
+}
+
+const QString &LyricContent::content() const { return mContent; }
+
+void LyricContent::setContent(const QString &content) {
+    if (mContent != content) {
+        mContent = content;
+        emit contentChanged();
+    }
+}
+
+double LyricContent::startTime() const { return mStartTime; }
+
+void LyricContent::setStartTime(double startTime) {
+    if (mStartTime != startTime) {
+        mStartTime = startTime;
+        emit startTimeChanged();
+    }
+}
+
+double LyricContent::endTime() const { return mEndTime; }
+
+void LyricContent::setEndTime(double endTime) {
+    if (mEndTime != endTime) {
+        mEndTime = endTime;
+        emit endTimeChanged();
+    }
+}
+
+bool LyricContent::operator<(const LyricContent &b) const {
+    return startTime() < b.startTime();
+}
+
+LyricContent &LyricContent::operator=(const LyricContent &b) {
+    mContent = b.mContent;
+    mStartTime = b.mStartTime;
+    mEndTime = b.mEndTime;
+    return *this;
 }

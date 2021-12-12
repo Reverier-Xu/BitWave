@@ -1,12 +1,12 @@
 /**
  * @file queue_manager.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -44,6 +44,7 @@ class QueueManager : public QObject {
     QStack<int> mHistoryStack;
     int mAddMediaMode = 0;
     bool mQueueEnded = false;
+    bool mUserSwitch = false;
     MediaQueueModel *mQueueModel;
 
    protected:
@@ -62,91 +63,38 @@ class QueueManager : public QObject {
 
     void saveSettings() const;
 
-    [[nodiscard]] int playMode() const { return this->mPlayMode; };
+    [[nodiscard]] int playMode() const;
+    ;
 
-    void setPlayMode(int mode) {
-        this->mPlayMode = mode;
-        emit this->playModeChanged(mode);
-        emit this->playModeIconChanged(this->playModeIcon());
-    }
+    void setPlayMode(int mode);
 
-    [[nodiscard]] QUrl playModeIcon() const {
-        switch (this->playMode()) {
-            case 0:
-                return QUrl("qrc:/assets/play-repeat-all.svg");  // repeat all
-            case 1:
-                return QUrl("qrc:/assets/play-repeat-one.svg");  // repeat one
-            case 2:
-                return QUrl("qrc:/assets/play-random.svg");  // random
-            case 3:
-                return QUrl("qrc:/assets/play-order.svg");  // order
-            case 4:
-                return QUrl("qrc:/assets/play-reverse.svg");  // reverse
-            default:
-                return QUrl("qrc:/assets/play-repeat-all.svg");
-        }
-    }
+    [[nodiscard]] QUrl playModeIcon() const;
 
-    [[nodiscard]] const QQueue<Media> &mainQueue() const {
-        return this->mMainQueue;
-    }
+    [[nodiscard]] const QQueue<Media> &mainQueue() const;
 
-    [[nodiscard]] MediaQueueModel *getQueueModel() const {
-        return this->mQueueModel;
-    }
+    [[nodiscard]] MediaQueueModel *getQueueModel() const;
 
-    void setPlayModeIcon(const QUrl &icon) {
-        emit this->playModeIconChanged(this->playModeIcon());
-    }
+    void setPlayModeIcon(const QUrl &icon);
 
-    [[nodiscard]] QString playModeName() const {
-        switch (this->playMode()) {
-            case 0:
-                return tr("Repeat All");
-            case 1:
-                return tr("Repeat One");
-            case 2:
-                return tr("Random");
-            case 3:
-                return tr("In Order");
-            case 4:
-                return tr("Reverse");
-            default:
-                return tr("Repeat All");
-        }
-    }
+    [[nodiscard]] QString playModeName() const;
 
-    void setPlayModeName(const QString &name) {
-        emit this->playModeNameChanged(this->playModeName());
-    }
+    void setPlayModeName(const QString &name);
 
-    [[nodiscard]] int addMediaMode() const { return this->mAddMediaMode; }
+    [[nodiscard]] int addMediaMode() const;
 
-    void setAddMediaMode(int n) {
-        this->mAddMediaMode = n;
-        emit this->addMediaModeChanged(n);
-    }
+    void setAddMediaMode(int n);
 
-    [[nodiscard]] int queuePos() const { return this->mQueuePos; }
+    [[nodiscard]] int queuePos() const;
 
-    void setQueuePos(int n) {
-        this->mQueuePos = n;
-        emit this->queuePosChanged(n);
-        if (n == -1) emit this->playQueueEnded();
-        if (!this->mMainQueue.empty() and this->queuePos() > -1) {
-            auto media = this->mMainQueue.at(n);
-            this->setCurrentMedia(media);
-        }
-    }
+    void setQueuePos(int n);
 
-    [[nodiscard]] bool queueEnded() const { return this->mQueueEnded; }
+    [[nodiscard]] bool queueEnded() const;
 
-    [[nodiscard]] Media currentMedia() const { return this->mCurrentMedia; }
+    [[nodiscard]] Media currentMedia() const;
 
-    void setCurrentMedia(const Media &m) {
-        this->mCurrentMedia = m;
-        emit currentMediaChanged(m);
-    }
+    [[nodiscard]] bool checkUserSwitch();
+
+    void setCurrentMedia(const Media &m);
 
    public slots:
     Q_INVOKABLE void changeMode();
@@ -170,6 +118,12 @@ class QueueManager : public QObject {
     Q_INVOKABLE void next();
 
     Q_INVOKABLE void previous();
+
+    Q_INVOKABLE void userNextRequested();
+
+    Q_INVOKABLE void userPreviousRequested();
+
+    Q_INVOKABLE void userSwitchRequested(int id);
 
     Q_INVOKABLE void clearQueue();
 

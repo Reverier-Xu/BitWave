@@ -1,12 +1,12 @@
 /**
  * @file sqlite_engine.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -49,29 +49,29 @@ class SQLiteEngine : public QObject {
    public:
     static SQLiteEngine *instance(QObject *parent = nullptr);
 
-    [[nodiscard]] QString databaseFile() { return this->mDatabaseFile; }
+    [[nodiscard]] QString databaseFile();
 
-    void setDatabaseFile(const QString &n) { this->mDatabaseFile = n; }
+    void setDatabaseFile(const QString &n);
 
-    [[nodiscard]] QString databaseName() { return this->mDatabaseName; }
+    [[nodiscard]] QString databaseName();
 
-    void setDatabaseName(const QString &n) { this->mDatabaseName = n; }
+    void setDatabaseName(const QString &n);
 
-    [[nodiscard]] QSqlDatabase database() { return this->mDatabase; }
+    [[nodiscard]] QSqlDatabase database();
 
-    void setDatabase(const QSqlDatabase &n) { this->mDatabase = n; }
+    void setDatabase(const QSqlDatabase &n);
 
-    [[nodiscard]] bool isOpen() const { return this->mIsOpen; }
+    [[nodiscard]] bool isOpen() const;
 
-    void setIsOpen(bool n) { this->mIsOpen = n; }
+    void setIsOpen(bool n);
 
-    [[nodiscard]] bool isReadOnly() const { return this->mIsReadOnly; }
+    [[nodiscard]] bool isReadOnly() const;
 
-    void setIsReadOnly(bool n) { this->mIsReadOnly = n; }
+    void setIsReadOnly(bool n);
 
-    [[nodiscard]] bool isValid() const { return this->mIsValid; }
+    [[nodiscard]] bool isValid() const;
 
-    void setIsValid(bool n) { this->mIsValid = n; }
+    void setIsValid(bool n);
 
    public slots:
     bool open(const QString &db);

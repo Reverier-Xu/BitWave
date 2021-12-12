@@ -12,7 +12,7 @@ Rectangle {
     property int fontSize: 16
     property string displayText: "00:00"
     property string icon: ""
-    property int iconSize: 24
+    property int iconSize: 20
     property double displayTime: 0
 
     radius: height/2

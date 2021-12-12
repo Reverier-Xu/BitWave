@@ -1,12 +1,12 @@
 /**
  * @file lyrics_list_model.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -33,66 +33,31 @@ class LyricContent : public QObject {
     explicit LyricContent(QObject *parent = nullptr,
                           const QString &contentSrc = QString(),
                           const QString &contentTr = QString(),
-                          double start = 0, double end = 0)
-        : QObject(parent) {
-        mStartTime = start;
-        mEndTime = end;
-        mContent = contentSrc + "\n" + contentTr;
-    }
+                          double start = 0, double end = 0);
 
-    LyricContent(const LyricContent &other) : QObject(other.parent()) {
-        mContent = other.mContent;
-        mStartTime = other.mStartTime;
-        mEndTime = other.mEndTime;
-    }
+    LyricContent(const LyricContent &other);
 
     explicit LyricContent(QObject *parent = nullptr,
                           const QString &content = QString(), double start = 0,
-                          double end = 0) {
-        mContent = content;
-        mStartTime = start;
-        mEndTime = end;
-    }
+                          double end = 0);
 
     ~LyricContent() override = default;
 
-    [[nodiscard]] const QString &content() const { return mContent; }
+    [[nodiscard]] const QString &content() const;
 
-    void setContent(const QString &content) {
-        if (mContent != content) {
-            mContent = content;
-            emit contentChanged();
-        }
-    }
+    void setContent(const QString &content);
 
-    [[nodiscard]] double startTime() const { return mStartTime; }
+    [[nodiscard]] double startTime() const;
 
-    void setStartTime(double startTime) {
-        if (mStartTime != startTime) {
-            mStartTime = startTime;
-            emit startTimeChanged();
-        }
-    }
+    void setStartTime(double startTime);
 
-    [[nodiscard]] double endTime() const { return mEndTime; }
+    [[nodiscard]] double endTime() const;
 
-    void setEndTime(double endTime) {
-        if (mEndTime != endTime) {
-            mEndTime = endTime;
-            emit endTimeChanged();
-        }
-    }
+    void setEndTime(double endTime);
 
-    bool operator<(const LyricContent &b) const {
-        return this->startTime() < b.startTime();
-    }
+    bool operator<(const LyricContent &b) const;
 
-    LyricContent &operator=(const LyricContent &b) {
-        mContent = b.mContent;
-        mStartTime = b.mStartTime;
-        mEndTime = b.mEndTime;
-        return *this;
-    }
+    LyricContent &operator=(const LyricContent &b);
 
    signals:
 
@@ -119,8 +84,7 @@ class LyricsListModel : public QAbstractListModel {
         LyricEndTimeRole
     };
 
-    explicit LyricsListModel(QObject *parent = nullptr)
-        : QAbstractListModel(parent) {}
+    explicit LyricsListModel(QObject *parent = nullptr);
 
     ~LyricsListModel() override = default;
 

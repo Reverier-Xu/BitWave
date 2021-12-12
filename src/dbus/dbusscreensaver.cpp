@@ -1,14 +1,13 @@
 /**
  * @file dbusscreensaver.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
-
 
 #include "dbusscreensaver.h"
 
@@ -24,7 +23,7 @@ DBusScreensaver::DBusScreensaver(QString service, QString path,
       interface_(std::move(interface)) {}
 
 void DBusScreensaver::Inhibit() {
-    QDBusInterface screensaver(this->service_, this->path_, this->interface_);
+    QDBusInterface screensaver(service_, path_, interface_);
     QDBusReply<quint32> reply =
         screensaver.call("Inhibit", QApplication::applicationName(),
                          QObject::tr("Video Playing"));
@@ -34,6 +33,6 @@ void DBusScreensaver::Inhibit() {
 }
 
 void DBusScreensaver::UnInhibit() {
-    QDBusInterface screensaver(this->service_, this->path_, this->interface_);
+    QDBusInterface screensaver(service_, path_, interface_);
     screensaver.call("UnInhibit", cookie_);
 }

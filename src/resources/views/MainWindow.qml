@@ -53,7 +53,7 @@ FluentWindow {
         id: increaseTimeEvent
         customKey: qsTr("Right")
         onClicked: {
-            player.userDragHandler(player.currentTime + 3)
+            player.handleUserSeekRequest(player.currentTime + 3)
         }
     }
 
@@ -61,7 +61,7 @@ FluentWindow {
         id: decreaseTimeEvent
         customKey: qsTr("Left")
         onClicked: {
-            player.userDragHandler(player.currentTime - 3)
+            player.handleUserSeekRequest(player.currentTime - 3)
         }
     }
 

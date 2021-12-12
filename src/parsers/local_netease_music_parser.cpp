@@ -1,12 +1,12 @@
 /**
  * @file local_netease_music_parser.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "local_netease_music_parser.h"
@@ -26,7 +26,7 @@ const QStringList &LocalNeteaseMusicParser::acceptTypes() {
 }
 
 bool LocalNeteaseMusicParser::accepted(const Media &media) {
-    return this->accepted(media.rawUrl());
+    return accepted(media.rawUrl());
 }
 
 bool LocalNeteaseMusicParser::accepted(const QString &path) {
@@ -52,3 +52,6 @@ Media LocalNeteaseMusicParser::parseMedia(const Media &media) {
 QString LocalNeteaseMusicParser::getMediaCover(const Media &media) {
     return NcmHelper::dumpMediaCover(media);
 }
+
+LocalNeteaseMusicParser::LocalNeteaseMusicParser(QObject *parent)
+    : BaseParser(parent) {}

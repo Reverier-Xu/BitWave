@@ -1,12 +1,12 @@
 /**
  * @file base_parser.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -22,9 +22,9 @@ class BaseParser : public QObject {
     QUuid mParserId = QUuid(nullptr);
 
    public:
-    explicit BaseParser(QObject *parent = nullptr) : QObject(parent) {}
+    explicit BaseParser(QObject *parent = nullptr);
 
-    BaseParser(const BaseParser &parser) { this->setParent(parser.parent()); }
+    BaseParser(const BaseParser &parser);
 
     ~BaseParser() override = default;
 
@@ -42,12 +42,9 @@ class BaseParser : public QObject {
 
     [[nodiscard]] virtual QString getMediaCover(const Media &media) = 0;
 
-    [[nodiscard]] QUuid parserId() { return this->mParserId; }
+    [[nodiscard]] QUuid parserId();
 
-    void setParserId(const QUuid &n) {
-        this->mParserId = n;
-        emit this->parserIdChanged(n);
-    }
+    void setParserId(const QUuid &n);
 
    signals:
 

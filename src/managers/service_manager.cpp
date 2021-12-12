@@ -1,12 +1,12 @@
 /**
  * @file service_manager.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "service_manager.h"
@@ -19,11 +19,11 @@ ServiceManager *ServiceManager::instance(QObject *parent) {
 }
 
 ServiceManager::ServiceManager(QObject *parent) : QObject(parent) {
-    this->loadSettings();
+    loadSettings();
 }
 
 void ServiceManager::loadSettings() {}
 
 void ServiceManager::saveSettings() const {}
 
-ServiceManager::~ServiceManager() { this->saveSettings(); }
+ServiceManager::~ServiceManager() { saveSettings(); }

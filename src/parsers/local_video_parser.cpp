@@ -1,12 +1,12 @@
 /**
  * @file local_video_parser.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "local_video_parser.h"
@@ -57,7 +57,7 @@ const QStringList &LocalVideoParser::acceptTypes() {
 }
 
 bool LocalVideoParser::accepted(const Media &media) {
-    return this->accepted(media.rawUrl());
+    return accepted(media.rawUrl());
 }
 
 bool LocalVideoParser::accepted(const QString &path) {
@@ -127,3 +127,5 @@ Media LocalVideoParser::parseMedia(const Media &media) { return media; }
 QString LocalVideoParser::getMediaCover(const Media &media) {
     return "qrc:/assets/movie-colorful.svg";
 }
+
+LocalVideoParser::LocalVideoParser(QObject *parent) : BaseParser(parent) {}

@@ -1,12 +1,12 @@
 /**
  * @file mpv_engine.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -24,13 +24,13 @@ class MpvEngine : public QObject {
     Q_OBJECT
 
    private:
-    mpv_handle *mpv;
+    mpv_handle *mMpv;
 
     void handleMpvEvent(mpv_event *event);
 
     explicit MpvEngine(QObject *parent = nullptr);
 
-    QMimeDatabase mimeDatabase;
+    QMimeDatabase mMimeDatabase;
 
    protected:
     static MpvEngine *mMpvEngine;
@@ -42,7 +42,7 @@ class MpvEngine : public QObject {
 
     [[nodiscard]] static MpvEngine *instance(QObject *parent = nullptr);
 
-    [[nodiscard]] mpv_handle *getMpvHandle() { return this->mpv; }
+    [[nodiscard]] mpv_handle *getMpvHandle() { return mMpv; }
 
     Q_INVOKABLE QVariant command(const QVariant &params);
 

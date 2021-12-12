@@ -1,12 +1,12 @@
 /**
  * @file display_manager.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "display_manager.h"
@@ -24,76 +24,182 @@ DisplayManager *DisplayManager::instance(QObject *parent) {
 }
 
 DisplayManager::DisplayManager(QObject *parent) : QObject(parent) {
-    this->mHideTimer = new QTimer(this);
-    this->mHideTimer->setInterval(1000);
+    mHideTimer = new QTimer(this);
+    mHideTimer->setInterval(1000);
 
-    connect(this->mHideTimer, &QTimer::timeout, [=]() {
+    connect(mHideTimer, &QTimer::timeout, [=]() {
         if (PlayerManager::instance()->currentMediaIsVideo() &&
-            this->pageIndex() == 0)
-            this->setMouseIsActive(false);
+            pageIndex() == 0)
+            setMouseIsActive(false);
     });
 
     connect(this, &DisplayManager::pageIndexChanged, [=](int index) {
         if (index == 0) {
-            this->delayedHide();
+            delayedHide();
         } else {
-            this->blockDelayedHide();
+            blockDelayedHide();
         }
     });
 
     connect(QueueManager::instance(this->parent()),
             &QueueManager::playQueueEnded, [=]() {
-                this->setMouseIsActive(true);
-                this->setSideBarExpanded(true);
+                setMouseIsActive(true);
+                setSideBarExpanded(true);
             });
 
     connect(PlayerManager::instance(),
             &PlayerManager::currentMediaIsVideoChanged, this, [=](bool n) {
-                if (!n) this->setMouseIsActive(true);
+                if (!n) setMouseIsActive(true);
             });
 
     connect(PlayerManager::instance(), &PlayerManager::showTips,
             [=](const QString &icon, const QString &info) {
-                emit this->showTips(icon, info);
+                emit showTips(icon, info);
             });
 
     connect(QueueManager::instance(), &QueueManager::showTips,
             [=](const QString &icon, const QString &info) {
-                emit this->showTips(icon, info);
+                emit showTips(icon, info);
             });
 
-    this->loadSettings();
+    loadSettings();
 }
 
-DisplayManager::~DisplayManager() { this->saveSettings(); }
+DisplayManager::~DisplayManager() { saveSettings(); }
 
 void DisplayManager::loadSettings() {
     QSettings settings;
     settings.beginGroup("Display");
-    this->setThemeColor(settings.value("ThemeColor", "#0078d6").toString());
-    this->setAlertColor(settings.value("AlertColor", "#ff6033").toString());
-    this->setColorStyle(settings.value("ColorStyle", true).toBool());
+    setThemeColor(settings.value("ThemeColor", "#0078d6").toString());
+    setAlertColor(settings.value("AlertColor", "#ff6033").toString());
+    setColorStyle(settings.value("ColorStyle", true).toBool());
     settings.endGroup();
 }
 
 void DisplayManager::saveSettings() const {
     QSettings settings;
     settings.beginGroup("Display");
-    settings.setValue("ThemeColor", this->themeColor().name());
-    settings.setValue("AlertColor", this->alertColor().name());
-    settings.setValue("ColorStyle", this->colorStyle());
+    settings.setValue("ThemeColor", themeColor().name());
+    settings.setValue("AlertColor", alertColor().name());
+    settings.setValue("ColorStyle", colorStyle());
     settings.endGroup();
 
     settings.sync();
 }
 
 void DisplayManager::delayedHide() {
-    this->setMouseIsActive(true);
-    if (this->mHideTimer->isActive()) this->mHideTimer->stop();
-    this->mHideTimer->start();
+    setMouseIsActive(true);
+    if (mHideTimer->isActive()) mHideTimer->stop();
+    mHideTimer->start();
 }
 
 void DisplayManager::blockDelayedHide() {
-    this->setMouseIsActive(true);
-    if (this->mHideTimer->isActive()) this->mHideTimer->stop();
+    setMouseIsActive(true);
+    if (mHideTimer->isActive()) mHideTimer->stop();
+}
+
+int DisplayManager::activeTabIndex() const { return mActiveTabIndex; }
+
+void DisplayManager::setActiveTabIndex(int n) {
+    mActiveTabIndex = n;
+    emit activeTabIndexChanged(n);
+    emit pageIndexChanged(pageIndex());
+}
+
+int DisplayManager::pageIndex() const {
+    if (activeTabIndex() == -1)
+        return 0;
+    else if (activeTabIndex() >= 0)
+        return 1;
+    else if (activeTabIndex() == -2)
+        return 3;
+    else if (activeTabIndex() == -3)
+        return 2;
+    else {
+        throw std::exception();
+    }
+}
+
+void DisplayManager::setPageIndex(int n) { emit pageIndexChanged(n); }
+
+int DisplayManager::queueBarIndex() const { return mQueueBarIndex; }
+
+void DisplayManager::setQueueBarIndex(int n) {
+    mQueueBarIndex = n;
+    emit queueBarIndexChanged(n);
+}
+
+bool DisplayManager::colorStyle() const { return mColorStyle; }
+
+void DisplayManager::setColorStyle(bool value) {
+    mColorStyle = value;
+    emit colorStyleChanged(value);
+    emit contentColorChanged(contentColor());
+}
+
+bool DisplayManager::sideBarExpanded() const { return mSideBarExpanded; }
+
+void DisplayManager::setSideBarExpanded(bool value) {
+    mSideBarExpanded = value;
+    emit sideBarExpandedChanged(value);
+}
+
+bool DisplayManager::queueBarExpanded() const { return mQueueBarExpanded; }
+
+void DisplayManager::setQueueBarExpanded(bool value) {
+    mQueueBarExpanded = value;
+    emit queueBarExpandedChanged(value);
+}
+
+bool DisplayManager::mouseIsActive() const { return mMouseIsActive; }
+
+void DisplayManager::setMouseIsActive(bool value) {
+    mMouseIsActive = value;
+    emit mouseIsActiveChanged(value);
+}
+
+QColor DisplayManager::themeColor() const { return mThemeColor; }
+
+void DisplayManager::setThemeColor(const QColor &value) {
+    mThemeColor = value;
+    emit themeColorChanged(value);
+}
+
+void DisplayManager::setThemeColor(const QString &value) {
+    mThemeColor.setNamedColor(value);
+    emit themeColorChanged(value);
+}
+
+QColor DisplayManager::alertColor() const { return mAlertColor; }
+
+void DisplayManager::setAlertColor(const QColor &value) {
+    mAlertColor = value;
+    emit alertColorChanged(value);
+}
+
+void DisplayManager::setAlertColor(const QString &value) {
+    mAlertColor.setNamedColor(value);
+    emit alertColorChanged(value);
+}
+
+QColor DisplayManager::contentColor() const {
+    return colorStyle() ? QColor(0x222222) : QColor(0xdddddd);
+}
+
+void DisplayManager::setContentColor(const QColor &value) {
+    emit contentColorChanged(contentColor());
+}
+
+bool DisplayManager::isFullScreen() const { return mIsFullScreen; }
+
+void DisplayManager::setFullScreen(bool n) {
+    mIsFullScreen = n;
+    emit isFullScreenChanged(n);
+}
+
+bool DisplayManager::showVideoTime() const { return mShowVideoTime; }
+
+void DisplayManager::setShowVideoTime(bool n) {
+    mShowVideoTime = n;
+    emit showVideoTimeChanged(n);
 }

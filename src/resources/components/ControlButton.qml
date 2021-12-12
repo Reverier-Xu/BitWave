@@ -14,8 +14,18 @@ Rectangle {
     property string icon: ""
     property int iconSize: 24
     property double displayTime: 0
+    state: "Normal"
 
-    color: normalColor
+    border.color: normalColor
+    border.width: 3
+    color: display.colorStyle?"#e0cccccc":"#e0333333"
+    radius: height / 2
+
+    Behavior on border.color {
+        ColorAnimation {
+            duration: 200
+        }
+    }
 
     Behavior on color {
         ColorAnimation {
@@ -30,9 +40,6 @@ Rectangle {
         }
     }
 
-    border.width: 2
-    radius: height / 2
-    border.color: "#10808080"
 
     signal clicked();
 
@@ -65,7 +72,14 @@ Rectangle {
     ColorOverlay{
         anchors.fill: m_icon
         source: m_icon
-        color: root.style?"#222222":"#dddddd"
+        color: display.contentColor
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
+
         smooth: true
         antialiasing: true
         visible: !displayActive
@@ -74,7 +88,14 @@ Rectangle {
     Text {
         id: m_text;
         text: displayText;
-        color: root.style?"#222222":"#dddddd"
+        color: display.contentColor
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+            }
+        }
+        
         font.pixelSize: root.fontSize;
         anchors.centerIn: root
         horizontalAlignment: Qt.AlignHCenter
@@ -114,7 +135,7 @@ Rectangle {
             name: "Hovering"
             PropertyChanges {
                 target: root
-                color: hoverColor
+                border.color: hoverColor
                 scale: 1
             }
         },
@@ -122,7 +143,7 @@ Rectangle {
             name: "Normal"
             PropertyChanges {
                 target: root
-                color: normalColor
+                border.color: normalColor
                 scale: 1
             }
         },
@@ -130,7 +151,7 @@ Rectangle {
             name: "Active"
             PropertyChanges {
                 target: root
-                color: activeColor
+                border.color: activeColor
                 scale: 1
             }
         },
@@ -138,7 +159,7 @@ Rectangle {
             name: "Pressed"
             PropertyChanges {
                 target: root
-                color: pressedColor
+                border.color: pressedColor
                 scale: root.scaleWhenPressed? 0.97 : 1
             }
         }

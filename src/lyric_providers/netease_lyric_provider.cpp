@@ -1,12 +1,12 @@
 /**
  * @file netease_lyric_provider.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "netease_lyric_provider.h"
@@ -46,14 +46,14 @@ void NeteaseLyricProvider::getLyricsRequest(const Media &media) {
     req.setUrl(url);
     req.setHeader(QNetworkRequest::UserAgentHeader,
                   BitWaveConstants::cliApiUa());
-    this->mManager->get(req);
+    mManager->get(req);
 }
 
 void NeteaseLyricProvider::onRequestFinished(QNetworkReply *reply) {
     // qDebug() << reply;
     if (reply->error() != QNetworkReply::NoError) {
         // qDebug() << reply->errorString();
-        emit this->lyricsIsReady(false, QString(), QString());
+        emit lyricsIsReady(false, QString(), QString());
         return;
     }
     QString result = QString::fromUtf8(reply->readAll());
@@ -63,23 +63,21 @@ void NeteaseLyricProvider::onRequestFinished(QNetworkReply *reply) {
         QJsonDocument::fromJson(result.toUtf8(), &jsonError);
     if (jsonError.error != QJsonParseError::NoError) {
         // qDebug() << jsonError.errorString();
-        emit this->lyricsIsReady(false, QString(), QString());
+        emit lyricsIsReady(false, QString(), QString());
         return;
     }
     QJsonObject jsonObj = jsonDoc.object();
-    if (jsonObj.value("nolyric").toBool()) {
-        emit this->lyricsIsReady(true, tr("[00:00.00]Pure Music"),
-                                 tr("[00:00.00]Enjoy."));
-        return;
-    }
     if (jsonObj.value("uncollected").toBool()) {
-        emit this->lyricsIsReady(true, tr("[00:00.00]Lyrics not found"),
-                                 QString());
+        emit lyricsIsReady(true, tr("[00:00.00]Lyrics not found"), QString());
         return;
     }
     auto rawLyrics = jsonObj.value("lrc").toObject().value("lyric").toString();
+    if (rawLyrics.isEmpty()) {
+        emit lyricsIsReady(true, tr("[00:00.00]Pure Music\nEnjoy."), QString());
+        return;
+    }
     auto trLyrics =
         jsonObj.value("tlyric").toObject().value("lyric").toString();
-    emit this->lyricsIsReady(true, rawLyrics, trLyrics);
+    emit lyricsIsReady(true, rawLyrics, trLyrics);
     reply->deleteLater();
 }

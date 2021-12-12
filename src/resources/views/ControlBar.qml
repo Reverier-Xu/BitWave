@@ -148,7 +148,7 @@ Rectangle {
             displayTime: player.currentTime
             icon: "qrc:/assets/previous.svg"
             onClicked: {
-                queue.previous();
+                queue.userPreviousRequested();
             }
         }
 
@@ -162,7 +162,7 @@ Rectangle {
             displayTime: player.totalTime
             icon: "qrc:/assets/next.svg"
             onClicked: {
-                queue.next();
+                queue.userNextRequested();
             }
         }
 
@@ -261,7 +261,7 @@ Rectangle {
         totalTime: player.totalTime
         currentTime: player.currentTime
         onEndDragging: {
-            player.userDragHandler(finalTime);
+            player.handleUserSeekRequest(finalTime);
         }
 
         color: display.colorStyle? "#a0ffffff":"#d0000000"

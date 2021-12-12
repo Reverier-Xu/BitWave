@@ -1,12 +1,12 @@
 /**
  * @file lyric_provider_manager.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "lyric_provider_manager.h"
@@ -14,7 +14,7 @@
 LyricProviderManager *LyricProviderManager::mInstance = nullptr;
 
 LyricProviderManager::LyricProviderManager(QObject *parent) : QObject(parent) {
-    this->registerProvidersInFactory();
+    registerProvidersInFactory();
 }
 
 LyricProviderManager *LyricProviderManager::instance(QObject *parent) {
@@ -30,26 +30,24 @@ void LyricProviderManager::registerProvidersInFactory() {
 }
 
 void LyricProviderManager::setNeededLyricsUuid(QUuid uuid) {
-    this->mNeededLyricsUuid = uuid;
+    mNeededLyricsUuid = uuid;
 }
 
-QUuid LyricProviderManager::neededLyricsUuid() {
-    return this->mNeededLyricsUuid;
-}
+QUuid LyricProviderManager::neededLyricsUuid() { return mNeededLyricsUuid; }
 
 void LyricProviderManager::handleGetLyricsRequest(const Media &media) {
     auto provider = LyricProviderFactory::getProvider(media);
     if (provider == nullptr) {
-        emit this->lyricsIsReady(false, QString(), QString());
+        emit lyricsIsReady(false, QString(), QString());
         return;
     }
     provider->setProviderId(QUuid::createUuid());
-    this->setNeededLyricsUuid(provider->providerId());
+    setNeededLyricsUuid(provider->providerId());
     provider->getLyricsRequest(media);
     connect(provider, &BaseLyricProvider::lyricsIsReady, this,
             [=](bool ok, const QString &raw, const QString &tr) {
-                if (this->neededLyricsUuid() == provider->providerId()) {
-                    emit this->lyricsIsReady(ok, raw, tr);
+                if (neededLyricsUuid() == provider->providerId()) {
+                    emit lyricsIsReady(ok, raw, tr);
                 }
                 provider->deleteLater();
             });

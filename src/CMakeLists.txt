@@ -4,11 +4,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_MODULE_PATH
         ${CMAKE_SOURCE_DIR}/cmake
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake
         ${CMAKE_MODULE_PATH}
         ${ECM_MODULE_PATH})
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 qt5_add_resources(RESOURCES ./resources/main.qrc)
 
@@ -25,7 +22,10 @@ set(MANAGERS_SRCS
         managers/display_manager.h
         managers/queue_manager.cpp
         managers/queue_manager.h
-        managers/service_manager.cpp managers/service_manager.h managers/lyric_provider_manager.cpp managers/lyric_provider_manager.h)
+        managers/service_manager.cpp
+        managers/service_manager.h
+        managers/lyric_provider_manager.cpp
+        managers/lyric_provider_manager.h)
 
 set(MODELS_SRCS
         models/media.cpp
@@ -34,7 +34,8 @@ set(MODELS_SRCS
         models/ui/lyrics_list_model.h
         models/ui/media_queue_model.cpp
         models/ui/media_queue_model.h
-        models/ui/sidebar_playlist_model.cpp models/ui/sidebar_playlist_model.h)
+        models/ui/sidebar_playlist_model.cpp
+        models/ui/sidebar_playlist_model.h)
 
 set(PARSERS_SRCS
         parsers/base_parser.cpp
@@ -57,14 +58,15 @@ set(LYRIC_PROVIDERS_SRCS
         lyric_providers/base_lyric_provider.cpp
         lyric_providers/base_lyric_provider.h
         lyric_providers/netease_lyric_provider.cpp
-        lyric_providers/netease_lyric_provider.h lyric_providers/lyric_provider_factory.cpp lyric_providers/lyric_provider_factory.h)
+        lyric_providers/netease_lyric_provider.h
+        lyric_providers/lyric_provider_factory.cpp
+        lyric_providers/lyric_provider_factory.h)
 
 set(ENGINES_SRCS
         engines/mpv_engine.cpp
         engines/mpv_engine.h
         engines/sqlite_engine.cpp
-        engines/sqlite_engine.h
-        )
+        engines/sqlite_engine.h)
 
 set(UTILITIES_SRCS
         utilities/mpv_helper.h
@@ -82,8 +84,7 @@ set(UTILITIES_SRCS
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
-        resources/components/video_player.h
-        )
+        resources/components/video_player.h)
 
 set(SERVICES_SRCS
         services/base_service.cpp
@@ -170,8 +171,3 @@ set_target_properties(BitWave
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
         )
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-

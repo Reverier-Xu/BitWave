@@ -1,12 +1,12 @@
 /**
  * @file local_video_parser.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -18,7 +18,7 @@
 class LocalVideoParser : public BaseParser {
     Q_OBJECT
    public:
-    explicit LocalVideoParser(QObject *parent = nullptr) : BaseParser(parent) {}
+    explicit LocalVideoParser(QObject *parent = nullptr);
 
     LocalVideoParser(const LocalVideoParser &parser) = default;
 

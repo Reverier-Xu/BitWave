@@ -1,12 +1,12 @@
 /**
  * @file base_service.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -41,7 +41,7 @@ class BaseService : public QObject {
     QMap<QString, BaseService *> mSubServices;
 
    public:
-    explicit BaseService(BaseService *parent = nullptr) : QObject(parent) {}
+    explicit BaseService(BaseService *parent = nullptr);
 
     ~BaseService() override = default;
 
@@ -51,67 +51,33 @@ class BaseService : public QObject {
 
     BaseService *getSubService(const QStringList &router);
 
-    [[nodiscard]] QString name() const { return this->mName; }
+    [[nodiscard]] QString name() const;
 
-    void setName(const QString &name) {
-        if (this->mName != name) {
-            this->mName = name;
-            emit this->nameChanged(this->mName);
-        }
-    }
+    void setName(const QString &name);
 
-    [[nodiscard]] QString icon() const { return this->mIcon; }
+    [[nodiscard]] QString icon() const;
 
-    void setIcon(const QString &icon) {
-        if (this->mIcon != icon) {
-            this->mIcon = icon;
-            emit this->iconChanged(this->mIcon);
-        }
-    }
+    void setIcon(const QString &icon);
 
-    [[nodiscard]] QStringList router() const {
-        if (this->parent() != nullptr) {
-            return QStringList()
-                   << qobject_cast<BaseService *>(parent())->name()
-                   << this->name();
-        }
-        return QStringList() << this->name();
-    }
+    [[nodiscard]] QStringList router() const;
 
-    void setRouter(const QStringList &router) {
-        emit this->routerChanged(this->router());
-    }
+    void setRouter(const QStringList &router_);
 
-    [[nodiscard]] bool isEndpoint() const { return this->mIsEndpoint; }
+    [[nodiscard]] bool isEndpoint() const;
 
-    void setIsEndpoint(bool isEndpoint) {
-        if (this->mIsEndpoint != isEndpoint) {
-            this->mIsEndpoint = isEndpoint;
-            emit this->isEndpointChanged(this->mIsEndpoint);
-        }
-    }
+    void setIsEndpoint(bool isEndpoint);
 
-    [[nodiscard]] bool hasStorage() const { return this->mHasStorage; }
+    [[nodiscard]] bool hasStorage() const;
 
-    void hasStorage(bool hasStorage) {
-        if (this->mHasStorage != hasStorage) {
-            this->mHasStorage = hasStorage;
-            emit this->hasStorageChanged(this->mHasStorage);
-        }
-    }
+    void hasStorage(bool hasStorage);
 
-    [[nodiscard]] bool readOnly() const { return this->mReadOnly; }
+    [[nodiscard]] bool readOnly() const;
 
-    void readOnly(bool readOnly) {
-        if (this->mReadOnly != readOnly) {
-            this->mReadOnly = readOnly;
-            emit this->readOnlyChanged(this->mReadOnly);
-        }
-    }
+    void readOnly(bool readOnly);
 
    public slots:
 
-    virtual void handleSearchRequest(const QString &keyword) = 0;
+    virtual void handleQueryMediaRequest(const QString &keyword) = 0;
 
     virtual void handleCreateMediaRequest(const Media &data) = 0;
 
@@ -119,7 +85,7 @@ class BaseService : public QObject {
 
     virtual void handleDeleteMediaRequest(const Media &data) = 0;
 
-    virtual void handleGetContentRequest() = 0;
+    virtual void handleSyncMediaListRequest() = 0;
 
    signals:
 

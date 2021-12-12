@@ -1,12 +1,12 @@
 /**
  * @file display_manager.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -72,115 +72,57 @@ class DisplayManager : public QObject {
    public:
     static DisplayManager *instance(QObject *parent = nullptr);
 
-    [[nodiscard]] int activeTabIndex() const { return this->mActiveTabIndex; }
+    [[nodiscard]] int activeTabIndex() const;
 
-    void setActiveTabIndex(int n) {
-        this->mActiveTabIndex = n;
-        emit this->activeTabIndexChanged(n);
-        emit this->pageIndexChanged(this->pageIndex());
-    }
+    void setActiveTabIndex(int n);
 
-    [[nodiscard]] int pageIndex() const {
-        if (this->activeTabIndex() == -1)
-            return 0;
-        else if (this->activeTabIndex() >= 0)
-            return 1;
-        else if (this->activeTabIndex() == -2)
-            return 3;
-        else if (this->activeTabIndex() == -3)
-            return 2;
-        else {
-            throw std::exception();
-        }
-    }
+    [[nodiscard]] int pageIndex() const;
 
-    void setPageIndex(int n) { emit this->pageIndexChanged(n); }
+    void setPageIndex(int n);
 
-    [[nodiscard]] int queueBarIndex() const { return this->mQueueBarIndex; }
+    [[nodiscard]] int queueBarIndex() const;
 
-    void setQueueBarIndex(int n) {
-        this->mQueueBarIndex = n;
-        emit this->queueBarIndexChanged(n);
-    }
+    void setQueueBarIndex(int n);
 
-    [[nodiscard]] bool colorStyle() const { return this->mColorStyle; }
+    [[nodiscard]] bool colorStyle() const;
 
-    void setColorStyle(bool value) {
-        this->mColorStyle = value;
-        emit this->colorStyleChanged(value);
-        emit this->contentColorChanged(this->contentColor());
-    }
+    void setColorStyle(bool value);
 
-    [[nodiscard]] bool sideBarExpanded() const {
-        return this->mSideBarExpanded;
-    }
+    [[nodiscard]] bool sideBarExpanded() const;
 
-    void setSideBarExpanded(bool value) {
-        this->mSideBarExpanded = value;
-        emit this->sideBarExpandedChanged(value);
-    }
+    void setSideBarExpanded(bool value);
 
-    [[nodiscard]] bool queueBarExpanded() const {
-        return this->mQueueBarExpanded;
-    }
+    [[nodiscard]] bool queueBarExpanded() const;
 
-    void setQueueBarExpanded(bool value) {
-        this->mQueueBarExpanded = value;
-        emit this->queueBarExpandedChanged(value);
-    }
+    void setQueueBarExpanded(bool value);
 
-    [[nodiscard]] bool mouseIsActive() const { return this->mMouseIsActive; }
+    [[nodiscard]] bool mouseIsActive() const;
 
-    void setMouseIsActive(bool value) {
-        this->mMouseIsActive = value;
-        emit this->mouseIsActiveChanged(value);
-    }
+    void setMouseIsActive(bool value);
 
-    [[nodiscard]] QColor themeColor() const { return this->mThemeColor; }
+    [[nodiscard]] QColor themeColor() const;
 
-    void setThemeColor(const QColor &value) {
-        this->mThemeColor = value;
-        emit this->themeColorChanged(value);
-    }
+    void setThemeColor(const QColor &value);
 
-    void setThemeColor(const QString &value) {
-        this->mThemeColor.setNamedColor(value);
-        emit this->themeColorChanged(value);
-    }
+    void setThemeColor(const QString &value);
 
-    [[nodiscard]] QColor alertColor() const { return this->mAlertColor; }
+    [[nodiscard]] QColor alertColor() const;
 
-    void setAlertColor(const QColor &value) {
-        this->mAlertColor = value;
-        emit this->alertColorChanged(value);
-    }
+    void setAlertColor(const QColor &value);
 
-    void setAlertColor(const QString &value) {
-        this->mAlertColor.setNamedColor(value);
-        emit this->alertColorChanged(value);
-    }
+    void setAlertColor(const QString &value);
 
-    [[nodiscard]] QColor contentColor() const {
-        return this->colorStyle() ? QColor(0x222222) : QColor(0xdddddd);
-    }
+    [[nodiscard]] QColor contentColor() const;
 
-    void setContentColor(const QColor &value) {
-        emit this->contentColorChanged(this->contentColor());
-    }
+    void setContentColor(const QColor &value);
 
-    [[nodiscard]] bool isFullScreen() const { return this->mIsFullScreen; }
+    [[nodiscard]] bool isFullScreen() const;
 
-    void setFullScreen(bool n) {
-        this->mIsFullScreen = n;
-        emit this->isFullScreenChanged(n);
-    }
+    void setFullScreen(bool n);
 
-    [[nodiscard]] bool showVideoTime() const { return this->mShowVideoTime; }
+    [[nodiscard]] bool showVideoTime() const;
 
-    void setShowVideoTime(bool n) {
-        this->mShowVideoTime = n;
-        emit this->showVideoTimeChanged(n);
-    }
+    void setShowVideoTime(bool n);
 
    public slots:
 

@@ -1,12 +1,12 @@
 /**
  * @file app_manager.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include <QDir>
@@ -37,13 +37,13 @@ void AppManager::initialize() {
     guiManager->exportManagers();
     guiManager->createUI();
 
-    this->mParserThread = new QThread(this);
-    ParserManager::instance()->moveToThread(this->mParserThread);
-    this->mParserThread->start();
+    mParserThread = new QThread(this);
+    ParserManager::instance()->moveToThread(mParserThread);
+    mParserThread->start();
 
-    this->mLyricProviderThread = new QThread(this);
-    LyricProviderManager::instance()->moveToThread(this->mLyricProviderThread);
-    this->mLyricProviderThread->start();
+    mLyricProviderThread = new QThread(this);
+    LyricProviderManager::instance()->moveToThread(mLyricProviderThread);
+    mLyricProviderThread->start();
 
 #ifdef Qt5DBus_FOUND
     using mpris::Mpris2;
@@ -55,10 +55,10 @@ void AppManager::initialize() {
 void AppManager::registerTypes() { qRegisterMetaType<Media>("Media"); }
 
 AppManager::~AppManager() {
-    this->mParserThread->exit(0);
-    this->mParserThread->wait();
-    this->mLyricProviderThread->exit(0);
-    this->mLyricProviderThread->wait();
+    mParserThread->exit(0);
+    mParserThread->wait();
+    mLyricProviderThread->exit(0);
+    mLyricProviderThread->wait();
     ParserManager::instance()->deleteLater();
     LyricProviderManager::instance()->deleteLater();
 }

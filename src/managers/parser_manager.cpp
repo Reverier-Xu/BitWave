@@ -1,12 +1,12 @@
 /**
  * @file parser_manager.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "parser_manager.h"
@@ -30,7 +30,7 @@ ParserManager *ParserManager::instance(QObject *parent) {
 }
 
 ParserManager::ParserManager(QObject *parent) : QObject(parent) {
-    this->registerParsersInFactory();
+    registerParsersInFactory();
 }
 
 void ParserManager::registerParsersInFactory() {
@@ -47,11 +47,11 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
     auto parser = ParserFactory::getParser(media);
     if (parser == nullptr) {
         qDebug() << "No parser found for media:" << media.rawUrl();
-        emit this->mediaIsReady(false, Media());
+        emit mediaIsReady(false, Media());
         return;
     }
     parser->setParserId(QUuid::createUuid());
-    this->mParseMediaTaskId = parser->parserId();
+    mParseMediaTaskId = parser->parserId();
     auto res = QtConcurrent::run(parser, &BaseParser::parseMedia, media);
     auto *resWatcher = new QFutureWatcher<Media>(this);
     resWatcher->setFuture(res);
@@ -63,9 +63,9 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
             // MemoryHelper::assertMemory("ParserManager::handleParseMediaRequest
             // Run Begin");
             auto m = resWatcher->result();
-            if (parser->parserId() == this->mParseMediaTaskId) {
+            if (parser->parserId() == mParseMediaTaskId) {
                 // qDebug() << "Parse Result is current media.";
-                emit this->mediaIsReady(true, m);
+                emit mediaIsReady(true, m);
             } else {
                 // qDebug() << "Parse Result is discarded.";
             }
@@ -75,7 +75,7 @@ void ParserManager::handleParseMediaRequest(const Media &media) {
             // Run End");
         } catch (...) {
             //            qDebug() << "Parse Result creates an exception.";
-            emit this->mediaIsReady(false, Media());
+            emit mediaIsReady(false, Media());
             parser->deleteLater();
             resWatcher->deleteLater();
         }
@@ -93,10 +93,10 @@ void ParserManager::handleGetMediaInfoRequest(const QString &path) {
         parser->deleteLater();
         // MemoryHelper::assertMemory("ParserManager::handleGetMediaInfoRequest
         // End");
-        emit this->mediaInfoIsReady(true, res);
+        emit mediaInfoIsReady(true, res);
     } catch (...) {
         parser->deleteLater();
-        emit this->mediaInfoIsReady(false, Media());
+        emit mediaInfoIsReady(false, Media());
     }
 }
 
@@ -110,39 +110,42 @@ void ParserManager::handleGetMediaCoverRequest(const Media &media) {
         parser->deleteLater();
         // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverRequest
         // End"); qDebug() << "cover finished here.";
-        emit this->mediaCoverIsReady(true, url);
+        emit mediaCoverIsReady(true, url);
     } catch (...) {
         parser->deleteLater();
-        emit this->mediaCoverIsReady(false, "");
+        emit mediaCoverIsReady(false, "");
     }
 }
 
 void ParserManager::handleGetMediaLyricsRequest(const Media &media) {
-    emit this->mediaLyricsIsReady(true, tr("[00:00.00] No Lyrics."), "");
+    emit mediaLyricsIsReady(true, tr("[00:00.00] No Lyrics."), "");
 }
 
-void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
-    // qDebug() << "Analyze extern media info started.";
-    // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
-    // Begin");
-    auto parser = ParserFactory::getParser(path);
-    // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
-    // GotParser");
-    if (!parser) {
-        emit this->mediaIsReady(false, Media());
-        return;
-    }
-    try {
-        auto res = parser->getMedia(path);
-        parser->deleteLater();
-        // MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
-        // End");
-        emit this->externMediaInfoIsReady(true, res);
-    } catch (...) {
-        parser->deleteLater();
-        emit this->externMediaInfoIsReady(false, Media());
-    }
-}
+// void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
+//     // qDebug() << "Analyze extern media info started.";
+//     //
+//     MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
+//     // Begin");
+//     auto parser = ParserFactory::getParser(path);
+//     //
+//     MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
+//     // GotParser");
+//     if (!parser) {
+//         emit mediaIsReady(false, Media());
+//         return;
+//     }
+//     try {
+//         auto res = parser->getMedia(path);
+//         parser->deleteLater();
+//         //
+//         MemoryHelper::assertMemory("ParserManager::handleGetExternMediaInfoRequest
+//         // End");
+//         emit externMediaInfoIsReady(true, res);
+//     } catch (...) {
+//         parser->deleteLater();
+//         emit externMediaInfoIsReady(false, Media());
+//     }
+// }
 
 void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
     // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverColorRequest
@@ -166,12 +169,12 @@ void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
         // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverColorRequest
         // End");
 
-        emit this->mediaCoverColorIsReady(true, color);
+        emit mediaCoverColorIsReady(true, color);
 
         // qDebug() << "Analyze cover color succeeded.";
 
     } catch (...) {
-        emit this->mediaCoverColorIsReady(false, QColor());
+        emit mediaCoverColorIsReady(false, QColor());
         // qDebug() << "Analyze cover color failed.";
     }
 }

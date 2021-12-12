@@ -46,10 +46,10 @@ Rectangle {
             theDuration: mediaDuration
             theStatus: index === queue.queuePos
             onClicked: {
-                queue.queuePos = index;
+                queue.userSwitchRequested(index);
             }
             onPlayTriggered: {
-                queue.queuePos = triggerId;
+                queue.userSwitchRequested(triggerId);
             }
             onRemoveTriggered: {
                 queue.removeMedia(triggerId);

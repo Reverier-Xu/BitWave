@@ -1,12 +1,12 @@
 /**
  * @file sqlite_engine.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "sqlite_engine.h"
@@ -19,7 +19,7 @@
 
 SQLiteEngine *SQLiteEngine::mInstance = nullptr;
 
-SQLiteEngine::SQLiteEngine(QObject *parent) { this->mDatabaseFile = ""; }
+SQLiteEngine::SQLiteEngine(QObject *parent) { mDatabaseFile = ""; }
 
 SQLiteEngine *SQLiteEngine::instance(QObject *parent) {
     if (mInstance == nullptr) mInstance = new SQLiteEngine(parent);
@@ -27,30 +27,30 @@ SQLiteEngine *SQLiteEngine::instance(QObject *parent) {
 }
 
 bool SQLiteEngine::open(const QString &db) {
-    this->mDatabaseFile = db;
-    if (this->mDatabaseFile.isEmpty()) {
+    mDatabaseFile = db;
+    if (mDatabaseFile.isEmpty()) {
         qDebug() << "database file is empty";
-        this->setIsOpen(false);
-        this->setIsValid(false);
+        setIsOpen(false);
+        setIsValid(false);
         return false;
     }
-    this->mDatabase = QSqlDatabase::addDatabase("QSQLITE");
-    this->mDatabase.setDatabaseName(this->mDatabaseFile);
-    if (!this->mDatabase.open()) {
+    mDatabase = QSqlDatabase::addDatabase("QSQLITE");
+    mDatabase.setDatabaseName(mDatabaseFile);
+    if (!mDatabase.open()) {
         qDebug() << "database open failed";
-        this->setIsOpen(false);
-        this->setIsValid(false);
+        setIsOpen(false);
+        setIsValid(false);
         return false;
     }
     // qDebug() << "database open succeeded";
     return true;
 }
 
-void SQLiteEngine::close() { this->mDatabase.close(); }
+void SQLiteEngine::close() { mDatabase.close(); }
 
 void SQLiteEngine::createMediaList(const QString &tableName,
                                    const QList<Media> &mediaList) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "CREATE TABLE IF NOT EXISTS " + tableName + " ("
             << "id         INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -61,7 +61,7 @@ void SQLiteEngine::createMediaList(const QString &tableName,
             << "url        TEXT,"
             << "type       INTEGER,"
             << "comment    TEXT,";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         query.exec();
         query.clear();
         sql.clear();
@@ -97,10 +97,10 @@ void SQLiteEngine::createMediaList(const QString &tableName,
 }
 
 bool SQLiteEngine::dropMediaList(const QString &tableName) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "DROP TABLE IF EXISTS :tableName";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         return query.exec();
     } else {
         return false;
@@ -108,7 +108,7 @@ bool SQLiteEngine::dropMediaList(const QString &tableName) {
 }
 
 bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "INSERT INTO :tableName ("
             << "title,"
@@ -125,7 +125,7 @@ bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
             << ":url,"
             << ":type,"
             << ":comment);";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         return query.exec();
     } else {
         return false;
@@ -133,11 +133,11 @@ bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
 }
 
 bool SQLiteEngine::deleteMedia(const QString &tableName, const Media &media) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "DELETE FROM :tableName WHERE "
             << "url=:url;";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         query.bindValue(":tableName", tableName);
         query.bindValue(":url", media.rawUrl());
         return query.exec();
@@ -148,10 +148,10 @@ bool SQLiteEngine::deleteMedia(const QString &tableName, const Media &media) {
 
 QList<Media> SQLiteEngine::getMediaList(const QString &tableName) {
     QList<Media> mediaList;
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "SELECT * FROM :tableName";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         query.bindValue(":tableName", tableName);
         query.exec();
         while (query.next()) {
@@ -170,11 +170,11 @@ QList<Media> SQLiteEngine::getMediaList(const QString &tableName) {
 }
 
 bool SQLiteEngine::isMediaExist(const QString &tableName, const Media &media) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "SELECT * FROM :tableName WHERE "
             << "url=:url;";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         query.bindValue(":tableName", tableName);
         query.bindValue(":url", media.rawUrl());
         query.exec();
@@ -189,7 +189,7 @@ bool SQLiteEngine::isMediaExist(const QString &tableName, const Media &media) {
 }
 
 bool SQLiteEngine::updateMedia(const QString &tableName, const Media &media) {
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "UPDATE       :tableName SET "
             << "title      = :title,"
@@ -200,7 +200,7 @@ bool SQLiteEngine::updateMedia(const QString &tableName, const Media &media) {
             << "type       = :type,"
             << "comment    = :comment"
             << " WHERE url = :srcUrl;";
-        QSqlQuery query(sql.join(" "), this->database());
+        QSqlQuery query(sql.join(" "), database());
         query.bindValue(":tableName", tableName);
         query.bindValue(":title", media.title());
         query.bindValue(":artist", media.artist());
@@ -219,9 +219,9 @@ bool SQLiteEngine::updateMedia(const QString &tableName, const Media &media) {
 bool SQLiteEngine::updateMediaList(const QString &tableName,
                                    const QList<Media> &mediaList) {
     bool res = true;
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         for (const auto &media : mediaList) {
-            res &= this->updateMedia(tableName, media);
+            res &= updateMedia(tableName, media);
         }
     }
     return res;
@@ -229,11 +229,11 @@ bool SQLiteEngine::updateMediaList(const QString &tableName,
 
 QStringList SQLiteEngine::getMediaLists() {
     QStringList mediaLists;
-    if (this->isOpen() && this->isValid()) {
+    if (isOpen() && isValid()) {
         QStringList sql;
         sql << "SELECT name FROM sqlite_master WHERE type='table' AND name NOT "
                "LIKE 'sqlite_%';";
-        QSqlQuery query(this->mDatabase);
+        QSqlQuery query(mDatabase);
         query.exec(sql.join(" "));
         while (query.next()) {
             mediaLists.append(query.value("name").toString());
@@ -241,3 +241,33 @@ QStringList SQLiteEngine::getMediaLists() {
     }
     return mediaLists;
 }
+
+QString SQLiteEngine::databaseFile() { return mDatabaseFile; }
+
+void SQLiteEngine::setDatabaseFile(const QString &databaseFile) {
+    mDatabaseFile = databaseFile;
+}
+
+QString SQLiteEngine::databaseName() { return mDatabaseName; }
+
+void SQLiteEngine::setDatabaseName(const QString &databaseName) {
+    mDatabaseName = databaseName;
+}
+
+QSqlDatabase SQLiteEngine::database() { return mDatabase; }
+
+void SQLiteEngine::setDatabase(const QSqlDatabase &database) {
+    mDatabase = database;
+}
+
+bool SQLiteEngine::isOpen() const { return mIsOpen; }
+
+void SQLiteEngine::setIsOpen(bool isOpen) { mIsOpen = isOpen; }
+
+bool SQLiteEngine::isReadOnly() const { return mIsReadOnly; }
+
+void SQLiteEngine::setIsReadOnly(bool isReadOnly) { mIsReadOnly = isReadOnly; }
+
+bool SQLiteEngine::isValid() const { return mIsValid; }
+
+void SQLiteEngine::setIsValid(bool n) { mIsValid = n; }

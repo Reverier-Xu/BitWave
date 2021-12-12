@@ -1,12 +1,12 @@
 /**
  * @file local_music_parser.cpp
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #include "local_music_parser.h"
@@ -42,7 +42,7 @@ const QStringList &LocalMusicParser::acceptTypes() {
 }
 
 bool LocalMusicParser::accepted(const Media &media) {
-    return this->accepted(media.rawUrl());
+    return accepted(media.rawUrl());
 }
 
 bool LocalMusicParser::accepted(const QString &path) {
@@ -136,3 +136,5 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
     avformat_close_input(&ctx);
     throw std::exception();
 }
+
+LocalMusicParser::LocalMusicParser(QObject *parent) : BaseParser(parent) {}

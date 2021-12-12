@@ -1,12 +1,12 @@
 /**
  * @file base_lyric_provider.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -30,12 +30,9 @@ class BaseLyricProvider : public QObject {
 
     virtual bool accepted(const Media &media) = 0;
 
-    [[nodiscard]] QUuid providerId() const { return this->mProviderId; }
+    [[nodiscard]] QUuid providerId() const;
 
-    void setProviderId(const QUuid &id) {
-        this->mProviderId = id;
-        emit this->providerIdChanged(id);
-    }
+    void setProviderId(const QUuid &id);
 
    public slots:
 

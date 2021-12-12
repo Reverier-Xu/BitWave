@@ -1,12 +1,12 @@
 /**
  * @file parser_manager.h
  * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-12-08
- * 
+ *
  * @copyright Copyright (c) 2021 Wootec
- * 
+ *
  */
 
 #pragma once
@@ -44,7 +44,7 @@ class ParserManager : public QObject {
 
     void handleGetMediaLyricsRequest(const Media &media);
 
-    void handleGetExternMediaInfoRequest(const QString &path);
+    // void handleGetExternMediaInfoRequest(const QString &path);
 
     void handleGetMediaCoverColorRequest(const QString &cover);
 
@@ -52,7 +52,7 @@ class ParserManager : public QObject {
 
     void mediaInfoIsReady(bool ok, const Media &m);
 
-    void externMediaInfoIsReady(bool ok, const Media &m);
+    // void externMediaInfoIsReady(bool ok, const Media &m);
 
     void mediaIsReady(bool ok, const Media &m);
 
