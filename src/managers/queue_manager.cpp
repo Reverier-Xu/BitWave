@@ -25,6 +25,7 @@
 
 #include "parser_manager.h"
 #include "player_manager.h"
+#include "engines/sqlite_engine.h"
 
 QueueManager *QueueManager::mInstance = nullptr;
 
@@ -64,6 +65,9 @@ void QueueManager::addMedia(const Media &media) {
 }
 
 void QueueManager::addMediaAtHead(const Media &media) {
+    if (queuePos() == -1) {
+        mQueuePos = 0;
+    }
     mQueueModel->beginInsertMedia(queuePos());
     mMainQueue.insert(queuePos(), media);
     mUserSwitch = true;
@@ -111,6 +115,7 @@ void QueueManager::removeMedia(int removed) {
     if (!mMainQueue.count()) {  // media is the last one in the queue.
         mQueueEnded = true;
         emit playQueueEnded();
+        PlayerManager::instance(this->parent())->resetPlayer();
         emit showTips("qrc:/assets/current.svg", tr("Finished"));
     } else if (removed == queuePos()) {
         userNextRequested();
@@ -183,6 +188,17 @@ void QueueManager::loadSettings() {
     setAddMediaMode(settings.value("AddMediaMode", 0).toInt());
     setPlayMode(settings.value("PlayMode", 0).toInt());
     settings.endGroup();
+
+    mSqliteEngine = new SQLiteEngine(this->parent());
+    mSqliteEngine->open(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+                        "/Database/playqueue.db");
+    auto media_list = mSqliteEngine->getMediaLists();
+    if (media_list.contains("cached")) {
+        auto media_list_cached = mSqliteEngine->getMediaList("cached");
+        for (auto media : media_list_cached) {
+            addMediaAtTail(media);
+        }
+    }
 }
 
 void QueueManager::saveSettings() const {
@@ -192,19 +208,25 @@ void QueueManager::saveSettings() const {
     settings.setValue("PlayMode", playMode());
     settings.endGroup();
     settings.sync();
+
+    mSqliteEngine->dropMediaList("cached");
+    mSqliteEngine->createMediaList("cached", mMainQueue);
+    mSqliteEngine->close();
 }
 
 void QueueManager::connectSignals() {
-    connect(PlayerManager::instance(this->parent()), &PlayerManager::playEnded, this,
-            [=]() {
+    connect(PlayerManager::instance(this->parent()), &PlayerManager::playEnded,
+            this, [=]() {
                 if (!checkUserSwitch()) {
                     next();
                 }
             });
-    connect(ParserManager::instance(this->parent()), &ParserManager::mediaInfoIsReady, this, [=](bool ok, const Media& media) {
-        addMediaAtHead(media);
-    });
-    connect(this, &QueueManager::externMediaInfoRequested, ParserManager::instance(this->parent()), &ParserManager::handleGetMediaInfoRequest);
+    connect(ParserManager::instance(this->parent()),
+            &ParserManager::mediaInfoIsReady, this,
+            [=](bool ok, const Media &media) { addMediaAtHead(media); });
+    connect(this, &QueueManager::externMediaInfoRequested,
+            ParserManager::instance(this->parent()),
+            &ParserManager::handleGetMediaInfoRequest);
 }
 
 void QueueManager::clearQueue() {
@@ -303,6 +325,8 @@ void QueueManager::setQueuePos(int n) {
     if (!mMainQueue.empty() && queuePos() > -1) {
         auto media = mMainQueue.at(n);
         setCurrentMedia(media);
+    } else if (queuePos() == -1) {
+        PlayerManager::instance(this->parent())->resetPlayer();
     }
 }
 

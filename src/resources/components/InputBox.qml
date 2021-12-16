@@ -11,7 +11,7 @@ Rectangle {
     property color focusColor: "transparent"
     property color focusBorderColor: display.themeColor
     property string placeholder: ""
-    property string inputText: ""
+    property alias inputText: inputTextBox.text
     property int fontSize: 16
     property alias inputArea: inputTextBox
     clip: true
@@ -37,7 +37,10 @@ Rectangle {
 
     TextInput {
         id: inputTextBox
-        anchors.fill: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: parent.height
 
         MouseArea {
             anchors.fill: parent
@@ -105,13 +108,17 @@ Rectangle {
             root.inputEdited(inputTextBox.text);
         }
 
-        Keys.onPressed: {
-            if (event.key === Qt.Key_Enter)
+         Keys.onPressed: {
+            if (event.key === Qt.Key_Enter) {
                 root.enterPressed();
+                root.inputFinished(inputTextBox.text);
+            }
             else if (event.key === Qt.Key_Esc)
                 root.escPressed();
-            else if (event.key === Qt.Key_Tab)
+            else if (event.key === Qt.Key_Tab) {
                 root.tabPressed();
+                root.inputText = root.placeholder;
+            }
         }
 
         onActiveFocusChanged: {

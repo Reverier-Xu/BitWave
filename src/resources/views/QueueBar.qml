@@ -57,7 +57,7 @@ Rectangle {
             name: "Folded"
             PropertyChanges {
                 target: root
-                width: 240
+                width: 0
                 opacity: 0
             }
         }

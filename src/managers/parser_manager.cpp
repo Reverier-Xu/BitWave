@@ -88,6 +88,11 @@ void ParserManager::handleGetMediaInfoRequest(const QString &path) {
     // MemoryHelper::assertMemory("ParserManager::handleGetMediaInfoRequest
     // Begin");
     auto parser = ParserFactory::getParser(path);
+    if (parser == nullptr) {
+        qDebug() << "No parser found for media:" << path;
+        emit mediaInfoIsReady(false, Media());
+        return;
+    }
     try {
         auto res = parser->getMedia(path);
         parser->deleteLater();
@@ -105,6 +110,11 @@ void ParserManager::handleGetMediaCoverRequest(const Media &media) {
     // MemoryHelper::assertMemory("ParserManager::handleGetMediaCoverRequest
     // Begin");
     auto parser = ParserFactory::getParser(media);
+    if (parser == nullptr) {
+        qDebug() << "No parser found for media:" << media.rawUrl();
+        emit mediaCoverIsReady(false, "");
+        return;
+    }
     try {
         auto url = parser->getMediaCover(media);
         parser->deleteLater();
@@ -115,10 +125,6 @@ void ParserManager::handleGetMediaCoverRequest(const Media &media) {
         parser->deleteLater();
         emit mediaCoverIsReady(false, "");
     }
-}
-
-void ParserManager::handleGetMediaLyricsRequest(const Media &media) {
-    emit mediaLyricsIsReady(true, tr("[00:00.00] No Lyrics."), "");
 }
 
 // void ParserManager::handleGetExternMediaInfoRequest(const QString &path) {
@@ -152,7 +158,8 @@ void ParserManager::handleGetMediaCoverColorRequest(const QString &cover) {
     // Begin"); get cover theme color here.
 
     // -*- begin -*-
-    /* 在这里提取音乐封面的主色调，提取完毕后塞到color里就行，不要return。
+    /**
+     * 在这里提取音乐封面的主色调，提取完毕后塞到color里就行，不要return。
      * 此实例跑在另一个线程上，因此不用过于担心效率问题，
      * 理论上讲在一首歌播完之前跑出来就行。
      */

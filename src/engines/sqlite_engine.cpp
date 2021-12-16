@@ -17,13 +17,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-SQLiteEngine *SQLiteEngine::mInstance = nullptr;
-
-SQLiteEngine::SQLiteEngine(QObject *parent) { mDatabaseFile = ""; }
-
-SQLiteEngine *SQLiteEngine::instance(QObject *parent) {
-    if (mInstance == nullptr) mInstance = new SQLiteEngine(parent);
-    return mInstance;
+SQLiteEngine::SQLiteEngine(QObject *parent) : QObject(parent) {
+    mDatabaseFile = "";
 }
 
 bool SQLiteEngine::open(const QString &db) {
@@ -42,6 +37,8 @@ bool SQLiteEngine::open(const QString &db) {
         setIsValid(false);
         return false;
     }
+    setIsOpen(true);
+    setIsValid(true);
     // qDebug() << "database open succeeded";
     return true;
 }
@@ -51,6 +48,9 @@ void SQLiteEngine::close() { mDatabase.close(); }
 void SQLiteEngine::createMediaList(const QString &tableName,
                                    const QList<Media> &mediaList) {
     if (isOpen() && isValid()) {
+        qDebug() << mDatabase.tables();
+
+        qDebug() << "create media list:" << tableName;
         QStringList sql;
         sql << "CREATE TABLE IF NOT EXISTS " + tableName + " ("
             << "id         INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -60,12 +60,17 @@ void SQLiteEngine::createMediaList(const QString &tableName,
             << "duration   REAL,"
             << "url        TEXT,"
             << "type       INTEGER,"
-            << "comment    TEXT,";
-        QSqlQuery query(sql.join(" "), database());
-        query.exec();
-        query.clear();
+            << "comment    TEXT"
+            << ");";
+        QSqlQuery query(sql.join(" "), mDatabase);
+        bool ok = query.exec();
+        if (!ok) {
+            qDebug() << "create table failed:" << query.lastError();
+            return;
+        }
+        mDatabase.commit();
         sql.clear();
-        sql << "INSERT INTO :tableName ("
+        sql << "INSERT INTO " + tableName + " ("
             << "title,"
             << "artist,"
             << "collection,"
@@ -73,25 +78,34 @@ void SQLiteEngine::createMediaList(const QString &tableName,
             << "url,"
             << "type,"
             << "comment) VALUES ("
-            << ":title,"
-            << ":artist,"
-            << ":collection,"
-            << ":duration,"
-            << ":url,"
-            << ":type,"
-            << ":comment);";
+            << " :title ,"
+            << " :artist ,"
+            << " :collection ,"
+            << " :duration ,"
+            << " :url ,"
+            << " :type ,"
+            << " :comment );";
 
         for (const auto &media : mediaList) {
-            query.clear();
-            query.prepare(sql.join(" "));
-            query.bindValue(":title", media.title());
-            query.bindValue(":artist", media.artist());
-            query.bindValue(":collection", media.collection());
-            query.bindValue(":duration", media.duration());
-            query.bindValue(":url", media.rawUrl());
-            query.bindValue(":type", media.type());
-            query.bindValue(":comment", media.comment());
-            query.exec();
+            QSqlQuery insert_query(mDatabase);
+
+            insert_query.prepare(sql.join(" "));
+
+            insert_query.bindValue(":title", media.title());
+            insert_query.bindValue(":artist", media.artist());
+            insert_query.bindValue(":collection", media.collection());
+            insert_query.bindValue(":duration", media.duration());
+            insert_query.bindValue(":url", media.rawUrl());
+            insert_query.bindValue(":type", media.type());
+            insert_query.bindValue(":comment", media.comment());
+            // qDebug() << "error here:" << insert_query.lastError();
+
+            bool ok = insert_query.exec();
+            if (!ok) {
+                qDebug() << "insert media failed:" << insert_query.lastError();
+                return;
+            }
+            mDatabase.commit();
         }
     }
 }
@@ -99,9 +113,12 @@ void SQLiteEngine::createMediaList(const QString &tableName,
 bool SQLiteEngine::dropMediaList(const QString &tableName) {
     if (isOpen() && isValid()) {
         QStringList sql;
-        sql << "DROP TABLE IF EXISTS :tableName";
-        QSqlQuery query(sql.join(" "), database());
-        return query.exec();
+        sql << "DROP TABLE IF EXISTS " + tableName;
+        QSqlQuery query(sql.join(" "), mDatabase);
+
+        bool ok = query.exec();
+        mDatabase.commit();
+        return ok;
     } else {
         return false;
     }
@@ -110,7 +127,7 @@ bool SQLiteEngine::dropMediaList(const QString &tableName) {
 bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
     if (isOpen() && isValid()) {
         QStringList sql;
-        sql << "INSERT INTO :tableName ("
+        sql << "INSERT INTO " + tableName + " ("
             << "title,"
             << "artist,"
             << "collection,"
@@ -125,8 +142,20 @@ bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
             << ":url,"
             << ":type,"
             << ":comment);";
-        QSqlQuery query(sql.join(" "), database());
-        return query.exec();
+        QSqlQuery insert_query(mDatabase);
+
+        insert_query.prepare(sql.join(" "));
+
+        insert_query.bindValue(":title", media.title());
+        insert_query.bindValue(":artist", media.artist());
+        insert_query.bindValue(":collection", media.collection());
+        insert_query.bindValue(":duration", media.duration());
+        insert_query.bindValue(":url", media.rawUrl());
+        insert_query.bindValue(":type", media.type());
+        insert_query.bindValue(":comment", media.comment());
+        bool ok = insert_query.exec();
+        mDatabase.commit();
+        return ok;
     } else {
         return false;
     }
@@ -135,10 +164,9 @@ bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
 bool SQLiteEngine::deleteMedia(const QString &tableName, const Media &media) {
     if (isOpen() && isValid()) {
         QStringList sql;
-        sql << "DELETE FROM :tableName WHERE "
+        sql << "DELETE FROM " + tableName + " WHERE "
             << "url=:url;";
         QSqlQuery query(sql.join(" "), database());
-        query.bindValue(":tableName", tableName);
         query.bindValue(":url", media.rawUrl());
         return query.exec();
     } else {
@@ -150,9 +178,8 @@ QList<Media> SQLiteEngine::getMediaList(const QString &tableName) {
     QList<Media> mediaList;
     if (isOpen() && isValid()) {
         QStringList sql;
-        sql << "SELECT * FROM :tableName";
+        sql << "SELECT * FROM " + tableName;
         QSqlQuery query(sql.join(" "), database());
-        query.bindValue(":tableName", tableName);
         query.exec();
         while (query.next()) {
             Media media;
@@ -228,18 +255,7 @@ bool SQLiteEngine::updateMediaList(const QString &tableName,
 }
 
 QStringList SQLiteEngine::getMediaLists() {
-    QStringList mediaLists;
-    if (isOpen() && isValid()) {
-        QStringList sql;
-        sql << "SELECT name FROM sqlite_master WHERE type='table' AND name NOT "
-               "LIKE 'sqlite_%';";
-        QSqlQuery query(mDatabase);
-        query.exec(sql.join(" "));
-        while (query.next()) {
-            mediaLists.append(query.value("name").toString());
-        }
-    }
-    return mediaLists;
+    return mDatabase.database().tables();
 }
 
 QString SQLiteEngine::databaseFile() { return mDatabaseFile; }

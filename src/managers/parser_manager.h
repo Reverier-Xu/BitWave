@@ -42,17 +42,11 @@ class ParserManager : public QObject {
 
     void handleGetMediaCoverRequest(const Media &media);
 
-    void handleGetMediaLyricsRequest(const Media &media);
-
-    // void handleGetExternMediaInfoRequest(const QString &path);
-
     void handleGetMediaCoverColorRequest(const QString &cover);
 
    signals:
 
     void mediaInfoIsReady(bool ok, const Media &m);
-
-    // void externMediaInfoIsReady(bool ok, const Media &m);
 
     void mediaIsReady(bool ok, const Media &m);
 

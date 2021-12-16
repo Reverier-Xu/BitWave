@@ -183,7 +183,7 @@ Rectangle {
                 text: qsTr("No Lyrics\n\nAvailable")
                 horizontalAlignment: Text.AlignHCenter
                 anchors.centerIn: parent
-                visible: player.isLyricLoaded === 0
+                visible: !player.isLyricLoaded
                 font.pixelSize: 16
                 color: "#e0808080"
             }

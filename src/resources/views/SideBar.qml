@@ -30,14 +30,37 @@ Rectangle {
         enabled: false
     }
 
-    SearchBox {
+    ActiveTab {
         id: globalSearchBox
-        height: 28
+
+        height: 36
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: titleButton.bottom
-        anchors.margins: 12
-        placeholder: qsTr("How are you today?")
+        flat: true
+        border.color: "transparent"
+        showIcon: false
+        text: ""
+        isTabActive: display.activeTabIndex === -3
+
+        SearchBox {
+            id: globalSearchBoxEdit
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 12
+            anchors.rightMargin: 12
+            height: 32
+            placeholder: qsTr("How are you today?")
+            onInputFinished: {
+                if (globalSearchBoxEdit.inputText.length > 0) {
+                    globalSearchBoxEdit.placeholder = input;
+                    globalSearchBoxEdit.inputText = "";
+                    display.activeTabIndex = -3;
+                    service.search(input);
+                }
+            }
+        }
     }
 
     ActiveTab {

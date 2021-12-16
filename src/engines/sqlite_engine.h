@@ -41,13 +41,8 @@ class SQLiteEngine : public QObject {
     bool mIsReadOnly{};
     bool mIsValid{};
 
-   protected:
-    explicit SQLiteEngine(QObject *parent);
-
-    static SQLiteEngine *mInstance;
-
    public:
-    static SQLiteEngine *instance(QObject *parent = nullptr);
+    explicit SQLiteEngine(QObject *parent);
 
     [[nodiscard]] QString databaseFile();
 

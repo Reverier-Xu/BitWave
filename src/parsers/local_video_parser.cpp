@@ -32,6 +32,7 @@ const QStringList &LocalVideoParser::acceptTypes() {
                               << "wmv"
                               << "mpg"
                               << "mpeg"
+                              << "webm"
                               << "m4v"
                               << "3gp"
                               << "3g2"

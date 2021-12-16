@@ -158,8 +158,8 @@ void PlayerManager::resetPlayer() {
     setCoverColor(QColor(0x00, 0x78, 0xd6));
     setCurrentMediaAlbum("No Album");
     setCurrentMediaArtist("No Artist");
-    setIsLyricLoaded(0);
     setLyrics("", "");
+    setIsLyricLoaded(false);
     stop();
 }
 
@@ -208,7 +208,7 @@ void PlayerManager::resume() {
 
 void PlayerManager::stop() {
     mEngine->stop();
-    setIsLyricLoaded(0);
+    setIsLyricLoaded(false);
     setLyrics("", "");
 #ifdef Q_OS_LINUX
     malloc_trim(0);  // free memories.
@@ -224,7 +224,11 @@ void PlayerManager::playUrl(const QString &m) {
 
 void PlayerManager::setLyrics(const QString &raw, const QString &tr) {
     mLyricsModel.parseLyrics(raw, tr);
-    setIsLyricLoaded(1);
+    if (raw.isEmpty()) {
+        setIsLyricLoaded(false);
+    } else {
+        setIsLyricLoaded(true);
+    }
 }
 
 void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
@@ -233,6 +237,8 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
         setIsMediaLoading(false);
         mEngine->resume();  // prevent show video tips.
     } else {
+        setIsMediaLoading(false);
+        resetPlayer();
         showTips("qrc:/assets/warning.svg", "Play Failed");
         emit playFailed();
     }
@@ -254,7 +260,7 @@ void PlayerManager::handleMediaLyricsIsReady(bool ok, const QString &raw,
         setLyrics(raw, trans);
     else {
         setLyrics(tr(""));
-        setIsLyricLoaded(0);
+        setIsLyricLoaded(false);
     }
 }
 
@@ -438,9 +444,9 @@ void PlayerManager::setIsMediaLoaded(bool n) {
     emit isMediaLoadedChanged(n);
 }
 
-int PlayerManager::isLyricLoaded() const { return mIsLyricLoaded; }
+bool PlayerManager::isLyricLoaded() const { return mIsLyricLoaded; }
 
-void PlayerManager::setIsLyricLoaded(int n) {
+void PlayerManager::setIsLyricLoaded(bool n) {
     mIsLyricLoaded = n;
     emit isLyricLoadedChanged(n);
 }

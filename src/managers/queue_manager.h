@@ -19,6 +19,7 @@
 #include <QUrl>
 
 #include "models/media.h"
+#include "engines/sqlite_engine.h"
 #include "models/ui/media_queue_model.h"
 #include "utilities/memory_helper.h"
 
@@ -39,13 +40,15 @@ class QueueManager : public QObject {
    private:
     Media mCurrentMedia{};
     int mPlayMode = 0;
-    int mQueuePos = 0;
+    int mQueuePos = -1;
     QQueue<Media> mMainQueue;
     QStack<int> mHistoryStack;
     int mAddMediaMode = 0;
     bool mQueueEnded = false;
     bool mUserSwitch = false;
     MediaQueueModel *mQueueModel;
+
+    SQLiteEngine *mSqliteEngine;
 
    protected:
     static QueueManager *mInstance;

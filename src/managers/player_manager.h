@@ -54,7 +54,7 @@ class PlayerManager : public QObject {
                    WRITE setIsMediaLoading NOTIFY isMediaLoadingChanged)
     Q_PROPERTY(bool isMediaLoaded MEMBER mIsMediaLoaded READ isMediaLoaded WRITE
                    setIsMediaLoaded NOTIFY isMediaLoadedChanged)
-    Q_PROPERTY(int isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
+    Q_PROPERTY(bool isLyricLoaded MEMBER mIsLyricLoaded READ isLyricLoaded WRITE
                    setIsLyricLoaded NOTIFY isLyricLoadedChanged)
     Q_PROPERTY(
         int currentLyricIndex MEMBER mCurrentLyricIndex READ currentLyricIndex
@@ -86,13 +86,13 @@ class PlayerManager : public QObject {
     int mGamma = 0;
     int mHue = 0;
     QString mCurrentMediaUrl = "";
-    QString mCurrentMediaTitle = tr("No media");
-    QString mCurrentMediaArtist = tr("No artist");
-    QString mCurrentMediaAlbum = tr("No album");
+    QString mCurrentMediaTitle = tr("No Media");
+    QString mCurrentMediaArtist = tr("No Artist");
+    QString mCurrentMediaAlbum = tr("No Album");
     QString mCurrentMediaCover = "qrc:/assets/music-colorful.svg";
     bool mIsMediaLoading = false;
     bool mIsMediaLoaded = false;
-    int mIsLyricLoaded = 0;
+    bool mIsLyricLoaded = false;
     int mCurrentLyricIndex = 0;
 
     QColor mCoverColor = QColor(0x00, 0x78, 0xd6);
@@ -195,9 +195,9 @@ class PlayerManager : public QObject {
 
     void setIsMediaLoaded(bool n);
 
-    [[nodiscard]] int isLyricLoaded() const;
+    [[nodiscard]] bool isLyricLoaded() const;
 
-    void setIsLyricLoaded(int n);
+    void setIsLyricLoaded(bool n);
 
     [[nodiscard]] QColor coverColor() const;
 

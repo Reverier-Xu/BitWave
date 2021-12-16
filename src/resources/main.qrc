@@ -123,6 +123,7 @@
         <file>components/TextLabel.qml</file>
         <file>components/ProgressBar.qml</file>
         <file>components/Breadcrumb.qml</file>
+        <file>components/CheckBox.qml</file>
         <file>components/PushArea.qml</file>
         <file>components/ControlButton.qml</file>
         <file>components/UXScrollBar.qml</file>

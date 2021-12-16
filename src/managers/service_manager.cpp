@@ -27,3 +27,35 @@ void ServiceManager::loadSettings() {}
 void ServiceManager::saveSettings() const {}
 
 ServiceManager::~ServiceManager() { saveSettings(); }
+
+void ServiceManager::search(const QString &input) {
+
+}
+
+bool ServiceManager::localSearchEnabled() const { return mLocalSearchEnabled; }
+
+void ServiceManager::setLocalSearchEnabled(bool localSearchEnabled) {
+    mLocalSearchEnabled = localSearchEnabled;
+    emit localSearchEnabledChanged(mLocalSearchEnabled);
+}
+
+bool ServiceManager::onlineSearchEnabled() const { return mOnlineSearchEnabled; }
+
+void ServiceManager::setOnlineSearchEnabled(bool onlineSearchEnabled) {
+    mOnlineSearchEnabled = onlineSearchEnabled;
+    emit onlineSearchEnabledChanged(mOnlineSearchEnabled);
+}
+
+bool ServiceManager::musicSearchEnabled() const { return mMusicSearchEnabled; }
+
+void ServiceManager::setMusicSearchEnabled(bool musicSearchEnabled) {
+    mMusicSearchEnabled = musicSearchEnabled;
+    emit musicSearchEnabledChanged(mMusicSearchEnabled);
+}
+
+bool ServiceManager::videoSearchEnabled() const { return mVideoSearchEnabled; }
+
+void ServiceManager::setVideoSearchEnabled(bool videoSearchEnabled) {
+    mVideoSearchEnabled = videoSearchEnabled;
+    emit videoSearchEnabledChanged(mVideoSearchEnabled);
+}

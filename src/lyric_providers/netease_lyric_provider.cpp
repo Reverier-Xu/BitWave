@@ -73,7 +73,7 @@ void NeteaseLyricProvider::onRequestFinished(QNetworkReply *reply) {
     }
     auto rawLyrics = jsonObj.value("lrc").toObject().value("lyric").toString();
     if (rawLyrics.isEmpty()) {
-        emit lyricsIsReady(true, tr("[00:00.00]Pure Music\nEnjoy."), QString());
+        emit lyricsIsReady(true, tr("[00:00.00]Pure Music\n[00:01.00]Enjoy."), QString());
         return;
     }
     auto trLyrics =

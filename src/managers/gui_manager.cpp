@@ -16,6 +16,7 @@
 #include "display_manager.h"
 #include "player_manager.h"
 #include "queue_manager.h"
+#include "service_manager.h"
 #include "resources/components/video_player.h"
 
 GuiManager *GuiManager::mInstance = nullptr;
@@ -37,6 +38,8 @@ void GuiManager::exportManagers() {
         "display", DisplayManager::instance(this->parent()));
     mUiEngine->rootContext()->setContextProperty(
         "queue", QueueManager::instance(this->parent()));
+    mUiEngine->rootContext()->setContextProperty(
+        "service", ServiceManager::instance(this->parent()));
     mUiEngine->rootContext()->setContextProperty(
         "lyricsModel", PlayerManager::instance()->getLyricsModel());
     mUiEngine->rootContext()->setContextProperty(
