@@ -241,9 +241,9 @@ bool Mpris2::CanSeek() const { return player_->isMediaLoaded(); }
 
 bool Mpris2::CanControl() const { return player_->isReady(); }
 
-void Mpris2::Next() { queue_->next(); }
+void Mpris2::Next() { queue_->userNextRequested(); }
 
-void Mpris2::Previous() { queue_->previous(); }
+void Mpris2::Previous() { queue_->userPreviousRequested(); }
 
 void Mpris2::Pause() {
     if (CanPause()) {

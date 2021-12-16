@@ -41,13 +41,13 @@ SystemTrayIcon {
             icon.name: "previous"
             icon.source: "qrc:/assets/previous.svg"
             text: qsTr("Previous")
-            onTriggered: { queue.previous(); }
+            onTriggered: { queue.userPreviousRequested(); }
         }
 
         MenuItem {
             icon.source: "qrc:/assets/next.svg"
             text: qsTr("Next")
-            onTriggered: { queue.next(); }
+            onTriggered: { queue.userNextRequested(); }
         }
         
         MenuItem {
