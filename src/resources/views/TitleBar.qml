@@ -128,7 +128,7 @@ Rectangle {
         ]
         fileMode: FileDialog.OpenFile
         onAccepted: {
-            queue.playExternMedia(files[0]);
+            queue.addExternMedia(files[0]);
         }
     }
 
