@@ -121,10 +121,10 @@ Rectangle {
         id: fileDialog
         title: qsTr("Open Media")
         nameFilters: [
-            "All Support Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg *.ncm *.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob)",
+            "All Support Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg *.ncm *.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob *.webm)",
             "Music Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg)",
             "Netease Music Files (*.ncm)",
-            "Video Files (*.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob)"
+            "Video Files (*.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob *.webm)"
         ]
         fileMode: FileDialog.OpenFile
         onAccepted: {

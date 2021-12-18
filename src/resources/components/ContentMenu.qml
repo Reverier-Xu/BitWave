@@ -26,6 +26,7 @@ Menu {
             showIcon: true
             icon: itemIcon
             text: itemText
+            enabled: itemEnabled
             width: ListView.view.width
             flat: true
             height: 32

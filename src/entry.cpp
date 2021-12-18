@@ -10,6 +10,7 @@
  */
 
 #include <QApplication>
+#include <QObject>
 #include <QFont>
 #include <QIcon>
 

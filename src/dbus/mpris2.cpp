@@ -269,7 +269,7 @@ void Mpris2::Play() {
 
 void Mpris2::Seek(qlonglong offset) {
     if (CanSeek()) {
-        qDebug() << (double)(offset) / 1000000.0;
+        // qDebug() << (double)(offset) / 1000000.0;
         player_->handleUserSeekRequest((double)(offset) / 1000000.0);
     }
 }

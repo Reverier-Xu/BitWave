@@ -11,6 +11,7 @@
 
 #include "display_manager.h"
 
+#include <QApplication>
 #include <QObject>
 #include <QSettings>
 
@@ -73,6 +74,9 @@ void DisplayManager::loadSettings() {
     setThemeColor(settings.value("ThemeColor", "#0078d6").toString());
     setAlertColor(settings.value("AlertColor", "#ff6033").toString());
     setColorStyle(settings.value("ColorStyle", true).toBool());
+    setSideBarExpanded(settings.value("SideBarExpanded", true).toBool());
+    setLanguage(settings.value("Language", "en_US").toString());
+    PlayerManager::instance()->resetPlayer();
     settings.endGroup();
 }
 
@@ -82,6 +86,8 @@ void DisplayManager::saveSettings() const {
     settings.setValue("ThemeColor", themeColor().name());
     settings.setValue("AlertColor", alertColor().name());
     settings.setValue("ColorStyle", colorStyle());
+    settings.setValue("SideBarExpanded", sideBarExpanded());
+    settings.setValue("Language", language());
     settings.endGroup();
 
     settings.sync();
@@ -202,4 +208,13 @@ bool DisplayManager::showVideoTime() const { return mShowVideoTime; }
 void DisplayManager::setShowVideoTime(bool n) {
     mShowVideoTime = n;
     emit showVideoTimeChanged(n);
+}
+
+QString DisplayManager::language() const { return mLanguage; }
+
+void DisplayManager::setLanguage(const QString &n) {
+    mLanguage = n;
+    mTranslator.load(QString("%1/%2.qm").arg(":/translations").arg(n));
+    QApplication::installTranslator(&mTranslator);
+    emit languageChanged(n);
 }

@@ -5,6 +5,7 @@ Rectangle {
     id: root
     property bool flat: false
     property bool scaleOnPressed: true
+    property bool hovered: false
     property color normalColor: flat?"transparent":"#30808080"
     property color hoverColor: flat?"#20808080":"#40808080"
     property color pressedColor: flat?"#30808080":"#60808080"
@@ -27,12 +28,16 @@ Rectangle {
         hoverEnabled: parent.enabled;
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onEntered: {
-            if (!pressed)
+            if (!pressed) {
                 parent.state="Hovering";
+            }
+            root.hovered = true;
         }
         onExited: {
-            if (!pressed)
+            if (!pressed) {
                 parent.state = "Normal";
+            }
+            root.hovered = false;
         }
         onClicked: {
             root.focus = true;
@@ -53,10 +58,11 @@ Rectangle {
             parent.state="Pressed";
         }
         onReleased: {
-            if (containsMouse)
+            if (containsMouse) {
                 parent.state="Hovering";
-            else
+            } else {
                 parent.state = "Normal";
+            }
         }
     }
 

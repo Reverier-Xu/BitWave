@@ -2,7 +2,7 @@ import QtQuick 2.15
  
 Item {
     id: keyItem
-    property var customKey: qsTr("Space")
+    property var customKey: "Space"
     property int isPressed: 0
     anchors.fill: parent
     focus: true

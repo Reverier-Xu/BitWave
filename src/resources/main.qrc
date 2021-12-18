@@ -119,7 +119,6 @@
         <file>components/Switch.qml</file>
         <file>components/VerticalStepSlider.qml</file>
         <file>components/video_player.h</file>
-        <file>components/MusicTable.qml</file>
         <file>components/TextLabel.qml</file>
         <file>components/ProgressBar.qml</file>
         <file>components/Breadcrumb.qml</file>
@@ -130,7 +129,7 @@
         <file>components/QueueMediaItem.qml</file>
         <file>components/HorizontalStepSlider.qml</file>
         <file>components/ContentMenu.qml</file>
-        <file>components/MusicTableItem.qml</file>
+        <file>components/MediaTableItem.qml</file>
         <file>components/SliderBar.qml</file>
         <file>components/MenuButton.qml</file>
         <file>components/PushButton.qml</file>
@@ -149,6 +148,8 @@
         <file>components/TimeButton.qml</file>
         <file>components/InputBox.qml</file>
         <file>components/FluentWindow.qml</file>
+        <file>translations/zh_CN.qm</file>
+        <file>translations/en_US.qm</file>
         <file>views/VideoIndicator.qml</file>
         <file>views/PlayQueueBox.qml</file>
         <file>views/SystemTray.qml</file>

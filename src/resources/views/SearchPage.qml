@@ -26,7 +26,7 @@ Rectangle {
             anchors. leftMargin: 32
             anchors.topMargin: 12
             height: 32
-            text: "Search Results"
+            text: qsTr("Search Results")
             showIcon: true
             icon: "qrc:/assets/search.svg"
         }
@@ -36,7 +36,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: 48
             anchors.verticalCenter: title.verticalCenter
-            text: "Local"
+            text: qsTr("Local")
             chose: service.localSearchEnabled
             onClicked: {
                 service.localSearchEnabled = !service.localSearchEnabled
@@ -47,7 +47,7 @@ Rectangle {
             id: onlineSearchCheckBox
             anchors.right: localSearchCheckBox.left
             anchors.verticalCenter: title.verticalCenter
-            text: "Online"
+            text: qsTr("Online")
             chose: service.onlineSearchEnabled
             onClicked: {
                 service.onlineSearchEnabled = !service.onlineSearchEnabled
@@ -58,7 +58,7 @@ Rectangle {
             id: videoSearchCheckBox
             anchors.right: onlineSearchCheckBox.left
             anchors.verticalCenter: title.verticalCenter
-            text: "Video"
+            text: qsTr("Video")
             chose: service.videoSearchEnabled
             onClicked: {
                 service.videoSearchEnabled = !service.videoSearchEnabled
@@ -69,7 +69,7 @@ Rectangle {
             id: musicSearchCheckBox
             anchors.right: videoSearchCheckBox.left
             anchors.verticalCenter: title.verticalCenter
-            text: "Music"
+            text: qsTr("Music")
             chose: service.musicSearchEnabled
             onClicked: {
                 service.musicSearchEnabled = !service.musicSearchEnabled

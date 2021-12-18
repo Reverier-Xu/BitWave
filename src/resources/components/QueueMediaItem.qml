@@ -105,19 +105,22 @@ PushArea {
         }
         model: ListModel {
             ListElement {
-                itemText: "Play"
+                itemText: qsTr("Play")
                 itemIcon: "qrc:/assets/play.svg"
                 itemId: 0
+                itemEnabled: true
             }
             ListElement {
-                itemText: "Remove"
+                itemText: qsTr("Remove")
                 itemIcon: "qrc:/assets/delete.svg"
                 itemId: 1
+                itemEnabled: true
             }
             ListElement {
-                itemText: "Clear Queue"
+                itemText: qsTr("Clear Queue")
                 itemIcon: "qrc:/assets/close.svg"
                 itemId: 2
+                itemEnabled: true
             }
         }
     }

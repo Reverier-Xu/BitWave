@@ -14,7 +14,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: spaceEvent
-        customKey: qsTr("Space")
+        customKey: "Space"
         onClicked: {
             if (player.isMediaLoaded && player.isPlaying)
                 player.pause()
@@ -33,7 +33,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: exitFullScreenEvent
-        customKey: qsTr("Escape")
+        customKey: "Escape"
         onClicked: {
             if (window.visibility === Window.FullScreen) {
                 window.showNormal();
@@ -43,7 +43,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: exitAppEvent
-        customKey: qsTr("Ctrl+Q")
+        customKey: "Ctrl+Q"
         onClicked: {
             Qt.exit(0);
         }
@@ -51,7 +51,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: increaseTimeEvent
-        customKey: qsTr("Right")
+        customKey: "Right"
         onClicked: {
             player.handleUserSeekRequest(player.currentTime + 3)
         }
@@ -59,7 +59,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: decreaseTimeEvent
-        customKey: qsTr("Left")
+        customKey: "Left"
         onClicked: {
             player.handleUserSeekRequest(player.currentTime - 3)
         }
@@ -67,7 +67,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: increaseVolumeEvent
-        customKey: qsTr("Up")
+        customKey: "Up"
         onClicked: {
             player.volume += 0.1;
         }
@@ -75,7 +75,7 @@ FluentWindow {
 
     KeyTapEvent {
         id: decreaseVolumeEvent
-        customKey: qsTr("Down")
+        customKey: "Down"
         onClicked: {
             player.volume -= 0.1;
         }

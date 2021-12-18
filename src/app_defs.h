@@ -14,7 +14,7 @@
 #include <QByteArray>
 #include <QString>
 
-/*
+/**
  * Netease Cloud Music API keys.
  *
  */

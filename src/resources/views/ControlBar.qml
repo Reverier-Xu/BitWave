@@ -5,9 +5,14 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: "transparent"
-    height: 100
+    height: 104
     opacity: display.mouseIsActive ? 1 : 0
+    color: display.colorStyle? "#a0ffffff":"#d0000000"
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
+    }
     Behavior on opacity {
         NumberAnimation {
             duration: 100
@@ -17,14 +22,8 @@ Rectangle {
     Rectangle {
         id: staticArea
         anchors.fill: parent
-        anchors.topMargin: 8
-        color: display.colorStyle? "#a0ffffff":"#d0000000"
-
-        Behavior on color {
-            ColorAnimation {
-                duration: 280
-            }
-        }
+        anchors.topMargin: 12
+        color: "transparent"
 
         Rectangle {
             id: avatarContainer
@@ -257,52 +256,12 @@ Rectangle {
         id: progressBar
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.verticalCenter: staticArea.top
+        anchors.top: parent.top
+        height: 24
         totalTime: player.totalTime
         currentTime: player.currentTime
         onEndDragging: {
             player.handleUserSeekRequest(finalTime);
-        }
-
-        color: display.colorStyle? "#a0ffffff":"#d0000000"
-
-        Behavior on color {
-            ColorAnimation {
-                duration: 280
-            }
-        }
-
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "transparent"
-            }
-            GradientStop {
-                position: 0.3
-                color: display.colorStyle? "#a0ffffff":"#d0000000"
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 280
-                    }
-                }
-            }
-            GradientStop {
-                position: 0.5
-                color: display.colorStyle? "#a0ffffff":"#d0000000"
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 280
-                    }
-                }
-            }
-            GradientStop {
-                position: 0.51
-                color: "transparent"
-            }
-            GradientStop {
-                position: 1.0
-                color: "transparent"
-            }
         }
     }
 

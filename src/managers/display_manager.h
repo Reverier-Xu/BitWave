@@ -14,6 +14,7 @@
 #include <QColor>
 #include <QObject>
 #include <QTimer>
+#include <QTranslator>
 
 #include "queue_manager.h"
 
@@ -44,6 +45,8 @@ class DisplayManager : public QObject {
                    setFullScreen NOTIFY isFullScreenChanged)
     Q_PROPERTY(bool showVideoTime MEMBER mShowVideoTime READ showVideoTime WRITE
                    setShowVideoTime NOTIFY showVideoTimeChanged)
+    Q_PROPERTY(QString language MEMBER mLanguage READ language WRITE setLanguage
+                   NOTIFY languageChanged)
 
    private:
     int mActiveTabIndex = -1;
@@ -57,6 +60,8 @@ class DisplayManager : public QObject {
     QColor mThemeColor = QColor(0x00, 0x78, 0xd6);
     QColor mAlertColor = QColor(0xff, 0x60, 0x33);
     QTimer *mHideTimer;
+    QString mLanguage = "en_US";
+    QTranslator mTranslator;
 
    protected:
     explicit DisplayManager(QObject *parent);
@@ -124,6 +129,10 @@ class DisplayManager : public QObject {
 
     void setShowVideoTime(bool n);
 
+    [[nodiscard]] QString language() const;
+
+    void setLanguage(const QString &n);
+
    public slots:
 
     Q_INVOKABLE void delayedHide();
@@ -158,5 +167,8 @@ class DisplayManager : public QObject {
 
     void contentColorChanged(QColor n);
 
+    void languageChanged(const QString &n);
+
     void showTips(const QString &icon, const QString &info);
+
 };

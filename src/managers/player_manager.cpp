@@ -154,10 +154,10 @@ void PlayerManager::resetPlayer() {
     setTotalTime(0);
     setCurrentLyricIndex(0);
     setCurrentMediaCover("qrc:/assets/music-colorful.svg");
-    setCurrentMediaTitle("No Media");
+    setCurrentMediaTitle(tr("No Media"));
     setCoverColor(QColor(0x00, 0x78, 0xd6));
-    setCurrentMediaAlbum("No Album");
-    setCurrentMediaArtist("No Artist");
+    setCurrentMediaAlbum(tr("No Album"));
+    setCurrentMediaArtist(tr("No Artist"));
     setLyrics("", "");
     setIsLyricLoaded(false);
     stop();
@@ -170,7 +170,7 @@ void PlayerManager::handleUserSeekRequest(double t) {
 }
 
 void PlayerManager::play(const Media &m) {
-    qDebug() << "Current Media:" << m.title();
+    // qDebug() << "Current Media:" << m.title();
 
     // MemoryHelper::assertMemory("PlayerManager::play");
 
@@ -186,7 +186,7 @@ void PlayerManager::play(const Media &m) {
     emit mediaCoverRequired(m);
     emit mediaParseRequired(m);
     if (m.type() == AUDIO) {
-        setLyrics("[00:00.00]Loading Lyrics...", "");
+        setLyrics(tr("[00:00.00]Loading Lyrics..."), "");
         emit mediaLyricsRequired(m);
     }
     // qDebug() << "mediaParseRequired is emitted.";
@@ -239,7 +239,7 @@ void PlayerManager::handleMediaIsReady(bool ok, const Media &m) {
     } else {
         setIsMediaLoading(false);
         resetPlayer();
-        showTips("qrc:/assets/warning.svg", "Play Failed");
+        showTips("qrc:/assets/warning.svg", tr("Play Failed"));
         emit playFailed();
     }
 }

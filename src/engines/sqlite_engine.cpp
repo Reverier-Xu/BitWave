@@ -48,9 +48,9 @@ void SQLiteEngine::close() { mDatabase.close(); }
 void SQLiteEngine::createMediaList(const QString &tableName,
                                    const QList<Media> &mediaList) {
     if (isOpen() && isValid()) {
-        qDebug() << mDatabase.tables();
+        // qDebug() << mDatabase.tables();
 
-        qDebug() << "create media list:" << tableName;
+        // qDebug() << "create media list:" << tableName;
         QStringList sql;
         sql << "CREATE TABLE IF NOT EXISTS " + tableName + " ("
             << "id         INTEGER PRIMARY KEY AUTOINCREMENT,"

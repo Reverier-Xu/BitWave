@@ -28,7 +28,7 @@ Rectangle {
 
         TextLabel {
             id: volumeTipsLabel
-            text: "VOLUME"
+            text: qsTr("VOLUME")
             fontSize: 18
             bold: true
             showIcon: false

@@ -3,9 +3,10 @@ import QtGraphicalEffects 1.15
 
 PushArea {
     id: root
-    property string theTitle: "No Media"
-    property string theAlbum: "Unknown Album"
-    property string theArtist: "Unknown Artist"
+    property string theTitle: qsTr("No Media")
+    property string theAlbum: qsTr("Unknown Album")
+    property string theArtist: qsTr("Unknown Artist")
+    property bool isEndpoint: false
     property double theDuration
     property int theId
     property bool theStatus
@@ -13,9 +14,9 @@ PushArea {
 
     height: 36
 
-    signal playTriggered(int triggerId);
+    signal enterTriggered(int triggerId);
     signal removeTriggered(int triggerId);
-    signal clearTriggered();
+    signal collectTriggered(int triggerId);
 
     Rectangle {
         anchors.fill: parent
@@ -28,32 +29,8 @@ PushArea {
         anchors.left: parent.left
         anchors.leftMargin: 15
         color: "#808080"
-        opacity: root.theStatus ? 0 : 1
         text: (root.theId + 1).toString().padStart(3, '0')
         font.pixelSize: 16
-    }
-
-    Image {
-        id: image
-        width: 16
-        height: 16
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.centerIn: idLabel
-        sourceSize: Qt.size(16, 16)
-        smooth: true
-        antialiasing: true
-        visible: false
-        source: "qrc:/assets/current.svg"
-    }
-
-    ColorOverlay {
-        id: overlay
-        anchors.fill: image
-        source: image
-        color: display.themeColor
-        smooth: true
-        antialiasing: true
-        visible: root.theStatus
     }
 
     function getTimeString(displayTime) {
@@ -78,48 +55,67 @@ PushArea {
         elide: Text.ElideRight
         font.pixelSize: 16
         text: root.theTitle
-        elideWidth: titleLabel.width
+        elideWidth: (root.width - durationLabel.width - idLabel.width) / 2 - 30
     }
 
     Text {
         id: titleLabel
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: idLabel.right
-        anchors.right: durationLabel.left
         anchors.leftMargin: 15
-        anchors.rightMargin: 25
         font.pixelSize: 16
         color: display.contentColor
         text: titleMetrics.elidedText
+    }
+
+    TextMetrics {
+        id: infoMetrics
+        elide: Text.ElideRight
+        font.pixelSize: 16
+        text: root.theArtist + " - " + root.theAlbum
+        elideWidth: (root.width - durationLabel.width - idLabel.width) / 2 - 30
+    }
+
+    Text {
+        id: infoLabel
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: durationLabel.left
+        anchors.rightMargin: 25
+        font.pixelSize: 16
+        color: display.contentColor
+        text: infoMetrics.elidedText
     }
 
     ContentMenu {
         id: contentMenu
         onItemClicked: {
             switch (itemId) {
-            case 0: root.playTriggered(root.theId);
+            case 0: root.enterTriggered(root.theId);
                 break;
-            case 1: root.removeTriggered(root.theId);
+            case 1: root.collectTriggered(root.theId);
                 break;
-            case 2: root.clearTriggered();
+            case 2: root.removeTriggered(root.theId);
                 break;
             }
         }
         model: ListModel {
             ListElement {
-                itemText: "Play"
+                itemText: root.isEndpoint ? qsTr("Play") : qsTr("Enter")
                 itemIcon: "qrc:/assets/play.svg"
                 itemId: 0
+                itemEnabled: true
             }
             ListElement {
-                itemText: "Remove"
-                itemIcon: "qrc:/assets/delete.svg"
+                itemText: qsTr("Add to Playlist")
+                itemIcon: "qrc:/assets/add.svg"
                 itemId: 1
+                itemEnabled: root.isEndpoint
             }
             ListElement {
-                itemText: "Clear Queue"
-                itemIcon: "qrc:/assets/close.svg"
+                itemText: qsTr("Remove")
+                itemIcon: "qrc:/assets/delete.svg"
                 itemId: 2
+                itemEnabled: true
             }
         }
     }

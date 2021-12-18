@@ -23,7 +23,7 @@ SystemTrayIcon {
             icon.mask: true
             icon.name: "play"
             icon.source: player.isPlaying ? "qrc:/assets/pause.svg" : "qrc:/assets/play.svg"
-            text: "Playing: " + player.currentMediaTitle
+            text: qsTr("Playing: ") + player.currentMediaTitle
             onTriggered: {
                 window.show()
                 window.raise()
