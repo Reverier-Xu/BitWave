@@ -15,9 +15,12 @@ Rectangle {
         contentWidth: parent.width
         contentHeight: endLine.y + 25
         anchors.top: parent.top
+        anchors.topMargin: 32
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 100
+        
         clip: true
 
         ScrollBar.vertical: UXScrollBar { }
@@ -34,32 +37,37 @@ Rectangle {
             height: 48
         }
 
-        TextLabel {
-            id: languageLabel
-            text: qsTr("Language")
+        Rectangle {
             anchors.top: settingsPageTitle.bottom
             anchors.topMargin: 15
-            anchors.left: settingsPageTitle.left
-            anchors.leftMargin: 25
-            height: 32
-            showIcon: true
-            icon: "qrc:/assets/language.svg"
-        }
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Math.min(parent.width, 800)
+            color: "#10808080"
+            height: 36
+            TextLabel {
+                id: languageLabel
+                text: qsTr("Language")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                showIcon: true
+                icon: "qrc:/assets/language.svg"
+            }
 
-        PushButton {
-            id: languageValue
-            text: display.language
-            anchors.verticalCenter: languageLabel.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 50
-            height: 32
-            flat: true
-            showIcon: false
-            onClicked: {
-                if (display.language === "en_US") {
-                    display.language = "zh_CN"
-                } else {
-                    display.language = "en_US"
+            PushButton {
+                id: languageValue
+                text: display.language
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                flat: true
+                showIcon: false
+                onClicked: {
+                    if (display.language === "en_US") {
+                        display.language = "zh_CN"
+                    } else {
+                        display.language = "en_US"
+                    }
                 }
             }
         }
