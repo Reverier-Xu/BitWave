@@ -5,27 +5,25 @@
 
 namespace {
 
-void AES_CBC_encrypt(const unsigned char *in,
-                     unsigned char *out,
-                     unsigned char ivec[16],
-                     unsigned long length,
-                     const char *key,
-                     int number_of_rounds)
-{
-    __m128i feedback,data;
+void AES_CBC_encrypt(const unsigned char *in, unsigned char *out,
+                     unsigned char ivec[16], unsigned long length,
+                     const char *key, int number_of_rounds) {
+    __m128i feedback, data;
     unsigned long i;
     int j;
-    if (length%16)
-        length = length/16+1;
-    else length /=16;
-    feedback=_mm_loadu_si128 ((__m128i*)ivec);
-    for(i=0; i < length; i++) {
-        data = _mm_loadu_si128 (&((__m128i*)in)[i]);
-        feedback = _mm_xor_si128 (data,feedback);
-        feedback = _mm_xor_si128 (feedback,((__m128i*)key)[0]);
-        for(j=1; j <number_of_rounds; j++)
-            feedback = _mm_aesenc_si128 (feedback,((__m128i*)key)[j]);
-        feedback = _mm_aesenclast_si128 (feedback,((__m128i*)key)[j]); _mm_storeu_si128 (&((__m128i*)out)[i],feedback);
+    if (length % 16)
+        length = length / 16 + 1;
+    else
+        length /= 16;
+    feedback = _mm_loadu_si128((__m128i *)ivec);
+    for (i = 0; i < length; i++) {
+        data = _mm_loadu_si128(&((__m128i *)in)[i]);
+        feedback = _mm_xor_si128(data, feedback);
+        feedback = _mm_xor_si128(feedback, ((__m128i *)key)[0]);
+        for (j = 1; j < number_of_rounds; j++)
+            feedback = _mm_aesenc_si128(feedback, ((__m128i *)key)[j]);
+        feedback = _mm_aesenclast_si128(feedback, ((__m128i *)key)[j]);
+        _mm_storeu_si128(&((__m128i *)out)[i], feedback);
     }
 }
 
@@ -58,6 +56,6 @@ void AES_CBC_decrypt(const unsigned char *in,
 }
 #endif
 
-}
+}  // namespace
 
-#endif // AESNIENCCBC_H
+#endif  // AESNIENCCBC_H

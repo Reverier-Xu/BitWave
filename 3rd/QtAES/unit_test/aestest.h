@@ -1,14 +1,13 @@
 #ifndef AESTEST_H
 #define AESTEST_H
 
-#include <QObject>
 #include <QByteArray>
+#include <QObject>
 #include <QTest>
 
-class AesTest : public QObject
-{
+class AesTest : public QObject {
     Q_OBJECT
-private slots:
+   private slots:
     void initTestCase();
 
     void ECB128Crypt();
@@ -35,9 +34,9 @@ private slots:
     void CBC256StringEvenISO();
     void CBC256StringEvenPKCS7();
 
-    void cleanupTestCase(){}
+    void cleanupTestCase() {}
 
-private:
+   private:
     QByteArray key16;
     QByteArray key24;
     QByteArray key32;
@@ -51,4 +50,4 @@ private:
     QByteArray outOFB128;
 };
 
-#endif // AESTEST_H
+#endif  // AESTEST_H

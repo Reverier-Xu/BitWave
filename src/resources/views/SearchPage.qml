@@ -21,11 +21,13 @@ Rectangle {
 
         TextLabel {
             id: title
-            anchors.left: parent.left
+            fontSize: 24
+            iconSize: 24
             anchors.top: parent.top
-            anchors. leftMargin: 32
-            anchors.topMargin: 12
-            height: 32
+            anchors.left: parent.left
+            anchors.leftMargin: 25
+            anchors.topMargin: 36
+            height: 48
             text: qsTr("Search Results")
             showIcon: true
             icon: "qrc:/assets/search.svg"

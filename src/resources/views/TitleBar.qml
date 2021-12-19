@@ -106,7 +106,7 @@ Rectangle {
     PushButton {
         id: titleButton
         icon: "qrc:/assets/navigation.svg"
-        text: qsTr("Playing Now")
+        text: qsTr("Bit Wave")
         anchors.left: parent.left
         anchors.top: parent.top
         height: 32

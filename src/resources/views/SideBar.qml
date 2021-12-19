@@ -16,18 +16,15 @@ Rectangle {
         }
     }
 
-    PushButton {
+    TextLabel {
         id: titleButton
         height: 32
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
         showIcon: true
-        contentColor: display.themeColor
         icon: "qrc:/assets/logo.svg"
-        text: qsTr("Bit Wave")
-        flat: true
-        enabled: false
+        text: qsTr("Media Library")
     }
 
     ActiveTab {

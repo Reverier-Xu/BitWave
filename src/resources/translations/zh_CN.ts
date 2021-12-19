@@ -316,12 +316,12 @@ Available</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../views/SettingsPage.qml" line="27"/>
+        <location filename="../views/SettingsPage.qml" line="30"/>
         <source>Program Settings</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="39"/>
+        <location filename="../views/SettingsPage.qml" line="49"/>
         <source>Language</source>
         <translation>Language/语言</translation>
     </message>
@@ -329,22 +329,22 @@ Available</source>
 <context>
     <name>SideBar</name>
     <message>
-        <location filename="../views/SideBar.qml" line="28"/>
-        <source>Bit Wave</source>
-        <translation></translation>
+        <location filename="../views/SideBar.qml" line="27"/>
+        <source>Media Library</source>
+        <translation>媒体仓库列表</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="54"/>
+        <location filename="../views/SideBar.qml" line="51"/>
         <source>How are you today?</source>
         <translation>你好呀，今天怎么样？</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="77"/>
+        <location filename="../views/SideBar.qml" line="74"/>
         <source>Playing Now</source>
         <translation>正在播放的媒体</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="116"/>
+        <location filename="../views/SideBar.qml" line="113"/>
         <source>Settings</source>
         <translation>软件设置</translation>
     </message>
@@ -420,9 +420,13 @@ Available</source>
 <context>
     <name>TitleBar</name>
     <message>
-        <location filename="../views/TitleBar.qml" line="109"/>
         <source>Playing Now</source>
-        <translation>正在播放</translation>
+        <translation type="vanished">正在播放</translation>
+    </message>
+    <message>
+        <location filename="../views/TitleBar.qml" line="109"/>
+        <source>Bit Wave</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../views/TitleBar.qml" line="122"/>

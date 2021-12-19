@@ -29,7 +29,9 @@ Rectangle {
             id: settingsPageTitle
             text: qsTr("Program Settings")
             fontSize: 24
-            showIcon: false
+            iconSize: 24
+            showIcon: true
+            icon: "qrc:/assets/settings.svg"
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.leftMargin: 25
