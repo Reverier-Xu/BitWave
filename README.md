@@ -6,10 +6,16 @@
 
 ## Developing
 
-developing env requirements:
+开发环境需求:
 ```
-$ sudo pacman -Syu mpv qt5 ffmpeg cmake
+$ sudo pacman -Syu mpv qt5 ffmpeg cmake extra-cmake-modules
 ```
+
+在其他发行版上安装对应的包也可以完成构建。
+
+其中，Qt版本要求在5.15以上，否则可能缺失特性/无法构建成功。
+
+古早Ubuntu或者UOS用户可以等待本项目Release后使用AppImage版本（逃
 
 ```
 $ git clone https://github.com/Reverier-Xu/BitWave.git && cd BitWave
@@ -21,7 +27,7 @@ BitWave/build $ cmake .. && make
 BitWave/build $ ./bin/BitWave
 ```
 
-## Windows
+## ~~Windows~~ 目前不提供Windows版本的构建支持，如有需要请自行移植
 
 需要Visual Studio 2019， MSVC 2017，Qt 5.15.2+
 
@@ -39,15 +45,19 @@ BitWave/build $ ./bin/BitWave
 |- ...
 ```
 
-## Status
+如果你有想法的话，可以自行添加Windows构建支持，然后对本仓库发起一个Pull Request（发出白嫖的声音，逃）
+
+## 状态
 
 - 支持播放绝大部分格式的各种音频文件。
 - 完善的视频播放支持。
-- 支持播放网易云音乐专有格式(ncm)。
+- 歌词。
+- 可记忆的播放队列。
+- 逆序播放。
 - 支持获取媒体的metadata与封面图片，能够自动探测封面图片的主色调。
 - 好看的界面。
 
-## ScreenShots
+## 一些截图
 
 ![image.png](https://i.loli.net/2021/08/30/9B5DjOXR8uHKAme.png)
 
@@ -58,3 +68,19 @@ BitWave/build $ ./bin/BitWave
 ![image.png](https://i.loli.net/2021/08/30/Hun5ckty1lDRGZB.png)
 
 ![image.png](https://i.loli.net/2021/08/30/AfJnXCY9ztcUqrg.png)
+
+## License
+
+Mozilla Public License v2.0
+
+精力有限，随缘提供技术支持，随缘修bug、移植，欢迎有新点子的开发者对本仓库提交issue、fork、修改、提交pr。
+
+## 捐赠
+
+qwq
+
+支付宝
+![Screenshot_2020_0425_210559.png](https://i.loli.net/2020/04/25/fdruj4ci3sYItoN.png)
+
+微信
+![Screenshot_2020_0425_210632.png](https://i.loli.net/2020/04/25/f6Nq3AsO5U8vEyz.png)
