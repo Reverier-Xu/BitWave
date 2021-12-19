@@ -74,13 +74,3 @@ BitWave/build $ ./bin/BitWave
 Mozilla Public License v2.0
 
 精力有限，随缘提供技术支持，随缘修bug、移植，欢迎有新点子的开发者对本仓库提交issue、fork、修改、提交pr。
-
-## 捐赠
-
-qwq
-
-支付宝
-![Screenshot_2020_0425_210559.png](https://i.loli.net/2020/04/25/fdruj4ci3sYItoN.png)
-
-微信
-![Screenshot_2020_0425_210632.png](https://i.loli.net/2020/04/25/f6Nq3AsO5U8vEyz.png)
