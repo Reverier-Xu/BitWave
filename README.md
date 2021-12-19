@@ -57,6 +57,15 @@ BitWave/build $ ./bin/BitWave
 - 支持获取媒体的metadata与封面图片，能够自动探测封面图片的主色调。
 - 好看的界面。
 
+## 未完成的功能
+
+- 在线视频 / 在线歌曲
+- 播放列表
+- 播放列表管理
+- 完善设置页
+- 音频均衡器（？）
+- Osu！播放器（？）
+
 ## 一些截图
 
 ![image.png](https://i.loli.net/2021/08/30/9B5DjOXR8uHKAme.png)
