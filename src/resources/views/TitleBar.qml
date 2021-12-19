@@ -88,20 +88,20 @@ Rectangle {
         }
     }
 
-    IconButton {
-        id: colorStyleButton
-        icon: display.colorStyle ? "qrc:/assets/sun.svg" : "qrc:/assets/moon.svg"
-        iconSize: 16
-        flat: true
-        anchors.right: minimizeButton.left
-        anchors.top: parent.top
-        border.color: "transparent"
-        width: 54
-        height: 32
-        onClicked: {
-            display.colorStyle = !display.colorStyle
-        }
-    }
+    // IconButton {
+    //     id: colorStyleButton
+    //     icon: display.colorStyle ? "qrc:/assets/sun.svg" : "qrc:/assets/moon.svg"
+    //     iconSize: 16
+    //     flat: true
+    //     anchors.right: minimizeButton.left
+    //     anchors.top: parent.top
+    //     border.color: "transparent"
+    //     width: 54
+    //     height: 32
+    //     onClicked: {
+    //         display.colorStyle = !display.colorStyle
+    //     }
+    // }
 
     PushButton {
         id: titleButton

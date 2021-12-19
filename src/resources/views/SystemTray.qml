@@ -7,7 +7,7 @@ import "qrc:/components"
 SystemTrayIcon {
     id: systray
     visible: true
-    icon.source: "qrc:/assets/logo-fill.svg"
+    icon.source: display.flatSystemTray ? "qrc:/assets/logo-flat.svg" : "qrc:/assets/logo-fill.svg"
 
     onActivated: {
         window.show()

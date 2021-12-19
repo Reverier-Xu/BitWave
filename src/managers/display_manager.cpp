@@ -75,6 +75,7 @@ void DisplayManager::loadSettings() {
     setAlertColor(settings.value("AlertColor", "#ff6033").toString());
     setColorStyle(settings.value("ColorStyle", true).toBool());
     setSideBarExpanded(settings.value("SideBarExpanded", true).toBool());
+    setFlatSystemTray(settings.value("FlatSystemTray", false).toBool());
     setLanguage(settings.value("Language", "en_US").toString());
     PlayerManager::instance()->resetPlayer();
     settings.endGroup();
@@ -88,6 +89,7 @@ void DisplayManager::saveSettings() const {
     settings.setValue("ColorStyle", colorStyle());
     settings.setValue("SideBarExpanded", sideBarExpanded());
     settings.setValue("Language", language());
+    settings.setValue("FlatSystemTray", flatSystemTray());
     settings.endGroup();
 
     settings.sync();
@@ -217,4 +219,11 @@ void DisplayManager::setLanguage(const QString &n) {
     mTranslator.load(QString("%1/%2.qm").arg(":/translations").arg(n));
     QApplication::installTranslator(&mTranslator);
     emit languageChanged(n);
+}
+
+bool DisplayManager::flatSystemTray() const { return mFlatSystemTray; }
+
+void DisplayManager::setFlatSystemTray(bool n) {
+    mFlatSystemTray = n;
+    emit flatSystemTrayChanged(n);
 }

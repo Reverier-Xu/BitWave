@@ -28,7 +28,7 @@ Rectangle {
         Rectangle {
             id: avatarContainer
             clip: true
-            radius: 15
+            radius: 6
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 18
@@ -52,7 +52,7 @@ Rectangle {
                             anchors.centerIn: parent
                             width: parent.width
                             height: parent.height
-                            radius: 24
+                            radius: 6
                         }
                     }
                 }

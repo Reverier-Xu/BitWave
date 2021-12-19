@@ -47,6 +47,8 @@ class DisplayManager : public QObject {
                    setShowVideoTime NOTIFY showVideoTimeChanged)
     Q_PROPERTY(QString language MEMBER mLanguage READ language WRITE setLanguage
                    NOTIFY languageChanged)
+    Q_PROPERTY(bool flatSystemTray MEMBER mFlatSystemTray READ flatSystemTray
+                   WRITE setFlatSystemTray NOTIFY flatSystemTrayChanged)
 
    private:
     int mActiveTabIndex = -1;
@@ -62,6 +64,7 @@ class DisplayManager : public QObject {
     QTimer *mHideTimer;
     QString mLanguage = "en_US";
     QTranslator mTranslator;
+    bool mFlatSystemTray = false;
 
    protected:
     explicit DisplayManager(QObject *parent);
@@ -133,6 +136,10 @@ class DisplayManager : public QObject {
 
     void setLanguage(const QString &n);
 
+    [[nodiscard]] bool flatSystemTray() const;
+
+    void setFlatSystemTray(bool n);
+
    public slots:
 
     Q_INVOKABLE void delayedHide();
@@ -168,6 +175,8 @@ class DisplayManager : public QObject {
     void contentColorChanged(QColor n);
 
     void languageChanged(const QString &n);
+
+    void flatSystemTrayChanged(bool n);
 
     void showTips(const QString &icon, const QString &info);
 

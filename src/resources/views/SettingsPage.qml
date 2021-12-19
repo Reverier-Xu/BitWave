@@ -40,11 +40,12 @@ Rectangle {
         }
 
         Rectangle {
+            id: languageSettingItem
             anchors.top: settingsPageTitle.bottom
             anchors.topMargin: 15
             anchors.horizontalCenter: parent.horizontalCenter
             width: Math.min(parent.width, 800)
-            color: "#10808080"
+            color: "#20808080"
             height: 36
             TextLabel {
                 id: languageLabel
@@ -75,8 +76,71 @@ Rectangle {
         }
 
         Rectangle {
+            id: themeSettingItem
+            anchors.top: languageSettingItem.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Math.min(parent.width, 800)
+            color: "transparent"
+            height: 36
+            TextLabel {
+                id: themeLabel
+                text: qsTr("Theme")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                showIcon: true
+                icon: "qrc:/assets/theme.svg"
+            }
+
+            PushButton {
+                id: colorStyleValue
+                text: display.colorStyle ? qsTr("Light") : qsTr("Dark")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                flat: true
+                showIcon: false
+                onClicked: {
+                    display.colorStyle = !display.colorStyle;
+                }
+            }
+        }
+
+        Rectangle {
+            id: systemTrayStyleSettingItem
+            anchors.top: themeSettingItem.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Math.min(parent.width, 800)
+            color: "#20808080"
+            height: 36
+            TextLabel {
+                id: systemTrayStyleLabel
+                text: qsTr("System Tray Style")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                showIcon: true
+                icon: "qrc:/assets/communication.svg"
+            }
+
+            PushButton {
+                id: systemTrayStyleValue
+                text: display.flatSystemTray ? qsTr("Flat") : qsTr("Colorful")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                flat: true
+                showIcon: false
+                onClicked: {
+                    display.flatSystemTray = !display.flatSystemTray;
+                }
+            }
+        }
+
+        Rectangle {
             id: endLine
-            anchors.top: parent.top
+            anchors.top: systemTrayStyleSettingItem.bottom
+            anchors.topMargin: 15
             anchors.left: parent.left
             anchors.right: parent.right
             height: 0

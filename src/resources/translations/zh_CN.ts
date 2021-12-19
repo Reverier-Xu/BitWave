@@ -288,27 +288,27 @@ Available</source>
 <context>
     <name>SearchPage</name>
     <message>
-        <location filename="../views/SearchPage.qml" line="29"/>
+        <location filename="../views/SearchPage.qml" line="31"/>
         <source>Search Results</source>
         <translation>搜索结果</translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="39"/>
+        <location filename="../views/SearchPage.qml" line="41"/>
         <source>Local</source>
         <translation>本地</translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="50"/>
+        <location filename="../views/SearchPage.qml" line="52"/>
         <source>Online</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="61"/>
+        <location filename="../views/SearchPage.qml" line="63"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="72"/>
+        <location filename="../views/SearchPage.qml" line="74"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
@@ -321,9 +321,39 @@ Available</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="49"/>
+        <location filename="../views/SettingsPage.qml" line="52"/>
         <source>Language</source>
         <translation>Language/语言</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="88"/>
+        <source>Theme</source>
+        <translation>主题色调</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="98"/>
+        <source>Light</source>
+        <translation>明亮</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="98"/>
+        <source>Dark</source>
+        <translation>黑暗</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="120"/>
+        <source>System Tray Style</source>
+        <translation>系统托盘图标风格</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="130"/>
+        <source>Flat</source>
+        <translation>简化</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="130"/>
+        <source>Colorful</source>
+        <translation>色彩</translation>
     </message>
 </context>
 <context>

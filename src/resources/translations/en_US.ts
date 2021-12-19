@@ -287,27 +287,27 @@ Available</source>
 <context>
     <name>SearchPage</name>
     <message>
-        <location filename="../views/SearchPage.qml" line="29"/>
+        <location filename="../views/SearchPage.qml" line="31"/>
         <source>Search Results</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="39"/>
+        <location filename="../views/SearchPage.qml" line="41"/>
         <source>Local</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="50"/>
+        <location filename="../views/SearchPage.qml" line="52"/>
         <source>Online</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="61"/>
+        <location filename="../views/SearchPage.qml" line="63"/>
         <source>Video</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SearchPage.qml" line="72"/>
+        <location filename="../views/SearchPage.qml" line="74"/>
         <source>Music</source>
         <translation></translation>
     </message>
@@ -320,9 +320,39 @@ Available</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="49"/>
+        <location filename="../views/SettingsPage.qml" line="52"/>
         <source>Language</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="88"/>
+        <source>Theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="98"/>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="98"/>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="120"/>
+        <source>System Tray Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="130"/>
+        <source>Flat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="130"/>
+        <source>Colorful</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
