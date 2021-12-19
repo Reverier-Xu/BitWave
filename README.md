@@ -1,8 +1,8 @@
-# Bit Wave
+# ![Bit Wave](src/resources/assets/logo-full.svg)
 
-![](src/resources/assets/logo-full.svg)
+建立在 MPV, Qt 与 ~~Microsoft Fluent Design System~~ 之上的音视频播放器。
 
-建立在 MPV, Qt 与 Microsoft Fluent Design System 之上的音视频播放器。
+Fluent Design 已经一股果味了（悲），我要捍卫大直角设计！
 
 ## Developing
 
