@@ -6,9 +6,9 @@ Fluent Design 已经一股果味了（悲），我要捍卫大直角设计！
 
 ## 状态
 
-- 支持播放绝大部分格式的各种音频文件。
-- 完善的视频播放支持。
-- 歌词。
+- 理论上MPV能放的这里都能放，不过部分格式偷懒没写（XD
+- 视频播放。
+- 歌词（网易云的）。
 - 可记忆的播放队列。
 - 逆序播放。
 - 支持获取媒体的metadata与封面图片，能够自动探测封面图片的主色调。
@@ -18,7 +18,7 @@ Fluent Design 已经一股果味了（悲），我要捍卫大直角设计！
 
 - 在线视频 / 在线歌曲
 - 播放列表
-- 播放列表管理
+- 播放列表 / 媒体库管理
 - 完善设置页
 - 音频均衡器（？）
 - Osu！播放器（？）
@@ -37,13 +37,13 @@ $ sudo pacman -Syu mpv qt5 ffmpeg cmake extra-cmake-modules
 古早Ubuntu或者UOS用户可以等待本项目Release后使用AppImage版本（逃
 
 ```
-$ git clone https://github.com/Reverier-Xu/BitWave.git && cd BitWave
+git clone https://github.com/Reverier-Xu/BitWave.git && cd BitWave
 
-BitWave $ mkdir build && cd build
+mkdir build && cd build
 
-BitWave/build $ cmake .. && make
+cmake .. && make
 
-BitWave/build $ ./bin/BitWave
+./bin/BitWave
 ```
 
 ## ~~Windows~~ 目前不提供Windows版本的构建支持，如有需要请自行移植
