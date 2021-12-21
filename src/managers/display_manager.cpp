@@ -227,3 +227,5 @@ void DisplayManager::setFlatSystemTray(bool n) {
     mFlatSystemTray = n;
     emit flatSystemTrayChanged(n);
 }
+
+void DisplayManager::raiseWindow() { emit raiseWindowRequested(); }

@@ -13,15 +13,16 @@
 #include <QObject>
 #include <QFont>
 #include <QIcon>
+#include <QObject>
+#include <SingleApplication>
 
-#ifdef __unix__
+#ifdef Q_OS_LINUX
 
 #include <malloc.h>
 
 #endif
 
 #include "managers/app_manager.h"
-#include "utilities/single_app_guard.h"
 
 int main(int argc, char *argv[]) {
 #ifdef Q_OS_LINUX
@@ -31,10 +32,12 @@ int main(int argc, char *argv[]) {
 
     std::setlocale(LC_NUMERIC, "C");
 
-    RunGuard guard("BitWave");
-    if (!guard.tryToRun()) return 0;
+    SingleApplication app(argc, argv, true);
 
-    QApplication app(argc, argv);
+    if (app.isSecondary()) {
+        bool ok = app.sendMessage((app.arguments().join(' ')).toUtf8(), 1000);
+        if (ok) return 0;
+    }
 
     QApplication::setApplicationDisplayName("Bit Wave");
     QApplication::setApplicationName("BitWave");
@@ -44,6 +47,9 @@ int main(int argc, char *argv[]) {
 
     auto main_app = AppManager();
     main_app.initialize();
+
+    QObject::connect(&app, &SingleApplication::receivedMessage, &main_app,
+            &AppManager::onSecondaryInstanceStarted);
 
     return QApplication::exec();
 }

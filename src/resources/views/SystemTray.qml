@@ -10,9 +10,9 @@ SystemTrayIcon {
     icon.source: display.flatSystemTray ? "qrc:/assets/logo-flat.svg" : "qrc:/assets/logo-fill.svg"
 
     onActivated: {
-        window.show()
-        window.raise()
-        window.requestActivate()
+        window.show();
+        window.raise();
+        window.requestActivate();
     }
 
     menu: Menu {

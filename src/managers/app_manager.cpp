@@ -77,3 +77,7 @@ void detectPaths() {
     for (auto &i : cachePaths)
         if (!dir.exists(cachePath + i)) dir.mkpath(cachePath + i);
 }
+
+void AppManager::onSecondaryInstanceStarted(quint32 instanceId, QByteArray message) {
+    GuiManager::instance(this)->onSecondaryInstanceStarted(instanceId, message);
+}

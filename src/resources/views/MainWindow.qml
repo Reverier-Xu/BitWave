@@ -5,6 +5,7 @@ import "qrc:/components"
 
 FluentWindow {
     id: window
+    objectName: "mainWindow"
     width: 1200
     minimumWidth: 1200
     height: 700
@@ -136,6 +137,15 @@ FluentWindow {
             anchors.right: titleBar.right
             anchors.top: titleBar.bottom
             anchors.bottom: controlBar.top
+        }
+    }
+
+    Connections {
+        target: display
+        function onRaiseWindowRequested() {
+            window.show();
+            window.raise();
+            window.requestActivate();
         }
     }
 }

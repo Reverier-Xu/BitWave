@@ -58,4 +58,8 @@ endif ()
 
 add_definitions(${QT_DEFINITIONS})
 
+set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
+
+add_subdirectory(3rd/singleapplication)
+
 add_subdirectory(src)

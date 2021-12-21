@@ -32,4 +32,8 @@ class GuiManager : public QObject {
     void exportManagers();
 
     static void exportComponents();
+    
+   public slots:
+    Q_INVOKABLE void onSecondaryInstanceStarted(quint32 instanceId,
+                                                QByteArray message);
 };

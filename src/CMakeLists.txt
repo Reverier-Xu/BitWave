@@ -7,6 +7,8 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_MODULE_PATH}
         ${ECM_MODULE_PATH})
 
+set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
+
 qt5_add_resources(RESOURCES ./resources/main.qrc)
 
 set(MANAGERS_SRCS
@@ -78,9 +80,7 @@ set(UTILITIES_SRCS
         utilities/memory_helper.h
         dbus/screensaver.cpp
         utilities/time_helper.cpp
-        utilities/time_helper.h
-        utilities/single_app_guard.cpp
-        utilities/single_app_guard.h)
+        utilities/time_helper.h)
 
 set(COMPONENTS_SRCS
         resources/components/video_player.cpp
@@ -157,6 +157,7 @@ target_link_libraries(BitWave
         ${QT_LIBRARIES}
         ${MPV_LIBRARIES}
         ${FFMPEG_LIBRARIES}
+        SingleApplication::SingleApplication
         QtAES)
 
 set_target_properties(BitWave

@@ -146,6 +146,8 @@ class DisplayManager : public QObject {
 
     Q_INVOKABLE void blockDelayedHide();
 
+    Q_INVOKABLE void raiseWindow();
+
    signals:
 
     void activeTabIndexChanged(int n);
@@ -170,14 +172,13 @@ class DisplayManager : public QObject {
 
     void showVideoTimeChanged(bool n);
 
-    void showWindowRequested();
-
     void contentColorChanged(QColor n);
 
     void languageChanged(const QString &n);
 
     void flatSystemTrayChanged(bool n);
 
-    void showTips(const QString &icon, const QString &info);
+    void raiseWindowRequested();
 
+    void showTips(const QString &icon, const QString &info);
 };

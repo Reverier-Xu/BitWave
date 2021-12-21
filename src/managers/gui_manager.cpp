@@ -11,13 +11,17 @@
 
 #include "gui_manager.h"
 
+#include <QApplication>
+#include <QDebug>
+#include <QObject>
 #include <QQmlContext>
+#include <SingleApplication>
 
 #include "display_manager.h"
 #include "player_manager.h"
 #include "queue_manager.h"
-#include "service_manager.h"
 #include "resources/components/video_player.h"
+#include "service_manager.h"
 
 GuiManager *GuiManager::mInstance = nullptr;
 
@@ -53,4 +57,10 @@ GuiManager *GuiManager::instance(QObject *parent) {
 
 void GuiManager::exportComponents() {
     qmlRegisterType<VideoPlayer>("Reverier.MediaWidgets", 1, 0, "VideoPlayer");
+}
+
+void GuiManager::onSecondaryInstanceStarted(quint32 instanceId,
+                                            QByteArray message) {
+    // qDebug() << "Secondary instance started with id: " << instanceId;
+    DisplayManager::instance(this)->raiseWindow();
 }
