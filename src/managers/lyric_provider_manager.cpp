@@ -27,6 +27,7 @@ LyricProviderManager *LyricProviderManager::instance(QObject *parent) {
 void LyricProviderManager::registerProvidersInFactory() {
     auto factory = LyricProviderFactory::instance(this);
     LyricProviderFactory::registerProvider(new NeteaseLyricProvider(factory));
+    LyricProviderFactory::registerProvider(new LocalLyricProvider(factory));
 }
 
 void LyricProviderManager::setNeededLyricsUuid(QUuid uuid) {
@@ -42,8 +43,6 @@ void LyricProviderManager::handleGetLyricsRequest(const Media &media) {
         return;
     }
     provider->setProviderId(QUuid::createUuid());
-    setNeededLyricsUuid(provider->providerId());
-    provider->getLyricsRequest(media);
     connect(provider, &BaseLyricProvider::lyricsIsReady, this,
             [=](bool ok, const QString &raw, const QString &tr) {
                 if (neededLyricsUuid() == provider->providerId()) {
@@ -51,4 +50,6 @@ void LyricProviderManager::handleGetLyricsRequest(const Media &media) {
                 }
                 provider->deleteLater();
             });
+    setNeededLyricsUuid(provider->providerId());
+    provider->getLyricsRequest(media);
 }

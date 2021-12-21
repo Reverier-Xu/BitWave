@@ -61,6 +61,8 @@ set(LYRIC_PROVIDERS_SRCS
         lyric_providers/base_lyric_provider.h
         lyric_providers/netease_lyric_provider.cpp
         lyric_providers/netease_lyric_provider.h
+        lyric_providers/local_lyric_provider.cpp
+        lyric_providers/local_lyric_provider.h
         lyric_providers/lyric_provider_factory.cpp
         lyric_providers/lyric_provider_factory.h)
 

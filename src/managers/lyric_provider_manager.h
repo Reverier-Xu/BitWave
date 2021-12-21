@@ -19,6 +19,7 @@
 #include "lyric_providers/base_lyric_provider.h"
 #include "lyric_providers/lyric_provider_factory.h"
 #include "lyric_providers/netease_lyric_provider.h"
+#include "lyric_providers/local_lyric_provider.h"
 #include "models/media.h"
 
 class LyricProviderManager : public QObject {

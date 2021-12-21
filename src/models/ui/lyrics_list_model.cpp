@@ -45,35 +45,25 @@ QHash<int, QByteArray> LyricsListModel::roleNames() const {
 
 void LyricsListModel::addLyric(const QString &content, double start,
                                double end) {
-    beginInsertRows(QModelIndex(), mLyrics.size(), mLyrics.size());
     mLyrics << LyricContent(this, content, start, end);
-    endInsertRows();
 }
 
 void LyricsListModel::addLyric(const LyricContent &lyric) {
-    beginInsertRows(QModelIndex(), mLyrics.size(), mLyrics.size());
     mLyrics << lyric;
-    endInsertRows();
 }
 
 void LyricsListModel::insertLyric(const QString &content, double start,
                                   double end, int row) {
-    beginInsertRows(QModelIndex(), row, row);
     mLyrics.insert(row, LyricContent(this, content, start, end));
-    endInsertRows();
 }
 
 void LyricsListModel::insertLyric(const LyricContent &content, int row) {
-    beginInsertRows(QModelIndex(), row, row);
     mLyrics.insert(row, content);
-    endInsertRows();
 }
 
 void LyricsListModel::removeLyric(int row) {
     if (row < mLyrics.size()) {
-        beginRemoveRows(QModelIndex(), row, row);
         mLyrics.removeAt(row);
-        endRemoveRows();
     }
 }
 
@@ -143,8 +133,12 @@ void insertLyricTr(QList<Lyric> &lyrics, const QString &tr) {
 }
 
 void LyricsListModel::parseLyrics(const QString &raw, const QString &tr) {
+    // qDebug() << "raw:" << raw;
     QList<Lyric> lyrics;
     splitLyric(lyrics, raw);
+    // for (auto &i : lyrics) {
+    //     qDebug() << i.start << i.content;
+    // }
     if (!tr.isEmpty()) insertLyricTr(lyrics, tr);
     beginResetModel();
     mLyrics.clear();
