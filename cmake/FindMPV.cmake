@@ -35,22 +35,13 @@ endif (PKG_CONFIG_FOUND)
 #
 find_path(
         MPV_INCLUDE_DIR
-        NAMES mpv/client.h
+        NAMES mpv/client.h client.h
         HINTS
         ${PC_MPV_INCLUDEDIR}
         ${PC_MPV_INCLUDE_DIRS} # Unused for MPV but anyway
+        ${CMAKE_SOURCE_DIR}/3rd/libmpv/include
         DOC "MPV include directory"
 )
-
-if (NOT MPV_INCLUDE_DIR)
-    if (WIN32)
-        set(MPV_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv/include)
-        message("MPV not found on this Windows PC, Using 3rd/libmpv instead.")
-    endif (WIN32)
-    if (NOT WIN32)
-        message(FATAL_ERROR "MPV not found on this Unix PC, please install it.")
-    endif (NOT WIN32)
-endif (NOT MPV_INCLUDE_DIR)
 
 # message(STATUS "MPV_INCLUDE_DIR: ${MPV_INCLUDE_DIR}")
 
@@ -61,27 +52,19 @@ set(_MPV_LIBRARIES_NAMES mpv)
 if (PC_MPV_LIBRARIES)
     set(_MPV_LIBRARIES_NAMES ${PC_MPV_LIBRARIES})
 endif (PC_MPV_LIBRARIES)
-if (WIN32)
-    if (NOT PC_MPV_LIBDIR)
-        set(PC_MPV_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/libmpv)
-        # message(STATUS "MPV_LIBDIR: ${PC_MPV_LIBDIR}")
-    endif (NOT PC_MPV_LIBDIR)
-endif (WIN32)
 
 # message("MPV_LIB_NAMES: ${_MPV_LIBRARIES_NAMES}")
 
-foreach (l ${_MPV_LIBRARIES_NAMES})
-    # message("${l}")
-    find_library(
-            MPV_LIBRARIES_${l}
-            NAMES ${l}
-            HINTS
-            ${PC_MPV_LIBDIR}
-            ${PC_MPV_LIBRARIES_DIRS} # Unused for MPV but anyway
-            PATH_SUFFIXES lib${LIB_SUFFIX}
-    )
-    list(APPEND MPV_LIBRARIES ${MPV_LIBRARIES_${l}})
-endforeach ()
+find_library(
+    MPV_LIBRARIES_mpv
+    NAMES mpv libmpv
+    PATHS
+    "${PC_MPV_LIBDIR}"
+    "${PC_MPV_LIBRARIES_DIRS}" # Unused for MPV but anyway
+    "${CMAKE_SOURCE_DIR}/3rd/libmpv/"
+)
+
+set(MPV_LIBRARIES ${MPV_LIBRARIES_mpv})
 
 get_filename_component(_MPV_LIBRARIES_DIR ${MPV_LIBRARIES_mpv} PATH)
 mark_as_advanced(MPV_LIBRARIES)
