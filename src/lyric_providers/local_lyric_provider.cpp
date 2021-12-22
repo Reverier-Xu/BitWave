@@ -49,7 +49,7 @@ void LocalLyricProvider::getLyricsRequest(const Media &media) {
         if (QFile::exists(file)) {
             QFile f(file);
             if (f.open(QFile::ReadOnly)) {
-                QString raw = f.readAll();
+                QString raw = f.readAll().trimmed();
                 // qDebug() << "local lyric: " << raw;
                 QString source;
                 QString translation;
@@ -62,6 +62,8 @@ void LocalLyricProvider::getLyricsRequest(const Media &media) {
                         head = i.left(i.indexOf(']') + 1);
                     }
                 }
+                qDebug() << source;
+                qDebug() << translation;
                 emit lyricsIsReady(true, source, translation);
                 return;
             } else {
