@@ -23,9 +23,9 @@
 #include <QRandomGenerator>
 #include <QSettings>
 
+#include "engines/sqlite_engine.h"
 #include "parser_manager.h"
 #include "player_manager.h"
-#include "engines/sqlite_engine.h"
 
 QueueManager *QueueManager::mInstance = nullptr;
 
@@ -190,8 +190,9 @@ void QueueManager::loadSettings() {
     settings.endGroup();
 
     mSqliteEngine = new SQLiteEngine(this->parent());
-    mSqliteEngine->open(QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
-                        "/Database/playqueue.db");
+    mSqliteEngine->open(
+        QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+        "/Database/playqueue.db");
     auto media_list = mSqliteEngine->getMediaLists();
     if (media_list.contains("cached")) {
         auto media_list_cached = mSqliteEngine->getMediaList("cached");
@@ -243,17 +244,23 @@ void QueueManager::clearQueue() {
 void QueueManager::clearHistory() { mHistoryStack.clear(); }
 
 void QueueManager::userNextRequested() {
-    mUserSwitch = true;
+    if (PlayerManager::instance()->isMediaLoaded()) {
+        mUserSwitch = true;
+    }
     next();
 }
 
 void QueueManager::userPreviousRequested() {
-    mUserSwitch = true;
+    if (PlayerManager::instance()->isMediaLoaded()) {
+        mUserSwitch = true;
+    }
     previous();
 }
 
 void QueueManager::userSwitchRequested(int id) {
-    mUserSwitch = true;
+    if (PlayerManager::instance()->isMediaLoaded()) {
+        mUserSwitch = true;
+    }
     setQueuePos(id);
 }
 
