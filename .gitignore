@@ -3,6 +3,7 @@ cmake-build-debug/
 cmake-build-minsizerel/
 cmake-build-release/
 cmake-build-relwithdebinfo/
+CMakeLists.txt.user
 .vscode/
 .idea/
 CMakeFiles/
