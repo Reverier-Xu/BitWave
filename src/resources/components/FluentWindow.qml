@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.15
 
 Window {
     id: root
-    flags: Qt.Window | Qt.CustomizeWindowHint & ~Qt.WindowTitleHint | Qt.FramelessWindowHint
+    flags: Qt.Window | Qt.FramelessWindowHint
     visible: true
     color: "transparent"
 
