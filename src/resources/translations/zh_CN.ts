@@ -230,6 +230,16 @@ Available</source>
         <source>Video Playing</source>
         <translation>正在播放视频</translation>
     </message>
+    <message>
+        <location filename="../../entry.cpp" line="48"/>
+        <source>file</source>
+        <translation>媒体文件</translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="48"/>
+        <source>The media file to play.</source>
+        <translation>要播放的媒体。</translation>
+    </message>
 </context>
 <context>
     <name>QueueManager</name>
@@ -241,28 +251,33 @@ Available</source>
         <translation>播放队列结束</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="295"/>
-        <location filename="../../managers/queue_manager.cpp" line="305"/>
+        <location filename="../../managers/queue_manager.cpp" line="232"/>
+        <source>Play Failed</source>
+        <translation>播放失败</translation>
+    </message>
+    <message>
+        <location filename="../../managers/queue_manager.cpp" line="309"/>
+        <location filename="../../managers/queue_manager.cpp" line="319"/>
         <source>Repeat All</source>
         <translation>列表循环</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="297"/>
+        <location filename="../../managers/queue_manager.cpp" line="311"/>
         <source>Repeat One</source>
         <translation>单曲循环</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="299"/>
+        <location filename="../../managers/queue_manager.cpp" line="313"/>
         <source>Random</source>
         <translation>随机播放</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="301"/>
+        <location filename="../../managers/queue_manager.cpp" line="315"/>
         <source>In Order</source>
         <translation>顺序播放</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="303"/>
+        <location filename="../../managers/queue_manager.cpp" line="317"/>
         <source>Reverse</source>
         <translation>倒序播放</translation>
     </message>
@@ -326,32 +341,32 @@ Available</source>
         <translation>Language/语言</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="88"/>
+        <location filename="../views/SettingsPage.qml" line="87"/>
         <source>Theme</source>
         <translation>主题色调</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="98"/>
+        <location filename="../views/SettingsPage.qml" line="97"/>
         <source>Light</source>
         <translation>明亮</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="98"/>
+        <location filename="../views/SettingsPage.qml" line="97"/>
         <source>Dark</source>
         <translation>黑暗</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="120"/>
+        <location filename="../views/SettingsPage.qml" line="118"/>
         <source>System Tray Style</source>
         <translation>系统托盘图标风格</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="130"/>
+        <location filename="../views/SettingsPage.qml" line="128"/>
         <source>Flat</source>
         <translation>简化</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="130"/>
+        <location filename="../views/SettingsPage.qml" line="128"/>
         <source>Colorful</source>
         <translation>色彩</translation>
     </message>

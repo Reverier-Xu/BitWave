@@ -224,7 +224,14 @@ void QueueManager::connectSignals() {
             });
     connect(ParserManager::instance(this->parent()),
             &ParserManager::mediaInfoIsReady, this,
-            [=](bool ok, const Media &media) { addMediaAtHead(media); });
+            [=](bool ok, const Media &media) {
+                if (ok) {
+                    addMediaAtHead(media);
+                } else {
+                    emit showTips("qrc:/assets/warning.svg",
+                                  tr("Play Failed"));
+                }
+            });
     connect(this, &QueueManager::externMediaInfoRequested,
             ParserManager::instance(this->parent()),
             &ParserManager::handleGetMediaInfoRequest);

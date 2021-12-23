@@ -24,7 +24,7 @@ class AppManager : public QObject {
 
     ~AppManager() override;
 
-    void initialize();
+    void initialize(const QString &file);
 
     static void registerTypes();
 

@@ -62,8 +62,8 @@ void LocalLyricProvider::getLyricsRequest(const Media &media) {
                         head = i.left(i.indexOf(']') + 1);
                     }
                 }
-                qDebug() << source;
-                qDebug() << translation;
+                // qDebug() << source;
+                // qDebug() << translation;
                 emit lyricsIsReady(true, source, translation);
                 return;
             } else {

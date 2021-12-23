@@ -29,7 +29,7 @@ void detectPaths();
 
 AppManager::AppManager(QObject *parent) : QObject(parent) {}
 
-void AppManager::initialize() {
+void AppManager::initialize(const QString &file) {
     registerTypes();
     detectPaths();
     auto guiManager = GuiManager::instance(this);
@@ -50,6 +50,9 @@ void AppManager::initialize() {
     new Mpris2(this);
 //    qDebug() << "MPRIS2 loaded.";
 #endif
+    if (!file.isEmpty()) {
+        QueueManager::instance()->addExternMedia(file);
+    }
 }
 
 void AppManager::registerTypes() { qRegisterMetaType<Media>("Media"); }
@@ -80,4 +83,8 @@ void detectPaths() {
 
 void AppManager::onSecondaryInstanceStarted(quint32 instanceId, QByteArray message) {
     GuiManager::instance(this)->onSecondaryInstanceStarted(instanceId, message);
+    if (!message.isEmpty()) {
+        auto file = QString::fromUtf8(message);
+        QueueManager::instance()->addExternMedia(file);
+    }
 }

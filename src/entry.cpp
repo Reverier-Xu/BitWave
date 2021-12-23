@@ -10,6 +10,7 @@
  */
 
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QObject>
 #include <QFont>
 #include <QIcon>
@@ -34,19 +35,36 @@ int main(int argc, char *argv[]) {
 
     SingleApplication app(argc, argv, true);
 
-    if (app.isSecondary()) {
-        bool ok = app.sendMessage((app.arguments().join(' ')).toUtf8(), 1000);
-        if (ok) return 0;
-    }
-
     QApplication::setApplicationDisplayName("Bit Wave");
     QApplication::setApplicationName("BitWave");
     QApplication::setOrganizationName("Wootec");
     QApplication::setOrganizationDomain("woooo.tech");
     QApplication::setWindowIcon(QIcon(":/assets/logo-fill.svg"));
 
+    QCommandLineParser parser;
+    parser.setApplicationDescription("A simple media player based on MPV and Qt.");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addPositionalArgument(QObject::tr("file"), QObject::tr("The media file to play."));
+    
+    parser.process(app);
+
+    QStringList args = parser.positionalArguments();
+
+    if (args.size() > 1) {
+        qWarning() << "Only one media file can be specified.";
+        return 1;
+    }
+
+    QString playFile = args.isEmpty() ? "" : args.first();
+
+    if (app.isSecondary()) {
+        bool ok = app.sendMessage(playFile.toUtf8(), 1000);
+        if (ok) return 0;
+    }
+
     auto main_app = AppManager();
-    main_app.initialize();
+    main_app.initialize(playFile);
 
     QObject::connect(&app, &SingleApplication::receivedMessage, &main_app,
             &AppManager::onSecondaryInstanceStarted);

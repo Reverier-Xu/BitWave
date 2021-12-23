@@ -229,6 +229,16 @@ Available</source>
         <source>Video Playing</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="../../entry.cpp" line="48"/>
+        <source>file</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="48"/>
+        <source>The media file to play.</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>QueueManager</name>
@@ -240,28 +250,33 @@ Available</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="295"/>
-        <location filename="../../managers/queue_manager.cpp" line="305"/>
+        <location filename="../../managers/queue_manager.cpp" line="232"/>
+        <source>Play Failed</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../managers/queue_manager.cpp" line="309"/>
+        <location filename="../../managers/queue_manager.cpp" line="319"/>
         <source>Repeat All</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="297"/>
+        <location filename="../../managers/queue_manager.cpp" line="311"/>
         <source>Repeat One</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="299"/>
+        <location filename="../../managers/queue_manager.cpp" line="313"/>
         <source>Random</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="301"/>
+        <location filename="../../managers/queue_manager.cpp" line="315"/>
         <source>In Order</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="303"/>
+        <location filename="../../managers/queue_manager.cpp" line="317"/>
         <source>Reverse</source>
         <translation></translation>
     </message>
@@ -325,34 +340,34 @@ Available</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="88"/>
+        <location filename="../views/SettingsPage.qml" line="87"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="98"/>
+        <location filename="../views/SettingsPage.qml" line="97"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="98"/>
+        <location filename="../views/SettingsPage.qml" line="97"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="120"/>
+        <location filename="../views/SettingsPage.qml" line="118"/>
         <source>System Tray Style</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="130"/>
+        <location filename="../views/SettingsPage.qml" line="128"/>
         <source>Flat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="130"/>
+        <location filename="../views/SettingsPage.qml" line="128"/>
         <source>Colorful</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
