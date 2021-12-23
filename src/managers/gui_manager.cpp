@@ -59,8 +59,7 @@ void GuiManager::exportComponents() {
     qmlRegisterType<VideoPlayer>("Reverier.MediaWidgets", 1, 0, "VideoPlayer");
 }
 
-void GuiManager::onSecondaryInstanceStarted(quint32 instanceId,
-                                            QByteArray message) {
+void GuiManager::onSecondaryInstanceStarted() {
     // qDebug() << "Secondary instance started with id: " << instanceId;
-    DisplayManager::instance(this)->raiseWindow();
+    DisplayManager::instance(this->parent())->raiseWindow();
 }

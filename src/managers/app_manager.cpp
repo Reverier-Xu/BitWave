@@ -81,10 +81,28 @@ void detectPaths() {
         if (!dir.exists(cachePath + i)) dir.mkpath(cachePath + i);
 }
 
-void AppManager::onSecondaryInstanceStarted(quint32 instanceId, QByteArray message) {
-    GuiManager::instance(this)->onSecondaryInstanceStarted(instanceId, message);
+void AppManager::onSecondaryInstanceMessageReceived(quint32 instanceId,
+                                                    QByteArray message) {
     if (!message.isEmpty()) {
-        auto file = QString::fromUtf8(message);
-        QueueManager::instance()->addExternMedia(file);
+        char flags = message[0];
+        if (flags & 0x01) {
+            PlayerManager::instance(this)->resume();
+        } else if (flags & 0x02) {
+            PlayerManager::instance(this)->pause();
+        } else if (flags & 0x04) {
+            QueueManager::instance(this)->userNextRequested();
+        } else if (flags & 0x08) {
+            QueueManager::instance(this)->userPreviousRequested();
+        } else {
+            QString file = QString::fromUtf8(message.mid(1));
+            if (!file.isEmpty()) {
+                QueueManager::instance(this)->addExternMedia(file);
+            }
+        }
     }
+}
+
+void AppManager::onSecondaryInstanceStarted() {
+    // qDebug() << "Secondary instance started.";
+    GuiManager::instance(this)->onSecondaryInstanceStarted();
 }

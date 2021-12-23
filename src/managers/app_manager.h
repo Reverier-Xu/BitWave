@@ -29,5 +29,6 @@ class AppManager : public QObject {
     static void registerTypes();
 
    public slots:
-    Q_INVOKABLE void onSecondaryInstanceStarted(quint32 instanceId, QByteArray message);
+    Q_INVOKABLE void onSecondaryInstanceMessageReceived(quint32 instanceId, QByteArray message);
+    Q_INVOKABLE void onSecondaryInstanceStarted();
 };

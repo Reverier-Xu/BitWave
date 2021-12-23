@@ -11,7 +11,6 @@
 
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QObject>
 #include <QFont>
 #include <QIcon>
 #include <QObject>
@@ -33,7 +32,8 @@ int main(int argc, char *argv[]) {
 
     std::setlocale(LC_NUMERIC, "C");
 
-    SingleApplication app(argc, argv, true);
+    SingleApplication app(argc, argv, true,
+                          SingleApplication::SecondaryNotification);
 
     QApplication::setApplicationDisplayName("Bit Wave");
     QApplication::setApplicationName("BitWave");
@@ -42,32 +42,61 @@ int main(int argc, char *argv[]) {
     QApplication::setWindowIcon(QIcon(":/assets/logo-fill.svg"));
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("A simple media player based on MPV and Qt.");
+    parser.setApplicationDescription(
+        "A simple media player based on MPV and Qt.");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument(QObject::tr("file"), QObject::tr("The media file to play."));
-    
+    parser.addPositionalArgument(QObject::tr("file"),
+                                 QObject::tr("The media file to play."));
+
+    QCommandLineOption resumeOption(QStringList() << "resume",
+                                    QObject::tr("Resume the last playback."));
+    parser.addOption(resumeOption);
+    QCommandLineOption pauseOption(QStringList() << "pause",
+                                   QObject::tr("Pause the playback."));
+    parser.addOption(pauseOption);
+    QCommandLineOption nextOption(QStringList() << "next",
+                                  QObject::tr("Play the next media."));
+    parser.addOption(nextOption);
+    QCommandLineOption previousOption(QStringList() << "previous",
+                                      QObject::tr("Play the previous media."));
+    parser.addOption(previousOption);
+
     parser.process(app);
 
-    QStringList args = parser.positionalArguments();
-
-    if (args.size() > 1) {
+    if (parser.positionalArguments().size() > 1) {
         qWarning() << "Only one media file can be specified.";
         return 1;
     }
 
-    QString playFile = args.isEmpty() ? "" : args.first();
+    QString playFile = parser.positionalArguments().isEmpty()
+                           ? ""
+                           : parser.positionalArguments().first();
+
+    bool resume = parser.isSet(resumeOption);
+    bool pause = parser.isSet(pauseOption);
+    bool next = parser.isSet(nextOption);
+    bool previous = parser.isSet(previousOption);
+
+    if (resume + pause + next + previous + (!playFile.isEmpty()) > 1) {
+        qWarning() << "Only one playback control option can be specified.";
+        return 1;
+    }
+
+    char flags = resume << 0 | pause << 1 | next << 2 | previous << 3 | 1 << 4;
 
     if (app.isSecondary()) {
-        bool ok = app.sendMessage(playFile.toUtf8(), 1000);
-        if (ok) return 0;
+            app.sendMessage(flags + parser.positionalArguments().join(" ").toUtf8(), 3000);
+        return 0;
     }
 
     auto main_app = AppManager();
     main_app.initialize(playFile);
 
     QObject::connect(&app, &SingleApplication::receivedMessage, &main_app,
-            &AppManager::onSecondaryInstanceStarted);
+                     &AppManager::onSecondaryInstanceMessageReceived);
+    QObject::connect(&app, &SingleApplication::instanceStarted, &main_app,
+                     &AppManager::onSecondaryInstanceStarted);
 
     return QApplication::exec();
 }
