@@ -4,8 +4,8 @@ Type=Application
 Name=BitWave
 GenericName=BitWave Media Player
 Comment=A simple media player.
-Exec=bitwave %U
-TryExec=bitwave
+Exec=BitWave %U
+TryExec=BitWave
 Icon=tech.woooo.bitwave
 Terminal=false
 Categories=AudioVideo;Player;Qt;Audio;Video;
@@ -15,20 +15,20 @@ Actions=Resume;Pause;Previous;Next;
 
 [Desktop Action Resume]
 Name=Resume
-Exec=bitwave --resume
+Exec=BitWave --resume
 Name[zh_CN]=播放
 
 [Desktop Action Pause]
 Name=Pause
-Exec=bitwave --pause
+Exec=BitWave --pause
 Name[zh_CN]=暂停
 
 [Desktop Action Previous]
 Name=Previous
-Exec=bitwave --previous
+Exec=BitWave --previous
 Name[zh_CN]=上一首
 
 [Desktop Action Next]
 Name=Next
-Exec=bitwave --next
+Exec=BitWave --next
 Name[zh_CN]=下一首
