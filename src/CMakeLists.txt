@@ -151,16 +151,16 @@ optional_source(WIN32
         dbus/windowsscreensaver.cpp
         dbus/windowsscreensaver.h)
 
-add_executable(BitWave ${SRCS})
+add_executable(${PROJECT_NAME} ${SRCS})
 
-target_link_libraries(BitWave
+target_link_libraries(${PROJECT_NAME}
         ${QT_LIBRARIES}
         ${MPV_LIBRARIES}
         ${FFMPEG_LIBRARIES}
         SingleApplication::SingleApplication
         QtAES)
 
-set_target_properties(BitWave
+set_target_properties(${PROJECT_NAME}
         PROPERTIES
         AUTOMOC ON
         AUTORCC ON
@@ -172,3 +172,6 @@ set_target_properties(BitWave
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
         )
+
+install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION bin)
