@@ -11,3 +11,6 @@ CMakeFiles/
 3rd/ffmpeg/
 github-token
 /.vs
+aur/src/
+aur/BitWave/
+aur/pkg/
