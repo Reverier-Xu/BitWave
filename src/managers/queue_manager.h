@@ -18,8 +18,8 @@
 #include <QString>
 #include <QUrl>
 
-#include "models/media.h"
 #include "engines/sqlite_engine.h"
+#include "models/media.h"
 #include "models/ui/media_queue_model.h"
 #include "utilities/memory_helper.h"
 
@@ -67,7 +67,6 @@ class QueueManager : public QObject {
     void saveSettings() const;
 
     [[nodiscard]] int playMode() const;
-    ;
 
     void setPlayMode(int mode);
 
@@ -148,7 +147,7 @@ class QueueManager : public QObject {
 
     void playQueueEnded();
 
-    void externMediaInfoRequested(const QString& path);
+    void externMediaInfoRequested(const QString &path);
 
     void showTips(const QString &icon, const QString &info);
 };

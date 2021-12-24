@@ -1,0 +1,28 @@
+pkgname=bitwave-git
+_pkgname=bitwave-git
+pkgver=0.1
+pkgrel=1
+pkgdesc="A simple media player based on Qt and MPV."
+arch=('x86_64')
+url="https://github.com/Reverier-Xu/BitWave"
+license=('MPL')
+depends=('qt5-base' 'qt5-svg' 'qt5-quickcontrols2' 'qt5-translations' 'qt5-wayland' 'ffmpeg' 'mpv' 'qt5-x11extras')
+makedepends=('cmake' 'extra-cmake-modules' 'ninja' 'git')
+provides=("bitwave")
+source=('git+https://github.com/Reverier-Xu/BitWave')
+md5sums=('SKIP')
+pkgver() {
+	cd "${_pkgname}"
+    git describe --long --tags | sed 's|^upstream/||;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+build() {
+	cmake -B build -S "sekai" \
+        -DCMAKE_BUILD_TYPE='Release' \
+        -DCMAKE_INSTALL_PREFIX='/usr' \
+        -Wno-dev
+	make -C build
+}
+package() {
+	cd "$srcdir/build"
+	make DESTDIR="$pkgdir/" install
+}

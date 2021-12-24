@@ -24,6 +24,12 @@ Rectangle {
         anchors.bottom: parent.bottom
         model: mainQueueModel
         ScrollBar.vertical: UXScrollBar { }
+
+        preferredHighlightBegin: height / 2 - 80
+        preferredHighlightEnd: height / 2
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        currentIndex: queue.queuePos
+
         add: Transition {
             NumberAnimation { properties: "x"; from: 100; duration: 300; easing.type: Easing.OutExpo; }
             NumberAnimation { properties: "opacity"; from: 0; to: 1; duration: 200; }

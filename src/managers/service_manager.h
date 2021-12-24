@@ -68,7 +68,7 @@ class ServiceManager : public QObject {
    public slots:
     Q_INVOKABLE void search(const QString &input);
 
-    signals:
+   signals:
     void localSearchEnabledChanged(bool enabled);
 
     void onlineSearchEnabledChanged(bool enabled);

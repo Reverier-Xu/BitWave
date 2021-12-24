@@ -231,14 +231,34 @@ Available</source>
         <translation>正在播放视频</translation>
     </message>
     <message>
-        <location filename="../../entry.cpp" line="48"/>
+        <location filename="../../entry.cpp" line="49"/>
         <source>file</source>
         <translation>媒体文件</translation>
     </message>
     <message>
-        <location filename="../../entry.cpp" line="48"/>
+        <location filename="../../entry.cpp" line="50"/>
         <source>The media file to play.</source>
         <translation>要播放的媒体。</translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="53"/>
+        <source>Resume the last playback.</source>
+        <translation>恢复播放。</translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="56"/>
+        <source>Pause the playback.</source>
+        <translation>暂停播放。</translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="59"/>
+        <source>Play the next media.</source>
+        <translation>播放下一首歌曲。</translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="62"/>
+        <source>Play the previous media.</source>
+        <translation>播放上一首歌曲。</translation>
     </message>
 </context>
 <context>

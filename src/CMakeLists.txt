@@ -35,9 +35,7 @@ set(MODELS_SRCS
         models/ui/lyrics_list_model.cpp
         models/ui/lyrics_list_model.h
         models/ui/media_queue_model.cpp
-        models/ui/media_queue_model.h
-        models/ui/sidebar_playlist_model.cpp
-        models/ui/sidebar_playlist_model.h)
+        models/ui/media_queue_model.h)
 
 set(PARSERS_SRCS
         parsers/base_parser.cpp

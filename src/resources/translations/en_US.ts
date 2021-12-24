@@ -230,13 +230,33 @@ Available</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../entry.cpp" line="48"/>
+        <location filename="../../entry.cpp" line="49"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../entry.cpp" line="48"/>
+        <location filename="../../entry.cpp" line="50"/>
         <source>The media file to play.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="53"/>
+        <source>Resume the last playback.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="56"/>
+        <source>Pause the playback.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="59"/>
+        <source>Play the next media.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../entry.cpp" line="62"/>
+        <source>Play the previous media.</source>
         <translation></translation>
     </message>
 </context>
