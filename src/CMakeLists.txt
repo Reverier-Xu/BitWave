@@ -76,6 +76,8 @@ set(UTILITIES_SRCS
         utilities/color_helper.h
         utilities/ncm_helper.cpp
         utilities/ncm_helper.h
+        utilities/search_helper.cpp
+        utilities/search_helper.h
         utilities/memory_helper.cpp
         utilities/memory_helper.h
         dbus/screensaver.cpp
@@ -88,7 +90,9 @@ set(COMPONENTS_SRCS
 
 set(SERVICES_SRCS
         services/base_service.cpp
-        services/base_service.h)
+        services/base_service.h
+        services/local_music_service.cpp
+        services/local_music_service.h)
         
 set(SRCS
         entry.cpp

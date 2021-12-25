@@ -75,6 +75,10 @@ class BaseService : public QObject {
 
     void readOnly(bool readOnly);
 
+    virtual void loadSettings() = 0;
+
+    virtual void saveSettings() const = 0;
+
    public slots:
 
     virtual void handleQueryMediaRequest(const QString &keyword) = 0;

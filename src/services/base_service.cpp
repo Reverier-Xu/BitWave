@@ -13,6 +13,7 @@
 
 bool BaseService::registerSubService(BaseService *service) {
     if (isEndpoint()) return false;
+    service->setParent(this);
     mSubServices.insert(service->name(), service);
     emit contentChanged();
     return true;
@@ -20,7 +21,9 @@ bool BaseService::registerSubService(BaseService *service) {
 
 bool BaseService::removeSubService(BaseService *service) {
     if (isEndpoint()) return false;
+    auto service = mSubServices.take(service->name());
     mSubServices.remove(service->name());
+    service->deleteLater();
     emit contentChanged();
     return true;
 }

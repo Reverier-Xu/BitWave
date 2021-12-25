@@ -8,3 +8,11 @@
  * @copyright Copyright (c) 2021 Wootec
  *
  */
+
+#include "base_service.h"
+
+class LocalMusicService : public BaseService {
+    Q_OBJECT
+   public:
+    explicit LocalMusicService(BaseService *parent = nullptr);
+};

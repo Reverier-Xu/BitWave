@@ -8,3 +8,5 @@
  * @copyright Copyright (c) 2021 Wootec
  *
  */
+
+#include "local_music_service.h"
