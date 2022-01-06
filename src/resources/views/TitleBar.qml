@@ -103,13 +103,13 @@ Rectangle {
     //     }
     // }
 
-    PushButton {
+    IconButton {
         id: titleButton
         icon: "qrc:/assets/navigation.svg"
-        text: qsTr("Bit Wave")
         anchors.left: parent.left
         anchors.top: parent.top
         height: 32
+        width: 54
         flat: true
         border.color: "transparent"
         onClicked: {

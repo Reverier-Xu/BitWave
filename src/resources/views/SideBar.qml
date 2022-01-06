@@ -18,13 +18,17 @@ Rectangle {
 
     TextLabel {
         id: titleButton
-        height: 32
+        height: 48
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
         showIcon: true
-        icon: "qrc:/assets/logo.svg"
-        text: qsTr("Media Library")
+        icon: "qrc:/assets/logo-fill.svg"
+        iconSize: 28
+        fontSize: 18
+        bold: true
+        noOverlay: true
+        text: qsTr("Bit Wave!")
     }
 
     ActiveTab {
