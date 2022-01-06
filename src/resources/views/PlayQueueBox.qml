@@ -25,8 +25,6 @@ Rectangle {
         model: mainQueueModel
         ScrollBar.vertical: UXScrollBar { }
 
-        preferredHighlightBegin: height / 2 - 80
-        preferredHighlightEnd: height / 2
         highlightRangeMode: ListView.StrictlyEnforceRange
         currentIndex: queue.queuePos
 

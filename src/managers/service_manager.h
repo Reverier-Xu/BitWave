@@ -11,10 +11,10 @@
 
 #pragma once
 
+#include <QList>
 #include <QMap>
 #include <QObject>
-
-#include "services/base_service.h"
+#include <QStringList>
 
 class ServiceManager : public QObject {
     Q_OBJECT
@@ -26,12 +26,17 @@ class ServiceManager : public QObject {
                    setMusicSearchEnabled NOTIFY musicSearchEnabledChanged)
     Q_PROPERTY(bool videoSearchEnabled READ videoSearchEnabled WRITE
                    setVideoSearchEnabled NOTIFY videoSearchEnabledChanged)
+    Q_PROPERTY(QStringList currentUri READ currentUri WRITE setCurrentUri NOTIFY
+                   currentUriChanged)
+    Q_PROPERTY(bool currentUriIsEndpoint READ currentUriIsEndpoint NOTIFY
+                   currentUriChanged)
    private:
-    BaseService *mRootService{};
     bool mLocalSearchEnabled{true};
     bool mOnlineSearchEnabled{false};
     bool mMusicSearchEnabled{true};
     bool mVideoSearchEnabled{false};
+    QStringList mCurrentUri{};
+    bool mCurrentUriIsEndpoint{false};
 
    protected:
     explicit ServiceManager(QObject *parent);
@@ -63,10 +68,18 @@ class ServiceManager : public QObject {
 
     void setVideoSearchEnabled(bool enabled);
 
-    [[nodiscard]] BaseService *rootService() const;
+    [[nodiscard]] QStringList currentUri() const;
+
+    void setCurrentUri(const QStringList &uri);
+
+    [[nodiscard]] bool currentUriIsEndpoint() const;
+
+    void setCurrentUriIsEndpoint(bool isEndpoint);
 
    public slots:
     Q_INVOKABLE void search(const QString &input);
+
+    Q_INVOKABLE void visit(const QString &uri);
 
    signals:
     void localSearchEnabledChanged(bool enabled);
@@ -76,4 +89,8 @@ class ServiceManager : public QObject {
     void musicSearchEnabledChanged(bool enabled);
 
     void videoSearchEnabledChanged(bool enabled);
+
+    void currentUriChanged(const QStringList &uri);
+
+    void currentUriIsEndpointChanged(bool isEndpoint);
 };

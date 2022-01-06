@@ -34,6 +34,8 @@ set(MODELS_SRCS
         models/media.h
         models/ui/lyrics_list_model.cpp
         models/ui/lyrics_list_model.h
+        models/ui/service_list_model.cpp
+        models/ui/service_list_model.h
         models/ui/media_queue_model.cpp
         models/ui/media_queue_model.h)
 

@@ -13,7 +13,6 @@
 
 #include <QList>
 #include <QObject>
-#include <QQueue>
 #include <QStack>
 #include <QString>
 #include <QUrl>
@@ -41,7 +40,14 @@ class QueueManager : public QObject {
     Media mCurrentMedia{};
     int mPlayMode = 0;
     int mQueuePos = -1;
-    QQueue<Media> mMainQueue;
+
+    // Maybe optimized in future? <- How?
+    // we need to copy all Medias here when we load a playlist,
+    // if we use a ref, i think user won't be like to change the playlist
+    // when he modifies the queue.
+    QList<Media> mMainQueue;
+    // luckily, the Media object is small.
+
     QStack<int> mHistoryStack;
     int mAddMediaMode = 0;
     bool mQueueEnded = false;
@@ -72,7 +78,7 @@ class QueueManager : public QObject {
 
     [[nodiscard]] QUrl playModeIcon() const;
 
-    [[nodiscard]] const QQueue<Media> &mainQueue() const;
+    [[nodiscard]] const QList<Media> &mainQueue() const;
 
     [[nodiscard]] MediaQueueModel *getQueueModel() const;
 
@@ -128,6 +134,8 @@ class QueueManager : public QObject {
     Q_INVOKABLE void clearQueue();
 
     Q_INVOKABLE void clearHistory();
+
+    Q_INVOKABLE void loadPlaylist(const QList<Media> &mediaList);
 
    signals:
 

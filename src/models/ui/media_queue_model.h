@@ -32,9 +32,9 @@ class MediaQueueModel : public QAbstractListModel {
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
-    void setMediaQueue(QQueue<Media> *mediaQueue);
+    void setMediaQueue(QList<Media> *mediaQueue);
 
-    void reloadQueue(QQueue<Media> *mediaQueue);
+    void reloadQueue(QList<Media> *mediaQueue);
 
     void beginRemoveMedia(int pos);  // [begin, end]
 
@@ -45,5 +45,5 @@ class MediaQueueModel : public QAbstractListModel {
     void endInsertMedia();
 
    private:
-    QQueue<Media> *mMediaQueue{};
+    QList<Media> *mMediaQueue{};
 };

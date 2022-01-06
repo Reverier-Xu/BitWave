@@ -51,13 +51,13 @@ QHash<int, QByteArray> MediaQueueModel::roleNames() const {
     return roles;
 }
 
-void MediaQueueModel::setMediaQueue(QQueue<Media> *mediaQueue) {
+void MediaQueueModel::setMediaQueue(QList<Media> *mediaQueue) {
     beginResetModel();
     mMediaQueue = mediaQueue;
     endResetModel();
 }
 
-void MediaQueueModel::reloadQueue(QQueue<Media> *mediaQueue) {
+void MediaQueueModel::reloadQueue(QList<Media> *mediaQueue) {
     beginResetModel();
     endResetModel();
 }

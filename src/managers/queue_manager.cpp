@@ -86,7 +86,7 @@ void QueueManager::addMediaAtNext(const Media &media) {
 
 void QueueManager::addMediaAtTail(const Media &media) {
     mQueueModel->beginInsertMedia(mainQueue().count());
-    mMainQueue.enqueue(media);
+    mMainQueue.append(media);
     mQueueModel->endInsertMedia();
     emit mediaQueueChanged();
 }
@@ -295,7 +295,7 @@ QUrl QueueManager::playModeIcon() const {
     }
 }
 
-const QQueue<Media> &QueueManager::mainQueue() const { return mMainQueue; }
+const QList<Media> &QueueManager::mainQueue() const { return mMainQueue; }
 
 MediaQueueModel *QueueManager::getQueueModel() const { return mQueueModel; }
 
@@ -362,4 +362,10 @@ void QueueManager::setCurrentMedia(const Media &m) {
 
 void QueueManager::addExternMedia(const QString &path) {
     emit externMediaInfoRequested(path);
+}
+
+void QueueManager::loadPlaylist(const QList<Media> &mediaList) {
+    clearQueue();
+    mMainQueue = mediaList;
+    mQueueModel->reloadQueue(&mMainQueue);
 }
