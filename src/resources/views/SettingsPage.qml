@@ -137,9 +137,19 @@ Rectangle {
             }
         }
 
+        Text {
+            id: copyrightLabel
+            text: qsTr("Powered by @ Reverier-Xu <reverier.xu@outlook.com>,\nCopyright (c) 2022 Wootec Team.")
+            color: "#808080"
+            font.pixelSize: 16
+            anchors.top: systemTrayStyleSettingItem.bottom
+            anchors.topMargin: 36
+            anchors.left: systemTrayStyleSettingItem.left
+        }
+
         Rectangle {
             id: endLine
-            anchors.top: systemTrayStyleSettingItem.bottom
+            anchors.top: copyrightLabel.bottom
             anchors.topMargin: 15
             anchors.left: parent.left
             anchors.right: parent.right

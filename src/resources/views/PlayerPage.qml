@@ -114,6 +114,7 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: parent.width / 15
                 smooth: true
+                mipmap: true
                 source: player.currentMediaCover
                 sourceSize: parent.size
                 antialiasing: true

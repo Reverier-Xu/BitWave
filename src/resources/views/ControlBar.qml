@@ -43,6 +43,7 @@ Rectangle {
                 source: player.currentMediaCover
                 sourceSize: parent.size
                 antialiasing: true
+                mipmap: true
                 layer.enabled: true
                 layer.effect: OpacityMask {
                     maskSource: Item {

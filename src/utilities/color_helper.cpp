@@ -33,17 +33,24 @@ int getColorDis(const QColor &a, const QColor &b) {
                      (a.green() - b.green()));
 }
 
+/**
+ * @brief get theme color from image.
+ *        effects may be not so good.
+ *        algorithm is based on k-means.
+ * @param image the QImage object of source image.
+ * @return QColor result color.
+ */
 QColor ColorHelper::getImageThemeColor(const QImage &image) {
-    const int CLUST_NUM = 25;
+    const int CLUST_NUM = 16;
 
     int width = image.width(), height = image.height();
-    int stepLen = width / 5;
+    int stepLen = width / 4;
 
     QPoint points[CLUST_NUM];
     int x = 0;
     for (auto &point : points) {
-        point.setX(width / 10 + stepLen * (x++ % 5));
-        point.setY(height / 10 + stepLen * ((x / 5) % 5));
+        point.setX(width / 8 + stepLen * (x++ % 4));
+        point.setY(height / 8 + stepLen * ((x / 4) % 4));
     }
 
     Clust vec[CLUST_NUM];
