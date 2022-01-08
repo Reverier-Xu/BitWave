@@ -33,6 +33,8 @@ class Mpris2 : public QObject {
    public:
     explicit Mpris2(QObject *parent = nullptr);
 
+    ~Mpris2() override;
+
     // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
     Q_PROPERTY(bool CanQuit READ CanQuit)
     Q_PROPERTY(bool CanRaise READ CanRaise)
@@ -123,8 +125,6 @@ class Mpris2 : public QObject {
     void Stop();
 
     void Play();
-
-    void Seek(qlonglong offset);
 
     void OpenUri(const QString &uri);
 

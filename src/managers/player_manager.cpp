@@ -15,6 +15,7 @@
 
 #include <QPixmap>
 #include <QSettings>
+#include <QDebug>
 
 #include "lyric_provider_manager.h"
 #include "malloc.h"
@@ -164,7 +165,9 @@ void PlayerManager::resetPlayer() {
 }
 
 void PlayerManager::handleUserSeekRequest(double t) {
+    // qDebug() << "User seek to " << t;
     mEngine->setTimePos(t);
+    emit userSeeked(t);
     if (isMediaLoaded() && currentMediaIsVideo())
         emit showTips("qrc:/assets/play.svg", TimeHelper::getTimeString(t));
 }

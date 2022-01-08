@@ -94,7 +94,7 @@ Rectangle {
             anchors.right: previousButton.left
             anchors.rightMargin: 25
             anchors.bottom: avatarContainer.verticalCenter
-            anchors.bottomMargin: (parent.height / 2 - height) / 3.5
+            anchors.bottomMargin: (parent.height / 2 - height) / 4
             color: display.contentColor
             font.pixelSize: 16
             text: mediaTitleMetrics.elidedText
@@ -115,7 +115,7 @@ Rectangle {
             anchors.right: previousButton.left
             anchors.rightMargin: 25
             anchors.top: avatarContainer.verticalCenter
-            anchors.topMargin: (parent.height / 2 - height) / 3.5
+            anchors.topMargin: (parent.height / 2 - height) / 4
             color: "#808080"
             font.pixelSize: 16
             text: mediaArtistMetrics.elidedText

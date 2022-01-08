@@ -308,4 +308,6 @@ class PlayerManager : public QObject {
     void gammaChanged(int n);
 
     void hueChanged(int n);
+
+    void userSeeked(double t);
 };

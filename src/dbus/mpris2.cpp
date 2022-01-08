@@ -50,7 +50,7 @@ Mpris2::Mpris2(QObject *parent) : QObject(parent) {
 
     connect(player_, &PlayerManager::volumeChanged, this,
             &Mpris2::VolumeChanged);
-    connect(player_, &PlayerManager::currentTimeChanged, this, [=](double n) {
+    connect(player_, &PlayerManager::userSeeked, this, [=](double n) {
         emit Seeked((qlonglong)(floor(n)) * 1000 * 1000);
     });
 
@@ -58,6 +58,12 @@ Mpris2::Mpris2(QObject *parent) : QObject(parent) {
             &Mpris2::CurrentSongChanged);
     connect(player_, &PlayerManager::stateChanged, this,
             &Mpris2::EngineStateChanged);
+}
+
+Mpris2::~Mpris2() {
+    EmitNotification("PlaybackStatus", "Stopped");
+    EmitNotification("Metadata", QVariantMap());
+    QDBusConnection::sessionBus().unregisterService(kServiceName);
 }
 
 void Mpris2::VolumeChanged() { EmitNotification("Volume"); }
@@ -237,7 +243,7 @@ bool Mpris2::CanPause() const {
     return player_->isMediaLoaded() && player_->isPlaying();
 }
 
-bool Mpris2::CanSeek() const { return player_->isMediaLoaded(); }
+bool Mpris2::CanSeek() const { return false; }
 
 bool Mpris2::CanControl() const { return player_->isReady(); }
 
@@ -264,13 +270,6 @@ void Mpris2::Stop() { player_->stop(); }
 void Mpris2::Play() {
     if (CanPlay()) {
         player_->resume();
-    }
-}
-
-void Mpris2::Seek(qlonglong offset) {
-    if (CanSeek()) {
-        // qDebug() << (double)(offset) / 1000000.0;
-        player_->handleUserSeekRequest((double)(offset) / 1000000.0);
     }
 }
 

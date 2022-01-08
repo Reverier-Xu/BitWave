@@ -9,9 +9,6 @@
         <method name='PlayPause'/>
         <method name='Stop'/>
         <method name='Play'/>
-        <method name='Seek'>
-            <arg direction='in' name='Offset' type='x'/>
-        </method>
         <method name='OpenUri'>
             <arg direction='in' name='Uri' type='s'/>
         </method>
