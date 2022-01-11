@@ -11,6 +11,12 @@ Rectangle {
     property double totalTime: 90000
     color: "transparent"
 
+    Behavior on lineHeight {
+        NumberAnimation {
+            duration: 80
+        }
+    }
+
     signal startDragging();
     signal endDragging(double finalTime);
 
@@ -61,6 +67,12 @@ Rectangle {
         border.color: display.themeColor
         anchors.verticalCenter: parent.verticalCenter
         x: (root.width - 16) * currentValue
+        Behavior on x {
+            NumberAnimation {
+                duration: 100
+                easing.type: Easing.OutQuad
+            }
+        }
     }
 
     Rectangle {
@@ -104,11 +116,7 @@ Rectangle {
                 else
                     val = (mouseX - 8) / (root.width - 16);
                 root.dragTime = (root.totalTime * val);
-                if (controlAnim.running)
-                    controlAnim.stop();
-                controlAnim.from = currentValue;
-                controlAnim.to = val;
-                controlAnim.start();
+                root.dragValue = val;
             }
             root.startDragging();
         }
@@ -132,19 +140,9 @@ Rectangle {
                 else
                     val = (mouseX - 8) / (root.width - 16);
                 root.dragTime = (root.totalTime * val);
-                if(controlAnim.running)
-                    controlAnim.stop();
                 root.dragValue = val;
             }
         }
-    }
-
-    NumberAnimation {
-        id: controlAnim
-        target: root
-        property: "dragValue"
-        duration: 150
-        easing.type: Easing.OutExpo
     }
 
     Behavior on color {
@@ -201,33 +199,6 @@ Rectangle {
             PropertyChanges {
                 target: root
                 lineHeight: 4
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "*"; to: "Hovering"
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
-            }
-        },
-        Transition {
-            from: "*"; to: "Pressed"
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
-            }
-        },
-        Transition {
-            from: "*"; to: "Normal"
-            NumberAnimation {
-                target: root
-                properties: "lineHeight"
-                duration: 50
             }
         }
     ]
