@@ -61,6 +61,15 @@
     </message>
 </context>
 <context>
+    <name>LocalMusicService</name>
+    <message>
+        <location filename="../../services/local_music_service.cpp" line="26"/>
+        <location filename="../../services/local_music_service.cpp" line="140"/>
+        <source>Local Musics</source>
+        <translation>本地音乐</translation>
+    </message>
+</context>
+<context>
     <name>LocalVideoParser</name>
     <message>
         <location filename="../../parsers/local_video_parser.cpp" line="100"/>
@@ -86,22 +95,25 @@
         <translation>未知作者</translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="103"/>
-        <source>Play</source>
-        <translation>播放这个</translation>
-    </message>
-    <message>
-        <location filename="../components/MediaTableItem.qml" line="103"/>
-        <source>Enter</source>
+        <location filename="../components/MediaTableItem.qml" line="117"/>
+        <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="109"/>
+        <source>Play</source>
+        <translation type="vanished">播放这个</translation>
+    </message>
+    <message>
+        <source>Enter</source>
+        <translation type="vanished">打开</translation>
+    </message>
+    <message>
+        <location filename="../components/MediaTableItem.qml" line="123"/>
         <source>Add to Playlist</source>
         <translation>添加到另一个播放列表</translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="115"/>
+        <location filename="../components/MediaTableItem.qml" line="129"/>
         <source>Remove</source>
         <translation>从列表中移除</translation>
     </message>
@@ -132,49 +144,49 @@
 <context>
     <name>PlayerManager</name>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="159"/>
+        <location filename="../../managers/player_manager.cpp" line="160"/>
         <location filename="../../managers/player_manager.h" line="91"/>
         <source>No Album</source>
         <translation>未知专辑</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="160"/>
+        <location filename="../../managers/player_manager.cpp" line="161"/>
         <location filename="../../managers/player_manager.h" line="90"/>
         <source>No Artist</source>
         <translation>未知作者</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="189"/>
+        <location filename="../../managers/player_manager.cpp" line="192"/>
         <source>[00:00.00]Loading Lyrics...</source>
         <translation>[00:00.00]歌词加载中...</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="198"/>
+        <location filename="../../managers/player_manager.cpp" line="201"/>
         <source>Paused</source>
         <translation>已暂停</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="205"/>
+        <location filename="../../managers/player_manager.cpp" line="208"/>
         <source>Resumed</source>
         <translation>已恢复</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="242"/>
+        <location filename="../../managers/player_manager.cpp" line="245"/>
         <source>Play Failed</source>
         <translation>播放失败</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="331"/>
+        <location filename="../../managers/player_manager.cpp" line="334"/>
         <source>Muted</source>
         <translation>已静音</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="331"/>
+        <location filename="../../managers/player_manager.cpp" line="334"/>
         <source>UnMuted</source>
         <translation>恢复声音</translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="157"/>
+        <location filename="../../managers/player_manager.cpp" line="158"/>
         <location filename="../../managers/player_manager.h" line="89"/>
         <source>No Media</source>
         <translation>没有正在播放的媒体</translation>
@@ -183,7 +195,7 @@
 <context>
     <name>PlayerPage</name>
     <message>
-        <location filename="../views/PlayerPage.qml" line="183"/>
+        <location filename="../views/PlayerPage.qml" line="184"/>
         <source>No Lyrics
 
 Available</source>
@@ -221,6 +233,14 @@ Available</source>
         <location filename="../views/PlayerToolBox.qml" line="365"/>
         <source>Show time</source>
         <translation>在右上角显示时间</translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistPage</name>
+    <message>
+        <location filename="../views/PlaylistPage.qml" line="30"/>
+        <source>Refresh</source>
+        <translation>刷新</translation>
     </message>
 </context>
 <context>
@@ -264,40 +284,40 @@ Available</source>
 <context>
     <name>QueueManager</name>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="119"/>
-        <location filename="../../managers/queue_manager.cpp" line="156"/>
+        <location filename="../../managers/queue_manager.cpp" line="128"/>
         <location filename="../../managers/queue_manager.cpp" line="165"/>
+        <location filename="../../managers/queue_manager.cpp" line="174"/>
         <source>Finished</source>
         <translation>播放队列结束</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="232"/>
+        <location filename="../../managers/queue_manager.cpp" line="234"/>
         <source>Play Failed</source>
         <translation>播放失败</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="309"/>
-        <location filename="../../managers/queue_manager.cpp" line="319"/>
+        <location filename="../../managers/queue_manager.cpp" line="311"/>
+        <location filename="../../managers/queue_manager.cpp" line="321"/>
         <source>Repeat All</source>
         <translation>列表循环</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="311"/>
+        <location filename="../../managers/queue_manager.cpp" line="313"/>
         <source>Repeat One</source>
         <translation>单曲循环</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="313"/>
+        <location filename="../../managers/queue_manager.cpp" line="315"/>
         <source>Random</source>
         <translation>随机播放</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="315"/>
+        <location filename="../../managers/queue_manager.cpp" line="317"/>
         <source>In Order</source>
         <translation>顺序播放</translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="317"/>
+        <location filename="../../managers/queue_manager.cpp" line="319"/>
         <source>Reverse</source>
         <translation>倒序播放</translation>
     </message>
@@ -349,67 +369,85 @@ Available</source>
     </message>
 </context>
 <context>
+    <name>ServiceManager</name>
+    <message>
+        <location filename="../../managers/service_manager.cpp" line="136"/>
+        <source>Playlist</source>
+        <translation>播放列表</translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../views/SettingsPage.qml" line="30"/>
+        <location filename="../views/SettingsPage.qml" line="16"/>
         <source>Program Settings</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="52"/>
+        <location filename="../views/SettingsPage.qml" line="51"/>
         <source>Language</source>
         <translation>Language/语言</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="87"/>
+        <location filename="../views/SettingsPage.qml" line="86"/>
         <source>Theme</source>
         <translation>主题色调</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="97"/>
+        <location filename="../views/SettingsPage.qml" line="96"/>
         <source>Light</source>
         <translation>明亮</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="97"/>
+        <location filename="../views/SettingsPage.qml" line="96"/>
         <source>Dark</source>
         <translation>黑暗</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="118"/>
+        <location filename="../views/SettingsPage.qml" line="117"/>
         <source>System Tray Style</source>
         <translation>系统托盘图标风格</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="128"/>
+        <location filename="../views/SettingsPage.qml" line="127"/>
         <source>Flat</source>
         <translation>简化</translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="128"/>
+        <location filename="../views/SettingsPage.qml" line="127"/>
         <source>Colorful</source>
         <translation>色彩</translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="141"/>
+        <source>Powered by @ Reverier-Xu &lt;reverier.xu@outlook.com&gt;,
+Copyright (c) 2022 Wootec Team.</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>SideBar</name>
     <message>
-        <location filename="../views/SideBar.qml" line="27"/>
         <source>Media Library</source>
-        <translation>媒体仓库列表</translation>
+        <translation type="vanished">媒体仓库列表</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="51"/>
+        <location filename="../views/SideBar.qml" line="31"/>
+        <source>Bit Wave!</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../views/SideBar.qml" line="55"/>
         <source>How are you today?</source>
         <translation>你好呀，今天怎么样？</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="74"/>
+        <location filename="../views/SideBar.qml" line="78"/>
         <source>Playing Now</source>
         <translation>正在播放的媒体</translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="113"/>
+        <location filename="../views/SideBar.qml" line="123"/>
         <source>Settings</source>
         <translation>软件设置</translation>
     </message>
@@ -487,11 +525,6 @@ Available</source>
     <message>
         <source>Playing Now</source>
         <translation type="vanished">正在播放</translation>
-    </message>
-    <message>
-        <location filename="../views/TitleBar.qml" line="109"/>
-        <source>Bit Wave</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../views/TitleBar.qml" line="122"/>

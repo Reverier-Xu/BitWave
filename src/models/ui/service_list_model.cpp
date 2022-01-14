@@ -15,13 +15,37 @@ ServiceListModel::ServiceListModel(QObject *parent)
     : QAbstractListModel(parent) {}
 
 int ServiceListModel::rowCount(const QModelIndex &parent) const {
-    return 0;
+    return mServiceMap->size();
 }
 
 QVariant ServiceListModel::data(const QModelIndex &index, int role) const {
+    if (index.row() < mServiceMap->size()) {
+        switch (role) {
+            case ServiceName:
+                return mServiceMap->keys().at(index.row());
+            case ServiceIcon:
+                return mServiceMap->value(mServiceMap->keys().at(index.row()))->icon();
+            default:
+                return QVariant();
+        }
+    }
     return QVariant();
 }
 
 QHash<int, QByteArray> ServiceListModel::roleNames() const {
-    return QHash<int, QByteArray>();
+    QHash<int, QByteArray> roles;
+    roles[ServiceName] = "serviceName";
+    roles[ServiceIcon] = "serviceIcon";
+    return roles;
+}
+
+void ServiceListModel::setServiceMap(
+    QMap<QString, BaseService *> *serviceMap) {
+    mServiceMap = serviceMap;
+    reload();
+}
+
+void ServiceListModel::reload() {
+    beginResetModel();
+    endResetModel();
 }

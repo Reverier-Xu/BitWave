@@ -29,7 +29,7 @@ bool SQLiteEngine::open(const QString &db) {
         setIsValid(false);
         return false;
     }
-    mDatabase = QSqlDatabase::addDatabase("QSQLITE");
+    mDatabase = QSqlDatabase::addDatabase("QSQLITE", mDatabaseFile);
     mDatabase.setDatabaseName(mDatabaseFile);
     if (!mDatabase.open()) {
         qDebug() << "database open failed";
@@ -50,7 +50,6 @@ void SQLiteEngine::createMediaList(const QString &tableName,
     if (isOpen() && isValid()) {
         // qDebug() << mDatabase.tables();
 
-        // qDebug() << "create media list:" << tableName;
         QStringList sql;
         sql << "CREATE TABLE IF NOT EXISTS " + tableName + " ("
             << "id         INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -107,6 +106,7 @@ void SQLiteEngine::createMediaList(const QString &tableName,
             }
             mDatabase.commit();
         }
+        // qDebug() << "create media list:" << tableName;
     }
 }
 
@@ -153,7 +153,9 @@ bool SQLiteEngine::addMedia(const QString &tableName, const Media &media) {
         insert_query.bindValue(":url", media.rawUrl());
         insert_query.bindValue(":type", media.type());
         insert_query.bindValue(":comment", media.comment());
+        // qDebug() << "error here:" << insert_query.lastError();
         bool ok = insert_query.exec();
+        // qDebug() << "error here:" << insert_query.lastError();
         mDatabase.commit();
         return ok;
     } else {
@@ -254,9 +256,7 @@ bool SQLiteEngine::updateMediaList(const QString &tableName,
     return res;
 }
 
-QStringList SQLiteEngine::getMediaLists() {
-    return mDatabase.database().tables();
-}
+QStringList SQLiteEngine::getMediaLists() { return mDatabase.tables(); }
 
 QString SQLiteEngine::databaseFile() { return mDatabaseFile; }
 

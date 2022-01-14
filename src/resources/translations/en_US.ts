@@ -61,6 +61,15 @@
     </message>
 </context>
 <context>
+    <name>LocalMusicService</name>
+    <message>
+        <location filename="../../services/local_music_service.cpp" line="26"/>
+        <location filename="../../services/local_music_service.cpp" line="140"/>
+        <source>Local Musics</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>LocalVideoParser</name>
     <message>
         <location filename="../../parsers/local_video_parser.cpp" line="100"/>
@@ -86,22 +95,17 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="103"/>
-        <source>Play</source>
+        <location filename="../components/MediaTableItem.qml" line="117"/>
+        <source>Open</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="103"/>
-        <source>Enter</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../components/MediaTableItem.qml" line="109"/>
+        <location filename="../components/MediaTableItem.qml" line="123"/>
         <source>Add to Playlist</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../components/MediaTableItem.qml" line="115"/>
+        <location filename="../components/MediaTableItem.qml" line="129"/>
         <source>Remove</source>
         <translation></translation>
     </message>
@@ -131,49 +135,49 @@
 <context>
     <name>PlayerManager</name>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="159"/>
+        <location filename="../../managers/player_manager.cpp" line="160"/>
         <location filename="../../managers/player_manager.h" line="91"/>
         <source>No Album</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="160"/>
+        <location filename="../../managers/player_manager.cpp" line="161"/>
         <location filename="../../managers/player_manager.h" line="90"/>
         <source>No Artist</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="189"/>
+        <location filename="../../managers/player_manager.cpp" line="192"/>
         <source>[00:00.00]Loading Lyrics...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="198"/>
+        <location filename="../../managers/player_manager.cpp" line="201"/>
         <source>Paused</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="205"/>
+        <location filename="../../managers/player_manager.cpp" line="208"/>
         <source>Resumed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="242"/>
+        <location filename="../../managers/player_manager.cpp" line="245"/>
         <source>Play Failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="331"/>
+        <location filename="../../managers/player_manager.cpp" line="334"/>
         <source>Muted</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="331"/>
+        <location filename="../../managers/player_manager.cpp" line="334"/>
         <source>UnMuted</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/player_manager.cpp" line="157"/>
+        <location filename="../../managers/player_manager.cpp" line="158"/>
         <location filename="../../managers/player_manager.h" line="89"/>
         <source>No Media</source>
         <translation></translation>
@@ -182,7 +186,7 @@
 <context>
     <name>PlayerPage</name>
     <message>
-        <location filename="../views/PlayerPage.qml" line="183"/>
+        <location filename="../views/PlayerPage.qml" line="184"/>
         <source>No Lyrics
 
 Available</source>
@@ -219,6 +223,14 @@ Available</source>
     <message>
         <location filename="../views/PlayerToolBox.qml" line="365"/>
         <source>Show time</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistPage</name>
+    <message>
+        <location filename="../views/PlaylistPage.qml" line="30"/>
+        <source>Refresh</source>
         <translation></translation>
     </message>
 </context>
@@ -263,40 +275,40 @@ Available</source>
 <context>
     <name>QueueManager</name>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="119"/>
-        <location filename="../../managers/queue_manager.cpp" line="156"/>
+        <location filename="../../managers/queue_manager.cpp" line="128"/>
         <location filename="../../managers/queue_manager.cpp" line="165"/>
+        <location filename="../../managers/queue_manager.cpp" line="174"/>
         <source>Finished</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="232"/>
+        <location filename="../../managers/queue_manager.cpp" line="234"/>
         <source>Play Failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="309"/>
-        <location filename="../../managers/queue_manager.cpp" line="319"/>
+        <location filename="../../managers/queue_manager.cpp" line="311"/>
+        <location filename="../../managers/queue_manager.cpp" line="321"/>
         <source>Repeat All</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="311"/>
+        <location filename="../../managers/queue_manager.cpp" line="313"/>
         <source>Repeat One</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="313"/>
+        <location filename="../../managers/queue_manager.cpp" line="315"/>
         <source>Random</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="315"/>
+        <location filename="../../managers/queue_manager.cpp" line="317"/>
         <source>In Order</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../managers/queue_manager.cpp" line="317"/>
+        <location filename="../../managers/queue_manager.cpp" line="319"/>
         <source>Reverse</source>
         <translation></translation>
     </message>
@@ -348,67 +360,81 @@ Available</source>
     </message>
 </context>
 <context>
+    <name>ServiceManager</name>
+    <message>
+        <location filename="../../managers/service_manager.cpp" line="136"/>
+        <source>Playlist</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../views/SettingsPage.qml" line="30"/>
+        <location filename="../views/SettingsPage.qml" line="16"/>
         <source>Program Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="52"/>
+        <location filename="../views/SettingsPage.qml" line="51"/>
         <source>Language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="87"/>
+        <location filename="../views/SettingsPage.qml" line="86"/>
         <source>Theme</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="97"/>
+        <location filename="../views/SettingsPage.qml" line="96"/>
         <source>Light</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="97"/>
+        <location filename="../views/SettingsPage.qml" line="96"/>
         <source>Dark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="118"/>
+        <location filename="../views/SettingsPage.qml" line="117"/>
         <source>System Tray Style</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="128"/>
+        <location filename="../views/SettingsPage.qml" line="127"/>
         <source>Flat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SettingsPage.qml" line="128"/>
+        <location filename="../views/SettingsPage.qml" line="127"/>
         <source>Colorful</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../views/SettingsPage.qml" line="141"/>
+        <source>Powered by @ Reverier-Xu &lt;reverier.xu@outlook.com&gt;,
+Copyright (c) 2022 Wootec Team.</source>
         <translation></translation>
     </message>
 </context>
 <context>
     <name>SideBar</name>
     <message>
-        <location filename="../views/SideBar.qml" line="27"/>
-        <source>Media Library</source>
+        <location filename="../views/SideBar.qml" line="31"/>
+        <source>Bit Wave!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="51"/>
+        <location filename="../views/SideBar.qml" line="55"/>
         <source>How are you today?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="74"/>
+        <location filename="../views/SideBar.qml" line="78"/>
         <source>Playing Now</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../views/SideBar.qml" line="113"/>
+        <location filename="../views/SideBar.qml" line="123"/>
         <source>Settings</source>
         <translation></translation>
     </message>
@@ -483,11 +509,6 @@ Available</source>
 </context>
 <context>
     <name>TitleBar</name>
-    <message>
-        <location filename="../views/TitleBar.qml" line="109"/>
-        <source>Bit Wave</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../views/TitleBar.qml" line="122"/>
         <source>Open Media</source>

@@ -7,9 +7,10 @@ PushArea {
     property string theAlbum: qsTr("Unknown Album")
     property string theArtist: qsTr("Unknown Artist")
     property bool isEndpoint: false
+    property string theUri: ""
     property double theDuration
     property int theId
-    property bool theStatus
+    border.color: "transparent"
     flat: true
 
     height: 36
@@ -18,9 +19,16 @@ PushArea {
     signal removeTriggered(int triggerId);
     signal collectTriggered(int triggerId);
 
+    // Rectangle {
+    //     anchors.fill: parent
+    //     color: theId % 2 == 0 ? "#20808080" : "transparent"
+    // }
     Rectangle {
-        anchors.fill: parent
-        color: theId % 2 == 0 ? "#20808080" : "transparent"
+        anchors.verticalCenter: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 1
+        color: "#60808080"
     }
 
     Text {
@@ -31,6 +39,7 @@ PushArea {
         color: "#808080"
         text: (root.theId + 1).toString().padStart(3, '0')
         font.pixelSize: 16
+        visible: root.isEndpoint
     }
 
     function getTimeString(displayTime) {
@@ -45,9 +54,10 @@ PushArea {
         anchors.right: parent.right
         anchors.rightMargin: 15
         anchors.verticalCenter: parent.verticalCenter
-        color: root.theStatus ? display.themeColor : "#808080"
+        color: "#808080"
         font.pixelSize: 16
         text: getTimeString(root.theDuration)
+        visible: root.isEndpoint
     }
 
     TextMetrics {
@@ -73,17 +83,28 @@ PushArea {
         elide: Text.ElideRight
         font.pixelSize: 16
         text: root.theArtist + " - " + root.theAlbum
-        elideWidth: (root.width - durationLabel.width - idLabel.width) / 2 - 30
+        elideWidth: (root.width - durationLabel.width - idLabel.width) / 2 - 60
     }
 
     Text {
         id: infoLabel
         anchors.verticalCenter: parent.verticalCenter
-        anchors.right: durationLabel.left
-        anchors.rightMargin: 25
+        anchors.left: parent.horizontalCenter
+        anchors.rightMargin: 60
         font.pixelSize: 16
-        color: display.contentColor
+        color: "#808080"
         text: infoMetrics.elidedText
+        visible: root.isEndpoint
+    }
+
+    TextLabel {
+        id: rightImage
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.rightMargin: 25
+        icon: "qrc:/assets/chevron-right.svg"
+        visible: !root.isEndpoint
     }
 
     ContentMenu {
@@ -100,7 +121,7 @@ PushArea {
         }
         model: ListModel {
             ListElement {
-                itemText: root.isEndpoint ? qsTr("Play") : qsTr("Enter")
+                itemText: qsTr("Open")
                 itemIcon: "qrc:/assets/play.svg"
                 itemId: 0
                 itemEnabled: true
@@ -109,7 +130,7 @@ PushArea {
                 itemText: qsTr("Add to Playlist")
                 itemIcon: "qrc:/assets/add.svg"
                 itemId: 1
-                itemEnabled: root.isEndpoint
+                itemEnabled: false
             }
             ListElement {
                 itemText: qsTr("Remove")

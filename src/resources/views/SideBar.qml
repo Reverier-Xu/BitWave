@@ -87,9 +87,10 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: playerPageButton.bottom
-        anchors.topMargin: 12
+        anchors.topMargin: 3
         anchors.bottom: settingsButton.top
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: 3
+        model: serviceListModel
 
         delegate: ActiveTab {
             width: ListView.view.width
@@ -98,8 +99,13 @@ Rectangle {
             flat: true
             border.color: "transparent"
             showIcon: true
-            icon: "qrc:/assets/music.svg"
-            isTabActive: index === libraryList.currentIndex
+            icon: serviceIcon
+            text: serviceName
+            isTabActive: index === display.activeTabIndex
+            onClicked: {
+                display.activeTabIndex = index
+                service.visit(serviceName)
+            }
         }
     }
 

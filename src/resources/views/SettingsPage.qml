@@ -10,12 +10,25 @@ Rectangle {
             duration: 280
         }
     }
+
+    TextLabel {
+        id: settingsPageTitle
+        text: qsTr("Program Settings")
+        fontSize: 24
+        iconSize: 24
+        showIcon: true
+        icon: "qrc:/assets/settings.svg"
+        anchors.top: parent.top
+        anchors.topMargin: 70
+        anchors.left: parent.left
+        anchors.leftMargin: 25
+        height: 48
+    }
     
     Flickable {
         contentWidth: parent.width
         contentHeight: endLine.y + 25
-        anchors.top: parent.top
-        anchors.topMargin: 32
+        anchors.top: settingsPageTitle.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -25,27 +38,20 @@ Rectangle {
 
         ScrollBar.vertical: UXScrollBar { }
 
-        TextLabel {
-            id: settingsPageTitle
-            text: qsTr("Program Settings")
-            fontSize: 24
-            iconSize: 24
-            showIcon: true
-            icon: "qrc:/assets/settings.svg"
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.leftMargin: 25
-            anchors.topMargin: 36
-            height: 48
-        }
-
         Rectangle {
             id: languageSettingItem
-            anchors.top: settingsPageTitle.bottom
+            anchors.top: parent.top
             anchors.topMargin: 15
             anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(parent.width, 800)
-            color: "#20808080"
+            width: parent.width - 120
+            color: "transparent"
+            Rectangle {
+                anchors.verticalCenter: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 1
+                color: "#60808080"
+            }
             height: 36
             TextLabel {
                 id: languageLabel
@@ -79,8 +85,15 @@ Rectangle {
             id: themeSettingItem
             anchors.top: languageSettingItem.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(parent.width, 800)
+            width: parent.width - 120
             color: "transparent"
+            Rectangle {
+                anchors.verticalCenter: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 1
+                color: "#60808080"
+            }
             height: 36
             TextLabel {
                 id: themeLabel
@@ -110,9 +123,16 @@ Rectangle {
             id: systemTrayStyleSettingItem
             anchors.top: themeSettingItem.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(parent.width, 800)
-            color: "#20808080"
+            width: parent.width - 120
+            color: "transparent"
             height: 36
+            Rectangle {
+                anchors.verticalCenter: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 1
+                color: "#60808080"
+            }
             TextLabel {
                 id: systemTrayStyleLabel
                 text: qsTr("System Tray Style")

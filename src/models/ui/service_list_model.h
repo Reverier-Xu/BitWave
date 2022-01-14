@@ -14,12 +14,14 @@
 #include <QAbstractListModel>
 #include <QObject>
 
+#include "services/base_service.h"
+
 class ServiceListModel : public QAbstractListModel {
     Q_OBJECT
    public:
     enum ServiceListRoles {
-        Category = Qt::UserRole + 1,
-        ServiceName,
+        ServiceName = Qt::UserRole + 1,
+        ServiceIcon,
     };
 
     explicit ServiceListModel(QObject *parent = nullptr);
@@ -30,4 +32,11 @@ class ServiceListModel : public QAbstractListModel {
                                 int role) const override;
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
+
+    void setServiceMap(QMap<QString, BaseService *> *serviceList);
+
+    void reload();
+
+   private:
+    QMap<QString, BaseService *> *mServiceMap{};
 };

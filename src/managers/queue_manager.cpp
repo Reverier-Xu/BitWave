@@ -33,11 +33,20 @@ QueueManager::QueueManager(QObject *parent) : QObject(parent) {
     mQueueModel = new MediaQueueModel(this);
     mQueueModel->setMediaQueue(&mMainQueue);
     // qDebug() << mQueueModel->rowCount(QModelIndex());
+
+    mSqliteEngine = new SQLiteEngine(this->parent());
+    mSqliteEngine->open(
+        QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+        "/Database/playqueue.db");
     loadSettings();
     connectSignals();
 }
 
-QueueManager::~QueueManager() { saveSettings(); }
+QueueManager::~QueueManager() {
+    saveSettings();
+    mSqliteEngine->close();
+    mSqliteEngine->deleteLater();
+}
 
 QueueManager *QueueManager::instance(QObject *parent) {
     if (mInstance == nullptr) {
@@ -189,13 +198,11 @@ void QueueManager::loadSettings() {
     setPlayMode(settings.value("PlayMode", 0).toInt());
     settings.endGroup();
 
-    mSqliteEngine = new SQLiteEngine(this->parent());
-    mSqliteEngine->open(
-        QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
-        "/Database/playqueue.db");
     auto media_list = mSqliteEngine->getMediaLists();
+    // qDebug() << media_list;
     if (media_list.contains("cached")) {
         auto media_list_cached = mSqliteEngine->getMediaList("cached");
+        // qDebug() << media_list_cached.count();
         for (auto media : media_list_cached) {
             addMediaAtTail(media);
         }
@@ -209,10 +216,8 @@ void QueueManager::saveSettings() const {
     settings.setValue("PlayMode", playMode());
     settings.endGroup();
     settings.sync();
-
     mSqliteEngine->dropMediaList("cached");
     mSqliteEngine->createMediaList("cached", mMainQueue);
-    mSqliteEngine->close();
 }
 
 void QueueManager::connectSignals() {
@@ -228,8 +233,7 @@ void QueueManager::connectSignals() {
                 if (ok) {
                     addMediaAtHead(media);
                 } else {
-                    emit showTips("qrc:/assets/warning.svg",
-                                  tr("Play Failed"));
+                    emit showTips("qrc:/assets/warning.svg", tr("Play Failed"));
                 }
             });
     connect(this, &QueueManager::externMediaInfoRequested,
@@ -368,4 +372,9 @@ void QueueManager::loadPlaylist(const QList<Media> &mediaList) {
     clearQueue();
     mMainQueue = mediaList;
     mQueueModel->reloadQueue(&mMainQueue);
+}
+
+void QueueManager::playPlaylist(const QList<Media> &mediaList, int id) {
+    loadPlaylist(mediaList);
+    userSwitchRequested(id);
 }

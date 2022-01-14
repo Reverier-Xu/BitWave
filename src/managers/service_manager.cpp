@@ -11,6 +11,12 @@
 
 #include "service_manager.h"
 
+#include <QDebug>
+#include <QtConcurrent/QtConcurrent>
+
+#include "queue_manager.h"
+#include "services/local_music_service.h"
+
 ServiceManager *ServiceManager::mInstance = nullptr;
 
 ServiceManager *ServiceManager::instance(QObject *parent) {
@@ -19,21 +25,71 @@ ServiceManager *ServiceManager::instance(QObject *parent) {
 }
 
 ServiceManager::ServiceManager(QObject *parent) : QObject(parent) {
+    mPlaylistModel = new PlaylistModel(this);
+    mPlaylistModel->setMediaList(&mMediaList);
+    mPlaylistModel->setUriMap(&mUriMap);
+
+    auto localMusicService = new LocalMusicService(this);
+    registerService(localMusicService);
+
+    mServiceListModel = new ServiceListModel(this);
+    mServiceListModel->setServiceMap(&mServiceMap);
+
     loadSettings();
 }
 
-void ServiceManager::loadSettings() {}
+void ServiceManager::registerService(BaseService *service) {
+    mServiceMap.insert(service->name(), service);
+    connect(service, &BaseService::nameChanged, this,
+            [=](const QString &name) {});
+    connect(service, &BaseService::iconChanged, this,
+            [=](const QString &icon) {});
+    connect(service, &BaseService::contentChanged, this, [=]() {
+        visit(currentUri());
+        auto res = QtConcurrent::run([=]() { QThread::sleep(1); });
+        auto resWatcher = new QFutureWatcher<void>();
+        resWatcher->setFuture(res);
+        connect(resWatcher, &QFutureWatcher<void>::finished, this, [=]() {
+            emit contentChanged();
+            resWatcher->deleteLater();
+        });
+    });
+    connect(service, &BaseService::getMediaIsCompleted, this,
+            [=](bool ok, const QList<Media> &mediaList) {
+                mMediaList = mediaList;
+                // qDebug() << "media list: " << mMediaList.size();
+                playlistModel()->reload();
+            });
+    connect(service, &BaseService::getSubPageIsCompleted, this,
+            [=](bool ok, const QMap<QString, QString> &uri) {
+                mUriMap = uri;
+                // qDebug() << "uri: " << uri;
+                playlistModel()->reload();
+            });
+}
 
-void ServiceManager::saveSettings() const {}
+void ServiceManager::loadSettings() {
+    for (auto service : mServiceMap) {
+        service->loadSettings();
+    }
+}
+
+void ServiceManager::saveSettings() const {
+    for (auto service : mServiceMap) {
+        service->saveSettings();
+    }
+}
 
 ServiceManager::~ServiceManager() { saveSettings(); }
 
-void ServiceManager::search(const QString &input) {
+void ServiceManager::search(const QString &input) {}
 
-}
-
-void ServiceManager::visit(const QString &uri) {
-
+void ServiceManager::visit(const QStringList &uri) {
+    setCurrentUri(uri);
+    auto service = mServiceMap.value(uri.first());
+    setCurrentUriIsEndpoint(service->getUriType(uri) ==
+                            ServiceUriType::Playlist);
+    if (service) service->handleGetUriRequest(uri);
 }
 
 bool ServiceManager::localSearchEnabled() const { return mLocalSearchEnabled; }
@@ -43,7 +99,9 @@ void ServiceManager::setLocalSearchEnabled(bool localSearchEnabled) {
     emit localSearchEnabledChanged(mLocalSearchEnabled);
 }
 
-bool ServiceManager::onlineSearchEnabled() const { return mOnlineSearchEnabled; }
+bool ServiceManager::onlineSearchEnabled() const {
+    return mOnlineSearchEnabled;
+}
 
 void ServiceManager::setOnlineSearchEnabled(bool onlineSearchEnabled) {
     mOnlineSearchEnabled = onlineSearchEnabled;
@@ -68,12 +126,62 @@ QStringList ServiceManager::currentUri() const { return mCurrentUri; }
 
 void ServiceManager::setCurrentUri(const QStringList &currentUri) {
     mCurrentUri = currentUri;
+    emit pageTitleChanged(pageTitle());
+    emit pageIconChanged(pageIcon());
     emit currentUriChanged(mCurrentUri);
 }
 
-bool ServiceManager::currentUriIsEndpoint() const { return mCurrentUriIsEndpoint; }
+bool ServiceManager::currentUriIsEndpoint() const {
+    return mCurrentUriIsEndpoint;
+}
 
 void ServiceManager::setCurrentUriIsEndpoint(bool currentUriIsEndpoint) {
     mCurrentUriIsEndpoint = currentUriIsEndpoint;
+    playlistModel()->setIsEndpoint(currentUriIsEndpoint);
     emit currentUriIsEndpointChanged(mCurrentUriIsEndpoint);
+}
+
+QString ServiceManager::pageTitle() const {
+    if (currentUri().isEmpty()) return tr("Playlist");
+    return currentUri().first();
+}
+
+void ServiceManager::setPageTitle(const QString &title) {
+    emit pageTitleChanged(pageTitle());
+}
+
+QString ServiceManager::pageIcon() const {
+    if (currentUri().isEmpty()) return "qrc:/assets/favorites.svg";
+    return mServiceMap.value(currentUri().first())->icon();
+}
+
+void ServiceManager::setPageIcon(const QString &icon) {
+    emit pageIconChanged(pageIcon());
+}
+
+void ServiceManager::enter(const QString &name) {
+    QStringList uri = currentUri();
+    uri.append(name);
+    visit(uri);
+}
+
+PlaylistModel *ServiceManager::playlistModel() const { return mPlaylistModel; }
+
+ServiceListModel *ServiceManager::serviceListModel() const {
+    return mServiceListModel;
+}
+
+void ServiceManager::refresh() {
+    auto service = mServiceMap.value(currentUri().first());
+    service->handleRefreshContentRequest(currentUri());
+}
+
+void ServiceManager::back() {
+    QStringList uri = currentUri();
+    uri.removeLast();
+    visit(uri);
+}
+
+void ServiceManager::play(int id) {
+    QueueManager::instance()->playPlaylist(mMediaList, id);
 }

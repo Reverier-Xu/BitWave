@@ -16,6 +16,11 @@
 #include <QObject>
 #include <QStringList>
 
+#include "models/media.h"
+#include "models/ui/playlist_model.h"
+#include "models/ui/service_list_model.h"
+#include "services/base_service.h"
+
 class ServiceManager : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool localSearchEnabled READ localSearchEnabled WRITE
@@ -28,8 +33,12 @@ class ServiceManager : public QObject {
                    setVideoSearchEnabled NOTIFY videoSearchEnabledChanged)
     Q_PROPERTY(QStringList currentUri READ currentUri WRITE setCurrentUri NOTIFY
                    currentUriChanged)
-    Q_PROPERTY(bool currentUriIsEndpoint READ currentUriIsEndpoint NOTIFY
-                   currentUriChanged)
+    Q_PROPERTY(bool currentUriIsEndpoint READ currentUriIsEndpoint WRITE
+                   setCurrentUriIsEndpoint NOTIFY currentUriChanged)
+    Q_PROPERTY(QString pageTitle READ pageTitle WRITE setPageTitle NOTIFY
+                   pageTitleChanged)
+    Q_PROPERTY(
+        QString pageIcon READ pageIcon WRITE setPageIcon NOTIFY pageIconChanged)
    private:
     bool mLocalSearchEnabled{true};
     bool mOnlineSearchEnabled{false};
@@ -38,10 +47,18 @@ class ServiceManager : public QObject {
     QStringList mCurrentUri{};
     bool mCurrentUriIsEndpoint{false};
 
+    QList<Media> mMediaList{};
+    QMap<QString, QString> mUriMap{};
+    QMap<QString, BaseService *> mServiceMap{};
+    PlaylistModel *mPlaylistModel{};
+    ServiceListModel *mServiceListModel{};
+
    protected:
     explicit ServiceManager(QObject *parent);
 
     static ServiceManager *mInstance;
+
+    void registerService(BaseService *service);
 
    public:
     [[nodiscard]] static ServiceManager *instance(QObject *parent);
@@ -76,10 +93,30 @@ class ServiceManager : public QObject {
 
     void setCurrentUriIsEndpoint(bool isEndpoint);
 
+    [[nodiscard]] QString pageTitle() const;
+
+    void setPageTitle(const QString &title);
+
+    [[nodiscard]] QString pageIcon() const;
+
+    void setPageIcon(const QString &icon);
+
+    [[nodiscard]] PlaylistModel *playlistModel() const;
+
+    [[nodiscard]] ServiceListModel *serviceListModel() const;
+
    public slots:
     Q_INVOKABLE void search(const QString &input);
 
-    Q_INVOKABLE void visit(const QString &uri);
+    Q_INVOKABLE void visit(const QStringList &uri);
+
+    Q_INVOKABLE void enter(const QString &name);
+
+    Q_INVOKABLE void refresh();
+
+    Q_INVOKABLE void back();
+
+    Q_INVOKABLE void play(int id);
 
    signals:
     void localSearchEnabledChanged(bool enabled);
@@ -93,4 +130,10 @@ class ServiceManager : public QObject {
     void currentUriChanged(const QStringList &uri);
 
     void currentUriIsEndpointChanged(bool isEndpoint);
+
+    void pageTitleChanged(const QString &title);
+
+    void pageIconChanged(const QString &icon);
+
+    void contentChanged();
 };

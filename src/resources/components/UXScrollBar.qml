@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 ScrollBar {
     id: scroll
     width: 6
+    minimumSize: 0.1
     background: Rectangle {
         implicitWidth: 6
         radius: width / 2

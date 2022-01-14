@@ -8,6 +8,7 @@ PushArea {
     property int theId
     property bool theStatus
     flat: true
+    border.color: "transparent"
 
     height: 36
 
@@ -15,9 +16,18 @@ PushArea {
     signal removeTriggered(int triggerId);
     signal clearTriggered();
 
+    // Rectangle {
+    //     anchors.fill: parent
+    //     color: theId % 2 == 0 ? "#20808080" : "transparent"
+    // }
     Rectangle {
-        anchors.fill: parent
-        color: theId % 2 == 0 ? "#20808080" : "transparent"
+        anchors.verticalCenter: parent.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: 12
+        anchors.right: parent.right
+        anchors.rightMargin: 12
+        height: 1
+        color: "#60808080"
     }
 
     Text {

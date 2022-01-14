@@ -16,6 +16,11 @@
 
 #include "models/media.h"
 
+enum class ServiceUriType {
+    Page,
+    Playlist
+};
+
 class BaseService : public QObject {
     Q_OBJECT
     Q_PROPERTY(
@@ -28,7 +33,7 @@ class BaseService : public QObject {
     QString mIcon;
 
    public:
-    explicit BaseService(BaseService *parent = nullptr);
+    explicit BaseService(QObject *parent = nullptr);
 
     ~BaseService() override = default;
 
@@ -45,28 +50,28 @@ class BaseService : public QObject {
     virtual void saveSettings() const = 0;
 
    public slots:
-    virtual void handleRefreshContentRequest(const QString &uri) = 0;
+    virtual void handleRefreshContentRequest(const QStringList &uri) = 0;
 
-    virtual void handleCreatePageRequest(const QString &uri,
+    virtual void handleCreatePageRequest(const QStringList &uri,
                                          const QString &page) = 0;
 
-    virtual void handleDeletePageRequest(const QString &uri,
+    virtual void handleDeletePageRequest(const QStringList &uri,
                                          const QString &page) = 0;
 
     virtual void handleSearchMediaRequest(const QString &keyword) = 0;
 
-    virtual void handleCreateMediaRequest(const QString &uri,
+    virtual void handleCreateMediaRequest(const QStringList &uri,
                                           const Media &data) = 0;
 
-    virtual void handleUpdateMediaRequest(const QString &uri,
+    virtual void handleUpdateMediaRequest(const QStringList &uri,
                                           const Media &data) = 0;
 
-    virtual void handleDeleteMediaRequest(const QString &uri,
+    virtual void handleDeleteMediaRequest(const QStringList &uri,
                                           const Media &data) = 0;
 
-    virtual void handleGetUriRequest(const QString &uri) = 0;
+    virtual void handleGetUriRequest(const QStringList &uri) = 0;
 
-    virtual void getUriType(const QString &uri) = 0;
+    virtual ServiceUriType getUriType(const QStringList &uri) = 0;
 
    signals:
     void nameChanged(const QString &name);
@@ -86,5 +91,5 @@ class BaseService : public QObject {
 
     void getMediaIsCompleted(bool ok, QList<Media> data);
 
-    void getSubPageIsComplated(bool ok, QList<QString> data);
+    void getSubPageIsCompleted(bool ok, QMap<QString, QString> data);
 };

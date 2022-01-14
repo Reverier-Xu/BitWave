@@ -137,6 +137,8 @@ class QueueManager : public QObject {
 
     Q_INVOKABLE void loadPlaylist(const QList<Media> &mediaList);
 
+    Q_INVOKABLE void playPlaylist(const QList<Media> &mediaList, int id);
+
    signals:
 
     void playModeChanged(int mode);

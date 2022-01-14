@@ -37,7 +37,9 @@ set(MODELS_SRCS
         models/ui/service_list_model.cpp
         models/ui/service_list_model.h
         models/ui/media_queue_model.cpp
-        models/ui/media_queue_model.h)
+        models/ui/media_queue_model.h
+        models/ui/playlist_model.cpp
+        models/ui/playlist_model.h)
 
 set(PARSERS_SRCS
         parsers/base_parser.cpp
@@ -76,6 +78,8 @@ set(UTILITIES_SRCS
         utilities/mpv_helper.h
         utilities/color_helper.cpp
         utilities/color_helper.h
+        utilities/string_helper.cpp
+        utilities/string_helper.h
         utilities/ncm_helper.cpp
         utilities/ncm_helper.h
         utilities/search_helper.cpp

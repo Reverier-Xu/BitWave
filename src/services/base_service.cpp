@@ -12,7 +12,7 @@
 #include "base_service.h"
 
 
-BaseService::BaseService(BaseService *parent) : QObject(parent) {}
+BaseService::BaseService(QObject *parent) : QObject(parent) {}
 
 QString BaseService::name() const { return mName; }
 

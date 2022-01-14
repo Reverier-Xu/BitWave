@@ -45,9 +45,13 @@ void GuiManager::exportManagers() {
     mUiEngine->rootContext()->setContextProperty(
         "service", ServiceManager::instance(this->parent()));
     mUiEngine->rootContext()->setContextProperty(
-        "lyricsModel", PlayerManager::instance()->getLyricsModel());
+        "lyricsModel", PlayerManager::instance(this->parent())->getLyricsModel());
     mUiEngine->rootContext()->setContextProperty(
-        "mainQueueModel", QueueManager::instance()->getQueueModel());
+        "mainQueueModel", QueueManager::instance(this->parent())->getQueueModel());
+    mUiEngine->rootContext()->setContextProperty(
+        "serviceListModel", ServiceManager::instance(this->parent())->serviceListModel());
+    mUiEngine->rootContext()->setContextProperty(
+        "playlistModel", ServiceManager::instance(this->parent())->playlistModel());
 }
 
 GuiManager *GuiManager::instance(QObject *parent) {
