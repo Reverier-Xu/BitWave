@@ -13,7 +13,7 @@
 #include <QStandardPaths>
 #include <QThread>
 
-#ifdef Qt5DBus_FOUND
+#ifdef QT_DBUS_LIB
 
 #include "dbus/mpris2.h"
 
@@ -45,7 +45,7 @@ void AppManager::initialize(const QString &file) {
     LyricProviderManager::instance()->moveToThread(mLyricProviderThread);
     mLyricProviderThread->start();
 
-#ifdef Qt5DBus_FOUND
+#ifdef QT_DBUS_LIB
     using mpris::Mpris2;
     new Mpris2(this);
 //    qDebug() << "MPRIS2 loaded.";
