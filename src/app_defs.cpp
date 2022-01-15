@@ -51,36 +51,49 @@ const unsigned char NCM_DEC_PNG_HEADER[8] = {
 };
 
 QByteArray BitWaveConstants::webApiAesKey() {
-    return QByteArray(WEB_API_AES_KEY);
+    const static QByteArray webApiAesKey(WEB_API_AES_KEY);
+    return webApiAesKey;
 }
 
 QByteArray BitWaveConstants::webApiAesIv() {
-    return QByteArray(WEB_API_AES_IV);
+    const static QByteArray webApiAesIv(WEB_API_AES_IV);
+    return webApiAesIv;
 }
 
 QString BitWaveConstants::webApiRsaPubkeyN() {
-    return QString(WEB_API_RSA_PUBKEY_N);
+    const static QString webApiRsaPubkeyN(WEB_API_RSA_PUBKEY_N);
+    return webApiRsaPubkeyN;
 }
 
 QByteArray BitWaveConstants::linuxApiAesKey() {
-    return QByteArray(LINUX_API_AES_KEY);
+    const static QByteArray linuxApiAesKey(LINUX_API_AES_KEY);
+    return linuxApiAesKey;
 }
 
 QByteArray BitWaveConstants::cliApiDigestSalt() {
-    return QByteArray(CLI_API_DIGEST_SALT);
+    const static QByteArray cliApiDigestSalt(CLI_API_DIGEST_SALT);
+    return cliApiDigestSalt;
 }
 
 QByteArray BitWaveConstants::cliApiDataSalt() {
-    return QByteArray(CLI_API_DATA_SALT);
+    const static QByteArray cliApiDataSalt(CLI_API_DATA_SALT);
+    return cliApiDataSalt;
 }
 
 QByteArray BitWaveConstants::cliApiAesKey() {
-    return QByteArray(CLI_API_AES_KEY);
+    const static QByteArray cliApiAesKey(CLI_API_AES_KEY);
+    return cliApiAesKey;
 }
 
-QByteArray BitWaveConstants::base62Table() { return QByteArray(BASE62); }
+QByteArray BitWaveConstants::base62Table() {
+    const static QByteArray base62Table(BASE62);
+    return base62Table;
+}
 
-QByteArray BitWaveConstants::cliApiUa() { return QByteArray(CLI_API_UA); }
+QByteArray BitWaveConstants::cliApiUa() {
+    const static QByteArray cliApiUa(CLI_API_UA);
+    return cliApiUa;
+}
 
 QByteArray BitWaveConstants::ncmCoreKey() {
     QByteArray res;
@@ -107,6 +120,7 @@ QByteArray BitWaveConstants::pngHeader() {
 }
 
 QString BitWaveConstants::getNeteaseLyricsApiAddress(const QString &musicId) {
-    return "https://music.163.com/api/song/lyric?id=" + musicId +
-           "&lv=1&kv=-1&tv=1";
+    const static QString neteaseLyricsApiAddress{QStringLiteral(
+        "https://music.163.com/api/song/lyric?id=%1&lv=1&kv=-1&tv=1")};
+    return neteaseLyricsApiAddress.arg(musicId);
 }
