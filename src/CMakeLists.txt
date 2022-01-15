@@ -1,14 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_MODULE_PATH
-        ${CMAKE_SOURCE_DIR}/cmake
-        ${CMAKE_MODULE_PATH}
-        ${ECM_MODULE_PATH})
-
-set(QAPPLICATION_CLASS QApplication CACHE STRING "Inheritance class for SingleApplication")
-
 qt5_add_resources(RESOURCES ./resources/main.qrc)
 
 set(MANAGERS_SRCS
@@ -99,7 +90,7 @@ set(SERVICES_SRCS
         services/base_service.h
         services/local_music_service.cpp
         services/local_music_service.h)
-        
+
 set(SRCS
         entry.cpp
         app_defs.cpp
@@ -115,7 +106,7 @@ set(SRCS
         ${RESOURCES})
 
 # DBUS and MPRIS - Unix specific
-if (UNIX AND Qt5DBus_FOUND)
+if (UNIX)
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
     # message("DBUS FOUND")
     # MPRIS 2.0 DBUS interfaces
@@ -144,7 +135,7 @@ if (UNIX AND Qt5DBus_FOUND)
     qt5_add_dbus_interface(SRCS
             dbus/org.kde.kglobalaccel.Component.xml
             dbus/kglobalaccelcomponent)
-endif (UNIX AND Qt5DBus_FOUND)
+endif (UNIX)
 
 optional_source(Qt5DBus_FOUND
         SRCS
