@@ -24,6 +24,7 @@
 #include "lyric_provider_manager.h"
 #include "parser_manager.h"
 #include "player_manager.h"
+#include "queue_manager.h"
 
 void detectPaths();
 
