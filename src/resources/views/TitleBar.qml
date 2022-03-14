@@ -6,7 +6,7 @@ import "../components"
 
 Rectangle {
     id: root
-    color: display.colorStyle ? "#a0ffffff":"#d0000000"
+    color: display.colorStyle ? "#a0ffffff":"#d01b1b1b"
     opacity: display.mouseIsActive ? 1 : 0
     Behavior on opacity {
         NumberAnimation {

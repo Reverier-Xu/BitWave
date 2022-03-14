@@ -4,7 +4,7 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: display.colorStyle? "#ffffff" : "#000000"
+    color: display.colorStyle? "#ffffff" : "#1b1b1b"
 
     Behavior on color {
         ColorAnimation {
@@ -27,7 +27,7 @@ Rectangle {
         anchors.centerIn: parent
         radius: 4
         height: 64
-        color: display.colorStyle ? "#c0ffffff" : "#c0000000"
+        color: display.colorStyle ? "#c0ffffff" : "#c01b1b1b"
         iconSize: 32
         fontSize: 24
         opacity: 0

@@ -7,7 +7,7 @@ import "qrc:/components"
 
 Rectangle {
     id: root
-    color: display.colorStyle? "white" : "black"
+    color: display.colorStyle? "white" : "#1b1b1b"
 
     Behavior on color {
         ColorAnimation {
@@ -22,7 +22,7 @@ Rectangle {
         Rectangle {
             id: videoPlayerLoaderContainer
             anchors.fill: parent
-            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+            color: display.colorStyle ? "#e0ffffff" : "#e01b1b1b"
             opacity: player.isMediaLoading ? 1 : 0
 
             MouseArea {
@@ -80,7 +80,7 @@ Rectangle {
     Rectangle {
         id: musicPlayer
         anchors.fill: videoPlayer
-        color: display.colorStyle? "white" : "black"
+        color: display.colorStyle? "white" : "#1b1b1b"
 
         Behavior on color {
             ColorAnimation {
@@ -155,7 +155,7 @@ Rectangle {
                 }
             }
             radius: width / 2
-            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+            color: display.colorStyle ? "#e0ffffff" : "#e01b1b1b"
 
             Loader {
                 id: musicAvatarLoader

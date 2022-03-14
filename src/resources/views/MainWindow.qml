@@ -88,7 +88,7 @@ FluentWindow {
         anchors.margins: window.visibility === Window.Windowed ? 10 : 0
         border.width: window.visibility === Window.Windowed ? 1 : 0
         border.color: "#40606060"
-        color: display.colorStyle? "#e0e0e0" : "#151515"
+        color: display.colorStyle? "#e0e0e0" : "#242424"
 
         Behavior on color {
             ColorAnimation {

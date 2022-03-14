@@ -7,7 +7,7 @@ Rectangle {
     id: root
     height: 104
     opacity: display.mouseIsActive ? 1 : 0
-    color: display.colorStyle? "#a0ffffff":"#d0000000"
+    color: display.colorStyle? "#a0ffffff":"#d01b1b1b"
     Behavior on color {
         ColorAnimation {
             duration: 280
@@ -70,7 +70,7 @@ Rectangle {
                 }
             }
 
-            color: display.colorStyle ? "#e0ffffff" : "#e0000000"
+            color: display.colorStyle ? "#e0ffffff" : "#e01b1b1b"
             Loader {
                 id: loader
                 radius: parent.width / 4
