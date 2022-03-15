@@ -4,6 +4,20 @@
 
 Fluent Design 已经一股果味了（悲），我要捍卫大直角设计！
 
+## 开始
+
+### Arch Linux
+
+aur/bitwave-git
+
+```
+paru -S bitwave-git
+```
+
+### other platforms
+
+WIP
+
 ## 状态
 
 - 理论上 MPV 能放的这里都能放，不过部分格式偷懒没写（XD

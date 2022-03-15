@@ -4,6 +4,20 @@ A simple media player based on MPV and Qt5.
 
 [**简体中文**](README.cn.md)
 
+## Quick Start
+
+### Arch Linux
+
+aur/bitwave-git
+
+```
+paru -S bitwave-git
+```
+
+### other platforms
+
+WIP
+
 ## Status
 
 - Theoretically BitWave can playing all the formats that MPV supported (After all, it is based on the MPV)
