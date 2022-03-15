@@ -30,7 +30,7 @@ Rectangle {
         flat: true
         anchors.right: parent.right
         anchors.top: parent.top
-        width: 54
+        width: 48
         height: 32
         onClicked: {
             window.hide();
@@ -45,7 +45,7 @@ Rectangle {
         anchors.right: closeButton.left
         anchors.top: parent.top
         border.color: "transparent"
-        width: 54
+        width: 48
         height: 32
         onClicked: {
             if (window.visibility === Window.Maximized || window.visibility === Window.FullScreen)
@@ -57,7 +57,7 @@ Rectangle {
 
     IconButton {
         id: fullscreenButton
-        width: 54
+        width: 48
         height: 32
         iconSize: 16
         flat: true
@@ -81,7 +81,7 @@ Rectangle {
         anchors.right: fullscreenButton.left
         anchors.top: parent.top
         border.color: "transparent"
-        width: 54
+        width: 48
         height: 32
         onClicked: {
             window.showMinimized();
@@ -108,8 +108,8 @@ Rectangle {
         icon: "qrc:/assets/navigation.svg"
         anchors.left: parent.left
         anchors.top: parent.top
+        width: 48
         height: 32
-        width: 54
         flat: true
         border.color: "transparent"
         onClicked: {
@@ -137,8 +137,8 @@ Rectangle {
         icon: "qrc:/assets/open.svg"
         anchors.left: titleButton.right
         anchors.top: parent.top
+        width: 48
         height: 32
-        width: 54
         flat: true
         border.color: "transparent"
         onClicked: fileDialog.open()
