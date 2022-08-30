@@ -187,3 +187,12 @@ void ServiceManager::back() {
 void ServiceManager::play(int id) {
     QueueManager::instance()->playPlaylist(mMediaList, id);
 }
+
+QString ServiceManager::filterString() const {
+    return mFilterString;
+}
+
+void ServiceManager::setFilterString(const QString &filterString) {
+    mFilterString = filterString;
+    emit filterStringChanged(mFilterString);
+}
