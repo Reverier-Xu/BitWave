@@ -165,7 +165,9 @@ void ServiceManager::enter(const QString &name) {
     visit(uri);
 }
 
-PlaylistModel *ServiceManager::playlistModel() const { return mPlaylistModel; }
+PlaylistModel *ServiceManager::playlistModel() const {
+    return mPlaylistModel;
+}
 
 ServiceListModel *ServiceManager::serviceListModel() const {
     return mServiceListModel;

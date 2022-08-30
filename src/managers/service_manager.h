@@ -37,6 +37,8 @@ class ServiceManager : public QObject {
                    setCurrentUriIsEndpoint NOTIFY currentUriChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle WRITE setPageTitle NOTIFY
                    pageTitleChanged)
+    Q_PROPERTY(QString filterString READ filterString WRITE setFilterString NOTIFY
+                   filterStringChanged)
     Q_PROPERTY(
         QString pageIcon READ pageIcon WRITE setPageIcon NOTIFY pageIconChanged)
    private:
@@ -46,6 +48,7 @@ class ServiceManager : public QObject {
     bool mVideoSearchEnabled{false};
     QStringList mCurrentUri{};
     bool mCurrentUriIsEndpoint{false};
+    QString mFilterString{};
 
     QList<Media> mMediaList{};
     QMap<QString, QString> mUriMap{};
@@ -100,6 +103,10 @@ class ServiceManager : public QObject {
     [[nodiscard]] QString pageIcon() const;
 
     void setPageIcon(const QString &icon);
+
+    [[nodiscard]] QString filterString() const;
+
+    void setFilterString(const QString &filterString);
 
     [[nodiscard]] PlaylistModel *playlistModel() const;
 

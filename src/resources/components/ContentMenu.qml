@@ -19,9 +19,15 @@ Menu {
         implicitHeight: 40
     }
 
+    topPadding: 0
+    bottomPadding: 0
+    leftPadding: 0
+    rightPadding: 0
+
     contentItem: ListView {
         id: contentMenuList
-        height: 32*count
+        height: 32 * count
+
         delegate: PushButton {
             showIcon: true
             icon: itemIcon
@@ -40,3 +46,4 @@ Menu {
         }
     }
 }
+BitWave
