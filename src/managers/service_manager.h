@@ -143,4 +143,6 @@ class ServiceManager : public QObject {
     void pageIconChanged(const QString &icon);
 
     void contentChanged();
+
+    void filterStringChanged(const QString &filterString);
 };
