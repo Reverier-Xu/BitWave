@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     QApplication::setOrganizationName("Wootec");
     QApplication::setOrganizationDomain("woooo.tech");
     QApplication::setWindowIcon(QIcon(":/assets/logo-fill.svg"));
+    QApplication::setDesktopFileName("tech.woooo.bitwave");
 
     QCommandLineParser parser;
     parser.setApplicationDescription(
