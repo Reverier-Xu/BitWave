@@ -46,6 +46,7 @@ MpvEngine::MpvEngine(QObject *parent) : QObject(parent) {
     mpv_observe_property(mMpv, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mMpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mMpv, 0, "media-title", MPV_FORMAT_STRING);
+    mpv_observe_property(mMpv, 0, "pause", MPV_FORMAT_FLAG);
     mpv_set_wakeup_callback(mMpv, wakeup, this);
 }
 
@@ -72,6 +73,16 @@ void MpvEngine::handleMpvEvent(mpv_event *event) {
                     emit volumeChanged(volume);
                     // qDebug() << "total: " << time;
                 }
+            } else if (strcmp(prop->name, "pause") == 0) {
+                if (prop->format == MPV_FORMAT_FLAG) {
+                    bool isPaused = *(bool *)prop->data;
+                    if (isPaused) {
+                        emit paused();
+                    } else {
+                        emit resumed();
+                    }
+                    // qDebug() << "total: " << time;
+                }
             }
             break;
         }
@@ -87,13 +98,6 @@ void MpvEngine::handleMpvEvent(mpv_event *event) {
             emit paused();
             emit ended();
             break;
-        case MPV_EVENT_UNPAUSE:
-            emit resumed();
-            break;
-        case MPV_EVENT_PAUSE:
-            emit paused();
-            break;
-
         default:;
             // Ignore uninteresting or unknown events.
     }

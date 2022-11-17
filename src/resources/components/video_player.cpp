@@ -51,8 +51,7 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer {
         const QSize &size) override {
         // init mpv_gl:
         if (!obj->mpv_gl) {
-            mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr,
-                                                  nullptr};
+            mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr};
             mpv_render_param params[]{
                 {MPV_RENDER_PARAM_API_TYPE,
                  const_cast<char *>(MPV_RENDER_API_TYPE_OPENGL)},
