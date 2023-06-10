@@ -126,21 +126,22 @@ void Player::connectSignals() {
     });
     connect(m_engine, &Engine::started, this, [=]() {
         resume();
+        setPlaying(true);
         setEnded(false);
-        qDebug() << "started";
+//        qDebug() << "started";
     });
     connect(m_engine, &Engine::ended, this, [=]() {
         setPlaying(false);
         setEnded(true);
-        qDebug() << "ended";
+//        qDebug() << "ended";
     });
     connect(m_engine, &Engine::paused, this, [=]() {
         setPlaying(false);
-        qDebug() << "paused";
+//        qDebug() << "paused";
     });
     connect(m_engine, &Engine::resumed, this, [=]() {
         setPlaying(true);
-        qDebug() << "resumed";
+//        qDebug() << "resumed";
     });
 }
 

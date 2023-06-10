@@ -73,7 +73,7 @@ Rectangle {
                 itemEnabled: true
                 itemIcon: "qrc:/qt/qml/RxUI/assets/music-note-2.svg"
                 itemId: 0
-                itemText: qsTr("Local Music Library")
+                itemText: qsTr("Local Library")
             }
         }
     }

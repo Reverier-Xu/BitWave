@@ -167,10 +167,6 @@ Rectangle {
         icon.source: "qrc:/qt/qml/RxUI/assets/play-random.svg"
         radius: width / 2
         width: 48
-
-        onClicked: {
-            player.playUrl("/home/reverier/Musics/Casey Lee Williams - I Burn.mp3");
-        }
     }
     InteractiveProgressBar {
         id: progressBar

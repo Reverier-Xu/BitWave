@@ -59,12 +59,8 @@ set(
     UI_SRCS
     ui/colorize.cc
     ui/ui.cc
+    ui/router.cc
     ui/main.qrc
-)
-
-set(
-    UTILS_SRCS
-    utils/mpv_helper.h
 )
 
 set(
@@ -79,7 +75,6 @@ set(
     ${PLAYER_SRCS}
     ${PLAYLIST_SRCS}
     ${UI_SRCS}
-    ${UTILS_SRCS}
     main.cc
 )
 set(

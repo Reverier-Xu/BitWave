@@ -81,9 +81,9 @@ void Engine::handleMpvEvent(mpv_event* event) {
         case MPV_EVENT_FILE_LOADED:emit started();
             break;
         case MPV_EVENT_END_FILE: {
-            auto* eventPtr = (mpv_event_end_file*) event;
+            auto* eventPtr = (mpv_event_end_file*) event->data;
             if (eventPtr->reason != MPV_END_FILE_REASON_STOP && eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
-                qDebug() << eventPtr->reason;
+//                qDebug() << eventPtr->reason;
                 emit ended();
             }
         }

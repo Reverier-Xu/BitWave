@@ -15,9 +15,7 @@
 
 class DisplayConfig : public QObject {
    Q_OBJECT
-
     Q_PROPERTY(bool colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
-    Q_PROPERTY(int tabIndex READ tabIndex WRITE setTabIndex NOTIFY tabIndexChanged)
    private:
     bool m_colorStyle = false;
 
@@ -32,10 +30,6 @@ class DisplayConfig : public QObject {
 
     void setColorStyle(bool colorStyle);
 
-    [[nodiscard]] int tabIndex() const;
-
-    void setTabIndex(int tabIndex);
-
    public slots:
     Q_INVOKABLE void saveConfig() const;
 
@@ -44,6 +38,4 @@ class DisplayConfig : public QObject {
    signals:
 
     void colorStyleChanged(bool n);
-
-    void tabIndexChanged(int n);
 };

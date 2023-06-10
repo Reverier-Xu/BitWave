@@ -38,12 +38,3 @@ void DisplayConfig::saveConfig() const {
     settings.setValue("ColorStyle", colorStyle());
     settings.endGroup();
 }
-
-int DisplayConfig::tabIndex() const {
-    return m_tabIndex;
-}
-
-void DisplayConfig::setTabIndex(int tabIndex) {
-    m_tabIndex = tabIndex;
-    emit tabIndexChanged(tabIndex);
-}
