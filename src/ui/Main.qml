@@ -64,8 +64,46 @@ FramelessWindow {
 
             initialItem: playerView
 
+            currentItem: {
+                let rootRoute = router.currentRoute.split("/")[0];
+                switch (rootRoute) {
+                    case "explore":
+                        return exploreView;
+                    case "libraries":
+                        return libraryView;
+                    case "settings":
+                        return settingsView;
+                    case "playlists":
+                        return playlistView;
+                    case "search":
+                        return searchView;
+                    default:
+                        return playerView;
+                }
+            }
+
             PlayerView {
                 id: playerView
+            }
+
+            ExploreView {
+                id: exploreView
+            }
+
+            LibraryView {
+                id: libraryView
+            }
+
+            SettingsView {
+                id: settingsView
+            }
+
+            PlaylistView {
+                id: playlistView
+            }
+
+            SearchView {
+                id: searchView
             }
         }
 
@@ -88,6 +126,15 @@ FramelessWindow {
             anchors.right: parent.right
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
             objectName: "controlBar"
+        }
+    }
+
+    Connections {
+        target: ui
+        function onRaiseWindowRequested() {
+            window.show();
+            window.raise();
+            window.requestActivate();
         }
     }
 }

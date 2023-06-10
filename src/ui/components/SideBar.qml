@@ -53,6 +53,8 @@ Rectangle {
         anchors.topMargin: 12
         icon.source: "qrc:/qt/qml/RxUI/assets/play.svg"
         text: qsTr("Playing now")
+
+        selected: router.currentRoute.startsWith("player")
     }
     ListView {
         anchors.bottom: settingTab.top

@@ -29,8 +29,8 @@ Rectangle {
     Label {
         id: title
 
-        anchors.left: foldButton.right
-        anchors.leftMargin: 4
+        anchors.left: backButton.right
+        anchors.leftMargin: 8
         anchors.verticalCenter: parent.verticalCenter
         font.bold: true
         height: parent.height / 3.5
@@ -129,6 +129,23 @@ Rectangle {
 
         onClicked: window.sideBarExpanded = !window.sideBarExpanded
     }
+    Button {
+        id: backButton
+
+        anchors.left: foldButton.right
+        anchors.verticalCenter: parent.verticalCenter
+        display: AbstractButton.IconOnly
+        flat: true
+        height: 32
+        icon.height: 16
+        icon.source: "qrc:/qt/qml/RxUI/assets/arrow-left.svg"
+        icon.width: 16
+        radius: 0
+        width: 48
+
+        onClicked: router.pop()
+    }
+
     TapHandler {
         gesturePolicy: TapHandler.DragThreshold
 

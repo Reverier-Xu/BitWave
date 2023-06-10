@@ -13,6 +13,7 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include "colorize.h"
+#include "router.h"
 
 
 class Ui : public QObject {
@@ -21,6 +22,7 @@ class Ui : public QObject {
    private:
     QQmlApplicationEngine* m_engine;
     Colorize* m_colorize;
+    Router* m_router;
 
    public:
     explicit Ui(QObject* parent = nullptr);
@@ -37,4 +39,7 @@ class Ui : public QObject {
 
    public slots:
     Q_INVOKABLE void onSecondaryInstanceStarted();
+
+   signals:
+    void raiseWindowRequested();
 };

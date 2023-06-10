@@ -21,6 +21,7 @@ Ui::Ui(QObject* parent) : QObject(parent) {
     std::setlocale(LC_NUMERIC, "C");
     m_engine = new QQmlApplicationEngine(this);
     m_colorize = new Colorize(this);
+    m_router = new Router(this);
 }
 
 Ui::~Ui() = default;
@@ -32,12 +33,14 @@ void Ui::initialize() {
 }
 
 void Ui::onSecondaryInstanceStarted() {
-    // TODO: try to raise window
+    emit raiseWindowRequested();
 }
 
 void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("player", Player::instance(this->parent()));
     m_engine->rootContext()->setContextProperty("displayConfig", Config::instance(this->parent())->displayConfig());
+    m_engine->rootContext()->setContextProperty("ui", this);
+    m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
     qmlRegisterType<VideoPlayer>("RxUI.MediaWidgets", 1, 0, "VideoPlayer");
 //    qmlRegisterType<Media>("RxUI.Models", 1, 0, "Media");

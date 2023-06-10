@@ -93,6 +93,11 @@ set(
 
     # Views
     ui/views/PlayerView.qml
+    ui/views/ExploreView.qml
+    ui/views/LibraryView.qml
+    ui/views/PlaylistView.qml
+    ui/views/SearchView.qml
+    ui/views/SettingsView.qml
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

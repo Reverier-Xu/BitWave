@@ -10,6 +10,55 @@
 
 #pragma once
 
-class Router {
+#include <QObject>
+#include <QStack>
 
+/**
+ * @brief The Router class
+ *
+ * PlayerView: `player`
+ * LibraryView: `libraries/${LIBRARY_ID}/${LIBRARY_VIEW_TYPE}`
+ * PlaylistView: `playlists` `playlists/${PLAYLIST_ID}`
+ * SettingsView: `settings`
+ * SearchView: `search` `search/${KEYWORD}`
+ * ExploreView: `explore` `explore/${EXPLORE_TYPE}`
+ */
+
+
+class Router : public QObject {
+   Q_OBJECT
+
+    Q_PROPERTY(QString currentRoute READ currentRoute WRITE setCurrentRoute NOTIFY currentRouteChanged)
+    Q_PROPERTY(bool hasPrevious READ hasPrevious WRITE setHasPrevious NOTIFY hasPreviousChanged)
+   private:
+    QStack<QString> m_history;
+
+    QString m_currentRoute;
+
+   public:
+    explicit Router(QObject* parent = nullptr);
+
+    ~Router() override;
+
+    [[nodiscard]] QString currentRoute() const;
+
+    void setCurrentRoute(const QString& path);
+
+    [[nodiscard]] bool hasPrevious() const;
+
+    void setHasPrevious(bool hasPrevious);
+
+   public slots:
+
+    void push(const QString& path);
+
+    void pop();
+
+    void clear();
+
+   signals:
+
+    void currentRouteChanged(const QString& path);
+
+    void hasPreviousChanged(bool hasPrevious);
 };
