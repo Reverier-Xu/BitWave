@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/like-colorful.svg</file>
+        <file>assets/movie-colorful.svg</file>
+        <file>assets/music-colorful.svg</file>
+        <file>assets/logo-fill.svg</file>
+        <file>assets/logo-flat.svg</file>
+        <file>assets/logo-full.svg</file>
+        <file>assets/logo.svg</file>
+    </qresource>
+</RCC>
