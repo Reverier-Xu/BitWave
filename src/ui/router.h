@@ -49,12 +49,11 @@ class Router : public QObject {
     void setHasPrevious(bool hasPrevious);
 
    public slots:
+    Q_INVOKABLE void push(const QString& path);
 
-    void push(const QString& path);
+    Q_INVOKABLE void pop();
 
-    void pop();
-
-    void clear();
+    Q_INVOKABLE void clear();
 
    signals:
 

@@ -142,6 +142,7 @@ Rectangle {
         icon.width: 16
         radius: 0
         width: 48
+        enabled: router.hasPrevious
 
         onClicked: router.pop()
     }

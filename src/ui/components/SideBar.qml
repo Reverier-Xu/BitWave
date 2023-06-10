@@ -10,7 +10,7 @@ Rectangle {
     color: Color.transparent(Style.palette.windowText, 0.08)
     width: expanded ? 280 : 0
 
-    Behavior on width  {
+    Behavior on width {
         NumberAnimation {
             duration: 300
             easing.type: Easing.OutExpo
@@ -55,6 +55,10 @@ Rectangle {
         text: qsTr("Playing now")
 
         selected: router.currentRoute.startsWith("player")
+
+        onClicked: {
+            router.push("player")
+        }
     }
     ListView {
         anchors.bottom: settingTab.top
@@ -69,6 +73,11 @@ Rectangle {
             icon.source: itemIcon
             text: itemText
             width: ListView.view.width
+
+            onClicked: {
+                router.push(itemRoute)
+            }
+            selected: router.currentRoute.startsWith(itemRoute)
         }
         model: ListModel {
             ListElement {
@@ -76,6 +85,7 @@ Rectangle {
                 itemIcon: "qrc:/qt/qml/RxUI/assets/music-note-2.svg"
                 itemId: 0
                 itemText: qsTr("Local Library")
+                itemRoute: "libraries/local/all"
             }
         }
     }
@@ -88,5 +98,11 @@ Rectangle {
         anchors.right: parent.right
         icon.source: "qrc:/qt/qml/RxUI/assets/settings.svg"
         text: qsTr("Settings")
+
+        selected: router.currentRoute.startsWith("settings")
+
+        onClicked: {
+            router.push("settings")
+        }
     }
 }

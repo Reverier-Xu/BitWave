@@ -4,5 +4,5 @@ import RxUI
 
 Rectangle {
     id: view
-
+    color: Style.palette.window
 }

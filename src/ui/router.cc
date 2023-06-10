@@ -10,6 +10,8 @@
 
 #include "router.h"
 
+#include <QDebug>
+
 
 Router::Router(QObject* parent) : QObject(parent) {
     m_currentRoute = "player";
@@ -34,13 +36,14 @@ bool Router::hasPrevious() const {
 }
 
 void Router::setHasPrevious(bool hasPrevious) {
-    if (hasPrevious == (m_history.length() > 1)) return;
+    Q_UNUSED(hasPrevious)
     emit hasPreviousChanged(m_history.length() > 1);
 }
 
 void Router::push(const QString& path) {
     setCurrentRoute(path);
     m_history.push(path);
+    setHasPrevious(true);
 }
 
 void Router::pop() {
@@ -51,6 +54,8 @@ void Router::pop() {
         return;
     }
     setCurrentRoute(m_history.top());
+    // will automatically detect, just feel free at here.
+    setHasPrevious(false);
 }
 
 void Router::clear() {

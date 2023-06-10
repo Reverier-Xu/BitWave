@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Window
@@ -18,7 +19,7 @@ FramelessWindow {
     visible: true
     width: 1200
 
-    Behavior on color  {
+    Behavior on color {
         ColorAnimation {
             duration: 280
         }
@@ -51,7 +52,7 @@ FramelessWindow {
             objectName: "sideBar"
         }
 
-        StackView {
+        StackLayout {
             id: stack
 
             anchors.left: sideBar.right
@@ -62,28 +63,32 @@ FramelessWindow {
             anchors.right: parent.right
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
 
-            initialItem: playerView
-
-            currentItem: {
+            currentIndex: {
                 let rootRoute = router.currentRoute.split("/")[0];
                 switch (rootRoute) {
-                    case "explore":
-                        return exploreView;
-                    case "libraries":
-                        return libraryView;
-                    case "settings":
-                        return settingsView;
-                    case "playlists":
-                        return playlistView;
+                    case "player":
+                        return 0;
                     case "search":
-                        return searchView;
+                        return 1;
+                    case "explore":
+                        return 2;
+                    case "libraries":
+                        return 3;
+                    case "playlists":
+                        return 4;
+                    case "settings":
+                        return 5;
                     default:
-                        return playerView;
+                        return 0;
                 }
             }
 
             PlayerView {
                 id: playerView
+            }
+
+            SearchView {
+                id: searchView
             }
 
             ExploreView {
@@ -94,16 +99,12 @@ FramelessWindow {
                 id: libraryView
             }
 
-            SettingsView {
-                id: settingsView
-            }
-
             PlaylistView {
                 id: playlistView
             }
 
-            SearchView {
-                id: searchView
+            SettingsView {
+                id: settingsView
             }
         }
 
@@ -131,6 +132,7 @@ FramelessWindow {
 
     Connections {
         target: ui
+
         function onRaiseWindowRequested() {
             window.show();
             window.raise();
