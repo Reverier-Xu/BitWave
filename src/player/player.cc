@@ -85,7 +85,7 @@ void Player::setMuted(bool n) {
 void Player::resume() {
     if (valid()) {
         if (ended())
-            m_engine->loadFile(media().url());
+            m_engine->play(media().url());
         m_engine->resume();
     }
 }
@@ -98,7 +98,7 @@ void Player::pause() {
 void Player::seek(double n) {
     if (valid()) {
         if (ended())
-            m_engine->loadFile(media().url());
+            m_engine->play(media().url());
         m_engine->seek((double) (n));
     }
 }
@@ -114,22 +114,33 @@ void Player::togglePause() {
 }
 
 void Player::connectSignals() {
-    connect(m_engine, &Engine::currentTimeChanged, this, [=](double secs) { setCurrentTime(secs); });
-    connect(m_engine, &Engine::totalTimeChanged, this, [=](double secs) { setTotalTime(secs); });
-    connect(m_engine, &Engine::volumeChanged, this, [=](double vol) { setVolume(vol); });
+    connect(m_engine, &Engine::currentTimeChanged, this, [=](double secs) {
+        setCurrentTime(secs);
+    });
+    connect(m_engine, &Engine::totalTimeChanged, this, [=](double secs) {
+        setTotalTime(secs);
+//        qDebug() << "total time changed: " << secs;
+    });
+    connect(m_engine, &Engine::volumeChanged, this, [=](double vol) {
+        setVolume(vol);
+    });
     connect(m_engine, &Engine::started, this, [=]() {
-        setPlaying(true);
+        resume();
         setEnded(false);
+        qDebug() << "started";
     });
     connect(m_engine, &Engine::ended, this, [=]() {
         setPlaying(false);
         setEnded(true);
+        qDebug() << "ended";
     });
     connect(m_engine, &Engine::paused, this, [=]() {
         setPlaying(false);
+        qDebug() << "paused";
     });
     connect(m_engine, &Engine::resumed, this, [=]() {
         setPlaying(true);
+        qDebug() << "resumed";
     });
 }
 
@@ -142,11 +153,14 @@ Engine* Player::engine() const {
 }
 
 void Player::play(const Media& media) {
+    if (valid()) {
+        reset();
+    }
     setMedia(media);
 
     setCoverLoading(true);
     setLoading(true);
-
+    setCoverPath("");
     auto* coverWatcher = new QFutureWatcher<QImage>(this);
     connect(coverWatcher, &QFutureWatcher<QImage>::finished, this, [=]() {
         try {
@@ -162,14 +176,14 @@ void Player::play(const Media& media) {
 
     auto decodeWatcher = new QFutureWatcher<QString>(this);
     connect(decodeWatcher, &QFutureWatcher<QString>::finished, this, [=]() {
+        setLoading(false);
         try {
-            m_engine->loadFile(decodeWatcher->result());
+            m_engine->play(decodeWatcher->result());
             setValid(true);
         } catch (...) {
             setValid(false);
             // TODO: warn user here.
         }
-        setLoading(false);
     });
     decodeWatcher->setFuture(QtConcurrent::run(&Codec::decode, media));
 }
@@ -220,6 +234,11 @@ QImage Player::cover() const {
 
 void Player::setCover(const QImage& n) {
     m_cover = n;
+    auto tempCoverPath =
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" + m_media.title() + ".jpg";
+    QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/");
+    n.save(tempCoverPath);
+    setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());
 
     emit coverChanged(n);
 }
@@ -240,4 +259,22 @@ bool Player::coverLoading() const {
 void Player::setCoverLoading(bool n) {
     m_coverLoading = n;
     emit coverLoadingChanged(n);
+}
+
+QString Player::coverPath() const {
+    return m_coverPath;
+}
+
+void Player::setCoverPath(const QString& n) {
+    m_coverPath = n;
+    emit coverPathChanged(n);
+}
+
+void Player::playUrl(const QString& url) {
+    try {
+        auto media = Parser::parse(url);
+        play(media);
+    } catch (...) {
+        // ...
+    }
 }

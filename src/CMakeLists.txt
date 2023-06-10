@@ -120,6 +120,7 @@ target_link_libraries(
     RxUIplugin
     ${MPV_LIBRARIES}
     FFmpeg::avformat
+    FFmpeg::avutil
     SingleApplication::SingleApplication
     QtAES
 )

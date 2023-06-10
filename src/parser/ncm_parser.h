@@ -9,6 +9,7 @@
  */
 
 #pragma once
+
 #include "interface.h"
 
 class NcmParser: public IParser {

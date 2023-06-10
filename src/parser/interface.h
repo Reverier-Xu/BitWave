@@ -1,4 +1,5 @@
 #pragma once
+
 #include <models/media.h>
 
 class IParser {

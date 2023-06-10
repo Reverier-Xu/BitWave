@@ -10,6 +10,7 @@
  */
 
 #include "media.h"
+#include "parser/parser.h"
 
 
 Media::Media(const Media& media) {
@@ -27,6 +28,7 @@ Media& Media::operator=(const Media& media) {
     m_time = media.m_time;
     m_title = media.m_title;
     m_artists = media.m_artists;
+    m_album = media.m_album;
     m_type = media.m_type;
     m_comment = media.m_comment;
     return *this;

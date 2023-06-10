@@ -46,7 +46,7 @@ Rectangle {
                     antialiasing: true
                     mipmap: true
                     smooth: true
-                    source: player.media.cover
+                    source: player.coverPath
                     visible: false
                 }
                 MultiEffect {

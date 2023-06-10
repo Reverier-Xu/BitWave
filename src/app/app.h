@@ -23,7 +23,7 @@ class App : public QObject {
     Ui* m_ui;
 
    protected:
-    void registerTypes();
+    static void registerTypes();
 
    public:
     explicit App(QObject* parent = nullptr);

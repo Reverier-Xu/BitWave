@@ -40,6 +40,7 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("displayConfig", Config::instance(this->parent())->displayConfig());
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
     qmlRegisterType<VideoPlayer>("RxUI.MediaWidgets", 1, 0, "VideoPlayer");
+//    qmlRegisterType<Media>("RxUI.Models", 1, 0, "Media");
 }
 
 void Ui::createUi() {

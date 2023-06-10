@@ -24,8 +24,9 @@ Media FfmpegParser::parse(const QString& path) {
     AVDictionaryEntry *tag = nullptr;
     AVDictionaryEntry *read_tag;
     std::string raw_path = path.toStdString();
+//    qDebug() << "Parsing media: " << raw_path.c_str();
     int ret = avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
-    if (ret < 0) throw std::exception();
+    if (ret < 0) throw std::runtime_error("Failed to parse media.");
     avformat_find_stream_info(ctx, nullptr);
     read_tag = av_dict_get(ctx->metadata, "title", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag)
@@ -57,18 +58,14 @@ Media FfmpegParser::parse(const QString& path) {
     }
 
     // detect file type by iterate ffmpeg streams
-    auto type = UNKNOWN;
-    for (int i = 0; i < ctx->nb_streams; i++) {
-        if (ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-            if (type == UNKNOWN) {
-                type = AUDIO;
-            }
-        } else if (ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-            type = VIDEO;
-            break;
-        }
-    }
-    media.setType(type);
+    auto fileInfo = QFileInfo(path);
+    auto suffix = fileInfo.suffix();
+    if (m_supportedVideoFormats.contains(suffix))
+        media.setType(VIDEO);
+    else if (m_supportedAudioFormats.contains(suffix))
+        media.setType(AUDIO);
+    else
+        media.setType(UNKNOWN);
 
     avformat_close_input(&ctx);
     return media;
@@ -100,5 +97,5 @@ QImage FfmpegParser::extractCover(const Media& src) {
 
 bool FfmpegParser::accepted(const QString& path) {
     auto fileInfo = QFileInfo(path);
-    return m_supportedFormats.contains(fileInfo.suffix());
+    return m_supportedAudioFormats.contains(fileInfo.suffix()) || m_supportedVideoFormats.contains(fileInfo.suffix());
 }

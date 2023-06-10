@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QByteArray>
 #include <QString>
 #include <QJsonDocument>
@@ -43,7 +45,7 @@ const unsigned char NCM_DEC_PNG_HEADER[8] = {
     0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
 };
 
-QByteArray getDecryptedData(const QString &comment) {
+QByteArray inline getDecryptedData(const QString &comment) {
     QByteArray modifyData = comment.toLocal8Bit();
     QByteArray swapModifyData;
     QByteArray modifyOutData;
@@ -70,13 +72,13 @@ QByteArray getDecryptedData(const QString &comment) {
     return modifyDecryptData;
 }
 
-QJsonObject getDecryptedMetadata(const QString &comment) {
+QJsonObject inline getDecryptedMetadata(const QString &comment) {
     auto modifyDecryptData = getDecryptedData(comment);
     auto jsonDoc = QJsonDocument::fromJson(modifyDecryptData);
     return jsonDoc.object();
 }
 
-bool validateNcmFile(QFile& file) {
+bool inline validateNcmFile(QFile& file) {
     quint32 header;
     file.read(reinterpret_cast<char*>(&header), sizeof(header));
     if (header != (unsigned int) 0x4e455443) {
@@ -86,4 +88,5 @@ bool validateNcmFile(QFile& file) {
     if (header != (unsigned int) 0x4d414446) {
         return false;
     }
+    return true;
 }

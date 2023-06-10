@@ -29,6 +29,8 @@ class Engine : public QObject {
 
     QMimeDatabase mMimeDatabase;
 
+    void loadFile(const QString& path);
+
    public:
     explicit Engine(QObject* parent = nullptr);
 
@@ -41,8 +43,6 @@ class Engine : public QObject {
     Q_INVOKABLE void setMpvProperty(const QString& name, const QVariant& value);
 
     [[nodiscard]] Q_INVOKABLE QVariant getMpvProperty(const QString& name) const;
-
-    Q_INVOKABLE void loadFile(const QString& path);
 
     Q_INVOKABLE void play(const QString& path);
 

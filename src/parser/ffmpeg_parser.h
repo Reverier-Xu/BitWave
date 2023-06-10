@@ -9,14 +9,15 @@
  */
 
 #pragma once
+
 #include "interface.h"
 
 class FfmpegParser: public IParser {
    private:
-    QStringList m_supportedFormats = {
-        // popular audio formats
+    QStringList m_supportedAudioFormats = {
         "mp3", "flac", "wav", "ape", "ogg", "aac", "m4a", "wma", "opus",
-        // popular video formats
+    };
+    QStringList m_supportedVideoFormats = {
         "mp4", "mkv", "avi", "wmv", "flv", "mov", "rmvb", "rm", "webm", "mpg", "mpeg", "m4v",
     };
    public:

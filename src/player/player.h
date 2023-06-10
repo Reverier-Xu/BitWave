@@ -21,6 +21,7 @@ class Player : public QObject {
 
     Q_PROPERTY(Media media READ media WRITE setMedia NOTIFY mediaChanged)
     Q_PROPERTY(QImage cover READ cover WRITE setCover NOTIFY coverChanged)
+    Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY coverPathChanged)
 
     Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
     Q_PROPERTY(bool loading READ loading WRITE setLoading NOTIFY loadingChanged)
@@ -36,6 +37,8 @@ class Player : public QObject {
     Media m_media{};
 
     QImage m_cover{};
+
+    QString m_coverPath{"qrc:/assets/music-colorful.svg"};
 
     bool m_playing{false};
 
@@ -79,6 +82,10 @@ class Player : public QObject {
 
     void setCover(const QImage& n);
 
+    [[nodiscard]] QString coverPath() const;
+
+    void setCoverPath(const QString& n);
+
     [[nodiscard]] bool playing() const;
 
     void setPlaying(bool n);
@@ -118,6 +125,8 @@ class Player : public QObject {
    public slots:
     Q_INVOKABLE void play(const Media& media);
 
+    Q_INVOKABLE void playUrl(const QString& url);
+
     Q_INVOKABLE void resume();
 
     Q_INVOKABLE void pause();
@@ -155,4 +164,6 @@ class Player : public QObject {
     void mutedChanged(bool n);
 
     void coverChanged(QImage n);
+
+    void coverPathChanged(QString n);
 };

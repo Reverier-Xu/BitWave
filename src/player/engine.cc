@@ -36,7 +36,7 @@ Engine::Engine(QObject* parent) : QObject(parent) {
     // Request hardware decoding, maybe useful on some laptops.
     setMpvProperty("hwdec", "auto");
 
-    mpv_observe_property(m_mpvHandle, 0, "time", MPV_FORMAT_DOUBLE);
+    mpv_observe_property(m_mpvHandle, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_observe_property(m_mpvHandle, 0, "time-pos", MPV_FORMAT_DOUBLE);
     mpv_observe_property(m_mpvHandle, 0, "pause", MPV_FORMAT_FLAG);
     mpv_observe_property(m_mpvHandle, 0, "volume", MPV_FORMAT_DOUBLE);
@@ -54,11 +54,11 @@ void Engine::handleMpvEvent(mpv_event* event) {
                     emit currentTimeChanged(time);
 //                     qDebug() << "cursor: " << time;
                 }
-            } else if (strcmp(prop->name, "time") == 0) {
+            } else if (strcmp(prop->name, "duration") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
                     double time = *(double*) prop->data;
                     emit totalTimeChanged(time);
-                    // qDebug() << "total: " << time;
+//                     qDebug() << "total: " << time;
                 }
             } else if (strcmp(prop->name, "volume") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
@@ -74,18 +74,19 @@ void Engine::handleMpvEvent(mpv_event* event) {
                     } else {
                         emit resumed();
                     }
-                    // qDebug() << "total: " << time;
                 }
             }
             break;
         }
-            /**
-             * Notification before playback start of a file (before the file is
-             * loaded). See also mpv_event and mpv_event_start_file.
-             */
-        case MPV_EVENT_START_FILE:emit started();
+        case MPV_EVENT_FILE_LOADED:emit started();
             break;
-        case MPV_EVENT_END_FILE:emit ended();
+        case MPV_EVENT_END_FILE: {
+            auto* eventPtr = (mpv_event_end_file*) event;
+            if (eventPtr->reason != MPV_END_FILE_REASON_STOP && eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
+                qDebug() << eventPtr->reason;
+                emit ended();
+            }
+        }
             break;
         default:;
             // Ignore uninteresting or unknown events.

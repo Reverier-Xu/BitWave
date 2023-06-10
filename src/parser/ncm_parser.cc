@@ -59,17 +59,7 @@ QImage NcmParser::extractCover(const Media& src) {
     QFile ncmFile(QUrl(src.url()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
-    quint32 header;
-    ncmFile.read(reinterpret_cast<char*>(&header), sizeof(header));
-    if (header != (unsigned int) 0x4e455443) {
-        ncmFile.close();
-        throw std::runtime_error("Not a ncm file.");
-    }
-    ncmFile.read(reinterpret_cast<char*>(&header), sizeof(header));
-    if (header != (unsigned int) 0x4d414446) {
-        ncmFile.close();
-        throw std::runtime_error("Not a ncm file.");
-    }
+    validateNcmFile(ncmFile);
     ncmFile.seek(10);
     quint32 key_len;
     ncmFile.read(reinterpret_cast<char*>(&key_len), sizeof(key_len));

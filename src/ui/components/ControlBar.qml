@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import RxUI
+// import RxUI.Models
 
 Rectangle {
     id: control
@@ -29,7 +30,7 @@ Rectangle {
             antialiasing: true
             mipmap: true
             smooth: true
-            source: player.media.cover
+            source: player.coverPath
             visible: false
         }
         MultiEffect {
@@ -168,8 +169,7 @@ Rectangle {
         width: 48
 
         onClicked: {
-            let media = new Media({url: ""});
-            player.play(media);
+            player.playUrl("/home/reverier/Musics/Casey Lee Williams - I Burn.mp3");
         }
     }
     InteractiveProgressBar {

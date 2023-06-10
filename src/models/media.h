@@ -36,6 +36,7 @@ class Media : public QObject {
     Q_PROPERTY(MediaType type READ type WRITE setType)
     Q_PROPERTY(QString album READ album WRITE setAlbum)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
+
    private:
     QString m_url;
 
