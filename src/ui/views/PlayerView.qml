@@ -61,8 +61,9 @@ Rectangle {
 
                     anchors.fill: cover
                     maskEnabled: true
-                    maskSpreadAtMin: 0
-                    maskThresholdMin: 0
+                    maskSpreadAtMin: 1
+                    maskSpreadAtMax: 1
+                    maskThresholdMin: 0.5
                     source: cover
 
                     maskSource: ShaderEffectSource {
