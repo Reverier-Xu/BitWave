@@ -20,7 +20,10 @@ Media NcmParser::parse(const QString& path) {
     media.setType(AUDIO);
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
-    validateNcmFile(ncmFile);
+    if (!validateNcmFile(ncmFile)) {
+        ncmFile.close();
+        throw std::runtime_error("Not a valid ncm file.");
+    }
     ncmFile.seek(10);
     quint32 key_len;
     ncmFile.read(reinterpret_cast<char*>(&key_len), sizeof(key_len));
@@ -40,9 +43,11 @@ Media NcmParser::parse(const QString& path) {
         auto metadata = getDecryptedMetadata(modifyData);
         media.setTitle(metadata["musicName"].toString());
         auto artists = metadata["artist"].toArray();
+//        qDebug() << artists;
         QStringList artistList;
         for (auto artist : artists) {
-            artistList.append(artist.toString());
+//            qDebug() << artist;
+            artistList.append(artist.toArray()[0].toString());
         }
         media.setArtists(artistList);
         media.setTime(metadata["duration"].toDouble() / 1000);

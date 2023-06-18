@@ -12,6 +12,15 @@ T.Menu {
     overlap: 1
     padding: 1
 
+    enter: Transition {
+        NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 120 }
+        NumberAnimation { property: "height"; from: implicitHeight / 2; to: implicitHeight; duration: 300; easing.type: Easing.OutExpo }
+    }
+    exit: Transition {
+        NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 120 }
+        NumberAnimation { property: "height"; from: implicitHeight; to: implicitHeight / 2; duration: 300; easing.type: Easing.OutExpo }
+    }
+
     T.Overlay.modal: Rectangle {
         color: "transparent"
     }
@@ -20,7 +29,7 @@ T.Menu {
     }
     background: Rectangle {
         border.color: Style.palette.mid
-        border.width: 1 // FlyoutBorderThemeThickness
+        border.width: 1
         color: Style.palette.toolTipBase
         implicitHeight: 38
         implicitWidth: 200

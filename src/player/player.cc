@@ -19,6 +19,7 @@ Player* Player::m_instance = nullptr;
 
 Player::Player(QObject* parent) : QObject(parent) {
     m_engine = new Engine(this);
+    m_queue = new PlayQueue(this);
     m_cover.load(":/assets/music-colorful.svg");
 
     connectSignals();
@@ -70,6 +71,7 @@ double Player::volume() const {
 
 void Player::setVolume(double n) {
     m_volume = n;
+//    qDebug() << "volume changed: " << n;
     emit volumeChanged(n);
 }
 
@@ -133,6 +135,7 @@ void Player::connectSignals() {
     connect(m_engine, &Engine::ended, this, [=]() {
         setPlaying(false);
         setEnded(true);
+        m_queue->next();
 //        qDebug() << "ended";
     });
     connect(m_engine, &Engine::paused, this, [=]() {
@@ -142,6 +145,10 @@ void Player::connectSignals() {
     connect(m_engine, &Engine::resumed, this, [=]() {
         setPlaying(true);
 //        qDebug() << "resumed";
+    });
+
+    connect(m_queue, &PlayQueue::mediaChanged, this, [=](const Media& media) {
+        play(media);
     });
 }
 
@@ -154,8 +161,12 @@ Engine* Player::engine() const {
 }
 
 void Player::play(const Media& media) {
+    auto taskId = ++m_taskId;
     if (valid()) {
         reset();
+    }
+    if (media.type() == UNKNOWN) {
+        return;
     }
     setMedia(media);
 
@@ -164,6 +175,9 @@ void Player::play(const Media& media) {
     setCoverPath("");
     auto* coverWatcher = new QFutureWatcher<QImage>(this);
     connect(coverWatcher, &QFutureWatcher<QImage>::finished, this, [=]() {
+        if (taskId != m_taskId) {
+            return;
+        }
         try {
             setCover(coverWatcher->result());
         } catch (...) {
@@ -172,11 +186,15 @@ void Player::play(const Media& media) {
             setCover(image);
         }
         setCoverLoading(false);
+        coverWatcher->deleteLater();
     });
     coverWatcher->setFuture(QtConcurrent::run(&Parser::extractCover, media));
 
     auto decodeWatcher = new QFutureWatcher<QString>(this);
     connect(decodeWatcher, &QFutureWatcher<QString>::finished, this, [=]() {
+        if (taskId != m_taskId) {
+            return;
+        }
         setLoading(false);
         try {
             m_engine->play(decodeWatcher->result());
@@ -185,6 +203,7 @@ void Player::play(const Media& media) {
             setValid(false);
             // TODO: warn user here.
         }
+        decodeWatcher->deleteLater();
     });
     decodeWatcher->setFuture(QtConcurrent::run(&Codec::decode, media));
 }
@@ -225,8 +244,6 @@ void Player::reset() {
     setMedia(Media());
     setCurrentTime(0);
     setTotalTime(0);
-    setVolume(0);
-    setMuted(false);
 }
 
 QImage Player::cover() const {
@@ -236,7 +253,8 @@ QImage Player::cover() const {
 void Player::setCover(const QImage& n) {
     m_cover = n;
     auto tempCoverPath =
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" + m_media.title() + ".jpg";
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" +
+        m_media.title().replace("/", "-") + ".jpg";
     QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/");
     n.save(tempCoverPath);
     setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());
@@ -278,4 +296,8 @@ void Player::playUrl(const QString& url) {
     } catch (...) {
         // ...
     }
+}
+
+PlayQueue* Player::queue() const {
+    return m_queue;
 }

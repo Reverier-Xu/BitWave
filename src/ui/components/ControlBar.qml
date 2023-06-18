@@ -1,14 +1,17 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import QtQuick.Layouts
 import RxUI
 // import RxUI.Models
 
 Rectangle {
     id: control
 
-    color: Color.transparent(Style.palette.window, 0.8)
+    color: Color.transparent(Style.palette.window, 0.95)
     height: 100
+    property bool queueVisible: false
+    property bool optionVisible: false
 
     Rectangle {
         id: coverContainer
@@ -27,10 +30,11 @@ Rectangle {
             id: cover
 
             anchors.fill: parent
+            smooth: true
             antialiasing: true
             mipmap: true
-            smooth: true
             source: player.coverPath
+            sourceSize: parent.size
             visible: false
         }
         MultiEffect {
@@ -49,7 +53,28 @@ Rectangle {
                     height: cover.height
                     radius: 12
                     width: cover.width
+                    smooth: true
+                    antialiasing: true
                 }
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: Color.transparent(Style.palette.window, 0.60)
+            opacity: (player.loading || player.coverLoading) ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            Loader {
+                id: loader
+                radius: 12
+                anchors.centerIn: parent
+                running: player.loading || player.coverLoading
             }
         }
     }
@@ -59,7 +84,7 @@ Rectangle {
         anchors.bottom: parent.verticalCenter
         anchors.left: coverContainer.right
         anchors.leftMargin: 16
-        anchors.right: previousButton.left
+        anchors.right: centerContainer.left
         anchors.rightMargin: 16
         font.bold: true
         height: parent.height / 3.5
@@ -91,89 +116,140 @@ Rectangle {
             x: 0
         }
     }
-    TimeButton {
-        id: previousButton
 
-        anchors.right: pauseButton.left
-        anchors.rightMargin: 16
-        anchors.verticalCenter: pauseButton.verticalCenter
-        icon.source: "qrc:/qt/qml/RxUI/assets/previous.svg"
-        tempTime: progressBar.currentValue
+    RowLayout {
+        id: centerContainer
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 16
+
+        TimeButton {
+            id: previousButton
+            icon.source: "qrc:/qt/qml/RxUI/assets/previous.svg"
+            tempTime: progressBar.currentValue
+
+            onClicked: {
+                queue.prev()
+            }
+        }
+        PauseButton {
+            id: pauseButton
+
+            objectName: "pauseButton"
+            showTime: progressBar.onDragging
+            tempTime: progressBar.dragValue
+            implicitWidth: 64
+            implicitHeight: 64
+
+            onClicked: player.togglePause()
+        }
+        TimeButton {
+            id: nextButton
+            icon.source: "qrc:/qt/qml/RxUI/assets/next.svg"
+            tempTime: progressBar.totalValue
+
+            onClicked: {
+                queue.next()
+            }
+        }
     }
-    PauseButton {
-        id: pauseButton
 
-        anchors.centerIn: parent
-        objectName: "pauseButton"
-        showTime: progressBar.onDragging
-        tempTime: progressBar.dragValue
-        width: 64
 
-        onClicked: player.togglePause()
-    }
-    TimeButton {
-        id: nextButton
-
-        anchors.left: pauseButton.right
-        anchors.leftMargin: 16
-        anchors.verticalCenter: pauseButton.verticalCenter
-        icon.source: "qrc:/qt/qml/RxUI/assets/next.svg"
-        tempTime: progressBar.totalValue
-    }
-    Button {
-        id: queueButton
-
+    RowLayout {
+        id: rightContainer
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         anchors.right: parent.right
+        spacing: 8
         anchors.rightMargin: 24
-        anchors.verticalCenter: parent.verticalCenter
-        display: AbstractButton.IconOnly
-        flat: true
-        height: 48
-        icon.source: "qrc:/qt/qml/RxUI/assets/list.svg"
-        radius: width / 2
-        width: 48
-    }
-    VolumeButton {
-        id: volumeButton
 
-        anchors.right: queueButton.left
-        anchors.rightMargin: 8
-        anchors.verticalCenter: parent.verticalCenter
-        height: 48
-        width: 48
-    }
-    Button {
-        id: optionButton
+        Button {
+            id: modeButton
 
-        anchors.right: volumeButton.left
-        anchors.rightMargin: 8
-        anchors.verticalCenter: parent.verticalCenter
-        display: AbstractButton.IconOnly
-        flat: true
-        height: 48
-        icon.source: "qrc:/qt/qml/RxUI/assets/options.svg"
-        radius: width / 2
-        width: 48
-    }
-    Button {
-        id: modeButton
+            display: AbstractButton.IconOnly
+            flat: true
+            icon.source: queue.modeIcon
+            radius: width / 2
+            implicitHeight: 48
+            implicitWidth: 48
 
-        anchors.right: optionButton.left
-        anchors.rightMargin: 8
-        anchors.verticalCenter: parent.verticalCenter
-        display: AbstractButton.IconOnly
-        flat: true
-        height: 48
-        icon.source: "qrc:/qt/qml/RxUI/assets/play-random.svg"
-        radius: width / 2
-        width: 48
+            onClicked: {
+                queue.toggleChangeMode()
+            }
+        }
+
+        VolumeButton {
+            id: volumeButton
+
+            implicitHeight: 48
+            implicitWidth: 48
+        }
+
+        Rectangle {
+            width: 1
+            color: Style.palette.mid
+            height: 16
+        }
+
+        Button {
+            id: optionButton
+
+            display: AbstractButton.IconOnly
+            flat: !control.optionVisible
+            implicitHeight: 48
+            implicitWidth: 48
+            icon.source: control.optionVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/options.svg"
+            radius: width / 2
+            rotation: control.optionVisible ? 90 : 0
+
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            onClicked: {
+                if (control.queueVisible)
+                    control.queueVisible = false
+                control.optionVisible = !control.optionVisible
+            }
+        }
+
+        Button {
+            id: queueButton
+
+            display: AbstractButton.IconOnly
+            flat: !control.queueVisible
+            implicitHeight: 48
+            implicitWidth: 48
+            icon.source: control.queueVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/list.svg"
+            radius: width / 2
+            rotation: control.queueVisible ? 90 : 0
+
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            onClicked: {
+                if (control.optionVisible)
+                    control.optionVisible = false
+                control.queueVisible = !control.queueVisible
+            }
+        }
     }
+
     InteractiveProgressBar {
         id: progressBar
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.verticalCenter: parent.top
+        anchors.verticalCenter: control.queueVisible || control.optionVisible ? parent.bottom : parent.top
         currentValue: player.currentTime
         height: 24
         totalValue: player.totalTime

@@ -12,16 +12,17 @@ T.ScrollBar {
 
     background: Rectangle {
         color: "transparent"
-        implicitHeight: control.interactive ? 12 : 6
-        implicitWidth: control.interactive ? 12 : 6
+        implicitHeight: 8
+        implicitWidth: 8
         opacity: 0.0
         visible: control.size < 1.0
     }
     contentItem: Rectangle {
         color: control.pressed ? Style.palette.dark : enabled && control.interactive && control.hovered ? Style.palette.mid : Style.palette.button
-        implicitHeight: control.interactive ? 12 : 6
-        implicitWidth: control.interactive ? 12 : 6
+        implicitHeight: 4
+        implicitWidth: 4
         opacity: 0.0
+        radius: width > height ? height / 2 : width / 2
     }
     states: [
         State {

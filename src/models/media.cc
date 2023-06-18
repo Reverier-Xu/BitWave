@@ -93,3 +93,9 @@ Media::Media(
     m_time = duration;
     m_comment = comment;
 }
+
+const Media nullMedia {};
+
+const Media& Media::null() {
+    return nullMedia;
+}

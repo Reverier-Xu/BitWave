@@ -27,7 +27,6 @@ QString Router::currentRoute() const {
 void Router::setCurrentRoute(const QString& path) {
     if (m_currentRoute == path) return;
     m_currentRoute = path;
-    m_history.push(path);
     emit currentRouteChanged(path);
 }
 
@@ -41,8 +40,10 @@ void Router::setHasPrevious(bool hasPrevious) {
 }
 
 void Router::push(const QString& path) {
+    if (m_currentRoute == path) return;
     setCurrentRoute(path);
     m_history.push(path);
+//    qDebug() << "History pushed: " << path;
     setHasPrevious(true);
 }
 
@@ -50,7 +51,7 @@ void Router::pop() {
     if (m_history.empty()) return;
     m_history.pop();
     if (m_history.empty()) {
-        setCurrentRoute("player");
+        push("player");
         return;
     }
     setCurrentRoute(m_history.top());

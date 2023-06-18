@@ -29,18 +29,16 @@ QString NcmCodec::decode(const Media& src) {
     QFile ncmFile(QUrl(src.url()).path());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
-    if (validateNcmFile(ncmFile))
+    if (!validateNcmFile(ncmFile))
         throw std::runtime_error("Not a ncm file.");
     ncmFile.seek(10);
     quint32 key_len;
     ncmFile.read(reinterpret_cast<char*>(&key_len), sizeof(key_len));
-    if (key_len <= 0) throw std::exception();
+    if (key_len <= 0) throw std::runtime_error("No key in ncm file.");
     QByteArray core_key_data = ncmFile.read(key_len);
-
     for (int i = 0; i < key_len; i++) {
         core_key_data[i] ^= (qint8) 0x64;
     }
-
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
     QByteArray m_core_key =
         encryption.decode(core_key_data, QByteArray::fromRawData((const char*) NCM_DEC_S_CORE_KEY, 16));

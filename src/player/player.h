@@ -13,6 +13,7 @@
 #include <QObject>
 #include <QImage>
 #include "engine.h"
+#include "play_queue.h"
 #include "models/media.h"
 
 
@@ -59,6 +60,10 @@ class Player : public QObject {
     bool m_muted{false};
 
     Engine* m_engine{};
+
+    PlayQueue* m_queue{};
+
+    int m_taskId{0};
 
    protected:
     static Player* m_instance;
@@ -121,6 +126,8 @@ class Player : public QObject {
     [[nodiscard]] bool muted() const;
 
     void setMuted(bool n);
+
+    [[nodiscard]] PlayQueue* queue() const;
 
    public slots:
     Q_INVOKABLE void play(const Media& media);

@@ -20,6 +20,7 @@ class Colorize : public QObject {
    private:
     int m_clustNum{16};
     QColor m_color{128, 128, 128};
+    int m_taskId{0};
 
    public:
     explicit Colorize(QObject* parent = nullptr);

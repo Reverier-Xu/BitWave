@@ -108,21 +108,41 @@ FramelessWindow {
             }
         }
 
+        StackLayout {
+            id: bottomStack
+
+            height: controlBar.queueVisible || controlBar.optionVisible ? sideBar.height - titleBar.height - controlBar.height : 0
+            currentIndex: controlBar.queueVisible ? 0 : 1
+            anchors.left: sideBar.right
+            anchors.right: controlBar.right
+            anchors.bottom: sideBar.bottom
+
+            QueueWidget {}
+
+            OptionWidget {}
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+        }
+
         TitleBar {
             id: titleBar
 
             anchors.left: sideBar.right
             anchors.right: parent.right
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.top: parent.top
-            anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
+            anchors.top: sideBar.top
             objectName: "titleBar"
         }
+
         ControlBar {
             id: controlBar
 
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: window.visibility === Window.Windowed ? 1 : 0
+            anchors.bottom: bottomStack.top
             anchors.left: sideBar.right
             anchors.right: parent.right
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0

@@ -1,12 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 import RxUI
+import Qt.labs.platform
 
 Rectangle {
     id: titleBar
 
-    color: Color.transparent(Style.palette.window, 0.8)
-    height: 32
+    color: Color.transparent(Style.palette.window, 0.95)
+    height: 36
 
     Button {
         id: closeButton
@@ -15,29 +16,18 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         hoverColor: "#A0FF0000"
         icon.height: 16
         icon.source: "qrc:/qt/qml/RxUI/assets/dismiss.svg"
         icon.width: 16
-        pressedColor: "#E0FF0000"
+        pressedColor: "#A0FF0000"
+        icon.color: hovered ? "#FFFFFF" : Style.palette.buttonText
         radius: 0
         width: 48
 
         onClicked: window.close()
     }
-    Label {
-        id: title
 
-        anchors.left: backButton.right
-        anchors.leftMargin: 8
-        anchors.verticalCenter: parent.verticalCenter
-        font.bold: true
-        height: parent.height / 3.5
-        text: player.media.title
-        verticalAlignment: Text.AlignVCenter
-        opacity: 0.6
-    }
     Button {
         id: maximizeButton
 
@@ -45,7 +35,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: window.visibility === Window.Windowed ? "qrc:/qt/qml/RxUI/assets/maximize.svg" : "qrc:/qt/qml/RxUI/assets/restore.svg"
         icon.width: 16
@@ -61,7 +50,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: window.visibility === Window.FullScreen ? "qrc:/qt/qml/RxUI/assets/full-screen-minimize.svg" : "qrc:/qt/qml/RxUI/assets/full-screen-maximize.svg"
         icon.width: 16
@@ -82,7 +70,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: "qrc:/qt/qml/RxUI/assets/subtract.svg"
         icon.width: 16
@@ -98,7 +85,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: Style.isDark ? "qrc:/qt/qml/RxUI/assets/weather-moon.svg" : "qrc:/qt/qml/RxUI/assets/weather-sunny.svg"
         icon.width: 16
@@ -120,7 +106,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: "qrc:/qt/qml/RxUI/assets/navigation.svg"
         icon.width: 16
@@ -136,7 +121,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         display: AbstractButton.IconOnly
         flat: true
-        height: 32
         icon.height: 16
         icon.source: "qrc:/qt/qml/RxUI/assets/arrow-left.svg"
         icon.width: 16
@@ -145,6 +129,39 @@ Rectangle {
         enabled: router.hasPrevious
 
         onClicked: router.pop()
+    }
+    Button {
+        id: openFileButton
+
+        anchors.left: backButton.right
+        anchors.verticalCenter: parent.verticalCenter
+        display: AbstractButton.IconOnly
+        flat: true
+        icon.height: 16
+        icon.source: "qrc:/qt/qml/RxUI/assets/open.svg"
+        icon.width: 16
+        radius: 0
+        width: 48
+
+        onClicked: fileDialog.open()
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: qsTr("Open Media")
+        nameFilters: [
+            "All Support Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg *.ncm *.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob *.webm)",
+            "Music Files (*.mp3 *.m4a *.m4b *.m4p *.m4r *.m4v *.mp4 *.aac *.ape *.flac *.wma *.wv *.wav *.ogg)",
+            "Netease Music Files (*.ncm)",
+            "Video Files (*.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob *.webm)"
+        ]
+        fileMode: FileDialog.OpenFiles
+        onAccepted: {
+            let files_path = files.map(function (url) {
+                return url.toString().replace("file:///", "/");
+            });
+            queue.addMediasByUrlsThenPlay(files_path)
+        }
     }
 
     TapHandler {

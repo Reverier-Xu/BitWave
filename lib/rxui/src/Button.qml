@@ -27,6 +27,8 @@ T.Button {
         border.color: Style.palette.mid
         border.width: flat ? 0 : 1
         color: {
+            if (!enabled)
+                return Style.palette.midlight;
             if (pressed)
                 return control.pressedColor;
             else if (hovered)
@@ -36,8 +38,8 @@ T.Button {
             else
                 return control.normalColor;
         }
-        implicitHeight: 32
-        implicitWidth: 32
+        implicitHeight: 36
+        implicitWidth: 36
         radius: control.radius
 
         Behavior on color  {
@@ -55,6 +57,7 @@ T.Button {
         mirrored: control.mirrored
         spacing: control.spacing
         text: control.text
+        opacity: control.enabled ? 1 : 0.6
     }
 
     HoverHandler {

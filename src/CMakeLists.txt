@@ -48,6 +48,7 @@ set(
     player/player.cc
     player/engine.cc
     player/video_player.cc
+    player/play_queue.cc
 )
 
 set(
@@ -90,6 +91,9 @@ set(
     ui/components/TimeButton.qml
     ui/components/TitleBar.qml
     ui/components/VolumeButton.qml
+    ui/components/OptionWidget.qml
+    ui/components/QueueWidget.qml
+    ui/components/MediaRow.qml
 
     # Views
     ui/views/PlayerView.qml

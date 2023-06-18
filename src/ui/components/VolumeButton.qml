@@ -17,9 +17,7 @@ Rectangle {
         icon.source: player.muted ? "qrc:/qt/qml/RxUI/assets/speaker-mute.svg" : `qrc:/qt/qml/RxUI/assets/speaker-${Math.floor(player.volume / 34)}.svg`
         radius: width / 2
 
-        onClicked: function () {
-            volumePopup.open();
-        }
+        onClicked: volumePopup.open()
     }
     Canvas {
         id: canvas
@@ -59,8 +57,18 @@ Rectangle {
         height: 56
         padding: 0
         width: 160
+        implicitWidth: 160
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
+
+        enter: Transition {
+            NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 120 }
+            NumberAnimation { property: "width"; from: 150; to: 160; duration: 300; easing.type: Easing.OutExpo }
+        }
+        exit: Transition {
+            NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 120 }
+            NumberAnimation { property: "width"; from: 160; to: 150; duration: 300; easing.type: Easing.OutExpo }
+        }
 
         Button {
             id: muteButton
@@ -71,7 +79,9 @@ Rectangle {
             display: AbstractButton.IconOnly
             flat: true
             height: 36
-            icon.source: player.muted ? "qrc:/qt/qml/RxUI/assets/speaker-mute.svg" : `qrc:/qt/qml/RxUI/assets/speaker-${Math.floor(player.volume / 34)}.svg`
+            icon.source: player.muted ?
+                "qrc:/qt/qml/RxUI/assets/speaker-mute.svg" :
+                `qrc:/qt/qml/RxUI/assets/speaker-${Math.floor(player.volume / 34)}.svg`
             radius: width / 2
             width: 36
 

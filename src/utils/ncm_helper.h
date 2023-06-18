@@ -81,12 +81,15 @@ QJsonObject inline getDecryptedMetadata(const QString &comment) {
 bool inline validateNcmFile(QFile& file) {
     quint32 header;
     file.read(reinterpret_cast<char*>(&header), sizeof(header));
+//    qDebug() << "header 1: " << header;
     if (header != (unsigned int) 0x4e455443) {
         return false;
     }
     file.read(reinterpret_cast<char*>(&header), sizeof(header));
+//    qDebug() << "header 2: " << header;
     if (header != (unsigned int) 0x4d414446) {
         return false;
     }
+//    qDebug() << "is valid ncm file.";
     return true;
 }

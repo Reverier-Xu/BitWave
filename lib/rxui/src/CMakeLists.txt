@@ -6,6 +6,7 @@ set(
     Button.qml
     Frame.qml
     Label.qml
+    Loader.qml
     Menu.qml
     MenuItem.qml
     Pane.qml

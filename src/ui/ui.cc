@@ -38,6 +38,8 @@ void Ui::onSecondaryInstanceStarted() {
 
 void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("player", Player::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty("queue", Player::instance(this->parent())->queue());
+    m_engine->rootContext()->setContextProperty("queueModel", Player::instance(this->parent())->queue()->model());
     m_engine->rootContext()->setContextProperty("displayConfig", Config::instance(this->parent())->displayConfig());
     m_engine->rootContext()->setContextProperty("ui", this);
     m_engine->rootContext()->setContextProperty("router", m_router);

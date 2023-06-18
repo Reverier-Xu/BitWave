@@ -14,16 +14,15 @@ Button {
     rightPadding: 12
     spacing: 12
     property bool selected: false
+    font.bold: selected
 
     Rectangle {
         id: indicator
-
-        visible: selected
         anchors.verticalCenter: parent.verticalCenter
         radius: control.hovered ? 0 : width / 2
         width: 3
         x: control.hovered ? 0 : 6
-        height: control.hovered ? parent.height : parent.height - 8
+        height: control.selected ? (control.hovered ? parent.height : parent.height - 12) : 0
         color: Style.primary
 
         Behavior on x {

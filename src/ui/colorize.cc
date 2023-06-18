@@ -25,8 +25,11 @@ struct Clust {
 };
 
 int getColorDis(const QColor& a, const QColor& b) {
-    return (int) sqrt((a.red() - b.red()) + (a.blue() - b.blue()) +
-        (a.green() - b.green()));
+    return (int) sqrt(
+        (a.red() - b.red()) +
+            (a.blue() - b.blue()) +
+            (a.green() - b.green())
+    );
 }
 
 /**
@@ -36,7 +39,8 @@ int getColorDis(const QColor& a, const QColor& b) {
  * @param image the QImage object of source image.
  * @return QColor result color.
  */
-QColor Colorize::colorize(const QImage& image) {
+QColor Colorize::colorize(const QImage& image_) {
+    auto image = image_.scaled(100, 100);
 
     int width = image.width(), height = image.height();
     int stepLen = width / 4;
@@ -148,8 +152,10 @@ QColor Colorize::colorize(const QImage& image) {
 Colorize::Colorize(QObject* parent) : QObject(parent) { }
 
 void Colorize::requestColorize(const QImage& src) {
+    auto taskId = ++m_taskId;
     auto* watcher = new QFutureWatcher<QColor>(this);
     connect(watcher, &QFutureWatcher<QColor>::finished, this, [=]() {
+        if (taskId != m_taskId) return;
         setColor(watcher->result());
         watcher->deleteLater();
     });

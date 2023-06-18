@@ -12,6 +12,7 @@ T.ScrollIndicator {
         color: Style.palette.midlight
         implicitHeight: 6
         implicitWidth: 6
+        radius: width > height ? height / 2 : width / 2
         opacity: control.active ? 1 : 0
         visible: control.size < 1.0
 

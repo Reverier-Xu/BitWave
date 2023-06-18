@@ -10,7 +10,6 @@ Button {
     property int tempTime: 0
 
     display: showTime ? AbstractButton.TextOnly : AbstractButton.IconOnly
-    height: width
     icon.height: 20
     icon.source: iconSource
     icon.width: 20

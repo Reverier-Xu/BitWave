@@ -8,8 +8,8 @@ Button {
     property int tempTime: 0
 
     display: hovered ? AbstractButton.IconOnly : AbstractButton.TextOnly
-    height: 48
-    width: 72
+    implicitHeight: 48
+    implicitWidth: 72
     icon.height: 16
     icon.width: 16
     radius: height / 2

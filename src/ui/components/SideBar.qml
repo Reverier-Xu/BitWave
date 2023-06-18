@@ -25,31 +25,51 @@ Rectangle {
         anchors.top: parent.top
         font.bold: true
         height: 48
-        hoverColor: "transparent"
         icon.color: "transparent"
         icon.height: 28
         icon.source: "qrc:/assets/logo-fill.svg"
         icon.width: 28
+        hoverColor: "transparent"
         pressedColor: "transparent"
         text: "Bit Wave!"
     }
-    TextBox {
-        id: searchBox
+    ActiveTab {
+        id: searchTab
 
         anchors.left: parent.left
-        anchors.leftMargin: 12
         anchors.right: parent.right
-        anchors.rightMargin: 12
         anchors.top: logoTab.bottom
         anchors.topMargin: 6
-        placeholder: qsTr("Hi, how are you?")
+        hoverColor: "transparent"
+        pressedColor: "transparent"
+
+        selected: router.currentRoute.startsWith("search")
+
+        TextBox {
+            id: searchBox
+
+            anchors.fill: parent
+            anchors.leftMargin: 12
+            anchors.rightMargin: 12
+            property string lastSearchText: ""
+
+            placeholder: lastSearchText ? lastSearchText : qsTr("Hi, how are you?")
+            onTabPressed: {
+                inputText = lastSearchText
+            }
+            onInputFinished: {
+                lastSearchText = inputText
+                router.push(`search/${inputText}`)
+                inputText = ""
+            }
+        }
     }
     ActiveTab {
         id: playerTab
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: searchBox.bottom
+        anchors.top: searchTab.bottom
         anchors.topMargin: 12
         icon.source: "qrc:/qt/qml/RxUI/assets/play.svg"
         text: qsTr("Playing now")
@@ -66,6 +86,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: playerTab.bottom
         anchors.topMargin: 4
+        clip: true
 
         delegate: ActiveTab {
             anchors.topMargin: 4

@@ -6,7 +6,7 @@ Rectangle {
     id: root
 
     property color focusBorderColor: Style.primary
-    property color focusColor: "transparent"
+    property color focusColor: Style.palette.window
     property int fontSize: 16
     property color hoverBorderColor: Style.palette.dark
     property color hoverColor: "#30808080"
@@ -117,7 +117,7 @@ Rectangle {
         cursorDelegate: Rectangle {
             id: cursorDelegate
 
-            color: Style.primary
+            color: Color.transparent(Style.palette.buttonText, 0.6)
             width: 2
 
             Connections {
@@ -152,10 +152,10 @@ Rectangle {
                 NumberAnimation {
                     duration: 200
                     easing.type: Easing.OutCurve
-                    from: 0
+                    from: 1
                     property: "opacity"
                     target: cursorDelegate
-                    to: 1
+                    to: 0
                 }
                 PauseAnimation {
                     duration: 300
@@ -163,13 +163,13 @@ Rectangle {
                 NumberAnimation {
                     duration: 200
                     easing.type: Easing.InCurve
-                    from: 1
+                    from: 0
                     property: "opacity"
                     target: cursorDelegate
-                    to: 0
+                    to: 1
                 }
                 PauseAnimation {
-                    duration: 500
+                    duration: 300
                 }
             }
         }

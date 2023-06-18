@@ -38,15 +38,22 @@ Rectangle {
                 radius: width / 2
                 width: Math.min(parent.width / 3.5, (parent.height - 132) / 1.5)
 
+                Behavior on border.color {
+                    ColorAnimation {
+                        duration: 300
+                    }
+                }
+
                 Image {
                     id: cover
 
                     anchors.fill: parent
-                    anchors.margins: 12
+                    anchors.margins: 16
                     antialiasing: true
                     mipmap: true
                     smooth: true
                     source: player.coverPath
+                    sourceSize: parent.size
                     visible: false
                 }
                 MultiEffect {
@@ -81,6 +88,26 @@ Rectangle {
                         to: 360
                     }
                 }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: Color.transparent(Style.palette.window, 0.60)
+                    opacity: (player.loading || player.coverLoading) ? 1 : 0
+                    radius: width / 2
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 300
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+
+                    Loader {
+                        id: loader
+                        radius: 32
+                        anchors.centerIn: parent
+                        running: player.loading || player.coverLoading
+                    }
+                }
             }
             Rectangle {
                 id: lyricBox
@@ -88,8 +115,9 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 100
                 anchors.left: coverContainer.right
+                anchors.leftMargin: 64
                 anchors.right: parent.right
-                anchors.rightMargin: 32
+                anchors.rightMargin: 96
                 anchors.top: parent.top
                 anchors.topMargin: 64
                 color: "transparent"

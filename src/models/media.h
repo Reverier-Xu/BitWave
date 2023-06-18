@@ -60,6 +60,8 @@ class Media : public QObject {
 
     Media(const Media& media);
 
+    static const Media& null();
+
     Media& operator=(const Media& media);
 
     [[nodiscard]] QString url() const;
