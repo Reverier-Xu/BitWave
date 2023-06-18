@@ -92,7 +92,7 @@ void PlayQueue::setCursor(int n) {
         return;
     }
     m_cursor = n;
-    m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int) m_playlist->size());
+//    m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int) m_playlist->size());
     emit cursorChanged(n);
     emit mediaChanged(current());
 }
@@ -148,6 +148,7 @@ void PlayQueue::toggleChangeMode() {
 }
 
 void PlayQueue::next() {
+//    qDebug() << "next" << m_cursorPos << m_mode << m_queuedPlayOrder;
     if (m_playlist->empty()) return;
 //    qDebug() << m_cursorPos << m_queuedPlayOrder;
     if (m_cursorPos >= m_queuedPlayOrder.size() - 1) {
@@ -164,6 +165,7 @@ void PlayQueue::next() {
 }
 
 void PlayQueue::prev() {
+//    qDebug() << "prev" << m_cursorPos << m_mode << m_queuedPlayOrder;
     if (m_playlist->empty()) return;
     if (m_cursorPos <= 0 && m_mode != RANDOM) {
         m_cursorPos = (int) m_queuedPlayOrder.size() - 1;
@@ -184,6 +186,7 @@ const Media& PlayQueue::current() {
 
 void PlayQueue::play(int pos) {
     setCursor(pos);
+    generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int) m_playlist->size());
 }
 
 QString PlayQueue::modeIcon() const {

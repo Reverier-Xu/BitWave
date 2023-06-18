@@ -7,7 +7,7 @@ T.ScrollBar {
 
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding)
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset, implicitContentWidth + leftPadding + rightPadding)
-    minimumSize: orientation === Qt.Horizontal ? height / width : width / height
+    minimumSize: 0.1
     visible: control.policy !== T.ScrollBar.AlwaysOff
 
     background: Rectangle {
