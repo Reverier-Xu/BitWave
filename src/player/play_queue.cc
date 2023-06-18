@@ -185,6 +185,11 @@ const Media& PlayQueue::current() {
 }
 
 void PlayQueue::play(int pos) {
+    if (pos >= (int) m_playlist->size()) {
+        pos = (int)m_playlist->size() - 1;
+    } else if (pos < 0) {
+        pos = 0;
+    }
     setCursor(pos);
     generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int) m_playlist->size());
 }
