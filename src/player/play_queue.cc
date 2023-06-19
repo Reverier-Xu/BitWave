@@ -19,9 +19,11 @@ PlayQueue::PlayQueue(QObject* parent) : QObject(parent) {
     m_playlist = new QVector<Media>;
     m_model = new QueueModel(this);
     m_model->setQueue(m_playlist);
+    loadSettings();
 }
 
 PlayQueue::~PlayQueue() {
+    saveSettings();
     delete m_playlist;
 }
 
@@ -243,6 +245,20 @@ void PlayQueue::setLoading(bool n) {
     if (m_loading == n) return;
     m_loading = n;
     emit loadingChanged(n);
+}
+
+void PlayQueue::loadSettings() {
+    QSettings settings;
+    settings.beginGroup("Queue");
+    setMode(settings.value("mode", IN_ORDER).toInt());
+    settings.endGroup();
+}
+
+void PlayQueue::saveSettings() const {
+    QSettings settings;
+    settings.beginGroup("Queue");
+    settings.setValue("mode", m_mode);
+    settings.endGroup();
 }
 
 int QueueModel::rowCount(const QModelIndex& parent) const {

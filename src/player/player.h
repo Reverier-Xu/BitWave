@@ -79,6 +79,10 @@ class Player : public QObject {
 
     [[nodiscard]] Engine* engine() const;
 
+    void loadSettings();
+
+    void saveSettings() const;
+
     [[nodiscard]] Media media() const;
 
     void setMedia(const Media& n);

@@ -6,5 +6,9 @@
         <file>assets/logo-flat.svg</file>
         <file>assets/logo-full.svg</file>
         <file>assets/logo.svg</file>
+        <file>i18n/en_US.ts</file>
+        <file>i18n/en_US.qm</file>
+        <file>i18n/zh_CN.ts</file>
+        <file>i18n/zh_CN.qm</file>
     </qresource>
 </RCC>

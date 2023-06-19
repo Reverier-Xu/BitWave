@@ -21,11 +21,13 @@ Player::Player(QObject* parent) : QObject(parent) {
     m_engine = new Engine(this);
     m_queue = new PlayQueue(this);
     m_cover.load(":/assets/music-colorful.svg");
-
     connectSignals();
+    loadSettings();
 }
 
-Player::~Player() = default;
+Player::~Player() {
+    saveSettings();
+}
 
 double Player::totalTime() const {
     return m_totalTime;
@@ -300,4 +302,20 @@ void Player::playUrl(const QString& url) {
 
 PlayQueue* Player::queue() const {
     return m_queue;
+}
+
+void Player::loadSettings() {
+    QSettings settings;
+    settings.beginGroup("Player");
+    setVolume(settings.value("Volume", 1.0).toDouble());
+    setMuted(settings.value("Muted", false).toBool());
+    settings.endGroup();
+}
+
+void Player::saveSettings() const {
+    QSettings settings;
+    settings.beginGroup("Player");
+    settings.setValue("Volume", volume());
+    settings.setValue("Muted", muted());
+    settings.endGroup();
 }

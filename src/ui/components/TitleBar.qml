@@ -92,11 +92,11 @@ Rectangle {
         width: 48
 
         Component.onCompleted: {
-            Style.isDark = displayConfig.colorStyle;
+            Style.isDark = ui.colorStyle;
         }
         onClicked: {
             Style.isDark = !Style.isDark;
-            displayConfig.colorStyle = Style.isDark;
+            ui.colorStyle = Style.isDark;
         }
     }
     Button {

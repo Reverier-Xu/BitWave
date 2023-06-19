@@ -44,6 +44,7 @@ class QueueModel : public QAbstractListModel {
         MediaAlbumRole,
         MediaTimeRole,
     };
+
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
 
     [[nodiscard]] QVariant data(const QModelIndex& index, int role) const override;
@@ -68,17 +69,27 @@ class PlayQueue : public QObject {
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged)
    private:
     QueueMode m_mode{IN_ORDER};
+
     QVector<Media>* m_playlist{};
+
     QueueModel* m_model;
+
     int m_cursor{0};
+
     int m_cursorPos{0};
+
     QVector<int> m_queuedPlayOrder{};
+
     bool m_loading{false};
 
    public:
     explicit PlayQueue(QObject* parent = nullptr);
 
     ~PlayQueue() override;
+
+    void loadSettings();
+
+    void saveSettings() const;
 
     [[nodiscard]] int mode() const;
 
@@ -102,15 +113,25 @@ class PlayQueue : public QObject {
 
    public slots:
     Q_INVOKABLE void addMedia(const Media& media);
+
     Q_INVOKABLE void addMediaByUrl(const QString& url);
+
     Q_INVOKABLE void addMediasByUrlsThenPlay(const QStringList& urls);
+
     Q_INVOKABLE void removeMedia(int pos);
+
     Q_INVOKABLE void clearMedia();
+
     Q_INVOKABLE void moveMedia(int from, int to);
+
     Q_INVOKABLE void loadPlaylist(const QVector<Media>& playlist);
+
     Q_INVOKABLE void toggleChangeMode();
+
     Q_INVOKABLE void next();
+
     Q_INVOKABLE void prev();
+
     Q_INVOKABLE void play(int pos);
 
    signals:

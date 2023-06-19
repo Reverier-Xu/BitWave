@@ -10,10 +10,9 @@
 
 #include "ui.h"
 #include "player/video_player.h"
-
-#include <config/config.h>
 #include <player/player.h>
 
+#include <QApplication>
 #include <QQmlContext>
 
 
@@ -22,9 +21,12 @@ Ui::Ui(QObject* parent) : QObject(parent) {
     m_engine = new QQmlApplicationEngine(this);
     m_colorize = new Colorize(this);
     m_router = new Router(this);
+    loadSettings();
 }
 
-Ui::~Ui() = default;
+Ui::~Ui() {
+    saveSettings();
+}
 
 void Ui::initialize() {
     exportProperties();
@@ -40,7 +42,6 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("player", Player::instance(this->parent()));
     m_engine->rootContext()->setContextProperty("queue", Player::instance(this->parent())->queue());
     m_engine->rootContext()->setContextProperty("queueModel", Player::instance(this->parent())->queue()->model());
-    m_engine->rootContext()->setContextProperty("displayConfig", Config::instance(this->parent())->displayConfig());
     m_engine->rootContext()->setContextProperty("ui", this);
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
@@ -58,4 +59,44 @@ void Ui::connectSignals() {
     connect(Player::instance(this->parent()), &Player::coverChanged, this, [=](const QImage& image){
         m_colorize->requestColorize(image);
     });
+}
+
+void Ui::setColorStyle(bool n) {
+    m_colorStyle = n;
+    emit colorStyleChanged(n);
+}
+
+bool Ui::colorStyle() const {
+    return m_colorStyle;
+}
+
+void Ui::setLanguage(const QString& n) {
+    m_language = n;
+    QApplication::removeTranslator(&m_translator);
+    auto ok = m_translator.load(QString(":/%1/%2.qm").arg("i18n", n));
+    if (!ok) {
+        // TODO: warn user here.
+    }
+    QApplication::installTranslator(&m_translator);
+    emit languageChanged(n);
+}
+
+QString Ui::language() const {
+    return m_language;
+}
+
+void Ui::loadSettings() {
+    QSettings settings;
+    settings.beginGroup("Display");
+    setColorStyle(settings.value("ColorStyle", true).toBool());
+    setLanguage(settings.value("Language", "en_US").toString());
+    settings.endGroup();
+}
+
+void Ui::saveSettings() const {
+    QSettings settings;
+    settings.beginGroup("Display");
+    settings.setValue("ColorStyle", colorStyle());
+    settings.setValue("Language", language());
+    settings.endGroup();
 }

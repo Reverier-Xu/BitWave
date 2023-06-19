@@ -14,12 +14,6 @@ set(
 )
 
 set(
-    CONFIG_SRCS
-    config/config.cc
-    config/display_config.cc
-)
-
-set(
     LIBRARY_SRCS
     library/library.cc
     library/local_library.cc
@@ -68,7 +62,6 @@ set(
     SRCS
     ${APP_SRCS}
     ${CODEC_SRCS}
-    ${CONFIG_SRCS}
     ${LIBRARY_SRCS}
     ${LYRICS_SRCS}
     ${MODELS_SRCS}
