@@ -50,7 +50,7 @@ Button {
         source: indicator
         colorizationColor: Style.primary
         colorization: 1
-        brightness: 1
+        brightness: 0.5
         visible: control.playing
     }
 
@@ -112,6 +112,6 @@ Button {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        color: Style.palette.mid
+        color: control.playing ? Color.transparent(Style.primary, 0.6) : Style.palette.mid
     }
 }

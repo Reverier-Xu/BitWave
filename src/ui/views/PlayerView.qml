@@ -160,6 +160,18 @@ Rectangle {
                         visible: artistAndAlbum.hovered
                     }
                 }
+                ListView {
+                    id: lyricsContent
+                    anchors.left: parent.left
+                    anchors.leftMargin: 16
+                    anchors.right: parent.right
+                    anchors.rightMargin: 16
+                    anchors.top: artistAndAlbum.bottom
+                    anchors.topMargin: 8
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 8
+                    clip: true
+                }
             }
         }
     }

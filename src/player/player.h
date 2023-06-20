@@ -35,7 +35,7 @@ class Player : public QObject {
     Q_PROPERTY(double volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
    private:
-    Media m_media{};
+    Media m_media;
 
     QImage m_cover{};
 

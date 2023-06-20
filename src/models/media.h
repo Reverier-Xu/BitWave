@@ -54,8 +54,8 @@ class Media : public QObject {
 
    public:
     explicit Media(const QString& rawUrl = "",
-                   const QString& title = "No media", const QStringList& artists = {"Unknown Artist"},
-                   const QString& album = "Unknown Album", MediaType type = UNKNOWN,
+                   const QString& title = "", const QStringList& artists = {""},
+                   const QString& album = "", MediaType type = UNKNOWN,
                    double duration = 0.0, const QString& comment = "");
 
     Media(const Media& media);

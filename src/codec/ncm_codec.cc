@@ -76,8 +76,9 @@ QString NcmCodec::decode(const Media& src) {
 
     // dump the main music.
     QByteArray musicContent;
-    auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave";
-    auto outPath = cachePath + "/CachedSongs/" + QFileInfo(src.url()).baseName() + "."
+    auto cachePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/CachedSongs/";
+    QDir().mkpath(cachePath);
+    auto outPath = cachePath + QFileInfo(src.url()).baseName() + "."
         + getDecryptedMetadata(src.comment()).value("format").toString();
     QFile outMusic(outPath);
     outMusic.open(QFile::WriteOnly);

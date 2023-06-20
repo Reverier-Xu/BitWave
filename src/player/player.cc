@@ -21,6 +21,12 @@ Player::Player(QObject* parent) : QObject(parent) {
     m_engine = new Engine(this);
     m_queue = new PlayQueue(this);
     m_cover.load(":/assets/music-colorful.svg");
+
+    m_media = Media::null();
+    m_media.setTitle(tr("No Media"));
+    m_media.setAlbum(tr("Unknown Album"));
+    m_media.setArtists({tr("Unknown Artist")});
+
     connectSignals();
     loadSettings();
 }
@@ -216,7 +222,13 @@ Media Player::media() const {
 
 void Player::setMedia(const Media& n) {
     m_media = n;
-    setValid(true);
+    if (n.type() == UNKNOWN) {
+        setValid(false);
+        m_media.setTitle(tr("No Media"));
+        m_media.setAlbum(tr("Unknown Album"));
+        m_media.setArtists({tr("Unknown Artist")});
+    } else
+        setValid(true);
     emit mediaChanged(n);
 }
 
@@ -256,7 +268,7 @@ void Player::setCover(const QImage& n) {
     m_cover = n;
     auto tempCoverPath =
         QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" +
-        m_media.title().replace("/", "-") + ".jpg";
+            m_media.title().replace("/", "-") + ".jpg";
     QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/");
     n.save(tempCoverPath);
     setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());

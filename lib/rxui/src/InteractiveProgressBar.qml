@@ -15,7 +15,7 @@ Rectangle {
 
     color: "transparent"
 
-    Behavior on color  {
+    Behavior on color {
         ColorAnimation {
             duration: 200
         }

@@ -14,6 +14,27 @@
     </message>
 </context>
 <context>
+    <name>Player</name>
+    <message>
+        <location filename="../../player/player.cc" line="26"/>
+        <location filename="../../player/player.cc" line="227"/>
+        <source>No Media</source>
+        <translation>没有媒体</translation>
+    </message>
+    <message>
+        <location filename="../../player/player.cc" line="27"/>
+        <location filename="../../player/player.cc" line="228"/>
+        <source>Unknown Album</source>
+        <translation>未知专辑</translation>
+    </message>
+    <message>
+        <location filename="../../player/player.cc" line="28"/>
+        <location filename="../../player/player.cc" line="229"/>
+        <source>Unknown Artist</source>
+        <translation>未知作者</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <location filename="../../main.cc" line="42"/>
