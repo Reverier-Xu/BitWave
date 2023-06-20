@@ -20,7 +20,7 @@ Player* Player::m_instance = nullptr;
 Player::Player(QObject* parent) : QObject(parent) {
     m_engine = new Engine(this);
     m_queue = new PlayQueue(this);
-    m_cover.load(":/assets/music-colorful.svg");
+    chooseRandomCover();
 
     m_media = Media::null();
     m_media.setTitle(tr("No Media"));
@@ -187,11 +187,12 @@ void Player::play(const Media& media) {
             return;
         }
         try {
-            setCover(coverWatcher->result());
+            auto cover = coverWatcher->result();
+            if (cover.isNull())
+                throw std::runtime_error("Cover is null.");
+            setCover(cover);
         } catch (...) {
-            QImage image;
-            image.load(":/assets/music-colorful.svg");
-            setCover(image);
+            chooseRandomCover();
         }
         setCoverLoading(false);
         coverWatcher->deleteLater();
@@ -330,4 +331,10 @@ void Player::saveSettings() const {
     settings.setValue("Volume", volume());
     settings.setValue("Muted", muted());
     settings.endGroup();
+}
+
+void Player::chooseRandomCover() {
+    auto pic = QRandomGenerator::global()->bounded(1, 5);
+    setCoverPath("qrc:/assets/media-cover-" + QString::number(pic) + ".svg");
+    m_cover.load(coverPath());
 }

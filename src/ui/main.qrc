@@ -1,7 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>assets/movie-colorful.svg</file>
-        <file>assets/music-colorful.svg</file>
+        <file>assets/media-cover-1.svg</file>
+        <file>assets/media-cover-2.svg</file>
+        <file>assets/media-cover-3.svg</file>
+        <file>assets/media-cover-4.svg</file>
+        <file>assets/media-cover-5.svg</file>
+        <file>assets/media-cover-osu.svg</file>
         <file>assets/logo-fill.svg</file>
         <file>assets/logo-flat.svg</file>
         <file>assets/logo-full.svg</file>

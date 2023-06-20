@@ -39,7 +39,7 @@ class Player : public QObject {
 
     QImage m_cover{};
 
-    QString m_coverPath{"qrc:/assets/music-colorful.svg"};
+    QString m_coverPath{};
 
     bool m_playing{false};
 
@@ -73,6 +73,8 @@ class Player : public QObject {
     void connectSignals();
 
     ~Player() override;
+
+    void chooseRandomCover();
 
    public:
     [[nodiscard]] static Player* instance(QObject* parent = nullptr);
