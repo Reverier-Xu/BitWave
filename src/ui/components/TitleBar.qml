@@ -79,27 +79,6 @@ Rectangle {
         onClicked: window.showMinimized()
     }
     Button {
-        id: styleButton
-
-        anchors.right: minimizeButton.left
-        anchors.verticalCenter: parent.verticalCenter
-        display: AbstractButton.IconOnly
-        flat: true
-        icon.height: 16
-        icon.source: Style.isDark ? "qrc:/qt/qml/RxUI/assets/weather-moon.svg" : "qrc:/qt/qml/RxUI/assets/weather-sunny.svg"
-        icon.width: 16
-        radius: 0
-        width: 48
-
-        Component.onCompleted: {
-            Style.isDark = ui.colorStyle;
-        }
-        onClicked: {
-            Style.isDark = !Style.isDark;
-            ui.colorStyle = Style.isDark;
-        }
-    }
-    Button {
         id: foldButton
 
         anchors.left: parent.left

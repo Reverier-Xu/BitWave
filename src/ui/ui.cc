@@ -78,6 +78,7 @@ void Ui::setLanguage(const QString& n) {
         // TODO: warn user here.
     }
     QApplication::installTranslator(&m_translator);
+    m_engine->retranslate();
     emit languageChanged(n);
 }
 

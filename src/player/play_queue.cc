@@ -204,6 +204,7 @@ QString PlayQueue::modeIcon() const {
         case LOOP_ONE:return "qrc:/qt/qml/RxUI/assets/play-repeat-one.svg";
         case RANDOM:return "qrc:/qt/qml/RxUI/assets/play-random.svg";
     }
+    return "qrc:/qt/qml/RxUI/assets/play-order.svg";
 }
 
 void PlayQueue::addMediaByUrl(const QString& url) {

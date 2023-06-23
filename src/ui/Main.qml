@@ -19,7 +19,7 @@ FramelessWindow {
     visible: true
     width: 1200
 
-    Behavior on color {
+    Behavior on color  {
         ColorAnimation {
             duration: 280
         }
@@ -28,6 +28,7 @@ FramelessWindow {
     Component.onCompleted: {
         setX(Screen.width / 2 - width / 2);
         setY(Screen.height / 2 - height / 2);
+        Style.isDark = ui.colorStyle;
     }
 
     Rectangle {
@@ -51,84 +52,82 @@ FramelessWindow {
             expanded: window.sideBarExpanded
             objectName: "sideBar"
         }
-
         StackLayout {
             id: stack
 
-            anchors.left: sideBar.right
-            anchors.top: parent.top
-            anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
             anchors.bottom: parent.bottom
             anchors.bottomMargin: window.visibility === Window.Windowed ? 1 : 0
+            anchors.left: sideBar.right
             anchors.right: parent.right
             anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-
+            anchors.top: parent.top
+            anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
             currentIndex: {
                 let rootRoute = router.currentRoute.split("/")[0];
                 switch (rootRoute) {
-                    case "player":
-                        return 0;
-                    case "search":
-                        return 1;
-                    case "explore":
-                        return 2;
-                    case "libraries":
-                        return 3;
-                    case "playlists":
-                        return 4;
-                    case "settings":
-                        return 5;
-                    default:
-                        return 0;
+                case "player":
+                    return 0;
+                case "search":
+                    return 1;
+                case "explore":
+                    return 2;
+                case "libraries":
+                    return 3;
+                case "playlists":
+                    return 4;
+                case "settings":
+                    return 5;
+                default:
+                    return 0;
                 }
             }
 
             PlayerView {
                 id: playerView
-            }
 
+            }
             SearchView {
                 id: searchView
-            }
 
+            }
             ExploreView {
                 id: exploreView
-            }
 
+            }
             LibraryView {
                 id: libraryView
-            }
 
+            }
             PlaylistView {
                 id: playlistView
-            }
 
+            }
             SettingsView {
                 id: settingsView
+
             }
         }
-
         StackLayout {
             id: bottomStack
 
-            height: controlBar.queueVisible || controlBar.optionVisible ? sideBar.height - titleBar.height - controlBar.height : 0
-            currentIndex: controlBar.queueVisible ? 0 : 1
+            anchors.bottom: sideBar.bottom
             anchors.left: sideBar.right
             anchors.right: controlBar.right
-            anchors.bottom: sideBar.bottom
+            currentIndex: controlBar.queueVisible ? 0 : 1
+            height: controlBar.queueVisible || controlBar.optionVisible ? sideBar.height - titleBar.height - controlBar.height : 0
 
-            QueueWidget {}
-
-            OptionWidget {}
-
-            Behavior on height {
+            Behavior on height  {
                 NumberAnimation {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
             }
-        }
 
+            QueueWidget {
+            }
+            OptionWidget {
+            }
+        }
         TitleBar {
             id: titleBar
 
@@ -138,7 +137,6 @@ FramelessWindow {
             anchors.top: sideBar.top
             objectName: "titleBar"
         }
-
         ControlBar {
             id: controlBar
 
@@ -149,14 +147,13 @@ FramelessWindow {
             objectName: "controlBar"
         }
     }
-
     Connections {
-        target: ui
-
         function onRaiseWindowRequested() {
             window.show();
             window.raise();
             window.requestActivate();
         }
+
+        target: ui
     }
 }

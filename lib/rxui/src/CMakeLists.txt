@@ -4,6 +4,7 @@ qt_add_library(${PROJECT_NAME} STATIC assets.qrc)
 set(
     QML_FILES
     Button.qml
+    ComboBox.qml
     Frame.qml
     Label.qml
     Loader.qml
@@ -12,6 +13,7 @@ set(
     Pane.qml
     Popup.qml
     InteractiveProgressBar.qml
+    ItemDelegate.qml
     ScrollBar.qml
     ScrollIndicator.qml
     ScrollView.qml
