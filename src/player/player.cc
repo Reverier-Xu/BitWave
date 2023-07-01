@@ -1,19 +1,20 @@
 /**
  * @file player.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-11
  *
  * @copyright 2023 Woo Tech
  */
 
+#include "player.h"
+
 #include <QMutex>
 #include <QtConcurrent>
-#include "player.h"
-#include "parser/parser.h"
-#include "codec/codec.h"
 
+#include "codec/codec.h"
+#include "parser/parser.h"
 
 Player* Player::m_instance = nullptr;
 
@@ -31,22 +32,16 @@ Player::Player(QObject* parent) : QObject(parent) {
     loadSettings();
 }
 
-Player::~Player() {
-    saveSettings();
-}
+Player::~Player() { saveSettings(); }
 
-double Player::totalTime() const {
-    return m_totalTime;
-}
+double Player::totalTime() const { return m_totalTime; }
 
 void Player::setTotalTime(double n) {
     m_totalTime = n;
     emit totalTimeChanged(n);
 }
 
-double Player::currentTime() const {
-    return m_currentTime;
-}
+double Player::currentTime() const { return m_currentTime; }
 
 void Player::setCurrentTime(double n) {
     m_currentTime = n;
@@ -57,35 +52,28 @@ Player* Player::instance(QObject* parent) {
     static QMutex mutex;
     if (m_instance == nullptr) {
         QMutexLocker locker(&mutex);
-        if (m_instance == nullptr)
-            m_instance = new Player(parent);
+        if (m_instance == nullptr) m_instance = new Player(parent);
         locker.unlock();
     }
     return m_instance;
 }
 
-bool Player::playing() const {
-    return m_playing;
-}
+bool Player::playing() const { return m_playing; }
 
 void Player::setPlaying(bool n) {
     m_playing = n;
     emit playingChanged(n);
 }
 
-double Player::volume() const {
-    return m_volume;
-}
+double Player::volume() const { return m_volume; }
 
 void Player::setVolume(double n) {
     m_volume = n;
-//    qDebug() << "volume changed: " << n;
+    //    qDebug() << "volume changed: " << n;
     emit volumeChanged(n);
 }
 
-bool Player::muted() const {
-    return m_muted;
-}
+bool Player::muted() const { return m_muted; }
 
 void Player::setMuted(bool n) {
     m_muted = n;
@@ -94,22 +82,19 @@ void Player::setMuted(bool n) {
 
 void Player::resume() {
     if (valid()) {
-        if (ended())
-            m_engine->play(media().url());
+        if (ended()) m_engine->play(media().url());
         m_engine->resume();
     }
 }
 
 void Player::pause() {
-    if (valid() && !ended())
-        m_engine->pause();
+    if (valid() && !ended()) m_engine->pause();
 }
 
 void Player::seek(double n) {
     if (valid()) {
-        if (ended())
-            m_engine->play(media().url());
-        m_engine->seek((double) (n));
+        if (ended()) m_engine->play(media().url());
+        m_engine->seek((double)(n));
     }
 }
 
@@ -119,54 +104,49 @@ void Player::toggleMute() {
 }
 
 void Player::togglePause() {
-    if (playing()) pause();
-    else resume();
+    if (playing())
+        pause();
+    else
+        resume();
 }
 
 void Player::connectSignals() {
-    connect(m_engine, &Engine::currentTimeChanged, this, [=](double secs) {
-        setCurrentTime(secs);
-    });
+    connect(m_engine, &Engine::currentTimeChanged, this,
+            [=](double secs) { setCurrentTime(secs); });
     connect(m_engine, &Engine::totalTimeChanged, this, [=](double secs) {
         setTotalTime(secs);
-//        qDebug() << "total time changed: " << secs;
+        //        qDebug() << "total time changed: " << secs;
     });
-    connect(m_engine, &Engine::volumeChanged, this, [=](double vol) {
-        setVolume(vol);
-    });
+    connect(m_engine, &Engine::volumeChanged, this,
+            [=](double vol) { setVolume(vol); });
     connect(m_engine, &Engine::started, this, [=]() {
         resume();
         setPlaying(true);
         setEnded(false);
-//        qDebug() << "started";
+        //        qDebug() << "started";
     });
     connect(m_engine, &Engine::ended, this, [=]() {
         setPlaying(false);
         setEnded(true);
         m_queue->next();
-//        qDebug() << "ended";
+        //        qDebug() << "ended";
     });
     connect(m_engine, &Engine::paused, this, [=]() {
         setPlaying(false);
-//        qDebug() << "paused";
+        //        qDebug() << "paused";
     });
     connect(m_engine, &Engine::resumed, this, [=]() {
         setPlaying(true);
-//        qDebug() << "resumed";
+        //        qDebug() << "resumed";
     });
 
-    connect(m_queue, &PlayQueue::mediaChanged, this, [=](const Media& media) {
-        play(media);
-    });
+    connect(m_queue, &PlayQueue::mediaChanged, this,
+            [=](const Media& media) { play(media); });
 }
 
-void Player::toggleVolume(double n) {
-    m_engine->setVolume(n);
-}
+void Player::toggleVolume(double n) { m_engine->setVolume(n); }
 
-Engine* Player::engine() const {
-    return m_engine;
-}
+Engine* Player::engine() const { return m_engine; }
 
 void Player::play(const Media& media) {
     auto taskId = ++m_taskId;
@@ -188,8 +168,7 @@ void Player::play(const Media& media) {
         }
         try {
             auto cover = coverWatcher->result();
-            if (cover.isNull())
-                throw std::runtime_error("Cover is null.");
+            if (cover.isNull()) throw std::runtime_error("Cover is null.");
             setCover(cover);
         } catch (...) {
             chooseRandomCover();
@@ -217,9 +196,7 @@ void Player::play(const Media& media) {
     decodeWatcher->setFuture(QtConcurrent::run(&Codec::decode, media));
 }
 
-Media Player::media() const {
-    return m_media;
-}
+Media Player::media() const { return m_media; }
 
 void Player::setMedia(const Media& n) {
     m_media = n;
@@ -233,18 +210,14 @@ void Player::setMedia(const Media& n) {
     emit mediaChanged(n);
 }
 
-bool Player::valid() const {
-    return m_valid;
-}
+bool Player::valid() const { return m_valid; }
 
 void Player::setValid(bool n) {
     m_valid = n;
     emit validChanged(n);
 }
 
-bool Player::ended() const {
-    return m_ended;
-}
+bool Player::ended() const { return m_ended; }
 
 void Player::setEnded(bool n) {
     m_ended = n;
@@ -261,43 +234,37 @@ void Player::reset() {
     setTotalTime(0);
 }
 
-QImage Player::cover() const {
-    return m_cover;
-}
+QImage Player::cover() const { return m_cover; }
 
 void Player::setCover(const QImage& n) {
     m_cover = n;
     auto tempCoverPath =
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" +
-            m_media.title().replace("/", "-") + ".jpg";
-    QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/");
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
+        "/BitWave/Covers/" + m_media.title().replace("/", "-") + ".jpg";
+    QDir().mkpath(
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
+        "/BitWave/Covers/");
     n.save(tempCoverPath);
     setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());
 
     emit coverChanged(n);
 }
 
-bool Player::loading() const {
-    return m_loading;
-}
+bool Player::loading() const { return m_loading; }
 
 void Player::setLoading(bool n) {
     m_loading = n;
     emit loadingChanged(n);
 }
 
-bool Player::coverLoading() const {
-    return m_coverLoading;
-}
+bool Player::coverLoading() const { return m_coverLoading; }
 
 void Player::setCoverLoading(bool n) {
     m_coverLoading = n;
     emit coverLoadingChanged(n);
 }
 
-QString Player::coverPath() const {
-    return m_coverPath;
-}
+QString Player::coverPath() const { return m_coverPath; }
 
 void Player::setCoverPath(const QString& n) {
     m_coverPath = n;
@@ -313,9 +280,7 @@ void Player::playUrl(const QString& url) {
     }
 }
 
-PlayQueue* Player::queue() const {
-    return m_queue;
-}
+PlayQueue* Player::queue() const { return m_queue; }
 
 void Player::loadSettings() {
     QSettings settings;

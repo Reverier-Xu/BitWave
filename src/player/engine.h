@@ -1,7 +1,7 @@
 /**
  * @file engine.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
@@ -9,8 +9,6 @@
  */
 
 #pragma once
-
-#include <QObject>
 
 #include <mpv/client.h>
 
@@ -20,7 +18,7 @@
 #include <QtQuick/QQuickFramebufferObject>
 
 class Engine : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
    private:
     mpv_handle* m_mpvHandle;
@@ -42,7 +40,8 @@ class Engine : public QObject {
 
     Q_INVOKABLE void setMpvProperty(const QString& name, const QVariant& value);
 
-    [[nodiscard]] Q_INVOKABLE QVariant getMpvProperty(const QString& name) const;
+    [[nodiscard]] Q_INVOKABLE QVariant
+    getMpvProperty(const QString& name) const;
 
     Q_INVOKABLE void play(const QString& path);
 

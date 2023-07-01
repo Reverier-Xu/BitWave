@@ -1,7 +1,7 @@
 /**
  * @file colorize.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-14
  *
@@ -10,12 +10,11 @@
 
 #pragma once
 
-#include <QObject>
 #include <QColor>
-
+#include <QObject>
 
 class Colorize : public QObject {
-   Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
    private:
     int m_clustNum{16};

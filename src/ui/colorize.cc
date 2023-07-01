@@ -1,7 +1,7 @@
 /**
  * @file colorize.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-14
  *
@@ -9,10 +9,10 @@
  */
 
 #include "colorize.h"
+
 #include <QColor>
 #include <QImage>
 #include <QtConcurrent/QtConcurrent>
-
 
 struct Node {
     QPoint point;
@@ -25,11 +25,8 @@ struct Clust {
 };
 
 int getColorDis(const QColor& a, const QColor& b) {
-    return (int) sqrt(
-        (a.red() - b.red()) +
-            (a.blue() - b.blue()) +
-            (a.green() - b.green())
-    );
+    return (int)sqrt((a.red() - b.red()) + (a.blue() - b.blue()) +
+                     (a.green() - b.green()));
 }
 
 /**
@@ -89,7 +86,7 @@ QColor Colorize::colorize(const QImage& image_) {
                 avgG += item.color.green();
                 avgB += item.color.blue();
             }
-            auto buffSize = (int) (centerClust.buff.size());
+            auto buffSize = (int)(centerClust.buff.size());
             avgR /= buffSize;
             avgG /= buffSize;
             avgB /= buffSize;
@@ -136,12 +133,12 @@ QColor Colorize::colorize(const QImage& image_) {
             if (i.center.color.lightness() < 80 ||
                 i.center.color.lightness() > 180)
                 continue;
-            max = (int) (i.buff.count());
+            max = (int)(i.buff.count());
             dst = &i;
         }
-//    qDebug() << dst->center.color.lightness();
+    //    qDebug() << dst->center.color.lightness();
     auto res = dst->center.color;
-//    qDebug() << res;
+    //    qDebug() << res;
     while (res.lightness() < 80 && res.lightness() > 0) res = res.lighter();
     while (res.lightness() > 180 && res.lightness() < 255) res = res.darker();
     if (res.lightness() == 0 or res.lightness() == 255)
@@ -149,7 +146,7 @@ QColor Colorize::colorize(const QImage& image_) {
     return res;
 }
 
-Colorize::Colorize(QObject* parent) : QObject(parent) { }
+Colorize::Colorize(QObject* parent) : QObject(parent) {}
 
 void Colorize::requestColorize(const QImage& src) {
     auto taskId = ++m_taskId;
@@ -162,13 +159,10 @@ void Colorize::requestColorize(const QImage& src) {
     watcher->setFuture(QtConcurrent::run(&Colorize::colorize, this, src));
 }
 
-QColor Colorize::color() const {
-    return m_color;
-}
+QColor Colorize::color() const { return m_color; }
 
 void Colorize::setColor(const QColor& color) {
-    if (m_color == color)
-        return;
+    if (m_color == color) return;
 
     m_color = color;
     emit colorChanged(m_color);

@@ -1,7 +1,7 @@
 /**
  * @file engine.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
@@ -12,9 +12,8 @@
 
 #include <utils/mpv_helper.h>
 
-
 static void wakeup(void* ctx) {
-    QMetaObject::invokeMethod((Engine*) ctx, &Engine::onMpvEvents,
+    QMetaObject::invokeMethod((Engine*)ctx, &Engine::onMpvEvents,
                               Qt::QueuedConnection);
 }
 
@@ -47,28 +46,29 @@ void Engine::handleMpvEvent(mpv_event* event) {
     switch (event->event_id) {
         // qDebug() << event->event_id;
         case MPV_EVENT_PROPERTY_CHANGE: {
-            auto* prop = (mpv_event_property*) event->data;
+            auto* prop = (mpv_event_property*)event->data;
             if (strcmp(prop->name, "time-pos") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double*) prop->data;
+                    double time = *(double*)prop->data;
                     emit currentTimeChanged(time);
-//                     qDebug() << "cursor: " << time;
+                    //                     qDebug() << "cursor: " << time;
                 }
             } else if (strcmp(prop->name, "duration") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double*) prop->data;
+                    double time = *(double*)prop->data;
                     emit totalTimeChanged(time);
-//                     qDebug() << "total: " << time;
+                    //                     qDebug() << "total: " << time;
                 }
             } else if (strcmp(prop->name, "volume") == 0) {
                 if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double volume = *(double*) prop->data;
+                    double volume = *(double*)prop->data;
                     emit volumeChanged(volume);
-//                    qDebug() << "volume changed: " << volume;
+                    //                    qDebug() << "volume changed: " <<
+                    //                    volume;
                 }
             } else if (strcmp(prop->name, "pause") == 0) {
                 if (prop->format == MPV_FORMAT_FLAG) {
-                    bool isPaused = *(bool*) prop->data;
+                    bool isPaused = *(bool*)prop->data;
                     if (isPaused) {
                         emit paused();
                     } else {
@@ -78,28 +78,25 @@ void Engine::handleMpvEvent(mpv_event* event) {
             }
             break;
         }
-        case MPV_EVENT_FILE_LOADED:emit started();
+        case MPV_EVENT_FILE_LOADED:
+            emit started();
             break;
         case MPV_EVENT_END_FILE: {
-            auto* eventPtr = (mpv_event_end_file*) event->data;
-            if (eventPtr->reason != MPV_END_FILE_REASON_STOP && eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
+            auto* eventPtr = (mpv_event_end_file*)event->data;
+            if (eventPtr->reason != MPV_END_FILE_REASON_STOP &&
+                eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
                 emit ended();
             }
-        }
-            break;
+        } break;
         default:;
             // Ignore uninteresting or unknown events.
             break;
     }
 }
 
-void Engine::setMute(bool ok) {
-    setMpvProperty("mute", ok ? "yes" : "no");
-}
+void Engine::setMute(bool ok) { setMpvProperty("mute", ok ? "yes" : "no"); }
 
-void Engine::setVolume(double volume) {
-    setMpvProperty("volume", volume);
-}
+void Engine::setVolume(double volume) { setMpvProperty("volume", volume); }
 
 void Engine::onMpvEvents() {
     // qDebug() << "[BitWave] handle events!!!";
@@ -130,22 +127,14 @@ void Engine::play(const QString& path) {
     resume();
 }
 
-void Engine::resume() {
-    setMpvProperty("pause", false);
-}
+void Engine::resume() { setMpvProperty("pause", false); }
 
-void Engine::pause() {
-    setMpvProperty("pause", true);
-}
+void Engine::pause() { setMpvProperty("pause", true); }
 
-void Engine::seek(double secs) {
-    setMpvProperty("time-pos", secs);
-}
+void Engine::seek(double secs) { setMpvProperty("time-pos", secs); }
 
 void Engine::loadFile(const QString& path) {
     command(QStringList() << "loadfile" << path);
 }
 
-void Engine::stop() {
-    command(QStringList() << "stop");
-}
+void Engine::stop() { command(QStringList() << "stop"); }

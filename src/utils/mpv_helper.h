@@ -11,18 +11,19 @@
 
 #pragma once
 
-#include <cstring>
 #include <mpv/client.h>
-#include <QSharedPointer>
+
 #include <QObject>
+#include <QSharedPointer>
 #include <QVariant>
+#include <cstring>
 
 namespace mpv::qt {
 
 // Wrapper around mpv_handle. Does ref counting under the hood.
 class Handle {
     struct container {
-        explicit container(mpv_handle* h) : mpv(h) { }
+        explicit container(mpv_handle* h) : mpv(h) {}
 
         ~container() { mpv_terminate_destroy(mpv); }
 
@@ -54,10 +55,14 @@ class Handle {
 
 static inline QVariant node_to_variant(const mpv_node* node) {
     switch (node->format) {
-        case MPV_FORMAT_STRING:return QVariant{QString::fromUtf8(node->u.string)};
-        case MPV_FORMAT_FLAG:return QVariant{static_cast<bool>(node->u.flag)};
-        case MPV_FORMAT_INT64:return QVariant{static_cast<qlonglong>(node->u.int64)};
-        case MPV_FORMAT_DOUBLE:return QVariant{node->u.double_};
+        case MPV_FORMAT_STRING:
+            return QVariant{QString::fromUtf8(node->u.string)};
+        case MPV_FORMAT_FLAG:
+            return QVariant{static_cast<bool>(node->u.flag)};
+        case MPV_FORMAT_INT64:
+            return QVariant{static_cast<qlonglong>(node->u.int64)};
+        case MPV_FORMAT_DOUBLE:
+            return QVariant{node->u.double_};
         case MPV_FORMAT_NODE_ARRAY: {
             mpv_node_list* list = node->u.list;
             QVariantList qlist;
@@ -98,11 +103,11 @@ struct node_builder {
         list->values = new mpv_node[num]();
         if (!list->values) goto err;
         if (is_map) {
-            list->keys = new char* [num]();
+            list->keys = new char*[num]();
             if (!list->keys) goto err;
         }
         return list;
-        err:
+    err:
         free_node(dst);
         return nullptr;
     }
@@ -131,9 +136,9 @@ struct node_builder {
             dst->format = MPV_FORMAT_FLAG;
             dst->u.flag = src.toBool() ? 1 : 0;
         } else if (test_type(src, QMetaType::Int) ||
-            test_type(src, QMetaType::LongLong) ||
-            test_type(src, QMetaType::UInt) ||
-            test_type(src, QMetaType::ULongLong)) {
+                   test_type(src, QMetaType::LongLong) ||
+                   test_type(src, QMetaType::UInt) ||
+                   test_type(src, QMetaType::ULongLong)) {
             dst->format = MPV_FORMAT_INT64;
             dst->u.int64 = src.toLongLong();
         } else if (test_type(src, QMetaType::Double)) {
@@ -152,7 +157,8 @@ struct node_builder {
             if (!list) goto fail;
             list->num = (int)(qMap.size());
             int iter = 0;
-            for (auto n = qMap.cbegin(), end = qMap.cend(); n != end; iter++, n++) {
+            for (auto n = qMap.cbegin(), end = qMap.cend(); n != end;
+                 iter++, n++) {
                 list->keys[iter] = dup_qstring(n.key());
                 if (!list->keys[iter]) {
                     free_node(dst);
@@ -164,13 +170,14 @@ struct node_builder {
             goto fail;
         }
         return;
-        fail:
+    fail:
         dst->format = MPV_FORMAT_NONE;
     }
 
     void free_node(mpv_node* dst) {
         switch (dst->format) {
-            case MPV_FORMAT_STRING:delete[] dst->u.string;
+            case MPV_FORMAT_STRING:
+                delete[] dst->u.string;
                 break;
             case MPV_FORMAT_NODE_ARRAY:
             case MPV_FORMAT_NODE_MAP: {
@@ -198,7 +205,7 @@ struct node_builder {
 struct node_auto_free {
     mpv_node* ptr{};
 
-    explicit node_auto_free(mpv_node* a_ptr) : ptr(a_ptr) { }
+    explicit node_auto_free(mpv_node* a_ptr) : ptr(a_ptr) {}
 
     ~node_auto_free() { mpv_free_node_contents(ptr); }
 };
@@ -216,9 +223,9 @@ struct ErrorReturn {
      */
     int error;
 
-    ErrorReturn() : error(0) { }
+    ErrorReturn() : error(0) {}
 
-    explicit ErrorReturn(int err) : error(err) { }
+    explicit ErrorReturn(int err) : error(err) {}
 };
 
 /**

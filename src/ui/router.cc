@@ -1,7 +1,7 @@
 /**
  * @file router.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-06-10
  *
@@ -12,7 +12,6 @@
 
 #include <QDebug>
 
-
 Router::Router(QObject* parent) : QObject(parent) {
     m_currentRoute = "player";
     m_history.push("player");
@@ -20,9 +19,7 @@ Router::Router(QObject* parent) : QObject(parent) {
 
 Router::~Router() = default;
 
-QString Router::currentRoute() const {
-    return m_currentRoute;
-}
+QString Router::currentRoute() const { return m_currentRoute; }
 
 void Router::setCurrentRoute(const QString& path) {
     if (m_currentRoute == path) return;
@@ -30,9 +27,7 @@ void Router::setCurrentRoute(const QString& path) {
     emit currentRouteChanged(path);
 }
 
-bool Router::hasPrevious() const {
-    return m_history.length() > 1;
-}
+bool Router::hasPrevious() const { return m_history.length() > 1; }
 
 void Router::setHasPrevious(bool hasPrevious) {
     Q_UNUSED(hasPrevious)
@@ -43,7 +38,7 @@ void Router::push(const QString& path) {
     if (m_currentRoute == path) return;
     setCurrentRoute(path);
     m_history.push(path);
-//    qDebug() << "History pushed: " << path;
+    //    qDebug() << "History pushed: " << path;
     setHasPrevious(true);
 }
 

@@ -1,17 +1,19 @@
 /**
  * @file parser.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
  * @copyright 2023 Woo Tech
  */
 #include "parser.h"
+
+#include <QImage>
+
+#include "ffmpeg_parser.h"
 #include "interface.h"
 #include "ncm_parser.h"
-#include "ffmpeg_parser.h"
-#include <QImage>
 
 static QList<IParser*> parsers;
 

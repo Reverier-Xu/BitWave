@@ -12,18 +12,17 @@
 
 #include <QApplication>
 #include <QEvent>
+#include <QMetaObject>
+#include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
 #include <QPainter>
-#include <QQuickWindow>
-#include <QMetaObject>
-#include <QOpenGLContext>
 #include <QPainterPath>
-#include <stdexcept>
 #include <QQuickOpenGLUtils>
+#include <QQuickWindow>
+#include <stdexcept>
 
 #include "player.h"
-
 
 void on_mpv_redraw(void* ctx) { VideoPlayer::on_update(ctx); }
 
@@ -40,7 +39,7 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer {
     VideoPlayer* obj;
 
    public:
-    explicit MpvRenderer(VideoPlayer* new_obj) : obj{new_obj} { }
+    explicit MpvRenderer(VideoPlayer* new_obj) : obj{new_obj} {}
 
     ~MpvRenderer() override = default;
 
@@ -50,7 +49,8 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer {
         const QSize& size) override {
         // init mpv_gl:
         if (!obj->mpv_gl) {
-            mpv_opengl_init_params gl_init_params{get_proc_address_mpv, nullptr};
+            mpv_opengl_init_params gl_init_params{get_proc_address_mpv,
+                                                  nullptr};
             mpv_render_param params[]{
                 {MPV_RENDER_PARAM_API_TYPE,
                  const_cast<char*>(MPV_RENDER_API_TYPE_OPENGL)},
@@ -70,12 +70,10 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer {
         QQuickOpenGLUtils::resetOpenGLState();
 
         QOpenGLFramebufferObject* fbo = framebufferObject();
-        mpv_opengl_fbo mpv_fbo{
-            .fbo = static_cast<int>(fbo->handle()),
-            .w = fbo->width(),
-            .h = fbo->height(),
-            .internal_format = 0
-        };
+        mpv_opengl_fbo mpv_fbo{.fbo = static_cast<int>(fbo->handle()),
+                               .w = fbo->width(),
+                               .h = fbo->height(),
+                               .internal_format = 0};
         int flip_y{0};
 
         mpv_render_param params[] = {
@@ -111,7 +109,7 @@ VideoPlayer::~VideoPlayer() {
 }
 
 void VideoPlayer::on_update(void* ctx) {
-    auto* self = (VideoPlayer*) ctx;
+    auto* self = (VideoPlayer*)ctx;
     emit self->onUpdate();
 }
 

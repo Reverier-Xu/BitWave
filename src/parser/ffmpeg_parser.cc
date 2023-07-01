@@ -1,7 +1,7 @@
 /**
  * @file ffmpeg_parser.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-06-09
  *
@@ -9,6 +9,7 @@
  */
 
 #include "ffmpeg_parser.h"
+
 #include <QImage>
 #include <QObject>
 
@@ -16,15 +17,14 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
-
-Media FfmpegParser::parse(const QString& path) {
+Media FfmpegParser::parse(const QString &path) {
     auto media = Media();
     media.setUrl(path);
     AVFormatContext *ctx = nullptr;
     AVDictionaryEntry *tag = nullptr;
     AVDictionaryEntry *read_tag;
     std::string raw_path = path.toStdString();
-//    qDebug() << "Parsing media: " << raw_path.c_str();
+    //    qDebug() << "Parsing media: " << raw_path.c_str();
     int ret = avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
     if (ret < 0) throw std::runtime_error("Failed to parse media.");
     avformat_find_stream_info(ctx, nullptr);
@@ -71,14 +71,21 @@ Media FfmpegParser::parse(const QString& path) {
     return media;
 }
 
-QImage FfmpegParser::extractCover(const Media& src) {
+QImage FfmpegParser::extractCover(const Media &src) {
+    // NOTE: FFmpeg will crash on MPEG-4 files when trying to `read_header`,
+    // and this SIGSEGV is emitted from C library which can't be handled in
+    // C++ exceptions. I don't know why, just disable VIDEO cover extracting.
+    if (src.type() != AUDIO) throw std::runtime_error("Not an audio file.");
     AVFormatContext *ctx = nullptr;
     int ret = avformat_open_input(&ctx, src.url().toStdString().c_str(),
                                   nullptr, nullptr);
-    if (ret < 0) throw std::exception();
-    avformat_find_stream_info(ctx, nullptr);
+    if (ret < 0) throw std::runtime_error("Failed to open media file.");
+    if (avformat_find_stream_info(ctx, nullptr) < 0) {
+        avformat_close_input(&ctx);
+        throw std::runtime_error("Failed to find stream info.");
+    }
     // read the format headers
-    if (ctx->iformat->read_header(ctx) < 0) {
+    if (ctx->iformat->read_header(ctx) != 0) {
         avformat_close_input(&ctx);
         throw std::runtime_error("No cover found.");
     }
@@ -95,7 +102,8 @@ QImage FfmpegParser::extractCover(const Media& src) {
     throw std::runtime_error("No cover found.");
 }
 
-bool FfmpegParser::accepted(const QString& path) {
+bool FfmpegParser::accepted(const QString &path) {
     auto fileInfo = QFileInfo(path);
-    return m_supportedAudioFormats.contains(fileInfo.suffix()) || m_supportedVideoFormats.contains(fileInfo.suffix());
+    return m_supportedAudioFormats.contains(fileInfo.suffix()) ||
+           m_supportedVideoFormats.contains(fileInfo.suffix());
 }

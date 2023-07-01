@@ -1,9 +1,10 @@
 #pragma once
 
-#include <QString>
 #include <QList>
-#include "models/media.h"
+#include <QString>
 #include <QStringList>
+
+#include "models/media.h"
 
 class ICodec {
    public:

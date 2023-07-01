@@ -10,7 +10,6 @@ set(
     codec/codec.cc
     codec/mpv_codec.cc
     codec/ncm_codec.cc
-    codec/qmc_codec.cc
 )
 
 set(
@@ -54,6 +53,7 @@ set(
     UI_SRCS
     ui/colorize.cc
     ui/ui.cc
+    ui/config.cc
     ui/router.cc
     ui/main.qrc
 )
@@ -69,8 +69,7 @@ set(
     ${PLAYER_SRCS}
     ${PLAYLIST_SRCS}
     ${UI_SRCS}
-    main.cc
-)
+    main.cc)
 set(
     QML_FILES
     ui/Main.qml

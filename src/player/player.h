@@ -1,7 +1,7 @@
 /**
  * @file player.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-11
  *
@@ -10,27 +10,31 @@
 
 #pragma once
 
-#include <QObject>
 #include <QImage>
-#include "engine.h"
-#include "play_queue.h"
-#include "models/media.h"
+#include <QObject>
 
+#include "engine.h"
+#include "models/media.h"
+#include "play_queue.h"
 
 class Player : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
     Q_PROPERTY(Media media READ media WRITE setMedia NOTIFY mediaChanged)
     Q_PROPERTY(QImage cover READ cover WRITE setCover NOTIFY coverChanged)
-    Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY coverPathChanged)
+    Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY
+                   coverPathChanged)
 
     Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
     Q_PROPERTY(bool loading READ loading WRITE setLoading NOTIFY loadingChanged)
-    Q_PROPERTY(bool coverLoading READ coverLoading WRITE setCoverLoading NOTIFY coverLoadingChanged)
+    Q_PROPERTY(bool coverLoading READ coverLoading WRITE setCoverLoading NOTIFY
+                   coverLoadingChanged)
     Q_PROPERTY(bool valid READ valid WRITE setValid NOTIFY validChanged)
     Q_PROPERTY(bool ended READ ended WRITE setEnded NOTIFY endedChanged)
-    Q_PROPERTY(double totalTime READ totalTime WRITE setTotalTime NOTIFY totalTimeChanged)
-    Q_PROPERTY(double currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
+    Q_PROPERTY(double totalTime READ totalTime WRITE setTotalTime NOTIFY
+                   totalTimeChanged)
+    Q_PROPERTY(double currentTime READ currentTime WRITE setCurrentTime NOTIFY
+                   currentTimeChanged)
 
     Q_PROPERTY(double volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)

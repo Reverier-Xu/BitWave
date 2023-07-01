@@ -1,7 +1,7 @@
 /**
  * @file router.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-06-10
  *
@@ -24,12 +24,13 @@
  * ExploreView: `explore` `explore/${EXPLORE_TYPE}`
  */
 
-
 class Router : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
-    Q_PROPERTY(QString currentRoute READ currentRoute WRITE setCurrentRoute NOTIFY currentRouteChanged)
-    Q_PROPERTY(bool hasPrevious READ hasPrevious WRITE setHasPrevious NOTIFY hasPreviousChanged)
+    Q_PROPERTY(QString currentRoute READ currentRoute WRITE setCurrentRoute
+                   NOTIFY currentRouteChanged)
+    Q_PROPERTY(bool hasPrevious READ hasPrevious WRITE setHasPrevious NOTIFY
+                   hasPreviousChanged)
    private:
     QStack<QString> m_history;
 

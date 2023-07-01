@@ -15,20 +15,19 @@
 #include <QString>
 #include <QtQmlIntegration>
 
-
 enum MediaType { AUDIO = 0, VIDEO, UNKNOWN };
 
-//enum MediaFormat {
-//    // popular audio formats
-//    MP3, FLAC, WAV, APE, OGG, AAC, M4A, WMA, OPUS,
-//    // popular video formats
-//    MP4, MKV, AVI, WMV, FLV, MOV, RMVB, RM, WEBM, MPG, MPEG, M4V,
-//    // Netease Cloud Music
-//    NCM,
-//};
+// enum MediaFormat {
+//     // popular audio formats
+//     MP3, FLAC, WAV, APE, OGG, AAC, M4A, WMA, OPUS,
+//     // popular video formats
+//     MP4, MKV, AVI, WMV, FLV, MOV, RMVB, RM, WEBM, MPG, MPEG, M4V,
+//     // Netease Cloud Music
+//     NCM,
+// };
 
 class Media : public QObject {
-   Q_GADGET
+    Q_GADGET
     Q_PROPERTY(QString url READ url WRITE setUrl)
     Q_PROPERTY(double time READ time WRITE setTime)
     Q_PROPERTY(QString title READ title WRITE setTitle)
@@ -53,10 +52,10 @@ class Media : public QObject {
     QString m_comment;
 
    public:
-    explicit Media(const QString& rawUrl = "",
-                   const QString& title = "", const QStringList& artists = {""},
-                   const QString& album = "", MediaType type = UNKNOWN,
-                   double duration = 0.0, const QString& comment = "");
+    explicit Media(const QString& rawUrl = "", const QString& title = "",
+                   const QStringList& artists = {""}, const QString& album = "",
+                   MediaType type = UNKNOWN, double duration = 0.0,
+                   const QString& comment = "");
 
     Media(const Media& media);
 

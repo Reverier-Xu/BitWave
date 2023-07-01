@@ -1,7 +1,7 @@
 /**
  * @file ncm_codec.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
@@ -11,10 +11,10 @@
 #pragma once
 #include "interface.h"
 
-
-class NcmCodec: public ICodec {
+class NcmCodec : public ICodec {
    private:
     QStringList m_supportedFormats = {"ncm"};
+
    public:
     NcmCodec() = default;
     ~NcmCodec() override = default;

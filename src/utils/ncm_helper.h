@@ -1,9 +1,10 @@
 #pragma once
 
 #include <QByteArray>
-#include <QString>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QString>
+
 #include "qaesencryption.h"
 
 /*
@@ -61,14 +62,15 @@ QByteArray inline getDecryptedData(const QString &comment) {
 
     modifyOutData = QByteArray::fromBase64(swapModifyData);
 
-    modifyDecryptData =
-        encryption.decode(modifyOutData, QByteArray::fromRawData((const char*)NCM_DEC_S_MODIFY_KEY, 16));
+    modifyDecryptData = encryption.decode(
+        modifyOutData,
+        QByteArray::fromRawData((const char *)NCM_DEC_S_MODIFY_KEY, 16));
 
     modifyDecryptData = modifyDecryptData.right(modifyDecryptData.length() - 6);
 
     modifyDecryptData = modifyDecryptData.left(
         modifyDecryptData.length() -
-            modifyDecryptData[modifyDecryptData.length() - 1]);
+        modifyDecryptData[modifyDecryptData.length() - 1]);
     return modifyDecryptData;
 }
 
@@ -78,18 +80,18 @@ QJsonObject inline getDecryptedMetadata(const QString &comment) {
     return jsonDoc.object();
 }
 
-bool inline validateNcmFile(QFile& file) {
+bool inline validateNcmFile(QFile &file) {
     quint32 header;
-    file.read(reinterpret_cast<char*>(&header), sizeof(header));
-//    qDebug() << "header 1: " << header;
-    if (header != (unsigned int) 0x4e455443) {
+    file.read(reinterpret_cast<char *>(&header), sizeof(header));
+    //    qDebug() << "header 1: " << header;
+    if (header != (unsigned int)0x4e455443) {
         return false;
     }
-    file.read(reinterpret_cast<char*>(&header), sizeof(header));
-//    qDebug() << "header 2: " << header;
-    if (header != (unsigned int) 0x4d414446) {
+    file.read(reinterpret_cast<char *>(&header), sizeof(header));
+    //    qDebug() << "header 2: " << header;
+    if (header != (unsigned int)0x4d414446) {
         return false;
     }
-//    qDebug() << "is valid ncm file.";
+    //    qDebug() << "is valid ncm file.";
     return true;
 }

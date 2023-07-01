@@ -1,7 +1,7 @@
 /**
  * @file play_queue.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-06-17
  *
@@ -10,11 +10,11 @@
 
 #pragma once
 
-#include <QObject>
 #include <QAbstractListModel>
+#include <QObject>
 #include <QtQmlIntegration>
-#include "models/media.h"
 
+#include "models/media.h"
 
 enum QueueMode {
     IN_ORDER = 0,
@@ -25,13 +25,12 @@ enum QueueMode {
 };
 
 class QueueModel : public QAbstractListModel {
-   Q_OBJECT
+    Q_OBJECT
 
    private:
     QVector<Media>* m_queue{};
 
    public:
-
     explicit QueueModel(QObject* parent = nullptr);
 
     ~QueueModel() override;
@@ -47,7 +46,8 @@ class QueueModel : public QAbstractListModel {
 
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
 
-    [[nodiscard]] QVariant data(const QModelIndex& index, int role) const override;
+    [[nodiscard]] QVariant data(const QModelIndex& index,
+                                int role) const override;
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
@@ -61,7 +61,7 @@ class QueueModel : public QAbstractListModel {
 };
 
 class PlayQueue : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
     Q_PROPERTY(int mode READ mode WRITE setMode NOTIFY modeChanged)
     Q_PROPERTY(int cursor READ cursor WRITE setCursor NOTIFY cursorChanged)

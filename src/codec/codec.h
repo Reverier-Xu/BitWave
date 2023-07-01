@@ -1,7 +1,7 @@
 /**
  * @file codec.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
@@ -10,7 +10,6 @@
 
 #pragma once
 #include "interface.h"
-
 
 class Codec {
    public:

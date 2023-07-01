@@ -1,7 +1,7 @@
 /**
  * @file ncm_parser.cc
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-13
  *
@@ -9,9 +9,10 @@
  */
 
 #include "ncm_parser.h"
-#include "utils/ncm_helper.h"
+
 #include <QImage>
 
+#include "utils/ncm_helper.h"
 
 Media NcmParser::parse(const QString& path) {
     QFile ncmFile(QUrl(path).path());
@@ -43,10 +44,10 @@ Media NcmParser::parse(const QString& path) {
         auto metadata = getDecryptedMetadata(modifyData);
         media.setTitle(metadata["musicName"].toString());
         auto artists = metadata["artist"].toArray();
-//        qDebug() << artists;
+        //        qDebug() << artists;
         QStringList artistList;
         for (auto artist : artists) {
-//            qDebug() << artist;
+            //            qDebug() << artist;
             artistList.append(artist.toArray()[0].toString());
         }
         media.setArtists(artistList);

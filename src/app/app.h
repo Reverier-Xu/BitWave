@@ -1,7 +1,7 @@
 /**
  * @file app.h
  * @author Reverier-Xu (reverier.xu[at]woooo.tech)
- * @brief 
+ * @brief
  * @version 0.1.0
  * @date 2023-05-11
  *
@@ -11,13 +11,13 @@
 #pragma once
 
 #include <QObject>
-#include "player/player.h"
 
+#include "player/player.h"
 
 class Ui;
 
 class App : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
    private:
     Ui* m_ui;
@@ -33,7 +33,8 @@ class App : public QObject {
     void initialize(const QString& file);
 
    public slots:
-    Q_INVOKABLE void onSecondaryInstanceMessageReceived(quint32 instanceId, const QByteArray& message);
+    Q_INVOKABLE void onSecondaryInstanceMessageReceived(
+        quint32 instanceId, const QByteArray& message);
 
     Q_INVOKABLE void onSecondaryInstanceStarted();
 };
