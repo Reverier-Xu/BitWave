@@ -16,6 +16,7 @@
 #include "engine.h"
 #include "models/media.h"
 #include "play_queue.h"
+#include "dbus/screensaver.h"
 
 class Player : public QObject {
     Q_OBJECT
@@ -40,6 +41,8 @@ class Player : public QObject {
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
    private:
     Media m_media;
+
+    Screensaver* m_screensaver{};
 
     QImage m_cover{};
 
@@ -158,6 +161,8 @@ class Player : public QObject {
 
     Q_INVOKABLE void reset();
 
+    Q_INVOKABLE void saveMediaCover(const QUrl& url);
+
    signals:
 
     void mediaChanged(const Media& n);
@@ -183,4 +188,8 @@ class Player : public QObject {
     void coverChanged(QImage n);
 
     void coverPathChanged(QString n);
+
+    void userSeeked(double n);
+
+    void stateChanged();
 };

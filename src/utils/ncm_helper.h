@@ -30,9 +30,10 @@ const char *const CLI_API_UA =
     "NeteaseMusic/7.2.24.1597753235(7002024);Dalvik/2.1.0 (Linux; U; Android "
     "11; Pixel 2 XL Build/RP1A.200720.009)";
 
+const char *const LYRICS_API = "https://music.163.com/api/song/lyric?id=%1&lv=1&kv=1&tv=1";
+
 /*
  *  NCM Format Audio File Decrypt keys.
- *
  */
 const quint8 NCM_DEC_S_CORE_KEY[16] = {
     0x68, 0x7A, 0x48, 0x52, 0x41, 0x6D, 0x73, 0x6F,

@@ -135,6 +135,7 @@ Rectangle {
             "Video Files (*.mp4 *.avi *.mkv *.flv *.mov *.wmv *.mpg *.mpeg *.m4v *.3gp *.3g2 *.mts *.m2ts *.ts *.m3u8 *.m3u *.mpd *.rm *.rmvb *.asf *.wma *.wmv *.flv *.f4v *.f4p *.f4a *.f4b *.vob *.webm)"
         ]
         fileMode: FileDialog.OpenFiles
+        folder: StandardPaths.writableLocation(StandardPaths.MusicLocation)
         onAccepted: {
             let files_path = files.map(function (url) {
                 return url.toString().replace("file:///", "/");

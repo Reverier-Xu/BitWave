@@ -12,9 +12,12 @@
 
 #include <ui/ui.h>
 
+#ifdef QT_DBUS_LIB
+#include "dbus/mpris2.h"
+#endif
 #include "models/media.h"
 
-App::App(QObject* parent) : QObject(parent) { m_ui = new Ui(this); }
+App::App(QObject* parent) : QObject(parent) { m_ui = Ui::instance(this); }
 
 App::~App() = default;
 
@@ -22,6 +25,10 @@ void App::initialize(const QString& file) {
     // TODO: resume file
     registerTypes();
     m_ui->initialize();
+
+#ifdef QT_DBUS_LIB
+    new mpris::Mpris2(this);
+#endif
 }
 
 void App::onSecondaryInstanceMessageReceived(quint32 instanceId,

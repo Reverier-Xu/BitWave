@@ -26,18 +26,25 @@ class Ui : public QObject {
     Router* m_router;
     UiConfig* m_uiConfig;
 
-   public:
+   protected:
+    static Ui* m_instance;
+
     explicit Ui(QObject* parent = nullptr);
 
     ~Ui() override;
-
-    void initialize();
 
     void exportProperties();
 
     void connectSignals();
 
     void createUi();
+
+   public:
+    void initialize();
+
+    static Ui* instance(QObject* parent = nullptr);
+
+    UiConfig* uiConfig() const { return m_uiConfig; }
 
    public slots:
     Q_INVOKABLE void onSecondaryInstanceStarted();

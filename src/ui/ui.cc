@@ -15,7 +15,10 @@
 #include <QApplication>
 #include <QQmlContext>
 
+#include "lyrics/lyrics.h"
 #include "player/video_player.h"
+
+Ui* Ui::m_instance = nullptr;
 
 Ui::Ui(QObject* parent) : QObject(parent) {
     std::setlocale(LC_NUMERIC, "C");
@@ -33,6 +36,16 @@ void Ui::initialize() {
     createUi();
 }
 
+Ui* Ui::instance(QObject* parent) {
+    static QMutex mutex;
+    if (m_instance == nullptr) {
+        QMutexLocker locker(&mutex);
+        if (m_instance == nullptr) m_instance = new Ui(parent);
+        locker.unlock();
+    }
+    return m_instance;
+}
+
 void Ui::onSecondaryInstanceStarted() {
     emit m_uiConfig->raiseWindowRequested();
 }
@@ -47,6 +60,10 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("ui", m_uiConfig);
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
+    m_engine->rootContext()->setContextProperty(
+        "lyrics", Lyrics::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty(
+        "lyricsModel", Lyrics::instance(this->parent())->lyricsModel());
     qmlRegisterType<VideoPlayer>("RxUI.MediaWidgets", 1, 0, "VideoPlayer");
     //    qmlRegisterType<Media>("RxUI.Models", 1, 0, "Media");
 }

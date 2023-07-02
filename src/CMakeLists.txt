@@ -20,7 +20,10 @@ set(
 
 set(
     LYRICS_SRCS
+    lyrics/interface.h
     lyrics/lyrics.cc
+    lyrics/ncm_lyrics.cc
+    lyrics/local_lyrics.cc
 )
 
 set(
@@ -55,6 +58,7 @@ set(
     ui/ui.cc
     ui/config.cc
     ui/router.cc
+    dbus/screensaver.cc
     ui/main.qrc
 )
 
@@ -86,6 +90,7 @@ set(
     ui/components/OptionWidget.qml
     ui/components/QueueWidget.qml
     ui/components/MediaRow.qml
+    ui/components/Lyric.qml
 
     # Views
     ui/views/PlayerView.qml
@@ -95,7 +100,69 @@ set(
     ui/views/SearchView.qml
     ui/views/SettingsView.qml
 )
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# DBUS and MPRIS - Unix specific
+if (UNIX)
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
+    # MPRIS 2.0 DBUS interfaces
+    qt_add_dbus_adaptor(
+        SRCS
+            dbus/org.mpris.MediaPlayer2.Player.xml
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_player Mpris2Player
+    )
+    qt_add_dbus_adaptor(
+        SRCS
+            dbus/org.mpris.MediaPlayer2.xml
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_root Mpris2Root
+    )
+
+    # org.freedesktop.Notifications DBUS interface
+    qt_add_dbus_interface(
+        SRCS
+            dbus/org.freedesktop.Notifications.xml
+            dbus/notification
+    )
+
+    # org.gnome.SettingsDaemon interface
+    qt_add_dbus_interface(
+        SRCS
+            dbus/org.gnome.SettingsDaemon.MediaKeys.xml
+            dbus/gnomesettingsdaemon
+    )
+
+    # org.kde.KGlobalAccel interfaces
+    # these are taken from the KGlobalAccel sources (LGPL 2.1)
+    qt_add_dbus_interface(
+        SRCS
+            dbus/org.kde.KGlobalAccel.xml
+            dbus/kglobalaccel
+    )
+    qt_add_dbus_interface(
+        SRCS
+            dbus/org.kde.kglobalaccel.Component.xml
+            dbus/kglobalaccelcomponent
+    )
+endif (UNIX)
+
+if (Qt6DBus_FOUND)
+    list(
+        APPEND SRCS
+        dbus/mpris.cc
+        dbus/mpris.h
+        dbus/mpris2.cc
+        dbus/mpris2.h
+        dbus/dbusscreensaver.cc
+        dbus/dbusscreensaver.h
+    )
+endif ()
+
+if (WIN32)
+    list(
+        APPEND SRCS
+        dbus/windowsscreensaver.cpp
+        dbus/windowsscreensaver.h
+    )
+endif ()
 
 qt_add_executable(${PROJECT_NAME} ${SRCS})
 

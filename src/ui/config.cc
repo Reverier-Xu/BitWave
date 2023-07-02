@@ -37,6 +37,15 @@ void UiConfig::setLanguage(const QString& n) {
 
 QString UiConfig::language() const { return m_language; }
 
+void UiConfig::setFullscreen(bool n) {
+    m_fullscreen = n;
+    emit fullscreenChanged(n);
+}
+
+bool UiConfig::fullscreen() const {
+    return m_fullscreen;
+}
+
 void UiConfig::loadSettings() {
     QSettings settings;
     settings.beginGroup("Display");

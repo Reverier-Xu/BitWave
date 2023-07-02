@@ -19,10 +19,13 @@ class UiConfig : public QObject {
                    colorStyleChanged)
     Q_PROPERTY(
         QString language READ language WRITE setLanguage NOTIFY languageChanged)
+    Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY
+                   fullscreenChanged)
    private:
     QString m_language;
     QTranslator m_translator;
     bool m_colorStyle = false;
+    bool m_fullscreen = false;
 
    public:
     explicit UiConfig(QObject* parent = nullptr);
@@ -37,6 +40,10 @@ class UiConfig : public QObject {
 
     [[nodiscard]] QString language() const;
 
+    void setFullscreen(bool n);
+
+    [[nodiscard]] bool fullscreen() const;
+
     void loadSettings();
 
     void saveSettings() const;
@@ -48,4 +55,6 @@ class UiConfig : public QObject {
     void languageChanged(const QString& n);
 
     void raiseWindowRequested();
+
+    void fullscreenChanged(bool n);
 };

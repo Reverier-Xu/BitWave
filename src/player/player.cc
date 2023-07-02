@@ -16,6 +16,7 @@
 #include "codec/codec.h"
 #include "parser/parser.h"
 
+
 Player* Player::m_instance = nullptr;
 
 Player::Player(QObject* parent) : QObject(parent) {
@@ -27,6 +28,8 @@ Player::Player(QObject* parent) : QObject(parent) {
     m_media.setTitle(tr("No Media"));
     m_media.setAlbum(tr("Unknown Album"));
     m_media.setArtists({tr("Unknown Artist")});
+
+    m_screensaver = Screensaver::getScreensaver();
 
     connectSignals();
     loadSettings();
@@ -94,7 +97,10 @@ void Player::pause() {
 void Player::seek(double n) {
     if (valid()) {
         if (ended()) m_engine->play(media().url());
-        m_engine->seek((double)(n));
+        else {
+            m_engine->seek((double) (n));
+            emit userSeeked(n);
+        }
     }
 }
 
@@ -123,25 +129,51 @@ void Player::connectSignals() {
         resume();
         setPlaying(true);
         setEnded(false);
+        emit stateChanged();
         //        qDebug() << "started";
     });
     connect(m_engine, &Engine::ended, this, [=]() {
         setPlaying(false);
         setEnded(true);
         m_queue->next();
+        emit stateChanged();
         //        qDebug() << "ended";
     });
     connect(m_engine, &Engine::paused, this, [=]() {
         setPlaying(false);
+        emit stateChanged();
         //        qDebug() << "paused";
     });
     connect(m_engine, &Engine::resumed, this, [=]() {
         setPlaying(true);
+        emit stateChanged();
         //        qDebug() << "resumed";
     });
 
     connect(m_queue, &PlayQueue::mediaChanged, this,
             [=](const Media& media) { play(media); });
+    if (m_screensaver != nullptr) {
+        connect(m_engine, &Engine::started, [=]() {
+            // qDebug() << "Started";
+            if (media().type() == VIDEO) {
+                // qDebug() << "Inhibit";
+                m_screensaver->inhibit();
+            }
+        });
+        connect(m_engine, &Engine::ended, [=]() {
+            m_screensaver->unInhibit();
+            // qDebug() << "UnInhibit";
+        });
+        connect(this, &Player::playingChanged, [=](bool n) {
+            if (media().type() == VIDEO && n) {
+                // qDebug() << "Inhibit";
+                m_screensaver->inhibit();
+            } else {
+                // qDebug() << "UnInhibit";
+                m_screensaver->unInhibit();
+            }
+        });
+    }
 }
 
 void Player::toggleVolume(double n) { m_engine->setVolume(n); }
@@ -240,10 +272,10 @@ void Player::setCover(const QImage& n) {
     m_cover = n;
     auto tempCoverPath =
         QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-        "/BitWave/Covers/" + m_media.title().replace("/", "-") + ".jpg";
+            "/BitWave/Covers/" + m_media.title().replace("/", "-") + ".jpg";
     QDir().mkpath(
         QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-        "/BitWave/Covers/");
+            "/BitWave/Covers/");
     n.save(tempCoverPath);
     setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());
 
@@ -302,4 +334,15 @@ void Player::chooseRandomCover() {
     auto pic = QRandomGenerator::global()->bounded(1, 5);
     setCoverPath("qrc:/assets/media-cover-" + QString::number(pic) + ".svg");
     m_cover.load(coverPath());
+}
+
+void Player::saveMediaCover(const QUrl& savedUrl) {
+    auto path = savedUrl.toLocalFile();
+    if (!valid()) return;
+    try {
+        auto cover = Parser::extractCover(media());
+        cover.save(path);
+    } catch (...) {
+        // TODO: warn user
+    }
 }

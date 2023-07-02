@@ -156,4 +156,7 @@ FramelessWindow {
 
         target: ui
     }
+    onVisibilityChanged: {
+        ui.fullscreen = (window.visibility === Window.FullScreen);
+    }
 }

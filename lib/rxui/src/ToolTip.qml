@@ -27,4 +27,13 @@ T.ToolTip {
         text: control.text
         wrapMode: Text.Wrap
     }
+
+    enter: Transition {
+        NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 120 }
+        NumberAnimation { property: "height"; from: implicitHeight / 2; to: implicitHeight; duration: 300; easing.type: Easing.OutExpo }
+    }
+    exit: Transition {
+        NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 120 }
+        NumberAnimation { property: "height"; from: implicitHeight; to: implicitHeight / 2; duration: 300; easing.type: Easing.OutExpo }
+    }
 }

@@ -7,8 +7,14 @@ project(
     LANGUAGES C CXX
 )
 
+list(APPEND CMAKE_MODULE_PATH
+        ${CMAKE_SOURCE_DIR}/cmake
+        ${ECM_MODULE_PATH})
 
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(cmake/ParseArguments.cmake)
+include(cmake/OptionalSource.cmake)
+include(cmake/Summary.cmake)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

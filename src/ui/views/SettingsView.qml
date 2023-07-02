@@ -90,7 +90,7 @@ Rectangle {
 
                     anchors.right: parent.right
                     currentIndex: {
-                        if (ui.colorStyle) {
+                        if (Style.isDark) {
                             return 1;
                         } else {
                             return 0;
