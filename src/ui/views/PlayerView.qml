@@ -176,6 +176,7 @@ Rectangle {
                         parent: title
                         text: player.media.title
                         visible: title.hovered
+                        y: 48
                     }
                 }
                 Label {
@@ -217,6 +218,13 @@ Rectangle {
                     model: lyricsModel
                     preferredHighlightBegin: 80
                     preferredHighlightEnd: 120
+                    opacity: lyrics.loading ? 0 : 1
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 120
+                        }
+                    }
 
                     ScrollBar.vertical: ScrollBar {
                     }
@@ -231,6 +239,24 @@ Rectangle {
                     }
                     header: Item {
                         height: 200
+                    }
+                }
+                Rectangle {
+                    anchors.fill: lyricsContent
+                    color: Color.transparent(Style.palette.window, 0.60)
+                    opacity: lyrics.loading ? 1 : 0
+                    radius: width / 2
+
+                    Behavior on opacity  {
+                        NumberAnimation {
+                            duration: 120
+                        }
+                    }
+
+                    Loader {
+                        anchors.centerIn: parent
+                        radius: 24
+                        running: lyrics.loading
                     }
                 }
             }

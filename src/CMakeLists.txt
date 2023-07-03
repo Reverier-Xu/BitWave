@@ -91,6 +91,7 @@ set(
     ui/components/QueueWidget.qml
     ui/components/MediaRow.qml
     ui/components/Lyric.qml
+    ui/components/SystemTray.qml
 
     # Views
     ui/views/PlayerView.qml

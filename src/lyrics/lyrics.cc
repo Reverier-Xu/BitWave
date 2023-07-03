@@ -58,8 +58,7 @@ LyricsModel* Lyrics::lyricsModel() { return m_lyricsModel; }
 void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
     QStringList rawList = raw.split("\n");
     QRegularExpression rx(R"(\[\d+:\d+\.\d+\])");
-    for (int i = 0; i < rawList.size(); i++) {
-        const QString& line = rawList.at(i);
+    for (const auto & line : rawList) {
         auto match = rx.match(line);
         if (match.hasMatch()) {
             QString content = line;
@@ -88,8 +87,7 @@ void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
 void insertLyricsTranslation(QList<Lyric>& lyrics, const QString& tr) {
     QStringList trList = tr.split("\n");
     QRegularExpression rx(R"(\[\d+:\d+\.\d+\])");
-    for (int i = 0; i < trList.size(); i++) {
-        const QString& line = trList.at(i);
+    for (const auto & line : trList) {
         // qDebug() << "Insert translation: " << line;
         auto match = rx.match(line);
         if (match.hasMatch()) {
@@ -173,13 +171,16 @@ void Lyrics::destroyLyrics() {
 void Lyrics::requestFetch(const Media& media) {
     for (auto lyric : m_lyrics) {
         if (lyric->accepted(media)) {
+            setLoading(true);
             auto worker = lyric->clone();
             worker->setTaskId(++m_taskId);
             worker->requestFetch(media);
             connect(worker, &ILyrics::lyricsFetched, this,
                     [=](const QString& lyrics, const QString& translation) {
-                        if (worker->taskId() == m_taskId)
+                        if (worker->taskId() == m_taskId) {
                             handleLyrics(lyrics, translation);
+                            setLoading(false);
+                        }
                         worker->deleteLater();
                     });
             return;

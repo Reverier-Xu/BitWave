@@ -31,6 +31,8 @@ FramelessWindow {
         Style.isDark = ui.colorStyle;
     }
 
+    SystemTray {}
+
     Rectangle {
         id: centralWidget
 

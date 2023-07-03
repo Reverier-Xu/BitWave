@@ -51,6 +51,8 @@ void UiConfig::loadSettings() {
     settings.beginGroup("Display");
     setColorStyle(settings.value("ColorStyle", true).toBool());
     setLanguage(settings.value("Language", "en_US").toString());
+    setFullscreen(settings.value("Fullscreen", false).toBool());
+    setFlatSystemTray(settings.value("FlatSystemTray", false).toBool());
     settings.endGroup();
 }
 
@@ -59,5 +61,16 @@ void UiConfig::saveSettings() const {
     settings.beginGroup("Display");
     settings.setValue("ColorStyle", colorStyle());
     settings.setValue("Language", language());
+    settings.setValue("Fullscreen", fullscreen());
+    settings.setValue("FlatSystemTray", flatSystemTray());
     settings.endGroup();
+}
+
+void UiConfig::setFlatSystemTray(bool n) {
+    m_flatSystemTray = n;
+    emit flatSystemTrayChanged(n);
+}
+
+bool UiConfig::flatSystemTray() const {
+    return m_flatSystemTray;
 }

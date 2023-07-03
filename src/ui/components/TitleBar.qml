@@ -25,7 +25,7 @@ Rectangle {
         radius: 0
         width: 48
 
-        onClicked: window.close()
+        onClicked: window.hide()
     }
 
     Button {

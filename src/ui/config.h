@@ -21,11 +21,14 @@ class UiConfig : public QObject {
         QString language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY
                    fullscreenChanged)
+    Q_PROPERTY(bool flatSystemTray READ flatSystemTray WRITE setFlatSystemTray
+                   NOTIFY flatSystemTrayChanged)
    private:
     QString m_language;
     QTranslator m_translator;
     bool m_colorStyle = false;
     bool m_fullscreen = false;
+    bool m_flatSystemTray = false;
 
    public:
     explicit UiConfig(QObject* parent = nullptr);
@@ -44,6 +47,10 @@ class UiConfig : public QObject {
 
     [[nodiscard]] bool fullscreen() const;
 
+    void setFlatSystemTray(bool n);
+
+    [[nodiscard]] bool flatSystemTray() const;
+
     void loadSettings();
 
     void saveSettings() const;
@@ -57,4 +64,6 @@ class UiConfig : public QObject {
     void raiseWindowRequested();
 
     void fullscreenChanged(bool n);
+
+    void flatSystemTrayChanged(bool n);
 };
