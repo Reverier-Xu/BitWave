@@ -111,30 +111,23 @@ QString LocalMusicParser::getMediaCover(const Media &media) {
     if (ret < 0) throw std::exception();
     avformat_find_stream_info(ctx, nullptr);
     // read the format headers
-    if (ctx->iformat->read_header(ctx) < 0) {
-        avformat_close_input(&ctx);
-        throw std::exception();
+    AVPacket pkt;
+    av_read_frame(ctx, &pkt);
+    if (!pkt.size) {
+        throw std::runtime_error("Failed to read frame.");
     }
-
-    for (int i = 0; i < ctx->nb_streams; i++) {
-        if (ctx->streams[i]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
-            AVPacket pkt = ctx->streams[i]->attached_pic;
-            QImage img = QImage::fromData((uchar *)pkt.data, pkt.size);
-            auto cachePath =
-                QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-                "/BitWave";
-            auto temp_loc = cachePath + "/Covers/" +
-                            media.title().replace("/", "").replace("\\", "") +
-                            ".jpg";
-            img = img.scaled(320, 320);
-            img.save(QUrl("file://" + temp_loc).path());
-            avformat_close_input(&ctx);
-            // qDebug() << QUrl("file://" + temp_loc).path();
-            return "file://" + temp_loc;
-        }
-    }
+    auto img = QImage::fromData((uchar *)pkt.data, pkt.size);
+    auto cachePath =
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
+        "/BitWave";
+    auto temp_loc = cachePath + "/Covers/" +
+                    media.title().replace("/", "").replace("\\", "") +
+                    ".jpg";
+    img = img.scaled(320, 320);
+    img.save(QUrl("file://" + temp_loc).path());
     avformat_close_input(&ctx);
-    throw std::exception();
+    // qDebug() << QUrl("file://" + temp_loc).path();
+    return "file://" + temp_loc;
 }
 
 LocalMusicParser::LocalMusicParser(QObject *parent) : BaseParser(parent) {}
