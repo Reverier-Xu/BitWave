@@ -7,7 +7,7 @@ A simple media player that wrappers MPV.
 - [x] Play local media files
 - [ ] Play online media files
 - [x] Media metadata
-- [ ] Music lyrics
+- [x] Music lyrics
 - [ ] Library and playlist management
 - [ ] Various fine-tuning and control of the player
 
