@@ -122,14 +122,14 @@ class Mpris2 : public QObject {
 
     void Play();
 
-    void Seek(const qint64 pos);
+    void Seek(qlonglong offset);
 
     void OpenUri(const QString &uri);
 
    signals:
 
     // Player
-    void Seeked(qlonglong position);
+    void Seeked(qlonglong offset);
 
     void RaiseMainWindow();
 

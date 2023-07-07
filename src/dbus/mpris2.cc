@@ -229,7 +229,7 @@ bool Mpris2::CanPause() const {
     return Player::instance()->valid() && Player::instance()->playing();
 }
 
-bool Mpris2::CanSeek() const { return false; }
+bool Mpris2::CanSeek() const { return true; }
 
 bool Mpris2::CanControl() const { return true; }
 
@@ -298,7 +298,7 @@ void Mpris2::EngineStateChanged() {
     EmitNotification("CanSeek", CanSeek());
 }
 
-void Mpris2::Seek(const qint64 pos) {
-    Player::instance()->seek((double)pos / 1000000.0);
+void Mpris2::Seek(qlonglong offset) {
+    Player::instance()->seek((double)offset / 1000000.0);
 }
 }  // namespace mpris

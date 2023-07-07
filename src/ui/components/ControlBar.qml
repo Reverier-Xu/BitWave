@@ -1,17 +1,19 @@
+// import RxUI.Models
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import RxUI
-// import RxUI.Models
 
 Rectangle {
     id: control
 
-    color: Color.transparent(Style.palette.window, 0.95)
-    height: 100
     property bool queueVisible: false
     property bool optionVisible: false
+
+    color: Color.transparent(Style.palette.window, 0.95)
+    height: 100
 
     Rectangle {
         id: coverContainer
@@ -37,6 +39,7 @@ Rectangle {
             sourceSize: parent.size
             visible: false
         }
+
         MultiEffect {
             anchors.fill: cover
             maskEnabled: true
@@ -57,28 +60,36 @@ Rectangle {
                     smooth: true
                     antialiasing: true
                 }
+
             }
+
         }
 
         Rectangle {
             anchors.fill: parent
-            color: Color.transparent(Style.palette.window, 0.60)
+            color: Color.transparent(Style.palette.window, 0.6)
             opacity: (player.loading || player.coverLoading) ? 1 : 0
+
+            Loader {
+                id: loader
+
+                radius: 12
+                anchors.centerIn: parent
+                running: player.loading || player.coverLoading
+            }
+
             Behavior on opacity {
                 NumberAnimation {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
+
             }
 
-            Loader {
-                id: loader
-                radius: 12
-                anchors.centerIn: parent
-                running: player.loading || player.coverLoading
-            }
         }
+
     }
+
     Label {
         id: title
 
@@ -98,7 +109,9 @@ Rectangle {
             visible: title.hovered
             x: 0
         }
+
     }
+
     Label {
         id: artistAndAlbum
 
@@ -116,6 +129,7 @@ Rectangle {
             visible: artistAndAlbum.hovered
             x: 0
         }
+
     }
 
     RowLayout {
@@ -128,13 +142,14 @@ Rectangle {
 
         TimeButton {
             id: previousButton
+
             icon.source: "qrc:/qt/qml/RxUI/assets/previous.svg"
             tempTime: progressBar.currentValue
-
             onClicked: {
-                queue.prev()
+                queue.prev();
             }
         }
+
         PauseButton {
             id: pauseButton
 
@@ -143,23 +158,24 @@ Rectangle {
             tempTime: progressBar.dragValue
             implicitWidth: 64
             implicitHeight: 64
-
             onClicked: player.togglePause()
         }
+
         TimeButton {
             id: nextButton
+
             icon.source: "qrc:/qt/qml/RxUI/assets/next.svg"
             tempTime: progressBar.totalValue
-
             onClicked: {
-                queue.next()
+                queue.next();
             }
         }
-    }
 
+    }
 
     RowLayout {
         id: rightContainer
+
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -175,9 +191,8 @@ Rectangle {
             radius: width / 2
             implicitHeight: 48
             implicitWidth: 48
-
             onClicked: {
-                queue.toggleChangeMode()
+                queue.toggleChangeMode();
             }
         }
 
@@ -204,19 +219,27 @@ Rectangle {
             icon.source: control.optionVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/options.svg"
             radius: width / 2
             rotation: control.optionVisible ? 90 : 0
+            onClicked: {
+                if (control.queueVisible)
+                    control.queueVisible = false;
+
+                control.optionVisible = !control.optionVisible;
+            }
+
+            ToolTip {
+                parent: optionButton
+                text: qsTr("Player options")
+                visible: optionButton.hovered
+            }
 
             Behavior on rotation {
                 NumberAnimation {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
+
             }
 
-            onClicked: {
-                if (control.queueVisible)
-                    control.queueVisible = false
-                control.optionVisible = !control.optionVisible
-            }
         }
 
         Button {
@@ -229,20 +252,29 @@ Rectangle {
             icon.source: control.queueVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/list.svg"
             radius: width / 2
             rotation: control.queueVisible ? 90 : 0
+            onClicked: {
+                if (control.optionVisible)
+                    control.optionVisible = false;
+
+                control.queueVisible = !control.queueVisible;
+            }
+
+            ToolTip {
+                parent: queueButton
+                text: qsTr("Current play queue")
+                visible: queueButton.hovered
+            }
 
             Behavior on rotation {
                 NumberAnimation {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
+
             }
 
-            onClicked: {
-                if (control.optionVisible)
-                    control.optionVisible = false
-                control.queueVisible = !control.queueVisible
-            }
         }
+
     }
 
     InteractiveProgressBar {
@@ -254,9 +286,9 @@ Rectangle {
         currentValue: player.currentTime
         height: 24
         totalValue: player.totalTime
-
-        onEndDragging: function (time) {
+        onEndDragging: function(time) {
             player.seek(time);
         }
     }
+
 }
