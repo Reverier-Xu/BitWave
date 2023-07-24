@@ -124,6 +124,8 @@ class Mpris2 : public QObject {
 
     void Seek(qlonglong offset);
 
+    void SetPosition(const QVariant& trackId, qlonglong position);
+
     void OpenUri(const QString &uri);
 
    signals:
