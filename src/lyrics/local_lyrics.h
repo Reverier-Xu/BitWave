@@ -3,6 +3,9 @@
 #include "interface.h"
 
 class LocalLyrics : public ILyrics {
+   protected:
+    void fetchLyrics(const QUrl& fileUrl);
+
    public:
     explicit LocalLyrics(QObject* parent = nullptr);
 

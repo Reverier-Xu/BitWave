@@ -63,5 +63,5 @@ void NcmLyrics::requestFetch(const Media& media) {
     auto url = QUrl(QString(LYRICS_API).arg(musicId));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::UserAgentHeader, CLI_API_UA);
-    auto reply = m_manager->get(request);
+    m_manager->get(request);
 }

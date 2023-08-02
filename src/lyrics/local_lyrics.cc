@@ -1,3 +1,4 @@
+#include <QtConcurrent>
 #include "local_lyrics.h"
 
 LocalLyrics::LocalLyrics(QObject* parent) : ILyrics(parent) {}
@@ -8,12 +9,11 @@ ILyrics* LocalLyrics::clone() {
 
 bool LocalLyrics::accepted(const Media& media) {
     const auto fileUrl = QUrl(media.url());
-    if (fileUrl.isLocalFile()) {
-        auto file = fileUrl.toLocalFile();
+    if (fileUrl.isLocalFile() || fileUrl.scheme().isEmpty()) {
+        auto file = fileUrl.toString().replace(fileUrl.scheme(), "");
         // replace media suffix with .lrc
         auto suffix = file.split(".").last();
         file.replace(QString("." + suffix), ".lrc");
-        // qDebug() << "local lyric file: " << file;
         if (QFile::exists(file)) {
             return true;
         } else {
@@ -25,8 +25,18 @@ bool LocalLyrics::accepted(const Media& media) {
 
 void LocalLyrics::requestFetch(const Media& media) {
     const auto fileUrl = QUrl(media.url());
-    if (fileUrl.isLocalFile()) {
-        auto file = fileUrl.toLocalFile();
+    auto watcher = new QFutureWatcher<void>(this);
+    connect(watcher, &QFutureWatcher<void>::finished, this, [=]() {
+        watcher->deleteLater();
+    });
+    watcher->setFuture(QtConcurrent::run([=] () {
+        fetchLyrics(fileUrl);
+    }));
+}
+
+void LocalLyrics::fetchLyrics(const QUrl& fileUrl) {
+    if (fileUrl.isLocalFile() || fileUrl.scheme().isEmpty()) {
+        auto file = fileUrl.toString().replace(fileUrl.scheme(), "");
         auto suffix = file.split(".").last();
         file.replace(QString("." + suffix), ".lrc");
         if (QFile::exists(file)) {
