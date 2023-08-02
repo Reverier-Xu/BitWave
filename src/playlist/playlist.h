@@ -10,4 +10,9 @@
 
 #pragma once
 
-class Playlist {};
+#include <QObject>
+
+class Playlist : public QObject {
+    Q_OBJECT
+
+};

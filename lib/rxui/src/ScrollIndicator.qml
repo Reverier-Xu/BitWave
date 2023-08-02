@@ -10,8 +10,8 @@ T.ScrollIndicator {
 
     contentItem: Rectangle {
         color: Style.palette.midlight
-        implicitHeight: 6
-        implicitWidth: 6
+        implicitHeight: 4
+        implicitWidth: 4
         radius: width > height ? height / 2 : width / 2
         opacity: control.active ? 1 : 0
         visible: control.size < 1.0

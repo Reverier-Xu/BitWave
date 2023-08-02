@@ -217,7 +217,7 @@ Rectangle {
                     highlightRangeMode: ListView.ApplyRange
                     model: lyricsModel
                     preferredHighlightBegin: 80
-                    preferredHighlightEnd: 120
+                    preferredHighlightEnd: 80
                     opacity: lyrics.loading ? 0 : 1
 
                     Behavior on opacity {
@@ -235,10 +235,10 @@ Rectangle {
                         width: ListView.view.width
                     }
                     footer: Item {
-                        height: 200
+                        height: 64
                     }
                     header: Item {
-                        height: 200
+                        height: 64
                     }
                 }
                 Rectangle {

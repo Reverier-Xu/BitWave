@@ -17,8 +17,8 @@
 
 PlayQueue::PlayQueue(QObject* parent) : QObject(parent) {
     m_playlist = new QVector<Media>;
-    m_model = new QueueModel(this);
-    m_model->setQueue(m_playlist);
+    m_model = new MediaList(this);
+    m_model->setList(m_playlist);
     loadSettings();
 }
 
@@ -77,7 +77,7 @@ void PlayQueue::setMode(int mode) {
 
 QVector<Media>* PlayQueue::queue() { return m_playlist; }
 
-QueueModel* PlayQueue::model() { return m_model; }
+MediaList* PlayQueue::model() { return m_model; }
 
 int PlayQueue::cursor() const { return m_cursor; }
 
@@ -258,67 +258,3 @@ void PlayQueue::saveSettings() const {
     settings.setValue("mode", m_mode);
     settings.endGroup();
 }
-
-int QueueModel::rowCount(const QModelIndex& parent) const {
-    return (int)m_queue->size();
-}
-
-QVariant QueueModel::data(const QModelIndex& index, int role) const {
-    if (!index.isValid()) {
-        return {};
-    }
-
-    if (index.row() >= m_queue->size()) {
-        return {};
-    }
-
-    switch (role) {
-        case MediaTitleRole:
-            return m_queue->at(index.row()).title();
-        case MediaTypeRole:
-            return m_queue->at(index.row()).type();
-        case MediaArtistsRole:
-            return m_queue->at(index.row()).artists();
-        case MediaAlbumRole:
-            return m_queue->at(index.row()).album();
-        case MediaTimeRole:
-            return m_queue->at(index.row()).time();
-        default:
-            return {};
-    }
-}
-
-QHash<int, QByteArray> QueueModel::roleNames() const {
-    QHash<int, QByteArray> roles;
-    roles[MediaTitleRole] = "mediaTitle";
-    roles[MediaTypeRole] = "mediaType";
-    roles[MediaArtistsRole] = "mediaArtists";
-    roles[MediaAlbumRole] = "mediaAlbum";
-    roles[MediaTimeRole] = "mediaTime";
-    return roles;
-}
-
-void QueueModel::setQueue(QVector<Media>* queue) {
-    beginResetModel();
-    m_queue = queue;
-    endResetModel();
-}
-
-void QueueModel::removeMedia(int pos) {
-    beginRemoveRows(QModelIndex(), pos, pos);
-    endRemoveRows();
-}
-
-void QueueModel::insertMedia(int pos) {
-    beginInsertRows(QModelIndex(), pos, pos);
-    endInsertRows();
-}
-
-void QueueModel::reload() {
-    beginResetModel();
-    endResetModel();
-}
-
-QueueModel::QueueModel(QObject* parent) : QAbstractListModel(parent) {}
-
-QueueModel::~QueueModel() = default;

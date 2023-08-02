@@ -73,6 +73,10 @@ void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
                     lyric.time = capturedList.at(0).toDouble() * 60 +
                                  capturedList.at(1).toDouble();
                     lyrics << lyric;
+
+                    // NOTE: do not parse lyrics that have per-character timelines.
+                    // when we got the first one, break the loop.
+                    break;
                 }
             }
         } else {
@@ -186,7 +190,10 @@ void Lyrics::requestFetch(const Media& media) {
             return;
         }
     }
-    handleLyrics(tr("[00:00.00]No lyrics provider"), "");
+    if (media.embeddedLyrics().isEmpty())
+        handleLyrics(tr("[00:00.00]No lyrics provider"), "");
+    else
+        handleLyrics(media.embeddedLyrics(), "");
 }
 
 LyricsModel::LyricsModel(QObject* parent) : QAbstractListModel(parent) {}

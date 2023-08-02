@@ -21,6 +21,7 @@ Media::Media(const Media& media) {
     m_album = media.m_album;
     m_type = media.m_type;
     m_comment = media.m_comment;
+    m_embeddedLyrics = media.m_embeddedLyrics;
 }
 
 Media& Media::operator=(const Media& media) {
@@ -31,6 +32,7 @@ Media& Media::operator=(const Media& media) {
     m_album = media.m_album;
     m_type = media.m_type;
     m_comment = media.m_comment;
+    m_embeddedLyrics = media.m_embeddedLyrics;
     return *this;
 }
 
@@ -62,9 +64,17 @@ const QString& Media::comment() const { return m_comment; }
 
 void Media::setComment(const QString& n) { m_comment = n; }
 
+const QString& Media::embeddedLyrics() const {
+    return m_embeddedLyrics;
+}
+
+void Media::setEmbeddedLyrics(const QString& n) {
+    m_embeddedLyrics = n;
+}
+
 Media::Media(const QString& rawUrl, const QString& title,
              const QStringList& artists, const QString& album, MediaType type,
-             double duration, const QString& comment) {
+             double duration, const QString& comment, const QString& embeddedLyrics) {
     m_url = rawUrl;
     m_title = title;
     m_artists = artists;
@@ -72,6 +82,7 @@ Media::Media(const QString& rawUrl, const QString& title,
     m_type = type;
     m_time = duration;
     m_comment = comment;
+    m_embeddedLyrics = embeddedLyrics;
 }
 
 const Media nullMedia{};

@@ -15,6 +15,8 @@
 #include <QtQmlIntegration>
 
 #include "models/media.h"
+#include "models/media_list.h"
+
 
 enum QueueMode {
     IN_ORDER = 0,
@@ -22,41 +24,6 @@ enum QueueMode {
     LOOP_ALL = 2,
     LOOP_ONE = 3,
     RANDOM = 4,
-};
-
-class QueueModel : public QAbstractListModel {
-    Q_OBJECT
-
-   private:
-    QVector<Media>* m_queue{};
-
-   public:
-    explicit QueueModel(QObject* parent = nullptr);
-
-    ~QueueModel() override;
-
-    enum MediaQueueRoles {
-        MediaTitleRole = Qt::UserRole + 1,
-        MediaTypeRole,
-        MediaArtistsRole,
-        MediaAlbumRole,
-        MediaTimeRole,
-    };
-
-    [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
-
-    [[nodiscard]] QVariant data(const QModelIndex& index,
-                                int role) const override;
-
-    [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
-
-    void setQueue(QVector<Media>* queue);
-
-    void reload();
-
-    void removeMedia(int pos);  // [begin, end]
-
-    void insertMedia(int pos);
 };
 
 class PlayQueue : public QObject {
@@ -71,7 +38,7 @@ class PlayQueue : public QObject {
 
     QVector<Media>* m_playlist{};
 
-    QueueModel* m_model;
+    MediaList* m_model;
 
     int m_cursor{0};
 
@@ -102,7 +69,7 @@ class PlayQueue : public QObject {
 
     [[nodiscard]] QVector<Media>* queue();
 
-    [[nodiscard]] QueueModel* model();
+    [[nodiscard]] MediaList* model();
 
     [[nodiscard]] int cursor() const;
 

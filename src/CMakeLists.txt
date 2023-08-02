@@ -15,7 +15,8 @@ set(
 set(
     LIBRARY_SRCS
     library/library.cc
-    library/local_library.cc
+    library/local_scanner.cc
+    library/local_scanner.h
 )
 
 set(
@@ -73,7 +74,10 @@ set(
     ${PLAYER_SRCS}
     ${PLAYLIST_SRCS}
     ${UI_SRCS}
-    main.cc)
+    main.cc
+    models/media_list.cc
+    models/media_list.h
+)
 set(
     QML_FILES
     ui/Main.qml

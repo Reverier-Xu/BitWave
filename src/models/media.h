@@ -35,6 +35,7 @@ class Media : public QObject {
     Q_PROPERTY(MediaType type READ type WRITE setType)
     Q_PROPERTY(QString album READ album WRITE setAlbum)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
+    Q_PROPERTY(QString embeddedLyrics READ embeddedLyrics WRITE setEmbeddedLyrics)
 
    private:
     QString m_url;
@@ -51,11 +52,13 @@ class Media : public QObject {
 
     QString m_comment;
 
+    QString m_embeddedLyrics;
+
    public:
     explicit Media(const QString& rawUrl = "", const QString& title = "",
                    const QStringList& artists = {""}, const QString& album = "",
                    MediaType type = UNKNOWN, double duration = 0.0,
-                   const QString& comment = "");
+                   const QString& comment = "", const QString& embeddedLyrics = "");
 
     Media(const Media& media);
 
@@ -90,6 +93,10 @@ class Media : public QObject {
     [[nodiscard]] const QString& comment() const;
 
     void setComment(const QString& n);
+
+    [[nodiscard]] const QString& embeddedLyrics() const;
+
+    void setEmbeddedLyrics(const QString& n);
 };
 
 Q_DECLARE_METATYPE(Media)

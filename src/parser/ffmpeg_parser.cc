@@ -49,6 +49,12 @@ Media FfmpegParser::parse(const QString &path) {
         media.setComment(read_tag->value);
     else
         media.setComment("");
+    if ((read_tag = av_dict_get(ctx->metadata, "lyrics", tag, AV_DICT_IGNORE_SUFFIX)) or (read_tag = av_dict_get
+        (ctx->metadata, "LYRICS", tag, AV_DICT_IGNORE_SUFFIX))) {
+        media.setEmbeddedLyrics(read_tag->value);
+    } else {
+        media.setEmbeddedLyrics("");
+    }
     if (ctx->duration != AV_NOPTS_VALUE) {
         int64_t secs, us;
         int64_t duration = ctx->duration + 5000;
