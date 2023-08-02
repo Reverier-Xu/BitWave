@@ -153,16 +153,17 @@ Rectangle {
         }
 
         delegate: MediaRow {
+            property int indexOfThisDelegate: index
             width: ListView.view.width
-            index: mediaId
+            mIndex: indexOfThisDelegate
             title: mediaTitle
             artists: mediaArtists.join(', ')
             album: mediaAlbum
             time: mediaTime
-            playing: queue.cursor === mediaId
+            playing: queue.cursor === indexOfThisDelegate
 
             onClicked: {
-                queue.play(mediaId)
+                queue.play(indexOfThisDelegate)
             }
         }
     }

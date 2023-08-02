@@ -36,8 +36,7 @@ class QueueModel : public QAbstractListModel {
     ~QueueModel() override;
 
     enum MediaQueueRoles {
-        MediaIdRole = Qt::UserRole + 1,
-        MediaTitleRole,
+        MediaTitleRole = Qt::UserRole + 1,
         MediaTypeRole,
         MediaArtistsRole,
         MediaAlbumRole,

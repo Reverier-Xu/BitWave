@@ -283,8 +283,6 @@ QVariant QueueModel::data(const QModelIndex& index, int role) const {
             return m_queue->at(index.row()).album();
         case MediaTimeRole:
             return m_queue->at(index.row()).time();
-        case MediaIdRole:
-            return index.row();
         default:
             return {};
     }
@@ -297,7 +295,6 @@ QHash<int, QByteArray> QueueModel::roleNames() const {
     roles[MediaArtistsRole] = "mediaArtists";
     roles[MediaAlbumRole] = "mediaAlbum";
     roles[MediaTimeRole] = "mediaTime";
-    roles[MediaIdRole] = "mediaId";
     return roles;
 }
 

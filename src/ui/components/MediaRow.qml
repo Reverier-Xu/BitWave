@@ -6,7 +6,7 @@ import RxUI
 Button {
     id: control
 
-    property int index
+    property int mIndex
     property string title
     property string artists
     property string album
@@ -31,7 +31,7 @@ Button {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         width: 48
-        text: (control.index + 1).toString().padStart(3, '0')
+        text: (control.mIndex + 1).toString().padStart(3, '0')
         visible: !control.playing
         opacity: 0.6
         verticalAlignment: Text.AlignVCenter
