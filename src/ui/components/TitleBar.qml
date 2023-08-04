@@ -7,7 +7,15 @@ Rectangle {
     id: titleBar
 
     color: Color.transparent(Style.palette.window, 0.95)
-    height: 36
+    height: ui.hideControls ? 0 : 36
+    clip: true
+
+    Behavior on height {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+    }
 
     Button {
         id: closeButton
@@ -91,7 +99,7 @@ Rectangle {
         radius: 0
         width: 48
 
-        onClicked: window.sideBarExpanded = !window.sideBarExpanded
+        onClicked: ui.sideBarExpanded = !ui.sideBarExpanded
     }
     Button {
         id: backButton
@@ -156,6 +164,16 @@ Rectangle {
         onActiveChanged: {
             if (active) {
                 window.startSystemMove();
+            }
+        }
+    }
+
+    HoverHandler {
+        onHoveredChanged: {
+            if (hovered) {
+                ui.blockHideControls();
+            } else {
+                ui.autoHideControls();
             }
         }
     }

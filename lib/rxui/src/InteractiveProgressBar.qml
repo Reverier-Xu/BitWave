@@ -9,6 +9,8 @@ Rectangle {
     property double lineHeight: 2
     property bool onDragging: false
     property double totalValue: 1000
+    property bool showHandle: true
+    clip: true
 
     signal endDragging(double finalTime)
     signal startDragging
@@ -30,12 +32,8 @@ Rectangle {
             name: "Hovering"
 
             PropertyChanges {
-                color: border.color
+                pointColor: Style.primary
                 target: currentProgressPoint
-            }
-            PropertyChanges {
-                color: border.color
-                target: dragPoint
             }
             PropertyChanges {
                 lineHeight: 4
@@ -46,12 +44,8 @@ Rectangle {
             name: "Normal"
 
             PropertyChanges {
-                color: Style.palette.window
+                pointColor: Style.palette.window
                 target: currentProgressPoint
-            }
-            PropertyChanges {
-                color: Style.palette.window
-                target: dragPoint
             }
             PropertyChanges {
                 lineHeight: 2
@@ -65,13 +59,8 @@ Rectangle {
                 target: root
             }
             PropertyChanges {
-                color: border.color
+                pointColor: Style.primary
                 target: currentProgressPoint
-            }
-            PropertyChanges {
-                border.color: Style.warning
-                color: Style.warning
-                target: dragPoint
             }
             PropertyChanges {
                 lineHeight: 4
@@ -85,47 +74,70 @@ Rectangle {
 
         anchors.left: parent.left
         anchors.right: onDragging ? (currentValue > dragValue ? dragPoint.left : currentProgressPoint.left) : currentProgressPoint.left
-        anchors.rightMargin: 4
         anchors.verticalCenter: parent.verticalCenter
         color: Style.primary
         height: root.lineHeight
-        radius: height / 2
+        radius: root.showHandle ? height / 2 : 0
     }
     Rectangle {
         id: differPart
 
         anchors.left: currentValue > dragValue ? dragPoint.right : currentProgressPoint.right
-        anchors.leftMargin: 4
         anchors.right: currentValue > dragValue ? currentProgressPoint.left : dragPoint.left
-        anchors.rightMargin: 4
         anchors.verticalCenter: parent.verticalCenter
         color: Style.warning
         height: root.lineHeight
-        radius: height / 2
+        radius: root.showHandle ? height / 2 : 0
         visible: root.onDragging
     }
     Rectangle {
         id: unExplorePart
 
         anchors.left: onDragging ? (currentValue > dragValue ? currentProgressPoint.right : dragPoint.right) : currentProgressPoint.right
-        anchors.leftMargin: 4
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         color: Style.palette.dark
         height: root.lineHeight
-        radius: height / 2
+        radius: root.showHandle ? height / 2 : 0
     }
     Rectangle {
         id: currentProgressPoint
 
         anchors.verticalCenter: parent.verticalCenter
-        border.color: Style.primary
-        border.width: 4
-        color: Style.palette.window
+        color: "transparent"
+        property color pointColor: Style.palette.window
         height: 16
-        radius: 8
-        width: 16
-        x: (root.width - 16) * (totalValue > 0 ? (currentValue / totalValue) : 0)
+        width: 24
+        x: (root.width - 16) * (totalValue > 0 ? (currentValue / totalValue) : 0) - 4
+
+        Rectangle {
+            height: 16
+            width: 16
+            radius: 8
+            anchors.centerIn: parent
+            border.color: Style.primary
+            border.width: 4
+            color: currentProgressPoint.pointColor
+            visible: root.showHandle
+        }
+
+        Rectangle {
+            height: root.lineHeight
+            anchors.right: parent.horizontalCenter
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            color: Style.primary
+            visible: !root.showHandle
+        }
+
+        Rectangle {
+            height: root.lineHeight
+            anchors.right: parent.right
+            anchors.left: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            color: Style.palette.dark
+            visible: !root.showHandle
+        }
 
         Behavior on x  {
             NumberAnimation {
@@ -134,18 +146,24 @@ Rectangle {
             }
         }
     }
+
     Rectangle {
         id: dragPoint
 
         anchors.verticalCenter: parent.verticalCenter
-        border.color: Style.warning
-        border.width: 4
-        color: Style.palette.window
         height: 16
-        radius: 8
         visible: root.onDragging
-        width: 16
-        x: (root.width - 16) * (totalValue > 0 ? (dragValue / totalValue) : 0)
+        width: 24
+        x: (root.width - 16) * (totalValue > 0 ? (dragValue / totalValue) : 0) - 4
+        color: "transparent"
+
+        Rectangle {
+            height: 16
+            width: 16
+            radius: 8
+            anchors.centerIn: parent
+            color: Style.warning
+        }
     }
     MouseArea {
         id: hoverArea

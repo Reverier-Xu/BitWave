@@ -17,6 +17,8 @@
 
 #include "lyrics/lyrics.h"
 #include "player/video_player.h"
+#include "library/library.h"
+
 
 Ui* Ui::m_instance = nullptr;
 
@@ -25,7 +27,7 @@ Ui::Ui(QObject* parent) : QObject(parent) {
     m_engine = new QQmlApplicationEngine(this);
     m_colorize = new Colorize(this);
     m_router = new Router(this);
-    m_uiConfig = new UiConfig(this);
+    m_uiConfig = new UiConfig(this, m_router);
 }
 
 Ui::~Ui() { m_engine->deleteLater(); }
@@ -60,6 +62,7 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("ui", m_uiConfig);
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
+    m_engine->rootContext()->setContextProperty("library", Library::instance(this->parent()));
     m_engine->rootContext()->setContextProperty(
         "lyrics", Lyrics::instance(this->parent()));
     m_engine->rootContext()->setContextProperty(

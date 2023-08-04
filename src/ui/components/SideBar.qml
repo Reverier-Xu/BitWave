@@ -85,7 +85,6 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: playerTab.bottom
-        anchors.topMargin: 4
         clip: true
 
         delegate: ActiveTab {
@@ -103,10 +102,17 @@ Rectangle {
         model: ListModel {
             ListElement {
                 itemEnabled: true
-                itemIcon: "qrc:/qt/qml/RxUI/assets/music-note-2.svg"
+                itemIcon: "qrc:/qt/qml/RxUI/assets/archive.svg"
                 itemId: 0
                 itemText: qsTr("Local Library")
-                itemRoute: "libraries/local/all"
+                itemRoute: "libraries/local/"
+            }
+            ListElement {
+                itemEnabled: true
+                itemIcon: "qrc:/qt/qml/RxUI/assets/cloud.svg"
+                itemId: 0
+                itemText: qsTr("Online Media")
+                itemRoute: "libraries/online/"
             }
         }
     }

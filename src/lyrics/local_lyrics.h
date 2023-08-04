@@ -3,6 +3,7 @@
 #include "interface.h"
 
 class LocalLyrics : public ILyrics {
+   Q_OBJECT
    protected:
     void fetchLyrics(const QUrl& fileUrl);
 

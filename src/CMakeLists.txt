@@ -31,6 +31,8 @@ set(
     MODELS_SRCS
     models/media.cc
     models/media.h
+    models/media_list.cc
+    models/media_list.h
 )
 
 set(
@@ -51,6 +53,7 @@ set(
 set(
     PLAYLIST_SRCS
     playlist/playlist.cc
+    playlist/interface.h
 )
 
 set(
@@ -75,9 +78,8 @@ set(
     ${PLAYLIST_SRCS}
     ${UI_SRCS}
     main.cc
-    models/media_list.cc
-    models/media_list.h
 )
+
 set(
     QML_FILES
     ui/Main.qml
@@ -96,6 +98,7 @@ set(
     ui/components/MediaRow.qml
     ui/components/Lyric.qml
     ui/components/SystemTray.qml
+    ui/components/KeyTapEvent.qml
 
     # Views
     ui/views/PlayerView.qml

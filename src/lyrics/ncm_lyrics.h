@@ -5,6 +5,7 @@ class QNetworkAccessManager;
 class QNetworkReply;
 
 class NcmLyrics : public ILyrics {
+   Q_OBJECT
    private:
     QNetworkAccessManager* m_manager;
 

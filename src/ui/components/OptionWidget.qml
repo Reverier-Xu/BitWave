@@ -6,6 +6,14 @@ Rectangle {
     id: control
     color: Color.transparent(Style.palette.window, 0.95)
 
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.AllButtons
+        propagateComposedEvents: false
+        hoverEnabled: true
+        preventStealing: true
+    }
+
     Item {
         id: title
         height: 36

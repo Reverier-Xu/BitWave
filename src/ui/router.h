@@ -16,12 +16,12 @@
 /**
  * @brief The Router class
  *
- * PlayerView: `player`
- * LibraryView: `libraries/${LIBRARY_ID}/${LIBRARY_VIEW_TYPE}`
- * PlaylistView: `playlists` `playlists/${PLAYLIST_ID}`
- * SettingsView: `settings`
- * SearchView: `search` `search/${KEYWORD}`
- * ExploreView: `explore` `explore/${EXPLORE_TYPE}`
+ * - PlayerView: `player`
+ * - LibraryView: `libraries/${LIBRARY_ID}/${LIBRARY_VIEW_TYPE}`
+ * - PlaylistView: `playlists` `playlists/${PLAYLIST_ID}`
+ * - SettingsView: `settings`
+ * - SearchView: `search` `search/${KEYWORD}`
+ * - ExploreView: `explore` `explore/${EXPLORE_TYPE}`
  */
 
 class Router : public QObject {
@@ -31,6 +31,7 @@ class Router : public QObject {
                    NOTIFY currentRouteChanged)
     Q_PROPERTY(bool hasPrevious READ hasPrevious WRITE setHasPrevious NOTIFY
                    hasPreviousChanged)
+
    private:
     QStack<QString> m_history;
 

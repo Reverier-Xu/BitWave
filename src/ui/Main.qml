@@ -19,7 +19,7 @@ FramelessWindow {
     visible: true
     width: 1200
 
-    Behavior on color  {
+    Behavior on color {
         ColorAnimation {
             duration: 280
         }
@@ -31,7 +31,93 @@ FramelessWindow {
         Style.isDark = ui.colorStyle;
     }
 
-    SystemTray {}
+    SystemTray {
+    }
+
+    KeyTapEvent {
+        id: spaceEvent
+        customKey: "Space"
+        onClicked: {
+            if (player.playing)
+                player.pause()
+            else
+                player.resume()
+        }
+        onDoubleClicked: {
+            if (window.visibility === Window.FullScreen) {
+                window.showNormal();
+            } else {
+                window.showFullScreen();
+                ui.sideBarExpanded = false;
+            }
+        }
+    }
+
+    KeyTapEvent {
+        id: exitFullScreenEvent
+        customKey: "Escape"
+        onClicked: {
+            if (window.visibility === Window.FullScreen) {
+                window.showNormal();
+            }
+        }
+    }
+
+    KeyTapEvent {
+        id: nextEvent
+        customKey: "End"
+        onClicked: {
+            queue.next();
+        }
+    }
+
+    KeyTapEvent {
+        id: prevEvent
+        customKey: "Home"
+        onClicked: {
+            queue.prev();
+        }
+    }
+
+    KeyTapEvent {
+        id: exitAppEvent
+        customKey: "Ctrl+Q"
+        onClicked: {
+            Qt.exit(0);
+        }
+    }
+
+    KeyTapEvent {
+        id: increaseTimeEvent
+        customKey: "Right"
+        onClicked: {
+            player.seek(player.currentTime + 3)
+        }
+    }
+
+    KeyTapEvent {
+        id: decreaseTimeEvent
+        customKey: "Left"
+        onClicked: {
+            player.seek(player.currentTime - 3)
+        }
+    }
+
+    KeyTapEvent {
+        id: increaseVolumeEvent
+        customKey: "Up"
+        onClicked: {
+            player.toggleVolume(player.volume + 10);
+        }
+    }
+
+    KeyTapEvent {
+        id: decreaseVolumeEvent
+        customKey: "Down"
+        onClicked: {
+            player.toggleVolume(player.volume - 10);
+        }
+    }
 
     Rectangle {
         id: centralWidget
@@ -39,115 +125,114 @@ FramelessWindow {
         anchors.fill: parent
         anchors.margins: window.visibility === Window.Windowed ? 10 : 0
         border.color: Color.transparent(Style.palette.windowText, 0.08)
-        border.width: window.visibility === Window.Windowed ? 1 : 0
+        border.width: window.visibility === Window.Windowed ? 2 : 0
         color: Style.palette.window
 
-        SideBar {
-            id: sideBar
+        Item {
+            anchors.fill: parent
+            anchors.margins: window.visibility === Window.Windowed ? 2 : 0
 
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.left: parent.left
-            anchors.leftMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.top: parent.top
-            anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
-            expanded: window.sideBarExpanded
-            objectName: "sideBar"
-        }
-        StackLayout {
-            id: stack
+            SideBar {
+                id: sideBar
 
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.left: sideBar.right
-            anchors.right: parent.right
-            anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.top: parent.top
-            anchors.topMargin: window.visibility === Window.Windowed ? 1 : 0
-            currentIndex: {
-                let rootRoute = router.currentRoute.split("/")[0];
-                switch (rootRoute) {
-                case "player":
-                    return 0;
-                case "search":
-                    return 1;
-                case "explore":
-                    return 2;
-                case "libraries":
-                    return 3;
-                case "playlists":
-                    return 4;
-                case "settings":
-                    return 5;
-                default:
-                    return 0;
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.top: parent.top
+                expanded: ui.sideBarExpanded
+                objectName: "sideBar"
+            }
+
+            StackLayout {
+                id: stack
+
+                anchors.bottom: parent.bottom
+                anchors.left: sideBar.right
+                anchors.right: parent.right
+                anchors.top: parent.top
+                currentIndex: {
+                    let rootRoute = router.currentRoute.split("/")[0];
+                    switch (rootRoute) {
+                        case "player":
+                            return 0;
+                        case "search":
+                            return 1;
+                        case "explore":
+                            return 2;
+                        case "libraries":
+                            return 3;
+                        case "playlists":
+                            return 4;
+                        case "settings":
+                            return 5;
+                        default:
+                            return 0;
+                    }
+                }
+
+                PlayerView {
+                    id: playerView
+
+                }
+                SearchView {
+                    id: searchView
+
+                }
+                ExploreView {
+                    id: exploreView
+
+                }
+                LibraryView {
+                    id: libraryView
+
+                }
+                PlaylistView {
+                    id: playlistView
+
+                }
+                SettingsView {
+                    id: settingsView
+
                 }
             }
+            StackLayout {
+                id: bottomStack
 
-            PlayerView {
-                id: playerView
+                anchors.bottom: sideBar.bottom
+                anchors.left: sideBar.right
+                anchors.right: controlBar.right
+                currentIndex: controlBar.queueVisible ? 0 : 1
+                height: ui.controlWidgetExpanded ? sideBar.height - titleBar.height - controlBar.height : 0
 
-            }
-            SearchView {
-                id: searchView
+                Behavior on height {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                }
 
-            }
-            ExploreView {
-                id: exploreView
-
-            }
-            LibraryView {
-                id: libraryView
-
-            }
-            PlaylistView {
-                id: playlistView
-
-            }
-            SettingsView {
-                id: settingsView
-
-            }
-        }
-        StackLayout {
-            id: bottomStack
-
-            anchors.bottom: sideBar.bottom
-            anchors.left: sideBar.right
-            anchors.right: controlBar.right
-            currentIndex: controlBar.queueVisible ? 0 : 1
-            height: controlBar.queueVisible || controlBar.optionVisible ? sideBar.height - titleBar.height - controlBar.height : 0
-
-            Behavior on height  {
-                NumberAnimation {
-                    duration: 300
-                    easing.type: Easing.OutExpo
+                QueueWidget {
+                }
+                OptionWidget {
                 }
             }
+            TitleBar {
+                id: titleBar
 
-            QueueWidget {
+                anchors.left: sideBar.right
+                anchors.right: parent.right
+                anchors.top: sideBar.top
+                objectName: "titleBar"
             }
-            OptionWidget {
+            ControlBar {
+                id: controlBar
+
+                anchors.bottom: bottomStack.top
+                anchors.left: sideBar.right
+                anchors.right: parent.right
+                objectName: "controlBar"
             }
         }
-        TitleBar {
-            id: titleBar
 
-            anchors.left: sideBar.right
-            anchors.right: parent.right
-            anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-            anchors.top: sideBar.top
-            objectName: "titleBar"
-        }
-        ControlBar {
-            id: controlBar
-
-            anchors.bottom: bottomStack.top
-            anchors.left: sideBar.right
-            anchors.right: parent.right
-            anchors.rightMargin: window.visibility === Window.Windowed ? 1 : 0
-            objectName: "controlBar"
-        }
     }
     Connections {
         function onRaiseWindowRequested() {

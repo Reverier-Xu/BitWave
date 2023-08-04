@@ -9,11 +9,43 @@
  */
 
 #include "config.h"
+#include "player/player.h"
 
 #include <QApplication>
 #include <QSettings>
 
-UiConfig::UiConfig(QObject* parent) : QObject(parent) { loadSettings(); }
+
+UiConfig::UiConfig(QObject* parent, Router* router) : QObject(parent), m_router(router) {
+    loadSettings();
+    m_hideTimer = new QTimer(this);
+    m_hideTimer->setInterval(1000);
+
+    connect(m_hideTimer, &QTimer::timeout, [=]() {
+        if (!this->controlWidgetExpanded() && Player::instance()->playing() && Player::instance()->media().type() ==
+        VIDEO && router &&
+            router->currentRoute()
+                .startsWith("player"))
+            setHideControls(true);
+    });
+
+    connect(router, &Router::currentRouteChanged, this, [=](const QString& route) {
+        setHideControls(false);
+        if (route.startsWith("player")) {
+            autoHideControls();
+        } else {
+            blockHideControls();
+        }
+    });
+
+    connect(Player::instance(), &Player::mediaChanged, this, [=](const Media& media) {
+        setHideControls(false);
+        if (media.type() == VIDEO && router->currentRoute().startsWith("player")) {
+            autoHideControls();
+        } else {
+            blockHideControls();
+        }
+    });
+}
 
 UiConfig::~UiConfig() { saveSettings(); }
 
@@ -73,4 +105,41 @@ void UiConfig::setFlatSystemTray(bool n) {
 
 bool UiConfig::flatSystemTray() const {
     return m_flatSystemTray;
+}
+
+void UiConfig::setHideControls(bool n) {
+    m_hideControls = n;
+    emit hideControlsChanged(n);
+}
+
+bool UiConfig::hideControls() const {
+    return m_hideControls;
+}
+
+void UiConfig::autoHideControls() {
+    if (m_hideTimer->isActive()) m_hideTimer->stop();
+    m_hideTimer->start();
+}
+
+void UiConfig::blockHideControls() {
+    setHideControls(false);
+    m_hideTimer->stop();
+}
+
+void UiConfig::setSideBarExpanded(bool n) {
+    m_sideBarExpanded = n;
+    emit sideBarExpandedChanged(n);
+}
+
+bool UiConfig::sideBarExpanded() const {
+    return m_sideBarExpanded;
+}
+
+void UiConfig::setControlWidgetExpanded(bool n) {
+    m_controlWidgetExpanded = n;
+    emit controlWidgetExpandedChanged(n);
+}
+
+bool UiConfig::controlWidgetExpanded() const {
+    return m_controlWidgetExpanded;
 }
