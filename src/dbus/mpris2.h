@@ -11,11 +11,7 @@
 
 #pragma once
 
-#include <managers/app_manager.h>
-#include <managers/display_manager.h>
-#include <managers/player_manager.h>
-#include <managers/queue_manager.h>
-#include <models/media.h>
+#include "models/media.h"
 
 #include <QMetaObject>
 #include <QObject>
@@ -126,12 +122,16 @@ class Mpris2 : public QObject {
 
     void Play();
 
+    void Seek(qlonglong offset);
+
+    void SetPosition(const QVariant& trackId, qlonglong position);
+
     void OpenUri(const QString &uri);
 
    signals:
 
     // Player
-    void Seeked(qlonglong position);
+    void Seeked(qlonglong offset);
 
     void RaiseMainWindow();
 
@@ -162,11 +162,7 @@ class Mpris2 : public QObject {
     static const char *kServiceName;
     static const char *kFreedesktopPath;
 
-    QVariantMap last_metadata_;
-
-    PlayerManager *player_;
-    QueueManager *queue_;
-    DisplayManager *display_;
+    QVariantMap m_lastMetadata;
 };
 
 }  // namespace mpris

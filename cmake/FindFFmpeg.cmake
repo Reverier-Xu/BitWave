@@ -50,12 +50,6 @@ mark_as_advanced(
     AVFILTER_LIBRARY_PATH
 )
 
-message(STATUS "FFmpeg found: ${FFmpeg_FOUND}")
-message(STATUS "  avcodec:  ${AVCODEC_LIBRARY_PATH}")
-message(STATUS "  avformat: ${AVFORMAT_LIBRARY_PATH}")
-message(STATUS "  avfilter: ${AVFILTER_LIBRARY_PATH}")
-message(STATUS "  avutil:   ${AVUTIL_LIBRARY_PATH}")
-
 if(FFmpeg_FOUND AND NOT TARGET FFmpeg::avformat)
     add_library(FFmpeg::avformat UNKNOWN IMPORTED)
     set_target_properties(FFmpeg::avformat PROPERTIES

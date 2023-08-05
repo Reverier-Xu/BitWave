@@ -1,16 +1,4 @@
-/**
- * @file screensaver.h
- * @author Reverier-Xu (reverier.xu@outlook.com)
- * @brief
- * @version 0.1
- * @date 2021-12-08
- *
- * @copyright Copyright (c) 2021 Wootec
- *
- */
-
-#ifndef SCREENSAVER_H
-#define SCREENSAVER_H
+#pragma once
 
 class Screensaver {
    public:
@@ -24,14 +12,12 @@ class Screensaver {
     static const char *kKdePath;
     static const char *kKdeInterface;
 
-    virtual void Inhibit() = 0;
+    virtual void inhibit() = 0;
 
-    virtual void UnInhibit() = 0;
+    virtual void unInhibit() = 0;
 
-    static Screensaver *GetScreensaver();
+    static Screensaver *getScreensaver();
 
    private:
-    static Screensaver *screensaver_;
+    static Screensaver *m_screensaver;
 };
-
-#endif

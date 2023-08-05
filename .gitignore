@@ -7,8 +7,6 @@ CMakeLists.txt.user
 .vscode/
 .idea/
 CMakeFiles/
-3rd/libmpv/
-3rd/ffmpeg/
 github-token
 /.vs
 aur/src/

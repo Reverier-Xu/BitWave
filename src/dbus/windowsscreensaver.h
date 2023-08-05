@@ -19,9 +19,9 @@ class WindowsScreensaver : public Screensaver {
    public:
     WindowsScreensaver();
 
-    void Inhibit() override;
+    void inhibit() override;
 
-    void UnInhibit() override;
+    void unInhibit() override;
 
    private:
     EXECUTION_STATE previous_state_;

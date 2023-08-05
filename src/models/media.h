@@ -13,104 +13,90 @@
 
 #include <QObject>
 #include <QString>
+#include <QtQmlIntegration>
 
 enum MediaType { AUDIO = 0, VIDEO, UNKNOWN };
 
-enum MediaSourceType {
-    LOCAL_MUSIC,
-    LOCAL_VIDEO,
-    LOCAL_NETEASE_MUSIC,
-    ONLINE_NETEASE_MUSIC,
-    ONLINE_BILIBILI_VIDEO
-};
+// enum MediaFormat {
+//     // popular audio formats
+//     MP3, FLAC, WAV, APE, OGG, AAC, M4A, WMA, OPUS,
+//     // popular video formats
+//     MP4, MKV, AVI, WMV, FLV, MOV, RMVB, RM, WEBM, MPG, MPEG, M4V,
+//     // Netease Cloud Music
+//     NCM,
+// };
 
 class Media : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(QString rawUrl MEMBER mRawUrl READ rawUrl WRITE setRawUrl NOTIFY
-                   rawUrlChanged)
-    Q_PROPERTY(double duration MEMBER mDuration READ duration WRITE setDuration
-                   NOTIFY durationChanged)
-    Q_PROPERTY(QString title MEMBER mTitle READ title WRITE setTitle NOTIFY
-                   titleChanged)
-    Q_PROPERTY(QString artist MEMBER mArtist READ artist WRITE setArtist NOTIFY
-                   artistChanged)
-    Q_PROPERTY(
-        MediaType type MEMBER mType READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QString collection MEMBER mCollection READ collection WRITE
-                   setCollection NOTIFY collectionChanged)
-    Q_PROPERTY(QString comment MEMBER mComment READ comment WRITE setComment
-                   NOTIFY commentChanged)
+    Q_GADGET
+    Q_PROPERTY(QString url READ url WRITE setUrl)
+    Q_PROPERTY(double time READ time WRITE setTime)
+    Q_PROPERTY(QString title READ title WRITE setTitle)
+    Q_PROPERTY(QStringList artists READ artists WRITE setArtists)
+    Q_PROPERTY(MediaType type READ type WRITE setType)
+    Q_PROPERTY(QString album READ album WRITE setAlbum)
+    Q_PROPERTY(QString comment READ comment WRITE setComment)
+    Q_PROPERTY(QString embeddedLyrics READ embeddedLyrics WRITE setEmbeddedLyrics)
 
-   private:      // data
-    uint mId{};  // for database use only
-    QString mRawUrl;
-    double mDuration{};
-    QString mTitle;
-    QString mArtist;
-    QString mCollection;
-    MediaType mType;
-    QString mComment;
+   private:
+    QString m_url;
+
+    double m_time{};
+
+    QString m_title;
+
+    QStringList m_artists;
+
+    QString m_album;
+
+    MediaType m_type;
+
+    QString m_comment;
+
+    QString m_embeddedLyrics;
 
    public:
-    explicit Media(QObject *parent = nullptr, const QString &rawUrl = "",
-                   const QString &title = "", const QString &artist = "",
-                   const QString &collection = "", MediaType type = UNKNOWN,
-                   double duration = 0.0, const QString &comment = "")
-        : QObject(parent) {
-        mRawUrl = rawUrl;
-        mTitle = title;
-        mArtist = artist;
-        mCollection = collection;
-        mType = type;
-        mDuration = duration;
-        mComment = comment;
-    }
+    explicit Media(const QString& rawUrl = "", const QString& title = "",
+                   const QStringList& artists = {""}, const QString& album = "",
+                   MediaType type = UNKNOWN, double duration = 0.0,
+                   const QString& comment = "", const QString& embeddedLyrics = "");
 
-    Media(const Media &media);
+    Media(const Media& media);
 
-    Media &operator=(const Media &media);
+    static const Media& null();
 
-    [[nodiscard]] QString rawUrl() const;
+    Media& operator=(const Media& media);
 
-    void setRawUrl(const QString &n);
+    [[nodiscard]] QString url() const;
 
-    [[nodiscard]] double duration() const;
+    void setUrl(const QString& n);
 
-    void setDuration(double n);
+    [[nodiscard]] double time() const;
+
+    void setTime(double n);
 
     [[nodiscard]] QString title() const;
 
-    void setTitle(const QString &n);
+    void setTitle(const QString& n);
 
-    [[nodiscard]] QString artist() const;
+    [[nodiscard]] QStringList artists() const;
 
-    void setArtist(const QString &n);
+    void setArtists(const QStringList& n);
 
     [[nodiscard]] MediaType type() const;
 
     void setType(MediaType n);
 
-    [[nodiscard]] const QString &collection() const;
+    [[nodiscard]] const QString& album() const;
 
-    void setCollection(const QString &n);
+    void setAlbum(const QString& n);
 
-    [[nodiscard]] const QString &comment() const;
+    [[nodiscard]] const QString& comment() const;
 
-    void setComment(const QString &n);
+    void setComment(const QString& n);
 
-   signals:
+    [[nodiscard]] const QString& embeddedLyrics() const;
 
-    void rawUrlChanged(const QString &n);
-
-    void durationChanged(double n);
-
-    void titleChanged(const QString &n);
-
-    void artistChanged(const QString &n);
-
-    void typeChanged(MediaType n);
-
-    void collectionChanged(const QString &n);
-
-    void commentChanged(const QString &n);
+    void setEmbeddedLyrics(const QString& n);
 };
+
+Q_DECLARE_METATYPE(Media)

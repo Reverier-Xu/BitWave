@@ -1,0 +1,71 @@
+<svg height="1026" width="1024" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient gradientUnits="userSpaceOnUse" id="b" spreadMethod="pad" x1="-496.601" x2="-496.601" y1="2"
+            y2="2019.2">
+            <stop offset="0" stop-color="#a5f1ff" />
+            <stop offset="1" stop-color="#d0fff9" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="c" spreadMethod="pad" x1="378.191" x2="530.497" y1="479.168"
+            y2="695.825">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="d" spreadMethod="pad" x1="525.609" x2="775.129" y1="691.134"
+            y2="1046.82">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="e" spreadMethod="pad" x1="213.127" x2="388.194" y1="802.121"
+            y2="1124.31">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="f" spreadMethod="pad" x1="95.379" x2="144.772" y1="645.519"
+            y2="751.758">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="g" spreadMethod="pad" x1="148.173" x2="172.083" y1="731.262"
+            y2="777.29">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="h" spreadMethod="pad" x1="323.495" x2="351.68" y1="568.584"
+            y2="615.669">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <linearGradient gradientUnits="userSpaceOnUse" id="i" spreadMethod="pad" x1="199.55" x2="233.499" y1="577.748"
+            y2="639.366">
+            <stop offset="0" stop-color="#aff3e9" />
+            <stop offset="1" stop-color="#fff9ed" />
+        </linearGradient>
+        <clipPath id="a">
+            <path
+                d="M 160.63 2.00 L 863.37 2.00 C 952.08 2.00 1024.00 73.92 1024.00 162.63 L 1024.00 865.37 C 1024.00 954.08 952.08 1026.00 863.37 1026.00 L 160.63 1026.00 C 71.92 1026.00 0.00 954.08 0.00 865.37 L 0.00 162.63 C -0.00 73.92 71.92 2.00 160.63 2.00 Z" />
+        </clipPath>
+    </defs>
+    <g clip-path="url(#a)" transform="translate(-53.581 -54.79) scale(1.10465)">
+        <path
+            d="M 160.63,2 H 863.37 C 952.08,2 1024,73.92 1024,162.63 V 865.37 C 1024,954.08 952.08,1026 863.37,1026 H 160.63 C 71.92,1026 0,954.08 0,865.37 V 162.63 C 0,73.92 71.92,2 160.63,2 Z"
+            fill="url(#b)" />
+        <path
+            d="m 633.9,359.78 c 0,74.95 -60.03,135.71 -134.09,135.71 -74.06,0 -134.1,-60.76 -134.1,-135.71 0,-74.95 60.04,-135.71 134.1,-135.71 74.06,0 134.09,60.76 134.09,135.71 z"
+            fill="#ffd96c" />
+        <path d="m 479.85,384.46 750.9,418.47 v 358.41 H -207.24 l 6.8,-341.12 z" fill="#6eb8ae" fill-rule="evenodd" />
+        <path
+            d="m 469.51,417.92 42.25,10.46 -1.11,-27.86 230.64,128.52 -39.67,1.67 -16.68,12.42 -93.79,-53.59 72.09,69.77 -18.82,14.02 11.6,31.9 -83.69,38.26 -85.03,-85.26 54.7,10.1 -34.64,-54.34 83.79,39.43 -70.89,-63.88 31.91,10.89 z"
+            fill="url(#c)" fill-rule="evenodd" />
+        <path
+            d="m 767.57,571.61 35.86,-9.41 318.7,178.3 -46.82,52.94 -49.44,-16.94 31.17,36.28 -77.08,81.35 -111.56,-49.49 63.63,115.9 -200.72,-143.8 -5.34,-91.39 -50.33,-69.52 46.98,12.2 -16.06,-66.08 71.27,-7.66 z"
+            fill="url(#d)" fill-rule="evenodd" />
+        <path
+            d="m 365.43,700.74 88.4,47.61 v -32.07 l 182.55,162.44 -28.89,-64.99 106.64,35.54 172.29,182.19 -80.94,11.64 L 573.95,909.42 765,1095.91 659.96,1116.87 365.43,838 v -55.93 l 57.61,31.66 z"
+            fill="url(#e)" fill-rule="evenodd" />
+        <path d="m 157.75,653 -7.26,-38.87 82.01,29.36 82,67.61 -81.88,-8.69 z" fill="url(#f)" fill-rule="evenodd" />
+        <path d="m 196.88,760.93 -26.39,-43.87 66.4,15.77 -10.68,17.79 z" fill="url(#g)" fill-rule="evenodd" />
+        <path d="m 367.73,601.05 -23.05,-48 63.06,19.9 h -40.01 z" fill="url(#h)" fill-rule="evenodd" />
+        <path d="m 228.46,583.78 h 26.01 l -12.01,-25.55 35.16,15.57 36.88,30.53 -47.43,14.19 z" fill="url(#i)"
+            fill-rule="evenodd" />
+    </g>
+</svg>

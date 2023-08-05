@@ -19,14 +19,14 @@ class DBusScreensaver : public Screensaver {
    public:
     DBusScreensaver(QString service, QString path, QString interface);
 
-    void Inhibit() override;
+    void inhibit() override;
 
-    void UnInhibit() override;
+    void unInhibit() override;
 
    private:
-    QString service_;
-    QString path_;
-    QString interface_;
+    QString m_service;
+    QString m_path;
+    QString m_interface;
 
-    quint32 cookie_{};
+    quint32 m_cookie{};
 };

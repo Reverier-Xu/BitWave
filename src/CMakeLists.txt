@@ -1,178 +1,223 @@
-cmake_minimum_required(VERSION 3.12)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-qt5_add_resources(RESOURCES ./resources/main.qrc)
+set(
+    APP_SRCS
+    app/app.cc
+)
 
-set(MANAGERS_SRCS
-        managers/gui_manager.cpp
-        managers/gui_manager.h
-        managers/app_manager.cpp
-        managers/app_manager.h
-        managers/player_manager.cpp
-        managers/player_manager.h
-        managers/parser_manager.cpp
-        managers/parser_manager.h
-        managers/display_manager.cpp
-        managers/display_manager.h
-        managers/queue_manager.cpp
-        managers/queue_manager.h
-        managers/service_manager.cpp
-        managers/service_manager.h
-        managers/lyric_provider_manager.cpp
-        managers/lyric_provider_manager.h)
+set(
+    CODEC_SRCS
+    codec/codec.cc
+    codec/mpv_codec.cc
+    codec/ncm_codec.cc
+)
 
-set(MODELS_SRCS
-        models/media.cpp
-        models/media.h
-        models/ui/lyrics_list_model.cpp
-        models/ui/lyrics_list_model.h
-        models/ui/service_list_model.cpp
-        models/ui/service_list_model.h
-        models/ui/media_queue_model.cpp
-        models/ui/media_queue_model.h
-        models/ui/playlist_model.cpp
-        models/ui/playlist_model.h)
+set(
+    LIBRARY_SRCS
+    library/library.cc
+)
 
-set(PARSERS_SRCS
-        parsers/base_parser.cpp
-        parsers/base_parser.h
-        parsers/parser_factory.cpp
-        parsers/parser_factory.h
-        parsers/local_music_parser.cpp
-        parsers/local_music_parser.h
-        parsers/local_video_parser.cpp
-        parsers/local_video_parser.h
-        parsers/local_netease_music_parser.cpp
-        parsers/local_netease_music_parser.h
-        parsers/online_netease_music_parser.cpp
-        parsers/online_netease_music_parser.h
-        parsers/online_bilibili_video_parser.cpp
-        parsers/online_bilibili_video_parser.h
-        )
+set(
+    LYRICS_SRCS
+    lyrics/interface.h
+    lyrics/lyrics.cc
+    lyrics/ncm_lyrics.cc
+    lyrics/local_lyrics.cc
+)
 
-set(LYRIC_PROVIDERS_SRCS
-        lyric_providers/base_lyric_provider.cpp
-        lyric_providers/base_lyric_provider.h
-        lyric_providers/netease_lyric_provider.cpp
-        lyric_providers/netease_lyric_provider.h
-        lyric_providers/local_lyric_provider.cpp
-        lyric_providers/local_lyric_provider.h
-        lyric_providers/lyric_provider_factory.cpp
-        lyric_providers/lyric_provider_factory.h)
+set(
+    MODELS_SRCS
+    models/media.cc
+    models/media.h
+    models/media_list.cc
+    models/media_list.h
+)
 
-set(ENGINES_SRCS
-        engines/mpv_engine.cpp
-        engines/mpv_engine.h
-        engines/sqlite_engine.cpp
-        engines/sqlite_engine.h)
+set(
+    PARSER_SRCS
+    parser/parser.cc
+    parser/ffmpeg_parser.cc
+    parser/ncm_parser.cc
+)
 
-set(UTILITIES_SRCS
-        utilities/mpv_helper.h
-        utilities/color_helper.cpp
-        utilities/color_helper.h
-        utilities/string_helper.cpp
-        utilities/string_helper.h
-        utilities/ncm_helper.cpp
-        utilities/ncm_helper.h
-        utilities/search_helper.cpp
-        utilities/search_helper.h
-        utilities/memory_helper.cpp
-        utilities/memory_helper.h
-        dbus/screensaver.cpp
-        utilities/time_helper.cpp
-        utilities/time_helper.h)
+set(
+    PLAYER_SRCS
+    player/player.cc
+    player/engine.cc
+    player/video_player.cc
+    player/play_queue.cc
+)
 
-set(COMPONENTS_SRCS
-        resources/components/video_player.cpp
-        resources/components/video_player.h)
+set(
+    PLAYLIST_SRCS
+    playlist/playlist.cc
+    playlist/interface.h
+)
 
-set(SERVICES_SRCS
-        services/base_service.cpp
-        services/base_service.h
-        services/local_music_service.cpp
-        services/local_music_service.h)
+set(
+    UI_SRCS
+    ui/colorize.cc
+    ui/ui.cc
+    ui/config.cc
+    ui/router.cc
+    dbus/screensaver.cc
+    ui/main.qrc
+)
 
-set(SRCS
-        entry.cpp
-        app_defs.cpp
-        app_defs.h
-        ${PARSERS_SRCS}
-        ${LYRIC_PROVIDERS_SRCS}
-        ${ENGINES_SRCS}
-        ${UTILITIES_SRCS}
-        ${COMPONENTS_SRCS}
-        ${MANAGERS_SRCS}
-        ${MODELS_SRCS}
-        ${SERVICES_SRCS}
-        ${RESOURCES})
+set(
+    STORAGE_SRCS
+    storage/storage.cc
+    storage/storage.h
+)
+
+set(
+    SRCS
+    ${APP_SRCS}
+    ${CODEC_SRCS}
+    ${LIBRARY_SRCS}
+    ${LYRICS_SRCS}
+    ${MODELS_SRCS}
+    ${STORAGE_SRCS}
+    ${PARSER_SRCS}
+    ${PLAYER_SRCS}
+    ${PLAYLIST_SRCS}
+    ${UI_SRCS}
+    main.cc
+)
+
+set(
+    QML_FILES
+    ui/Main.qml
+
+    # Components
+    ui/components/ActiveTab.qml
+    ui/components/ControlBar.qml
+    ui/components/FramelessWindow.qml
+    ui/components/PauseButton.qml
+    ui/components/SideBar.qml
+    ui/components/TimeButton.qml
+    ui/components/TitleBar.qml
+    ui/components/VolumeButton.qml
+    ui/components/OptionWidget.qml
+    ui/components/QueueWidget.qml
+    ui/components/MediaRow.qml
+    ui/components/Lyric.qml
+    ui/components/SystemTray.qml
+    ui/components/KeyTapEvent.qml
+
+    # Views
+    ui/views/PlayerView.qml
+    ui/views/ExploreView.qml
+    ui/views/LibraryView.qml
+    ui/views/PlaylistView.qml
+    ui/views/SearchView.qml
+    ui/views/SettingsView.qml
+)
 
 # DBUS and MPRIS - Unix specific
 if (UNIX)
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
-    # message("DBUS FOUND")
     # MPRIS 2.0 DBUS interfaces
-    qt5_add_dbus_adaptor(SRCS
+    qt_add_dbus_adaptor(
+        SRCS
             dbus/org.mpris.MediaPlayer2.Player.xml
-            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_player Mpris2Player)
-    qt5_add_dbus_adaptor(SRCS
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_player Mpris2Player
+    )
+    qt_add_dbus_adaptor(
+        SRCS
             dbus/org.mpris.MediaPlayer2.xml
-            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_root Mpris2Root)
+            dbus/mpris2.h mpris::Mpris2 dbus/mpris2_root Mpris2Root
+    )
 
     # org.freedesktop.Notifications DBUS interface
-    qt5_add_dbus_interface(SRCS
+    qt_add_dbus_interface(
+        SRCS
             dbus/org.freedesktop.Notifications.xml
-            dbus/notification)
+            dbus/notification
+    )
 
     # org.gnome.SettingsDaemon interface
-    qt5_add_dbus_interface(SRCS
+    qt_add_dbus_interface(
+        SRCS
             dbus/org.gnome.SettingsDaemon.MediaKeys.xml
-            dbus/gnomesettingsdaemon)
+            dbus/gnomesettingsdaemon
+    )
 
     # org.kde.KGlobalAccel interfaces
     # these are taken from the KGlobalAccel sources (LGPL 2.1)
-    qt5_add_dbus_interface(SRCS
+    qt_add_dbus_interface(
+        SRCS
             dbus/org.kde.KGlobalAccel.xml
-            dbus/kglobalaccel)
-    qt5_add_dbus_interface(SRCS
+            dbus/kglobalaccel
+    )
+    qt_add_dbus_interface(
+        SRCS
             dbus/org.kde.kglobalaccel.Component.xml
-            dbus/kglobalaccelcomponent)
+            dbus/kglobalaccelcomponent
+    )
 endif (UNIX)
 
-optional_source(Qt5DBus_FOUND
-        SRCS
-        dbus/mpris.cpp
+if (Qt6DBus_FOUND)
+    list(
+        APPEND SRCS
+        dbus/mpris.cc
         dbus/mpris.h
-        dbus/mpris2.cpp
+        dbus/mpris2.cc
         dbus/mpris2.h
-        dbus/dbusscreensaver.cpp
+        dbus/dbusscreensaver.cc
         dbus/dbusscreensaver.h
-        )
+    )
+endif ()
 
-optional_source(WIN32
-        SRCS
+if (WIN32)
+    list(
+        APPEND SRCS
         dbus/windowsscreensaver.cpp
-        dbus/windowsscreensaver.h)
+        dbus/windowsscreensaver.h
+    )
+endif ()
 
-add_executable(${PROJECT_NAME} ${SRCS})
+qt_add_executable(${PROJECT_NAME} ${SRCS})
 
-target_link_libraries(${PROJECT_NAME}
-        ${QT_LIBRARIES}
-        ${MPV_LIBRARIES}
-        ${FFMPEG_LIBRARIES}
-        SingleApplication::SingleApplication
-        QtAES)
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    URI ${PROJECT_NAME}
+    VERSION 1.0
+    QML_FILES ${QML_FILES}
+    SOURCES ${SRCS}
+    RESOURCE_PREFIX "/"
+    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/qml/${PROJECT_NAME}"
+)
 
-set_target_properties(${PROJECT_NAME}
-        PROPERTIES
-        AUTOMOC ON
-        AUTORCC ON
-        AUTOUIC ON
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
-        CXX_EXTENSIONS OFF
-        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-        )
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${QT_LIBRARIES}
+    RxUIplugin
+    ${MPV_LIBRARIES}
+    FFmpeg::avformat
+    FFmpeg::avutil
+    SingleApplication::SingleApplication
+    QtAES
+)
 
-install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION bin)
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    AUTOUIC ON
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/lib
+)
+
+install(
+    TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION bin
+)
