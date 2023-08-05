@@ -16,6 +16,8 @@
 #include "dbus/mpris2.h"
 #endif
 #include "models/media.h"
+#include "storage/storage.h"
+
 
 App::App(QObject* parent) : QObject(parent) { m_ui = Ui::instance(this); }
 
@@ -24,6 +26,7 @@ App::~App() = default;
 void App::initialize(const QString& file) {
     // TODO: resume file
     registerTypes();
+    Storage::instance(this);
     m_ui->initialize();
 
 #ifdef QT_DBUS_LIB

@@ -38,7 +38,7 @@ class PlayQueue : public QObject {
 
     QVector<Media>* m_playlist{};
 
-    MediaList* m_model;
+    MediaList* m_model{};
 
     int m_cursor{0};
 
@@ -48,6 +48,8 @@ class PlayQueue : public QObject {
 
     bool m_loading{false};
 
+    void loadPlaylist_(const QVector<Media>& playlist);
+
    public:
     explicit PlayQueue(QObject* parent = nullptr);
 
@@ -56,6 +58,10 @@ class PlayQueue : public QObject {
     void loadSettings();
 
     void saveSettings() const;
+
+    void loadStorage();
+
+    void saveStorage();
 
     [[nodiscard]] int mode() const;
 

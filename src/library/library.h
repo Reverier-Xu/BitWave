@@ -11,21 +11,20 @@
 #pragma once
 
 #include <QObject>
+#include "models/media.h"
 
 
 class Library : public QObject {
    Q_OBJECT
 
-    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
-    Q_PROPERTY(QString adapter READ adapter WRITE setAdapter NOTIFY adapterChanged)
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
 
    private:
-    QString m_title;
+    QVector<Media> m_musics{};
 
-    QString m_adapter;
+    QVector<Media> m_videos{};
 
-    QString m_filter;
+    QString m_filter{};
 
    protected:
     static Library* m_instance;
@@ -38,26 +37,15 @@ class Library : public QObject {
 
     static Library* instance(QObject* parent = nullptr);
 
-    [[nodiscard]] QString title() const;
-
-    void setTitle(const QString& title);
-
-    [[nodiscard]] QString adapter() const;
-
-    void setAdapter(const QString& adapter);
-
     [[nodiscard]] QString filter() const;
 
     void setFilter(const QString& filter);
 
    public slots:
-    Q_INVOKABLE void load(const QString& adapter, const QString& filter);
+
+    Q_INVOKABLE void load(const QString& route);
 
    signals:
-
-    void titleChanged(const QString& title);
-
-    void adapterChanged(const QString& adapter);
 
     void filterChanged(const QString& filter);
 };

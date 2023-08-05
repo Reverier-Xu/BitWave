@@ -15,41 +15,9 @@
 
 Library* Library::m_instance = nullptr;
 
-Library::Library(QObject* parent) : QObject(parent) {
-    setTitle(tr("Library"));
-}
+Library::Library(QObject* parent) : QObject(parent) { }
 
 Library::~Library() = default;
-
-QString Library::title() const {
-    return m_title;
-}
-
-void Library::setTitle(const QString& title) {
-    if (m_title == title) {
-        return;
-    }
-    m_title = title;
-    emit titleChanged(m_title);
-}
-
-void Library::load(const QString& adapter, const QString& filter) {
-//    qDebug() << "load" << adapter << filter;
-    if (adapter == "local") {
-        setTitle(tr("Local Library"));
-    } else if (adapter == "online") {
-        setTitle(tr("Online Media"));
-    } else {
-        setTitle(tr("Library"));
-    }
-    setAdapter(adapter);
-    if (filter.isEmpty())
-        setFilter("music");
-    else
-        setFilter(filter);
-
-    // TODO: implement
-}
 
 Library* Library::instance(QObject* parent) {
     static QMutex mutex;
@@ -59,18 +27,6 @@ Library* Library::instance(QObject* parent) {
         locker.unlock();
     }
     return m_instance;
-}
-
-QString Library::adapter() const {
-    return m_adapter;
-}
-
-void Library::setAdapter(const QString& adapter) {
-    if (m_adapter == adapter) {
-        return;
-    }
-    m_adapter = adapter;
-    emit adapterChanged(m_adapter);
 }
 
 QString Library::filter() const {
@@ -83,4 +39,13 @@ void Library::setFilter(const QString& filter) {
     }
     m_filter = filter;
     emit filterChanged(m_filter);
+}
+
+void Library::load(const QString& route) {
+    auto filter = route;
+    filter.replace("libraries/", "");
+    if (filter.isEmpty()) {
+        filter = "music";
+    }
+    setFilter(filter);
 }

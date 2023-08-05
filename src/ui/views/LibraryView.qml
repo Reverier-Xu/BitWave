@@ -21,7 +21,7 @@ Rectangle {
 
             font.bold: true
             height: 36
-            text: library.title
+            text: qsTr("Library")
             verticalAlignment: Text.AlignVCenter
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
@@ -41,7 +41,7 @@ Rectangle {
             icon.source: "qrc:/qt/qml/RxUI/assets/music-note-2.svg"
 
             onClicked: {
-                router.push(`libraries/${library.adapter}/music`);
+                router.push(`libraries/music`);
             }
         }
 
@@ -58,7 +58,7 @@ Rectangle {
             icon.source: "qrc:/qt/qml/RxUI/assets/movies-and-tv.svg"
 
             onClicked: {
-                router.push(`libraries/${library.adapter}/video`);
+                router.push(`libraries/video`);
             }
         }
 
@@ -101,10 +101,7 @@ Rectangle {
         function onCurrentRouteChanged(route) {
             // console.log("route changed", route)
             if (route.startsWith("libraries")) {
-                library.load(
-                    route.split("/")[1],
-                    route.split("/")[2]
-                )
+                library.load(route)
             }
         }
     }

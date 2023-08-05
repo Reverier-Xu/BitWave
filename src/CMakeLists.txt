@@ -15,8 +15,6 @@ set(
 set(
     LIBRARY_SRCS
     library/library.cc
-    library/local_scanner.cc
-    library/local_scanner.h
 )
 
 set(
@@ -67,12 +65,19 @@ set(
 )
 
 set(
+    STORAGE_SRCS
+    storage/storage.cc
+    storage/storage.h
+)
+
+set(
     SRCS
     ${APP_SRCS}
     ${CODEC_SRCS}
     ${LIBRARY_SRCS}
     ${LYRICS_SRCS}
     ${MODELS_SRCS}
+    ${STORAGE_SRCS}
     ${PARSER_SRCS}
     ${PLAYER_SRCS}
     ${PLAYLIST_SRCS}

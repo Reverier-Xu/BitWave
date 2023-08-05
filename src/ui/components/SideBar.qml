@@ -104,15 +104,8 @@ Rectangle {
                 itemEnabled: true
                 itemIcon: "qrc:/qt/qml/RxUI/assets/archive.svg"
                 itemId: 0
-                itemText: qsTr("Local Library")
-                itemRoute: "libraries/local/"
-            }
-            ListElement {
-                itemEnabled: true
-                itemIcon: "qrc:/qt/qml/RxUI/assets/cloud.svg"
-                itemId: 0
-                itemText: qsTr("Online Media")
-                itemRoute: "libraries/online/"
+                itemText: qsTr("Library")
+                itemRoute: "libraries/"
             }
         }
     }
