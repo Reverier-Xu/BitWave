@@ -19,7 +19,9 @@ class Storage : public QObject {
    Q_OBJECT
 
    private:
-    QSqlDatabase m_db;
+    QSqlDatabase m_libraryDb;
+
+    QSqlDatabase m_queueDb;
 
     bool m_isValid = false;
 

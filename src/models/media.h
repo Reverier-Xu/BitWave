@@ -15,7 +15,7 @@
 #include <QString>
 #include <QtQmlIntegration>
 
-enum MediaType { AUDIO = 0, VIDEO, UNKNOWN };
+enum MediaType { MUSIC = 0, VIDEO, UNKNOWN };
 
 // enum MediaFormat {
 //     // popular audio formats
@@ -65,6 +65,12 @@ class Media : public QObject {
     static const Media& null();
 
     Media& operator=(const Media& media);
+
+    bool operator==(const Media& media) const;
+
+    bool operator!=(const Media& media) const;
+
+    bool operator<(const Media& media) const;
 
     [[nodiscard]] QString url() const;
 

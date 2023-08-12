@@ -106,6 +106,8 @@ class PlayQueue : public QObject {
 
     Q_INVOKABLE void play(int pos);
 
+    Q_INVOKABLE void loadFromLibrary(int pos);
+
    signals:
 
     void modeChanged(int mode);

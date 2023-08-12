@@ -18,7 +18,7 @@ Media NcmParser::parse(const QString& path) {
     QFile ncmFile(QUrl(path).path());
     Media media;
     media.setUrl(path);
-    media.setType(AUDIO);
+    media.setType(MUSIC);
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
     if (!validateNcmFile(ncmFile)) {

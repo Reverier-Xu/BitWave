@@ -12,6 +12,7 @@ Button {
     property string album
     property int time
     property bool playing
+    property bool canDelete
 
     function getTimeString(displayTime) {
         let secs = Math.floor(displayTime);
@@ -150,6 +151,7 @@ Button {
             flat: true
             icon.source: "qrc:/qt/qml/RxUI/assets/delete.svg"
             icon.color: "#FF3333"
+            visible: canDelete
 
             ToolTip {
                 parent: deleteButton

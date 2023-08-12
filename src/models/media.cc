@@ -13,6 +13,7 @@
 
 #include "parser/parser.h"
 
+
 Media::Media(const Media& media) {
     m_url = media.m_url;
     m_time = media.m_time;
@@ -88,3 +89,33 @@ Media::Media(const QString& rawUrl, const QString& title,
 const Media nullMedia{};
 
 const Media& Media::null() { return nullMedia; }
+
+bool Media::operator==(const Media& media) const {
+    return m_url == media.m_url && m_time == media.m_time &&
+        m_title == media.m_title && m_artists == media.m_artists &&
+        m_album == media.m_album && m_type == media.m_type &&
+        m_comment == media.m_comment &&
+        m_embeddedLyrics == media.m_embeddedLyrics;
+}
+
+bool Media::operator!=(const Media& media) const {
+    return !operator==(media);
+}
+
+bool Media::operator<(const Media& media) const {
+    if (m_title == media.m_title) {
+        // Compare first artists if exists
+        if (!m_artists.empty() && !media.m_artists.empty()) {
+            return m_artists[0] < media.m_artists[0];
+        } else {
+            // Compare album if exists
+            if (!m_album.isEmpty() && !media.m_album.isEmpty()) {
+                return m_album < media.m_album;
+            } else {
+                // Compare url
+                return m_url < media.m_url;
+            }
+        }
+    }
+    return m_title < media.m_title;
+}

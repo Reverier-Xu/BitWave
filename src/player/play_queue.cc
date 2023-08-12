@@ -15,6 +15,7 @@
 
 #include "parser/parser.h"
 #include "storage/storage.h"
+#include "library/library.h"
 
 
 PlayQueue::PlayQueue(QObject* parent) : QObject(parent) {
@@ -152,7 +153,7 @@ void PlayQueue::next() {
             return;
         }
         m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                          (int) m_playlist->size());
+                                              (int) m_playlist->size());
         m_cursorPos = 0;
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else {
@@ -168,7 +169,7 @@ void PlayQueue::prev() {
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else if (m_cursorPos <= 0) {
         m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                          (int) m_playlist->size());
+                                              (int) m_playlist->size());
         m_cursorPos = (int) m_queuedPlayOrder.size() - 1;
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else {
@@ -286,6 +287,7 @@ void PlayQueue::saveStorage() {
         }
     });
     connect(taskWatcher, &QFutureWatcher<void>::finished, this, [=]() {
+//        qDebug() << "Play queue saving finished";
         taskWatcher->deleteLater();
     });
     taskWatcher->setFuture(future);
@@ -296,4 +298,10 @@ void PlayQueue::loadPlaylist_(const QVector<Media>& playlist) {
     m_playlist->clear();
     m_playlist->append(playlist);
     m_model->reload();
+}
+
+void PlayQueue::loadFromLibrary(int pos) {
+    loadPlaylist_(Library::instance()->currentMedias());
+    play(pos);
+    saveStorage();
 }

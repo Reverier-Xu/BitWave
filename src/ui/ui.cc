@@ -63,6 +63,7 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
     m_engine->rootContext()->setContextProperty("library", Library::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty("libraryModel", Library::instance(this->parent())->model());
     m_engine->rootContext()->setContextProperty(
         "lyrics", Lyrics::instance(this->parent()));
     m_engine->rootContext()->setContextProperty(

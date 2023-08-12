@@ -269,9 +269,9 @@ Rectangle {
                 flat: !control.queueVisible
                 implicitHeight: 48
                 implicitWidth: 48
-                icon.source: queue.loading ? "qrc:/qt/qml/RxUI/assets/arrow-sync.svg" : (control.queueVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/list.svg")
+                icon.source: queue.loading ? "" : (control.queueVisible ? "qrc:/qt/qml/RxUI/assets/chevron-right.svg" : "qrc:/qt/qml/RxUI/assets/list.svg")
                 radius: width / 2
-                rotation: queue.loading ? 90 : (control.queueVisible ? -90 : 0)
+                rotation: control.queueVisible ? -90 : 0
                 onClicked: {
                     if (control.optionVisible)
                         control.optionVisible = false;
@@ -302,7 +302,7 @@ Rectangle {
 
                     Loader {
                         anchors.centerIn: parent
-                        radius: 16
+                        radius: 8
 
                         running: queue.loading
                     }

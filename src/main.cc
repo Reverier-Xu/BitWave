@@ -27,6 +27,11 @@ int main(int argc, char* argv[]) {
     SingleApplication app(argc, argv, true,
                           SingleApplication::SecondaryNotification);
 
+    #ifdef Q_OS_WIN32
+    auto defaultFont = QFont("Microsoft YaHei");
+    QApplication::setFont(defaultFont);
+    #endif
+
     QApplication::setApplicationDisplayName("Bit Wave");
     QApplication::setApplicationName("Bit Wave");
     QApplication::setOrganizationName("Wootec");

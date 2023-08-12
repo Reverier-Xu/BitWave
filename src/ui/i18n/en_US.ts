@@ -5,17 +5,17 @@
     <name>ControlBar</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/ControlBar.qml" line="231"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/ControlBar.qml" line="231"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/ControlBar.qml" line="231"/>
-        <location filename="../components/ControlBar.qml" line="231"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/ControlBar.qml" line="251"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/ControlBar.qml" line="251"/>
+        <location filename="../components/ControlBar.qml" line="251"/>
         <source>Player options</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/ControlBar.qml" line="264"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/ControlBar.qml" line="264"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/ControlBar.qml" line="264"/>
-        <location filename="../components/ControlBar.qml" line="264"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/ControlBar.qml" line="285"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/ControlBar.qml" line="285"/>
+        <location filename="../components/ControlBar.qml" line="285"/>
         <source>Current play queue</source>
         <translation></translation>
     </message>
@@ -23,9 +23,31 @@
 <context>
     <name>LibraryView</name>
     <message>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="22"/>
-        <location filename="../views/LibraryView.qml" line="22"/>
-        <source>Local Library</source>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="24"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="24"/>
+        <location filename="../views/LibraryView.qml" line="24"/>
+        <source>Library</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="45"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="45"/>
+        <location filename="../views/LibraryView.qml" line="45"/>
+        <source>Scan Media</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="64"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="64"/>
+        <location filename="../views/LibraryView.qml" line="64"/>
+        <source>Music</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="80"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="80"/>
+        <location filename="../views/LibraryView.qml" line="80"/>
+        <source>Video</source>
         <translation></translation>
     </message>
 </context>
@@ -99,9 +121,9 @@
     <name>OptionWidget</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/OptionWidget.qml" line="21"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/OptionWidget.qml" line="21"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/OptionWidget.qml" line="21"/>
-        <location filename="../components/OptionWidget.qml" line="21"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/OptionWidget.qml" line="29"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/OptionWidget.qml" line="29"/>
+        <location filename="../components/OptionWidget.qml" line="29"/>
         <source>Player Options</source>
         <translation></translation>
     </message>
@@ -132,12 +154,12 @@
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/PlayerView.qml" line="66"/>
         <location filename="../../../build/src/qml/BitWave/ui/views/PlayerView.qml" line="76"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="66"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="76"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="66"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="76"/>
-        <location filename="../views/PlayerView.qml" line="66"/>
-        <location filename="../views/PlayerView.qml" line="76"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="123"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="133"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="123"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="133"/>
+        <location filename="../views/PlayerView.qml" line="123"/>
+        <location filename="../views/PlayerView.qml" line="133"/>
         <source>Save Album Cover</source>
         <translation></translation>
     </message>
@@ -145,32 +167,32 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cc" line="42"/>
+        <location filename="../../main.cc" line="47"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../main.cc" line="43"/>
+        <location filename="../../main.cc" line="48"/>
         <source>The media file to play.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../main.cc" line="46"/>
+        <location filename="../../main.cc" line="51"/>
         <source>Resume the last playback.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../main.cc" line="49"/>
+        <location filename="../../main.cc" line="54"/>
         <source>Pause the playback.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../main.cc" line="52"/>
+        <location filename="../../main.cc" line="57"/>
         <source>Play the next media.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../main.cc" line="55"/>
+        <location filename="../../main.cc" line="60"/>
         <source>Play the previous media.</source>
         <translation></translation>
     </message>
@@ -194,17 +216,17 @@
     <name>QueueWidget</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/QueueWidget.qml" line="22"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/QueueWidget.qml" line="22"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/QueueWidget.qml" line="22"/>
-        <location filename="../components/QueueWidget.qml" line="22"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/QueueWidget.qml" line="30"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/QueueWidget.qml" line="30"/>
+        <location filename="../components/QueueWidget.qml" line="30"/>
         <source>Play Queue</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/QueueWidget.qml" line="32"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/QueueWidget.qml" line="32"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/QueueWidget.qml" line="32"/>
-        <location filename="../components/QueueWidget.qml" line="32"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/QueueWidget.qml" line="40"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/QueueWidget.qml" line="40"/>
+        <location filename="../components/QueueWidget.qml" line="40"/>
         <source>Mode: </source>
         <translation></translation>
     </message>
@@ -224,7 +246,6 @@
     <name>SettingsView</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="27"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="27"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="27"/>
         <location filename="../views/SettingsView.qml" line="27"/>
         <source>Settings</source>
@@ -232,34 +253,72 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="39"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="39"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="39"/>
-        <location filename="../views/SettingsView.qml" line="39"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="54"/>
+        <location filename="../views/SettingsView.qml" line="54"/>
         <source>Language</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="85"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="85"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="85"/>
-        <location filename="../views/SettingsView.qml" line="85"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="100"/>
+        <location filename="../views/SettingsView.qml" line="100"/>
         <source>Color Theme</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
-        <location filename="../views/SettingsView.qml" line="101"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="116"/>
+        <location filename="../views/SettingsView.qml" line="116"/>
         <source>Light</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="104"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="104"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="104"/>
-        <location filename="../views/SettingsView.qml" line="104"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="119"/>
+        <location filename="../views/SettingsView.qml" line="119"/>
         <source>Dark</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="41"/>
+        <location filename="../views/SettingsView.qml" line="41"/>
+        <source>Theme Settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="149"/>
+        <location filename="../views/SettingsView.qml" line="149"/>
+        <source>System tray theme</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="165"/>
+        <location filename="../views/SettingsView.qml" line="165"/>
+        <source>Colorful</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="168"/>
+        <location filename="../views/SettingsView.qml" line="168"/>
+        <source>Flat</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="198"/>
+        <location filename="../views/SettingsView.qml" line="198"/>
+        <source>Library Settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="212"/>
+        <location filename="../views/SettingsView.qml" line="212"/>
+        <source>Library Folders</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="220"/>
+        <location filename="../views/SettingsView.qml" line="220"/>
+        <source>Add</source>
         <translation></translation>
     </message>
 </context>
@@ -283,24 +342,22 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="108"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/SideBar.qml" line="108"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/SideBar.qml" line="108"/>
-        <location filename="../components/SideBar.qml" line="108"/>
         <source>Local Library</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="121"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/SideBar.qml" line="121"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/SideBar.qml" line="128"/>
-        <location filename="../components/SideBar.qml" line="128"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/SideBar.qml" line="120"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/SideBar.qml" line="120"/>
+        <location filename="../components/SideBar.qml" line="120"/>
         <source>Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/SideBar.qml" line="115"/>
-        <location filename="../components/SideBar.qml" line="115"/>
-        <source>Online Media</source>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/SideBar.qml" line="107"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/SideBar.qml" line="107"/>
+        <location filename="../components/SideBar.qml" line="107"/>
+        <source>Library</source>
         <translation></translation>
     </message>
 </context>
@@ -410,9 +467,9 @@
     <name>TitleBar</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/TitleBar.qml" line="130"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/TitleBar.qml" line="130"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/TitleBar.qml" line="130"/>
-        <location filename="../components/TitleBar.qml" line="130"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/TitleBar.qml" line="138"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/TitleBar.qml" line="138"/>
+        <location filename="../components/TitleBar.qml" line="138"/>
         <source>Open Media</source>
         <translation></translation>
     </message>

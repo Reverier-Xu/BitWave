@@ -45,3 +45,12 @@ void Parser::destroyParsers() {
         delete parser;
     }
 }
+
+bool Parser::accept(const QString& path) {
+    for (auto parser : parsers) {
+        if (parser->accepted(path)) {
+            return true;
+        }
+    }
+    return false;
+}

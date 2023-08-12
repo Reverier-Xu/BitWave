@@ -69,7 +69,7 @@ Media FfmpegParser::parse(const QString &path) {
     if (m_supportedVideoFormats.contains(suffix))
         media.setType(VIDEO);
     else if (m_supportedAudioFormats.contains(suffix))
-        media.setType(AUDIO);
+        media.setType(MUSIC);
     else
         media.setType(UNKNOWN);
 

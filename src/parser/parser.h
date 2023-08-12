@@ -21,6 +21,8 @@ class Parser {
     static void destroyParsers();
 
     static Media parse(const QString& path);
+
+    static bool accept(const QString& path);
     
     static QImage extractCover(const Media& src);
 };

@@ -11,6 +11,7 @@
 #include <QMutexLocker>
 #include <QStandardPaths>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QDir>
 #include "storage.h"
 
@@ -20,10 +21,13 @@ Storage* Storage::m_instance = nullptr;
 Storage::Storage(QObject* parent) : QObject(parent) {
     QDir dir;
     dir.mkdir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    auto dbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/data.db";
-    m_db = QSqlDatabase::addDatabase("QSQLITE", dbPath);
-    m_db.setDatabaseName(dbPath);
-    m_isValid = m_db.open();
+    auto libraryDbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/library.db";
+    m_libraryDb = QSqlDatabase::addDatabase("QSQLITE", libraryDbPath);
+    m_libraryDb.setDatabaseName(libraryDbPath);
+    auto queueDbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/queue.db";
+    m_queueDb = QSqlDatabase::addDatabase("QSQLITE", queueDbPath);
+    m_queueDb.setDatabaseName(queueDbPath);
+    m_isValid = m_libraryDb.open() && m_queueDb.open();
     try {
         createLibraryStorage();
         createPlaylistStorage();
@@ -62,11 +66,11 @@ void Storage::createLibraryStorage() {
         << "embedded_lyrics TEXT,"
         << "playlist_id     INTEGER"
         << ");";
-    QSqlQuery query(sql.join(" "), m_db);
+    QSqlQuery query(sql.join(" "), m_libraryDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _LIBRARY");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::createPlaylistStorage() {
@@ -79,11 +83,11 @@ void Storage::createPlaylistStorage() {
         << "title           TEXT NOT NULL UNIQUE,"
         << "type            INTEGER"
         << ");";
-    QSqlQuery query(sql.join(" "), m_db);
+    QSqlQuery query(sql.join(" "), m_libraryDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _PLAYLIST");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::createPlayQueue() {
@@ -100,11 +104,11 @@ void Storage::createPlayQueue() {
         << "embedded_lyrics TEXT,"
         << "playlist_id     INTEGER"
         << ");";
-    QSqlQuery query(sql.join(" "), m_db);
+    QSqlQuery query(sql.join(" "), m_queueDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _PLAY_QUEUE");
     }
-    m_db.commit();
+    m_queueDb.commit();
 }
 
 void Storage::addMedia(const Media& media) {
@@ -129,7 +133,8 @@ void Storage::addMedia(const Media& media) {
         << ":embedded_lyrics,"
         << ":playlist_id );";
 
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
+//    qDebug() << sql.join(" ");
     query.prepare(sql.join(" "));
     query.bindValue(":title", media.title());
     query.bindValue(":artist", media.artists().join("/"));
@@ -143,7 +148,8 @@ void Storage::addMedia(const Media& media) {
     if (!query.exec()) {
         throw std::runtime_error("Failed to add media");
     }
-    m_db.commit();
+//    qDebug() << "insert finished:" << query.lastError();
+    m_libraryDb.commit();
 }
 
 void Storage::addPlaylist(const QString& title, MediaType type) {
@@ -153,14 +159,14 @@ void Storage::addPlaylist(const QString& title, MediaType type) {
         << "type) VALUES ("
         << ":title,"
         << ":type );";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":title", title);
     query.bindValue(":type", type);
     if (!query.exec()) {
         throw std::runtime_error("Failed to add playlist");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::linkMediaToPlaylist(const Media& media, const QString& playlist) {
@@ -168,20 +174,20 @@ void Storage::linkMediaToPlaylist(const Media& media, const QString& playlist) {
     sql << "UPDATE _LIBRARY SET playlist_id = ("
         << "SELECT id FROM _PLAYLIST WHERE title = :playlist"
         << ") WHERE url = :url;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":playlist", playlist);
     query.bindValue(":url", media.url());
     if (!query.exec()) {
         throw std::runtime_error("Failed to link media to playlist");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 QVector<Media> Storage::loadLibrary() {
     QStringList sql;
     sql << "SELECT * FROM _LIBRARY;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     if (!query.exec()) {
         throw std::runtime_error("Failed to load library");
@@ -205,7 +211,7 @@ QVector<Media> Storage::loadLibrary() {
 QVector<Media> Storage::loadPlayQueue() {
     QStringList sql;
     sql << "SELECT * FROM _PLAY_QUEUE;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_queueDb);
     query.prepare(sql.join(" "));
     if (!query.exec()) {
         throw std::runtime_error("Failed to load play queue");
@@ -229,7 +235,7 @@ QVector<Media> Storage::loadPlayQueue() {
 QStringList Storage::loadPlaylists() {
     QStringList sql;
     sql << "SELECT title FROM _PLAYLIST;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     if (!query.exec()) {
         throw std::runtime_error("Failed to load playlists");
@@ -246,7 +252,7 @@ QVector<Media> Storage::loadPlaylist(const QString& playlist) {
     sql << "SELECT * FROM _LIBRARY WHERE playlist_id = ("
         << "SELECT id FROM _PLAYLIST WHERE title = :playlist"
         << ");";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":playlist", playlist);
     if (!query.exec()) {
@@ -271,25 +277,25 @@ QVector<Media> Storage::loadPlaylist(const QString& playlist) {
 void Storage::removeMedia(const Media& media) {
     QStringList sql;
     sql << "DELETE FROM _LIBRARY WHERE url = :url;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":url", media.url());
     if (!query.exec()) {
         throw std::runtime_error("Failed to remove media");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::removePlaylist(const QString& playlist) {
     QStringList sql;
     sql << "DELETE FROM _PLAYLIST WHERE title = :title;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":title", playlist);
     if (!query.exec()) {
         throw std::runtime_error("Failed to remove playlist");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::removeMediaFromPlaylist(const Media& media, const QString& playlist) {
@@ -297,43 +303,43 @@ void Storage::removeMediaFromPlaylist(const Media& media, const QString& playlis
     sql << "UPDATE _LIBRARY SET playlist_id = NULL WHERE url = :url AND playlist_id = ("
         << "SELECT id FROM _PLAYLIST WHERE title = :playlist"
         << ");";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":url", media.url());
     query.bindValue(":playlist", playlist);
     if (!query.exec()) {
         throw std::runtime_error("Failed to remove media from playlist");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::renamePlaylist(const QString& oldName, const QString& newName) {
     QStringList sql;
     sql << "UPDATE _PLAYLIST SET title = :newName WHERE title = :oldName;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":newName", newName);
     query.bindValue(":oldName", oldName);
     if (!query.exec()) {
         throw std::runtime_error("Failed to rename playlist");
     }
-    m_db.commit();
+    m_libraryDb.commit();
 }
 
 void Storage::storePlayQueue(const QVector<Media>& playQueue) {
     QStringList sql;
     sql << "DELETE FROM _PLAY_QUEUE;";
-    QSqlQuery query(m_db);
+    QSqlQuery query(m_queueDb);
     query.prepare(sql.join(" "));
     if (!query.exec()) {
         throw std::runtime_error("Failed to store play queue");
     }
-    for (const Media& media : playQueue) {
-        sql.clear();
-        sql << "INSERT INTO _PLAY_QUEUE (title, artist, album, time, url, type, comment, embedded_lyrics) VALUES ("
-            << ":title, :artist, :album, :time, :url, :type, :comment, :embedded_lyrics"
-            << ");";
+    sql.clear();
+    sql << "INSERT INTO _PLAY_QUEUE (title, artist, album, time, url, type, comment, embedded_lyrics) VALUES ("
+        << ":title, :artist, :album, :time, :url, :type, :comment, :embedded_lyrics"
+        << ");";
         query.prepare(sql.join(" "));
+    for (const Media& media : playQueue) {
         query.bindValue(":title", media.title());
         query.bindValue(":artist", media.artists().join("/"));
         query.bindValue(":album", media.album());
@@ -346,5 +352,5 @@ void Storage::storePlayQueue(const QVector<Media>& playQueue) {
             throw std::runtime_error("Failed to store play queue");
         }
     }
-    m_db.commit();
+    m_queueDb.commit();
 }
