@@ -278,7 +278,9 @@ void PlayQueue::loadStorage() {
 }
 
 void PlayQueue::saveStorage() {
+    if (m_saving) return;
     auto* taskWatcher = new QFutureWatcher<void>(this);
+    m_saving = true;
     auto future = QtConcurrent::run([=]() {
         try {
             Storage::instance()->storePlayQueue(*m_playlist);
@@ -288,6 +290,7 @@ void PlayQueue::saveStorage() {
     });
     connect(taskWatcher, &QFutureWatcher<void>::finished, this, [=]() {
 //        qDebug() << "Play queue saving finished";
+        m_saving = false;
         taskWatcher->deleteLater();
     });
     taskWatcher->setFuture(future);
