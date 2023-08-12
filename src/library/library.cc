@@ -119,6 +119,7 @@ void Library::scan() {
     taskWatcher->setFuture(taskFuture);
     connect(taskWatcher, &QFutureWatcher<void>::finished, this, [=]() {
         setScanning(false);
+        m_model->reload();
 //        qDebug() << "Library scanning finished";
         taskWatcher->deleteLater();
     });
