@@ -221,9 +221,19 @@ Rectangle {
         }
 
         Rectangle {
-            width: 48
+            width: 72
             height: 36
             color: "transparent"
+
+            Label {
+                anchors.fill: parent
+                anchors.leftMargin: 12
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTr("Duration")
+                font.bold: true
+            }
         }
     }
 

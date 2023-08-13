@@ -16,6 +16,46 @@ Rectangle {
         objectName: "videoPlayer"
 
         Rectangle {
+            id: videoTimeIndicator
+            color: Color.transparent(Style.palette.window, 0.60)
+            height: 36
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: 12 + (ui.hideControls ? 0 : 36)
+            anchors.rightMargin: 12
+            radius: 4
+            width: timeLabel.width + 32
+
+            Behavior on anchors.topMargin {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            Label {
+                id: timeLabel
+                anchors.centerIn: parent
+                font.pixelSize: 24
+                font.bold: true
+
+                function currentDateTime() {
+                    return Qt.formatDateTime(new Date(), "hh:mm");
+                }
+
+                Timer {
+                    id: timeLabelTimer
+                    interval: 3
+                    repeat: true
+                    running: true
+                    onTriggered: {
+                        timeLabel.text = timeLabel.currentDateTime();
+                    }
+                }
+            }
+        }
+
+        Rectangle {
             id: videoPlayerLoaderContainer
             anchors.fill: parent
             color: Style.palette.mid

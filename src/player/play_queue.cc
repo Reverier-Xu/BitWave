@@ -283,7 +283,11 @@ void PlayQueue::saveStorage() {
     m_saving = true;
     auto future = QtConcurrent::run([=]() {
         try {
-            Storage::instance()->storePlayQueue(*m_playlist);
+            // copy playlist here.
+            // database operation is slow, read the playlist with const reference
+            // may cause crash.
+            auto storedPlaylist = *m_playlist;
+            Storage::instance()->storePlayQueue(storedPlaylist);
         } catch (std::runtime_error& e) {
             // ...
         }

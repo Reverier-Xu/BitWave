@@ -12,7 +12,7 @@ Button {
     property string album
     property int time
     property bool playing
-    property bool canDelete
+    property bool canDelete: true
 
     function getTimeString(displayTime) {
         let secs = Math.floor(displayTime);
@@ -24,6 +24,9 @@ Button {
     flat: true
     implicitHeight: 36
     height: 36
+
+    signal addToPlaylistClicked(int index)
+    signal deleteClicked(int index)
 
     Label {
         id: idLabel
@@ -140,6 +143,10 @@ Button {
                 visible: addToButton.hovered
             }
 
+            onClicked: {
+                addToPlaylistClicked(control.mIndex);
+            }
+
         }
 
         Button {
@@ -160,7 +167,7 @@ Button {
             }
 
             onClicked: {
-                queue.removeMedia(index)
+                deleteClicked(control.mIndex);
             }
 
         }

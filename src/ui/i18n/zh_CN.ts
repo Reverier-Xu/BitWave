@@ -27,50 +27,58 @@
         <translation type="vanished">本地资料库</translation>
     </message>
     <message>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="24"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="26"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="26"/>
         <location filename="../views/LibraryView.qml" line="26"/>
         <source>Library</source>
         <translation>媒体库</translation>
     </message>
     <message>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="45"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="47"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="47"/>
         <location filename="../views/LibraryView.qml" line="47"/>
         <source>Scan Media</source>
         <translation>重新扫描媒体</translation>
     </message>
     <message>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="64"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="66"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="66"/>
         <location filename="../views/LibraryView.qml" line="66"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
     <message>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="80"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="82"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="82"/>
         <location filename="../views/LibraryView.qml" line="82"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="154"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="154"/>
         <location filename="../views/LibraryView.qml" line="154"/>
         <source>Title</source>
         <translation>标题</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="180"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="180"/>
         <location filename="../views/LibraryView.qml" line="180"/>
         <source>Artists</source>
         <translation>艺术家</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/LibraryView.qml" line="206"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/LibraryView.qml" line="206"/>
         <location filename="../views/LibraryView.qml" line="206"/>
         <source>Album</source>
         <translation>专辑</translation>
+    </message>
+    <message>
+        <location filename="../views/LibraryView.qml" line="233"/>
+        <source>Duration</source>
+        <translation>时长</translation>
     </message>
 </context>
 <context>
@@ -104,17 +112,17 @@
     <name>MediaRow</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="138"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/MediaRow.qml" line="138"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/MediaRow.qml" line="139"/>
-        <location filename="../components/MediaRow.qml" line="139"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/MediaRow.qml" line="142"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/MediaRow.qml" line="142"/>
+        <location filename="../components/MediaRow.qml" line="142"/>
         <source>Add to playlist</source>
         <translation>添加到播放列表</translation>
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="156"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/MediaRow.qml" line="156"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/MediaRow.qml" line="158"/>
-        <location filename="../components/MediaRow.qml" line="158"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/components/MediaRow.qml" line="165"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/components/MediaRow.qml" line="165"/>
+        <location filename="../components/MediaRow.qml" line="165"/>
         <source>Remove from play queue</source>
         <translation>从播放队列中移除</translation>
     </message>
@@ -181,12 +189,12 @@
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/PlayerView.qml" line="66"/>
         <location filename="../../../build/src/qml/BitWave/ui/views/PlayerView.qml" line="76"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="123"/>
-        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="133"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="123"/>
-        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="133"/>
-        <location filename="../views/PlayerView.qml" line="123"/>
-        <location filename="../views/PlayerView.qml" line="133"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="163"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/PlayerView.qml" line="173"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="163"/>
+        <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/PlayerView.qml" line="173"/>
+        <location filename="../views/PlayerView.qml" line="163"/>
+        <location filename="../views/PlayerView.qml" line="173"/>
         <source>Save Album Cover</source>
         <translation>保存专辑封面</translation>
     </message>
@@ -273,6 +281,7 @@
     <name>SettingsView</name>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="27"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="28"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="28"/>
         <location filename="../views/SettingsView.qml" line="28"/>
         <source>Settings</source>
@@ -280,6 +289,7 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="39"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="55"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="55"/>
         <location filename="../views/SettingsView.qml" line="55"/>
         <source>Language</source>
@@ -287,6 +297,7 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="85"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
         <location filename="../views/SettingsView.qml" line="101"/>
         <source>Color Theme</source>
@@ -294,6 +305,7 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="101"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="117"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="117"/>
         <location filename="../views/SettingsView.qml" line="117"/>
         <source>Light</source>
@@ -301,54 +313,63 @@
     </message>
     <message>
         <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="104"/>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="120"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="120"/>
         <location filename="../views/SettingsView.qml" line="120"/>
         <source>Dark</source>
         <translation>黑暗</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="42"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="42"/>
         <location filename="../views/SettingsView.qml" line="42"/>
         <source>Theme Settings</source>
         <translation>外观设置</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="150"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="150"/>
         <location filename="../views/SettingsView.qml" line="150"/>
         <source>System tray theme</source>
         <translation>系统托盘风格</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="166"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="166"/>
         <location filename="../views/SettingsView.qml" line="166"/>
         <source>Colorful</source>
         <translation>彩色</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="169"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="169"/>
         <location filename="../views/SettingsView.qml" line="169"/>
         <source>Flat</source>
         <translation>单色</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="199"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="199"/>
         <location filename="../views/SettingsView.qml" line="199"/>
         <source>Library Settings</source>
         <translation>媒体库设置</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="213"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="213"/>
         <location filename="../views/SettingsView.qml" line="213"/>
         <source>Library Folders</source>
         <translation>媒体文件夹</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="221"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="221"/>
         <location filename="../views/SettingsView.qml" line="221"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
+        <location filename="../../../cmake-build-debug/src/qml/BitWave/ui/views/SettingsView.qml" line="294"/>
         <location filename="../../../cmake-build-release/src/qml/BitWave/ui/views/SettingsView.qml" line="294"/>
         <location filename="../views/SettingsView.qml" line="294"/>
         <source>Open Media Folder</source>

@@ -173,6 +173,10 @@ Rectangle {
             onClicked: {
                 queue.play(indexOfThisDelegate)
             }
+
+            onDeleteClicked: {
+                queue.removeMedia(indexOfThisDelegate)
+            }
         }
     }
 
