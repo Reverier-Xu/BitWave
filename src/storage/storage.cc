@@ -19,8 +19,7 @@
 Storage* Storage::m_instance = nullptr;
 
 Storage::Storage(QObject* parent) : QObject(parent) {
-    QDir dir;
-    dir.mkdir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     auto libraryDbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/library.db";
     m_libraryDb = QSqlDatabase::addDatabase("QSQLITE", libraryDbPath);
     m_libraryDb.setDatabaseName(libraryDbPath);
