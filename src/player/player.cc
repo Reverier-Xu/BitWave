@@ -149,6 +149,8 @@ void Player::connectSignals() {
         emit stateChanged();
         //        qDebug() << "resumed";
     });
+    connect(m_engine, &Engine::audioDeviceChanged, this,
+            [=](const QString& n) { emit audioDeviceChanged(n); });
 
     connect(m_queue, &PlayQueue::mediaChanged, this,
             [=](const Media& media) { play(media); });
@@ -313,6 +315,27 @@ void Player::playUrl(const QString& url) {
 }
 
 PlayQueue* Player::queue() const { return m_queue; }
+
+QList<QVariantMap> Player::audioDeviceList() const {
+    auto resp = m_engine->getAudioDeviceList();
+    QList<QVariantMap> ret;
+    for (const auto& item : resp) {
+        QVariantMap map;
+        map.insert("name", item["name"]);
+        map.insert("description", item["description"]);
+        ret.append(map);
+    }
+    return ret;
+}
+
+QString Player::audioDevice() const {
+    auto resp = m_engine->getMpvProperty("audio-device");
+    return resp.value<QString>();
+}
+
+void Player::setAudioDevice(const QString& n) {
+    m_engine->setMpvProperty("audio-device", n);
+}
 
 void Player::loadSettings() {
     QSettings settings;

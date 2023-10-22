@@ -39,6 +39,10 @@ class Player : public QObject {
 
     Q_PROPERTY(double volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
+    Q_PROPERTY(QString audioDevice READ audioDevice WRITE setAudioDevice
+                   NOTIFY audioDeviceChanged)
+    Q_PROPERTY(QList<QVariantMap> audioDeviceList READ
+                   audioDeviceList NOTIFY audioDeviceListChanged)
    private:
     Media m_media;
 
@@ -142,6 +146,12 @@ class Player : public QObject {
 
     [[nodiscard]] PlayQueue* queue() const;
 
+    [[nodiscard]] QList<QVariantMap> audioDeviceList() const;
+
+    [[nodiscard]] QString audioDevice() const;
+
+    void setAudioDevice(const QString& n);
+
    public slots:
     Q_INVOKABLE void play(const Media& media);
 
@@ -190,6 +200,10 @@ class Player : public QObject {
     void coverPathChanged(QString n);
 
     void userSeeked(double n);
+
+    void audioDeviceListChanged(QList<QVariantMap> n);
+
+    void audioDeviceChanged(QString n);
 
     void stateChanged();
 };

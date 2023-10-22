@@ -39,6 +39,7 @@ Engine::Engine(QObject* parent) : QObject(parent) {
     mpv_observe_property(m_mpvHandle, 0, "time-pos", MPV_FORMAT_DOUBLE);
     mpv_observe_property(m_mpvHandle, 0, "pause", MPV_FORMAT_FLAG);
     mpv_observe_property(m_mpvHandle, 0, "volume", MPV_FORMAT_DOUBLE);
+    mpv_observe_property(m_mpvHandle, 0, "audio-device", MPV_FORMAT_STRING);
     mpv_set_wakeup_callback(m_mpvHandle, wakeup, this);
 }
 
@@ -74,6 +75,11 @@ void Engine::handleMpvEvent(mpv_event* event) {
                     } else {
                         emit resumed();
                     }
+                }
+            } else if (strcmp(prop->name, "audio-device") == 0) {
+                if (prop->format == MPV_FORMAT_STRING) {
+                    QString device = QString::fromUtf8(*(char**)prop->data);
+                    emit audioDeviceChanged(device);
                 }
             }
             break;
@@ -120,6 +126,23 @@ void Engine::setMpvProperty(const QString& name, const QVariant& value) {
 
 QVariant Engine::getMpvProperty(const QString& name) const {
     return mpv::qt::get_property(m_mpvHandle, name);
+}
+
+QList<QMap<QString, QString>> Engine::getAudioDeviceList() {
+    QList<QMap<QString, QString>> ret;
+    const auto list = getMpvProperty("audio-device-list");
+    if (mpv::qt::is_error(list)) {
+        return ret;
+    }
+    const auto listValue = list.value<QVariantList>();
+    for (const auto& item : listValue) {
+        const auto itemValue = item.value<QVariantMap>();
+        QMap<QString, QString> map;
+        map.insert("name", itemValue.value("name").toString());
+        map.insert("description", itemValue.value("description").toString());
+        ret.append(map);
+    }
+    return ret;
 }
 
 void Engine::play(const QString& path) {

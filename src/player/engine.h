@@ -43,6 +43,8 @@ class Engine : public QObject {
     [[nodiscard]] Q_INVOKABLE QVariant
     getMpvProperty(const QString& name) const;
 
+    [[nodiscard]] QList<QMap<QString, QString>> getAudioDeviceList();
+    
     Q_INVOKABLE void play(const QString& path);
 
     Q_INVOKABLE void resume();
@@ -56,6 +58,7 @@ class Engine : public QObject {
     Q_INVOKABLE void setMute(bool ok);
 
     Q_INVOKABLE void setVolume(double vol);
+
 
    public slots:
 
@@ -76,4 +79,6 @@ class Engine : public QObject {
     void resumed();
 
     void ended();
+
+    void audioDeviceChanged(QString n);
 };

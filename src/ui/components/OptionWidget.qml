@@ -30,4 +30,31 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
         }
     }
+
+    ComboBox {
+        id: deviceComboBox
+        anchors.top: title.bottom
+        anchors.topMargin: 16
+        anchors.left: title.left
+        anchors.right: parent.horizontalCenter
+        anchors.rightMargin: 32
+
+        currentIndex: {
+            // player.audioDevice is name
+            let index = player.audioDeviceList.findIndex(function (item) {
+                // console.log(item.name, player.audioDevice);
+                return item.name === player.audioDevice;
+            });
+            return index;
+        }
+        flat: false
+        model: player.audioDeviceList
+        textRole: "description"
+        valueRole: "name"
+
+        onActivated: {
+            // console.log(deviceComboBox.currentValue.name);
+            player.audioDevice = deviceComboBox.currentValue;
+        }
+    }
 }
