@@ -13,3 +13,4 @@ aur/src/
 aur/BitWave/
 aur/pkg/
 aur/
+.cache/

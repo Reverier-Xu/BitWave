@@ -32,7 +32,7 @@ Media FfmpegParser::parse(const QString &path) {
     if (read_tag)
         media.setTitle(read_tag->value);
     else
-        media.setTitle(QFileInfo(path).baseName());
+        media.setTitle(QFileInfo(path).completeBaseName());
     read_tag = av_dict_get(ctx->metadata, "artist", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag)
         media.setArtists(QString(read_tag->value).split("/"));
