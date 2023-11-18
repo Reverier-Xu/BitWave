@@ -19,7 +19,7 @@ extern "C" {
 
 Media FfmpegParser::parse(const QString &path) {
     auto media = Media();
-    media.setUrl(path);
+    media.setUrl(QUrl(path).toString());
     AVFormatContext *ctx = nullptr;
     AVDictionaryEntry *tag = nullptr;
     AVDictionaryEntry *read_tag;
@@ -100,6 +100,6 @@ QImage FfmpegParser::extractCover(const Media &src) {
 
 bool FfmpegParser::accepted(const QString &path) {
     auto fileInfo = QFileInfo(path);
-    return m_supportedAudioFormats.contains(fileInfo.suffix()) ||
-           m_supportedVideoFormats.contains(fileInfo.suffix());
+    return m_supportedAudioFormats.contains(fileInfo.suffix().toLower()) ||
+           m_supportedVideoFormats.contains(fileInfo.suffix().toLower());
 }

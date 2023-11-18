@@ -219,10 +219,13 @@ void Player::play(const Media& media) {
         }
         setLoading(false);
         try {
-            m_engine->play(decodeWatcher->result());
+            auto result = decodeWatcher->result();
+            // qDebug() << result;
+            m_engine->play(result);
             setValid(true);
-        } catch (...) {
+        } catch (std::exception err) {
             setValid(false);
+            // qDebug() << err.what();
             // TODO: warn user here.
         }
         decodeWatcher->deleteLater();

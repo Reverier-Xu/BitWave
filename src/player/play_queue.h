@@ -90,7 +90,7 @@ class PlayQueue : public QObject {
 
     Q_INVOKABLE void addMediaByUrl(const QString& url);
 
-    Q_INVOKABLE void addMediasByUrlsThenPlay(const QStringList& urls);
+    Q_INVOKABLE void addMediasByUrlsThenPlay(const QList<QUrl>& urls);
 
     Q_INVOKABLE void removeMedia(int pos);
 

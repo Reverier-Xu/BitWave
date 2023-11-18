@@ -15,7 +15,7 @@
 #include "utils/ncm_helper.h"
 
 Media NcmParser::parse(const QString& path) {
-    QFile ncmFile(QUrl(path).path());
+    QFile ncmFile(path);
     Media media;
     media.setUrl(path);
     media.setType(MUSIC);
@@ -62,7 +62,7 @@ Media NcmParser::parse(const QString& path) {
 }
 
 QImage NcmParser::extractCover(const Media& src) {
-    QFile ncmFile(QUrl(src.url()).path());
+    QFile ncmFile(src.url());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
     validateNcmFile(ncmFile);
@@ -92,5 +92,5 @@ QImage NcmParser::extractCover(const Media& src) {
 
 bool NcmParser::accepted(const QString& path) {
     auto fileInfo = QFileInfo(path);
-    return m_supportedFormats.contains(fileInfo.suffix());
+    return m_supportedFormats.contains(fileInfo.suffix().toLower());
 }

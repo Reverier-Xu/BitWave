@@ -12,7 +12,6 @@
 
 #include <QFileInfo>
 #include <QStandardPaths>
-#include <QUrl>
 
 #include "qaesencryption.h"
 #include "utils/ncm_helper.h"
@@ -20,12 +19,12 @@
 const QStringList& NcmCodec::supportedFormats() { return m_supportedFormats; }
 
 bool NcmCodec::accepted(const Media& src) {
-    auto fileInfo = QFileInfo(QUrl(src.url()).path());
+    auto fileInfo = QFileInfo(src.url());
     return m_supportedFormats.contains(fileInfo.suffix());
 }
 
 QString NcmCodec::decode(const Media& src) {
-    QFile ncmFile(QUrl(src.url()).path());
+    QFile ncmFile(src.url());
     ncmFile.open(QFile::ReadOnly);
     // evaluate is ncm file or not.
     if (!validateNcmFile(ncmFile)) throw std::runtime_error("Not a ncm file.");

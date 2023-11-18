@@ -13,10 +13,9 @@
 #include <QtConcurrent>
 #include <random>
 
+#include "library/library.h"
 #include "parser/parser.h"
 #include "storage/storage.h"
-#include "library/library.h"
-
 
 PlayQueue::PlayQueue(QObject* parent) : QObject(parent) {
     m_playlist = new QList<Media>;
@@ -41,13 +40,13 @@ QVector<int> generatePlayOrder(QueueMode mode, int cursor, int* cursorPos,
         case IN_ORDER:
             for (int i = 0; i < size; ++i) {
                 future.push_back(i);
-                if (i == cursor) *cursorPos = (int) future.size() - 1;
+                if (i == cursor) *cursorPos = (int)future.size() - 1;
             }
             break;
         case REVERSED:
             for (int i = size - 1; i >= 0; --i) {
                 future.push_back(i);
-                if (i == cursor) *cursorPos = (int) future.size() - 1;
+                if (i == cursor) *cursorPos = (int)future.size() - 1;
             }
             break;
         case LOOP_ONE:
@@ -59,7 +58,7 @@ QVector<int> generatePlayOrder(QueueMode mode, int cursor, int* cursorPos,
         case RANDOM:
             for (int i = 0; i < size; ++i) {
                 future.push_back(i);
-                if (i == cursor) *cursorPos = (int) future.size() - 1;
+                if (i == cursor) *cursorPos = (int)future.size() - 1;
             }
             std::shuffle(future.begin(), future.end(),
                          std::mt19937(std::random_device()()));
@@ -74,7 +73,7 @@ void PlayQueue::setMode(int mode) {
     }
     m_mode = static_cast<QueueMode>(mode);
     m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                                          (int) m_playlist->size());
+                                          (int)m_playlist->size());
     emit modeChanged(mode);
     emit modeIconChanged(modeIcon());
 }
@@ -86,7 +85,7 @@ MediaList* PlayQueue::model() { return m_model; }
 int PlayQueue::cursor() const { return m_cursor; }
 
 void PlayQueue::setCursor(int n) {
-    if (n < 0 || n >= (int) m_playlist->size()) {
+    if (n < 0 || n >= (int)m_playlist->size()) {
         return;
     }
     m_cursor = n;
@@ -103,18 +102,18 @@ void PlayQueue::addMedia(const Media& media) {
         m_model->insertMedia(cursor() + 1);
     }
     m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                                          (int) m_playlist->size());
+                                          (int)m_playlist->size());
     if (m_playlist->size() == 1) m_cursorPos = -1;
 }
 
 void PlayQueue::removeMedia(int pos) {
-    if (pos < 0 || pos >= (int) m_playlist->size()) {
+    if (pos < 0 || pos >= (int)m_playlist->size()) {
         return;
     }
     m_playlist->remove(pos);
     m_model->removeMedia(pos);
     m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                                          (int) m_playlist->size());
+                                          (int)m_playlist->size());
     if (cursor() > pos) {
         m_cursor -= 1;
     } else if (cursor() == pos) {
@@ -153,7 +152,7 @@ void PlayQueue::next() {
             return;
         }
         m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                                              (int) m_playlist->size());
+                                              (int)m_playlist->size());
         m_cursorPos = 0;
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else {
@@ -165,12 +164,12 @@ void PlayQueue::prev() {
     //    qDebug() << "prev" << m_cursorPos << m_mode << m_queuedPlayOrder;
     if (m_playlist->empty()) return;
     if (m_cursorPos <= 0 && m_mode != RANDOM) {
-        m_cursorPos = (int) m_queuedPlayOrder.size() - 1;
+        m_cursorPos = (int)m_queuedPlayOrder.size() - 1;
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else if (m_cursorPos <= 0) {
         m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
-                                              (int) m_playlist->size());
-        m_cursorPos = (int) m_queuedPlayOrder.size() - 1;
+                                              (int)m_playlist->size());
+        m_cursorPos = (int)m_queuedPlayOrder.size() - 1;
         setCursor(m_queuedPlayOrder[m_cursorPos]);
     } else {
         setCursor(m_queuedPlayOrder[--m_cursorPos]);
@@ -184,22 +183,28 @@ const Media& PlayQueue::current() {
 }
 
 void PlayQueue::play(int pos) {
-    if (pos >= (int) m_playlist->size()) {
-        pos = (int) m_playlist->size() - 1;
+    if (pos >= (int)m_playlist->size()) {
+        pos = (int)m_playlist->size() - 1;
     } else if (pos < 0) {
         pos = 0;
     }
     setCursor(pos);
-    m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int) m_playlist->size());
+    m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
+                                          (int)m_playlist->size());
 }
 
 QString PlayQueue::modeIcon() const {
     switch (m_mode) {
-        case IN_ORDER:return "qrc:/qt/qml/RxUI/assets/play-order.svg";
-        case REVERSED:return "qrc:/qt/qml/RxUI/assets/play-reverse.svg";
-        case LOOP_ALL:return "qrc:/qt/qml/RxUI/assets/play-repeat-all.svg";
-        case LOOP_ONE:return "qrc:/qt/qml/RxUI/assets/play-repeat-one.svg";
-        case RANDOM:return "qrc:/qt/qml/RxUI/assets/play-random.svg";
+        case IN_ORDER:
+            return "qrc:/qt/qml/RxUI/assets/play-order.svg";
+        case REVERSED:
+            return "qrc:/qt/qml/RxUI/assets/play-reverse.svg";
+        case LOOP_ALL:
+            return "qrc:/qt/qml/RxUI/assets/play-repeat-all.svg";
+        case LOOP_ONE:
+            return "qrc:/qt/qml/RxUI/assets/play-repeat-one.svg";
+        case RANDOM:
+            return "qrc:/qt/qml/RxUI/assets/play-random.svg";
     }
     return "qrc:/qt/qml/RxUI/assets/play-order.svg";
 }
@@ -214,12 +219,13 @@ void PlayQueue::addMediaByUrl(const QString& url) {
     }
 }
 
-void PlayQueue::addMediasByUrlsThenPlay(const QStringList& urls) {
+void PlayQueue::addMediasByUrlsThenPlay(const QList<QUrl>& urls) {
     setLoading(true);
     auto* taskWatcher = new QFutureWatcher<Media>(this);
-    auto future = QtConcurrent::mapped(urls, [=](const QString& path) {
+    auto future = QtConcurrent::mapped(urls, [=](const QUrl& path) {
         try {
-            auto media = Parser::parse(path);
+            auto media = Parser::parse(
+                QByteArray::fromPercentEncoding(path.toString().toUtf8()));
             return media;
         } catch (...) {
             return Media::null();
@@ -284,8 +290,8 @@ void PlayQueue::saveStorage() {
     auto future = QtConcurrent::run([=]() {
         try {
             // copy playlist here.
-            // database operation is slow, read the playlist with const reference
-            // may cause crash.
+            // database operation is slow, read the playlist with const
+            // reference may cause crash.
             auto storedPlaylist = *m_playlist;
             Storage::instance()->storePlayQueue(storedPlaylist);
         } catch (std::runtime_error& e) {
@@ -293,7 +299,7 @@ void PlayQueue::saveStorage() {
         }
     });
     connect(taskWatcher, &QFutureWatcher<void>::finished, this, [=]() {
-//        qDebug() << "Play queue saving finished";
+        //        qDebug() << "Play queue saving finished";
         m_saving = false;
         taskWatcher->deleteLater();
     });

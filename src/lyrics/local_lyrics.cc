@@ -24,7 +24,7 @@ bool LocalLyrics::accepted(const Media& media) {
 }
 
 void LocalLyrics::requestFetch(const Media& media) {
-    const auto fileUrl = QUrl(media.url());
+    const auto fileUrl = media.url();
     auto watcher = new QFutureWatcher<void>(this);
     connect(watcher, &QFutureWatcher<void>::finished, this, [=]() {
         watcher->deleteLater();
