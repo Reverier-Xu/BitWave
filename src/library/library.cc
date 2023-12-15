@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QMutex>
 #include <QtConcurrent>
+#include <QCollator>
 
 
 Library* Library::m_instance = nullptr;
@@ -222,28 +223,58 @@ SortStatus Library::sortStatus() const {
     return m_sortStatus;
 }
 
+QLocale::Language getChLanguage(const QChar ch) {
+    if (ch.unicode() >= 0x4e00 && ch.unicode() <= 0x9fa5) {
+        return QLocale::Chinese;
+    } else if (ch.unicode() >= 0x3040 && ch.unicode() <= 0x309f) {
+        return QLocale::Japanese;
+    } else if (ch.unicode() >= 0x1100 && ch.unicode() <= 0x11ff) {
+        return QLocale::Korean;
+    } else {
+        return QLocale::English;
+    }
+}
+
+bool cmpStringWithLocale(const QString& a, const QString& b) {
+    if (a.length() <= 0) return true;
+    else if (b.length() <= 0) return false;
+    const auto ch1 = a.at(0);
+    const auto ch2 = b.at(0);
+    if (getChLanguage(ch1) == getChLanguage(ch2)) {
+        auto locale = QLocale(getChLanguage(ch1));
+        auto collector = QCollator(locale);
+        return collector.compare(a, b) < 0;
+    } else {
+        return getChLanguage(ch1) < getChLanguage(ch2);
+    }
+}
+
 bool cmpTitleAsc(const Media& m1, const Media& m2) {
-    return m1.title() < m2.title();
+    return cmpStringWithLocale(m1.title(), m2.title());
 }
 
 bool cmpTitleDesc(const Media& m1, const Media& m2) {
-    return m1.title() > m2.title();
+    return cmpStringWithLocale(m2.title(), m1.title());
 }
 
 bool cmpArtistsAsc(const Media& m1, const Media& m2) {
-    return m1.artists() < m2.artists();
+    if (m1.artists().length() == 0) return true;
+    else if (m2.artists().length() == 0) return false;
+    return cmpStringWithLocale(m1.artists()[0], m2.artists()[0]);
 }
 
 bool cmpArtistsDesc(const Media& m1, const Media& m2) {
-    return m1.artists() > m2.artists();
+    if (m1.artists().length() == 0) return false;
+    else if (m2.artists().length() == 0) return true;
+    return cmpStringWithLocale(m2.artists()[0], m1.artists()[0]);
 }
 
 bool cmpAlbumAsc(const Media& m1, const Media& m2) {
-    return m1.album() < m2.album();
+    return cmpStringWithLocale(m1.album(), m2.album());
 }
 
 bool cmpAlbumDesc(const Media& m1, const Media& m2) {
-    return m1.album() > m2.album();
+    return cmpStringWithLocale(m2.album(), m1.album());
 }
 
 void Library::setSortStatus(SortStatus sortStatus) {
