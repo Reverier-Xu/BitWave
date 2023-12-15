@@ -235,17 +235,29 @@ QLocale::Language getChLanguage(const QChar ch) {
     }
 }
 
+int transformLocaleId(QLocale::Language lang) {
+    switch (lang) {
+        case QLocale::Chinese:return 1;
+        case QLocale::Japanese:return 2;
+        case QLocale::Korean:return 3;
+        case QLocale::English:return 0;
+        default:return 0;
+    }
+}
+
 bool cmpStringWithLocale(const QString& a, const QString& b) {
     if (a.length() <= 0) return true;
     else if (b.length() <= 0) return false;
     const auto ch1 = a.at(0);
     const auto ch2 = b.at(0);
-    if (getChLanguage(ch1) == getChLanguage(ch2)) {
-        auto locale = QLocale(getChLanguage(ch1));
+    const auto ch1Lang = getChLanguage(ch1);
+    const auto ch2Lang = getChLanguage(ch2);
+    if (ch1Lang == ch2Lang) {
+        auto locale = QLocale(ch1Lang);
         auto collector = QCollator(locale);
         return collector.compare(a, b) < 0;
     } else {
-        return getChLanguage(ch1) < getChLanguage(ch2);
+        return transformLocaleId(ch1Lang) < transformLocaleId(ch2Lang);
     }
 }
 
