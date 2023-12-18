@@ -11,6 +11,12 @@ A simple media player that wrappers MPV.
 - [ ] Library and playlist management
 - [ ] Various fine-tuning and control of the player
 
+## Preview
+
+![Music Player](arts/preview-home.png)
+![Video Player](arts/preview-video.png)
+![Media Library](arts/preview-library.png)
+
 ## LICENSE
 
 Mozilla Public License 2.0
