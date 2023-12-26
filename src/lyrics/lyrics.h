@@ -24,6 +24,7 @@ class LyricsModel : public QAbstractListModel {
         LyricsIdRole = Qt::UserRole + 1,
         LyricsContentRole,
         LyricsTranslationRole,
+        LyricsTimeRole,
     };
 
     explicit LyricsModel(QObject* parent = nullptr);

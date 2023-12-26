@@ -217,6 +217,8 @@ QVariant LyricsModel::data(const QModelIndex& index, int role) const {
         return m_lyrics[index.row()].content;
     } else if (role == LyricsTranslationRole) {
         return m_lyrics[index.row()].translation;
+    } else if (role == LyricsTimeRole) {
+        return m_lyrics[index.row()].time;
     }
     return QVariant();
 }
@@ -226,6 +228,7 @@ QHash<int, QByteArray> LyricsModel::roleNames() const {
     roles[LyricsIdRole] = "lyricsId";
     roles[LyricsContentRole] = "lyricsContent";
     roles[LyricsTranslationRole] = "lyricsTranslation";
+    roles[LyricsTimeRole] = "lyricsTime";
     return roles;
 }
 

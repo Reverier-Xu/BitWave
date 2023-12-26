@@ -7,16 +7,53 @@ Rectangle {
     property string content: ""
     property string translation: ""
     property bool isCurrent: false
-    color: mouseArea.hovered ? Style.palette.mid : "transparent"
+    property double seekTime: 0
+    color: "transparent"
 
     height: textItem.contentHeight + 16
+
+    Button {
+        id: timeIndicator
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        width: 64
+        flat: true
+        hoverColor: "transparent"
+        pressedColor: "transparent"
+        display: AbstractButton.TextOnly
+        // icon.source: "qrc:/qt/qml/RxUI/assets/play.svg"
+        text: {
+            let secs = Math.floor(seekTime);
+            let minutes = Math.floor(secs / 60);
+            secs = secs % 60;
+            return minutes.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
+        }
+        opacity: hoverHandler.hovered ? 0.6 : 0
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 200
+            }
+        }
+
+        onClicked: {
+            player.seek(seekTime);
+        }
+    }
+
+    Rectangle {
+        id: background
+        anchors.fill: textItem
+        color: hoverHandler.hovered ? Style.palette.dark : "transparent"
+        opacity: 0.6
+        anchors.margins: -4
+    }
 
     TextEdit {
         id: textItem
         readOnly: true
         text: content + (translation.length > 0 ? "\n" + translation : "")
         font.bold: control.isCurrent
-        anchors.left: parent.left
+        anchors.left: timeIndicator.right
         anchors.right: parent.right
         anchors.leftMargin: 6
         anchors.rightMargin: 6
@@ -64,5 +101,9 @@ Rectangle {
                 }
             }
         }
+    }
+
+    HoverHandler {
+        id: hoverHandler
     }
 }

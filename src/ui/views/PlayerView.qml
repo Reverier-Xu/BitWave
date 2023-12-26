@@ -249,7 +249,6 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 100
             anchors.left: coverContainer.right
-            anchors.leftMargin: 64
             anchors.right: parent.right
             anchors.rightMargin: 96
             anchors.top: parent.top
@@ -260,6 +259,7 @@ Rectangle {
                 id: title
 
                 anchors.left: parent.left
+                anchors.leftMargin: 64
                 anchors.right: parent.right
                 anchors.top: parent.top
                 font.bold: true
@@ -280,6 +280,7 @@ Rectangle {
                 id: artistAndAlbum
 
                 anchors.left: parent.left
+                anchors.leftMargin: 64
                 anchors.right: parent.right
                 anchors.top: title.bottom
                 color: Style.primary
@@ -329,6 +330,7 @@ Rectangle {
                     content: lyricsContent
                     isCurrent: lyrics.currentIndex === lyricsId
                     translation: lyricsTranslation
+                    seekTime: lyricsTime
                     width: ListView.view.width
                 }
                 footer: Item {
@@ -340,6 +342,7 @@ Rectangle {
             }
             Rectangle {
                 anchors.fill: lyricsContent
+                anchors.leftMargin: 64
                 color: Color.transparent(Style.palette.window, 0.60)
                 opacity: lyrics.loading ? 1 : 0
                 radius: width / 2
