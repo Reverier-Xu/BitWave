@@ -44,7 +44,7 @@ Rectangle {
         id: background
         anchors.fill: textItem
         color: hoverHandler.hovered ? Style.palette.dark : "transparent"
-        opacity: 0.6
+        opacity: 0.3
         anchors.margins: -4
     }
 
