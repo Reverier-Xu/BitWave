@@ -11,6 +11,12 @@ A simple media player that wrappers MPV.
 - [ ] Library and playlist management
 - [ ] Various fine-tuning and control of the player
 
+## Additional (Maybe)
+
+- [] MacOS / Windows build
+- [] Fetch data from musicbrainz / discogs whatsoever.
+- [] cdparanoia cdrip
+
 ## Preview
 
 ![Music Player](arts/preview-home.png)
