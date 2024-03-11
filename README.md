@@ -13,9 +13,9 @@ A simple media player that wrappers MPV.
 
 ## Additional (Maybe)
 
-- [] MacOS / Windows build
-- [] Fetch data from musicbrainz / discogs whatsoever.
-- [] cdparanoia cdrip
+- [ ] MacOS / Windows build
+- [ ] Fetch data from musicbrainz / discogs whatsoever.
+- [ ] cdparanoia cdrip
 
 ## Preview
 
