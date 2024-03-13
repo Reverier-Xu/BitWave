@@ -2,6 +2,16 @@
 
 A simple media player that wrappers MPV.
 
+## Installation
+
+If you are using archlinux, you can simply install it from AUR with AUR helper:
+
+```
+paru -S bitwave-git
+# or
+yay -S bitwave-git
+```
+
 ## Features
 
 - [x] Play local media files
