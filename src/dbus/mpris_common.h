@@ -50,6 +50,10 @@ inline void AddMetadata(const QString &key, const QDateTime &metadata,
     if (metadata.isValid()) (*map)[key] = metadata;
 }
 
+inline void AddMetadata(const QString &key, const QDBusObjectPath &metadata, QVariantMap *map) {
+    (*map)[key] = metadata;
+}
+
 inline QString AsMPRISDateTimeType(uint time) {
     return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : "";
 }

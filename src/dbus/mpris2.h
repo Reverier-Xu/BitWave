@@ -34,6 +34,7 @@ class Mpris2 : public QObject {
     // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
     Q_PROPERTY(bool CanQuit READ CanQuit)
     Q_PROPERTY(bool CanRaise READ CanRaise)
+    Q_PROPERTY(bool HasTrackList READ HasTrackList)
     Q_PROPERTY(QString Identity READ Identity)
     Q_PROPERTY(QString DesktopEntry READ DesktopEntry)
     Q_PROPERTY(QStringList SupportedUriSchemes READ SupportedUriSchemes)
@@ -47,7 +48,7 @@ class Mpris2 : public QObject {
     Q_PROPERTY(double Rate READ Rate WRITE SetRate)
     Q_PROPERTY(QVariantMap Metadata READ Metadata)
     Q_PROPERTY(double Volume READ Volume WRITE SetVolume)
-    Q_PROPERTY(qlonglong Position READ Position)
+    Q_PROPERTY(qint64 Position READ Position)
     Q_PROPERTY(double MinimumRate READ MinimumRate)
     Q_PROPERTY(double MaximumRate READ MaximumRate)
     Q_PROPERTY(bool CanGoNext READ CanGoNext)
@@ -61,6 +62,8 @@ class Mpris2 : public QObject {
     [[nodiscard]] static bool CanQuit();
 
     [[nodiscard]] static bool CanRaise();
+
+    [[nodiscard]] static bool HasTrackList();
 
     [[nodiscard]] static QString Identity();
 
@@ -91,7 +94,7 @@ class Mpris2 : public QObject {
 
     void SetVolume(double value);
 
-    [[nodiscard]] qlonglong Position() const;
+    [[nodiscard]] qint64 Position() const;
 
     [[nodiscard]] static double MaximumRate();
 
@@ -122,16 +125,16 @@ class Mpris2 : public QObject {
 
     void Play();
 
-    void Seek(qlonglong offset);
+    void Seek(qint64 offset);
 
-    void SetPosition(const QVariant& trackId, qlonglong position);
+    void SetPosition(const QDBusObjectPath &trackId, qint64 offset);
 
     void OpenUri(const QString &uri);
 
    signals:
 
     // Player
-    void Seeked(qlonglong offset);
+    void Seeked(qint64 offset);
 
     void RaiseMainWindow();
 
@@ -154,6 +157,8 @@ class Mpris2 : public QObject {
                                  const QString &mprisEntity);
 
     [[nodiscard]] QString PlaybackStatus() const;
+
+    [[nodiscard]] QString LoopStatus() const;
 
     [[nodiscard]] static QString DesktopEntryAbsolutePath();
 
