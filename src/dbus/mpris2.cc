@@ -182,11 +182,11 @@ QVariantMap Mpris2::Metadata() const { return m_lastMetadata; }
 // changing song starts...
 void Mpris2::CurrentSongChanged(const Media &song) {
     MetadataLoaded(song, "");
+    EmitNotification("CanPlay", CanPlay());
+    EmitNotification("CanPause", CanPause());
     EmitNotification("CanGoNext", CanGoNext());
     EmitNotification("CanGoPrevious", CanGoPrevious());
     EmitNotification("CanSeek", CanSeek());
-    EmitNotification("Rate", 1.0);
-    EmitNotification("Volume", 1.0);
 }
 
 // ... and we add the cover information later, when it's available.
@@ -199,8 +199,10 @@ void Mpris2::MetadataLoaded(const Media &song, const QString &art_uri) {
     AddMetadata("xesam:title", song.title(), &m_lastMetadata);
     AddMetadata("xesam:album", song.album(), &m_lastMetadata);
     AddMetadata("xesam:url", song.url(), &m_lastMetadata);
-    AddMetadata("mpris:length", (qint64)floor(song.time() * 1000000.0), &m_lastMetadata);
-    AddMetadata("mpris:trackid", QDBusObjectPath("/org/mpris/MediaPlayer2/TrackList/NoTrack"),
+    AddMetadata("mpris:length", (qint64)floor(song.time() * 1000000.0),
+                &m_lastMetadata);
+    AddMetadata("mpris:trackid",
+                QDBusObjectPath("/org/mpris/MediaPlayer2/TrackList/NoTrack"),
                 &m_lastMetadata);
 
     if (!art_uri.isEmpty()) {
@@ -215,6 +217,7 @@ double Mpris2::Volume() const { return Player::instance()->volume(); }
 void Mpris2::SetVolume(double value) { Player::instance()->setVolume(value); }
 
 qint64 Mpris2::Position() const {
+    // qDebug() << Player::instance()->currentTime() * 1000 * 1000;
     return qint64(Player::instance()->currentTime() * 1000 * 1000);
 }
 
@@ -227,15 +230,21 @@ bool Mpris2::CanGoNext() { return true; }
 bool Mpris2::CanGoPrevious() { return true; }
 
 bool Mpris2::CanPlay() const {
-    // qDebug() << "CanPlay: " << (Player::instance()->valid() && !Player::instance()->playing());
-    return Player::instance()->valid();
+    // qDebug() << "CanPlay: " << (Player::instance()->valid() &&
+    // !Player::instance()->playing());
+    return Player::instance()->valid() &&
+           Player::instance()->queue()->queue()->length() > 0;
 }
 
 // This one's a bit different from MPRIS 1 - we want this to be true even when
 // the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-    // qDebug() << "CanPause: " << (Player::instance()->valid() && Player::instance()->playing());
-    return Player::instance()->valid();
+    // qDebug() << "CanPause: " << (Player::instance()->valid() &&
+    // Player::instance()->playing());
+    return Player::instance()->valid() &&
+               Player::instance()->queue()->queue()->length() > 0 &&
+               Player::instance()->playing() ||
+           PlaybackStatus() == "Paused" || PlaybackStatus() == "Stopped";
 }
 
 bool Mpris2::CanSeek() const {
@@ -264,7 +273,7 @@ void Mpris2::Pause() {
 
 void Mpris2::PlayPause() {
     // qDebug() << "PlayPause";
-    if (CanPause()) {
+    if (Player::instance()->playing()) {
         Player::instance()->pause();
     } else if (CanPlay()) {
         Player::instance()->resume();
@@ -278,9 +287,7 @@ void Mpris2::Stop() {
 
 void Mpris2::Play() {
     // qDebug() << "Play";
-    if (CanPlay()) {
-        Player::instance()->resume();
-    }
+    Player::instance()->resume();
 }
 
 void Mpris2::OpenUri(const QString &uri) {
@@ -317,7 +324,6 @@ void Mpris2::EngineStateChanged() {
                        Player::instance()->coverPath());
     }
     EmitNotification("PlaybackStatus", PlaybackStatus());
-    EmitNotification("LoopStatus", LoopStatus());
 
     EmitNotification("CanPlay", CanPlay());
     EmitNotification("CanPause", CanPause());

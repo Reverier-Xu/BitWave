@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
     char flags = (char) (resume << 0 | pause << 1 | next << 2 | previous << 3 | 1 << 4);
 
     if (app.isSecondary()) {
-        app.sendMessage(flags + parser.positionalArguments().join(" ").toUtf8(), 3000);
+        app.sendMessage(flags + playFile.toUtf8(), 3000);
         return 0;
     }
 
