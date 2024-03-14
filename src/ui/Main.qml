@@ -83,7 +83,7 @@ FramelessWindow {
         id: exitAppEvent
         customKey: "Ctrl+Q"
         onClicked: {
-            Qt.exit(0);
+            app.requestQuit()
         }
     }
 

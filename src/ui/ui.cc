@@ -48,6 +48,14 @@ Ui* Ui::instance(QObject* parent) {
     return m_instance;
 }
 
+Q_INVOKABLE void Ui::requestQuit() {
+    Player::instance(this->parent())->saveSettings();
+    Player::instance(this->parent())->queue()->saveSettings();
+    Library::instance(this->parent())->saveSettings();
+
+    QApplication::quit();
+}
+
 void Ui::onSecondaryInstanceStarted() {
     emit m_uiConfig->raiseWindowRequested();
 }
@@ -59,6 +67,8 @@ void Ui::exportProperties() {
         "queue", Player::instance(this->parent())->queue());
     m_engine->rootContext()->setContextProperty(
         "queueModel", Player::instance(this->parent())->queue()->model());
+    
+    m_engine->rootContext()->setContextProperty("app", this);
     m_engine->rootContext()->setContextProperty("ui", m_uiConfig);
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);

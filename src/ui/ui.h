@@ -48,4 +48,6 @@ class Ui : public QObject {
 
    public slots:
     Q_INVOKABLE void onSecondaryInstanceStarted();
+
+    Q_INVOKABLE void requestQuit();
 };

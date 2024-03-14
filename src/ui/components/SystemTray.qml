@@ -50,7 +50,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Quit BitWave")
 
-            onTriggered: Qt.quit()
+            onTriggered: app.requestQuit()
         }
     }
 

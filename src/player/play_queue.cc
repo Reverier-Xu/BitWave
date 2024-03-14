@@ -255,14 +255,14 @@ void PlayQueue::setLoading(bool n) {
 void PlayQueue::loadSettings() {
     QSettings settings;
     settings.beginGroup("Queue");
-    setMode(settings.value("mode", IN_ORDER).toInt());
+    setMode(settings.value("Mode", IN_ORDER).toInt());
     settings.endGroup();
 }
 
 void PlayQueue::saveSettings() const {
     QSettings settings;
     settings.beginGroup("Queue");
-    settings.setValue("mode", m_mode);
+    settings.setValue("Mode", m_mode);
     settings.endGroup();
 }
 
