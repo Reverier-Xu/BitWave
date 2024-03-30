@@ -92,6 +92,8 @@ class Playlist : public QAbstractListModel {
 
     Q_INVOKABLE const QVector<Media>& currentMedias();
 
+    Q_INVOKABLE void reload();
+
    signals:
     void sortStatusChanged(SortStatus sortStatus);
 

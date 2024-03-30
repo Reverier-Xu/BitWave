@@ -170,12 +170,19 @@ Q_INVOKABLE const QVector<Media>& Playlist::currentMedias() {
     return m_playlist;
 }
 
+Q_INVOKABLE void Playlist::reload() {
+    beginResetModel();
+    m_playlist.clear();
+    auto medias = Storage::instance()->loadPlaylist(m_current);
+    m_playlist.append(medias);
+    endResetModel();
+}
+
 void Playlist::switchPlaylist(const QString& playlist) {
     m_current = playlist;
     m_playlist.clear();
     auto medias = Storage::instance()->loadPlaylist(playlist);
     m_playlist.append(medias);
-    m_model->reload();
     emit currentChanged(m_current);
 }
 

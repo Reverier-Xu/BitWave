@@ -218,6 +218,9 @@ Rectangle {
             onClicked: {
                 queue.play(indexOfThisDelegate);
             }
+            onAddToPlaylistClicked: (i, n) => {
+                queue.addMediaIndexToPlaylist(i, n);
+            }
             onDeleteClicked: {
                 queue.removeMedia(indexOfThisDelegate);
             }

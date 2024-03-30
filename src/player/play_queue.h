@@ -114,6 +114,9 @@ class PlayQueue : public QObject {
 
     Q_INVOKABLE void addToPlaylist(const QString& playlist);
 
+    Q_INVOKABLE void addMediaIndexToPlaylist(const int index,
+                                            const QString& playlist);
+
    signals:
 
     void modeChanged(int mode);

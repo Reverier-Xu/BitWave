@@ -336,3 +336,10 @@ Q_INVOKABLE void PlayQueue::addToPlaylist(const QString& playlist) {
     auto media = current();
     Storage::instance()->linkMediaToPlaylist(media, playlist);
 }
+
+Q_INVOKABLE void PlayQueue::addMediaIndexToPlaylist(const int index,
+                                                    const QString& playlist) {
+    auto media = m_playlist->at(index);
+    Storage::instance()->linkMediaToPlaylist(media, playlist);
+    Playlist::instance()->reload();
+}
