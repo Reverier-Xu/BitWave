@@ -127,6 +127,7 @@ Rectangle {
 
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                 padding: 8
+                height: 52
                 x: (parent.width - width) / 2
                 y: parent.height
 
@@ -135,6 +136,7 @@ Rectangle {
 
                     TextBox {
                         id: playlistName
+                        height: 36
 
                         width: 200
                         placeholder: qsTr("Playlist name")
@@ -142,6 +144,7 @@ Rectangle {
 
                     Button {
                         text: qsTr("Create")
+                        height: 36
                         onClicked: {
                             if (playlistName.inputText) {
                                 playlist.addPlaylist(playlistName.inputText);
