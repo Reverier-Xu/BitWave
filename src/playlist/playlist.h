@@ -82,6 +82,7 @@ class Playlist : public QAbstractListModel {
 
     Q_INVOKABLE void removeMediaFromPlaylist(const Media& media,
                                              const QString& playlist);
+    Q_INVOKABLE void removeMediaIndex(const int index);
 
     Q_INVOKABLE void sortByTitle();
 

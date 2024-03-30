@@ -185,6 +185,9 @@ void Storage::linkMediaToPlaylist(const Media& media, const QString& playlist) {
     query.bindValue(":url", media.url());
     if (!query.exec()) {
         qDebug() << query.lastError();
+        if (query.lastError().nativeErrorCode() == "1555") {
+            return;
+        }
         throw std::runtime_error("Failed to link media to playlist");
     }
     m_libraryDb.commit();

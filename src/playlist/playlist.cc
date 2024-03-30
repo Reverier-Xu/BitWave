@@ -140,6 +140,11 @@ void Playlist::removeMediaFromPlaylist(const Media& media,
     }
 }
 
+Q_INVOKABLE void Playlist::removeMediaIndex(const int index) {
+    auto media = m_playlist.at(index);
+    removeMediaFromPlaylist(media, m_current);
+}
+
 Q_INVOKABLE void Playlist::sortByTitle() {
     if (sortStatus() == TitleAsc)
         setSortStatus(TitleDesc);

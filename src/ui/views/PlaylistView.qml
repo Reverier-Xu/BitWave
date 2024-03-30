@@ -236,12 +236,15 @@ Rectangle {
             album: mediaAlbum
             time: mediaTime
             playing: false
-            canDelete: false
+            canDelete: true
             onClicked: {
                 queue.loadFromPlaylist(indexOfThisDelegate);
             }
             onAddToPlaylistClicked: (i, n) => {
                 playlist.addMediaIndexToPlaylist(i, n);
+            }
+            onDeleteClicked: (i) => {
+                playlist.removeMediaIndex(i);
             }
         }
 
