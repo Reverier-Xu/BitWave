@@ -18,7 +18,7 @@ yay -S bitwave-git
 - [ ] Play online media files
 - [x] Media metadata
 - [x] Music lyrics
-- [ ] Library and playlist management
+- [x] Library and playlist management
 - [ ] Various fine-tuning and control of the player
 
 ## Preview
