@@ -1,7 +1,7 @@
+import Qt.labs.platform
 import QtQuick
 import QtQuick.Controls
 import RxUI
-import Qt.labs.platform
 
 Rectangle {
     id: view
@@ -55,16 +55,16 @@ Rectangle {
                     text: qsTr("Language")
                     verticalAlignment: Text.AlignVCenter
                 }
+
                 ComboBox {
                     id: languageComboBox
 
                     anchors.right: parent.right
                     currentIndex: {
-                        if (ui.language === "en_US") {
+                        if (ui.language === "en_US")
                             return 0;
-                        } else if (ui.language === "zh_CN") {
+                        else if (ui.language === "zh_CN")
                             return 1;
-                        }
                     }
                     flat: true
                     model: [{
@@ -76,11 +76,11 @@ Rectangle {
                     }]
                     textRole: "text"
                     valueRole: "value"
-
                     onActivated: {
                         ui.language = languageComboBox.currentValue;
                     }
                 }
+
                 Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
@@ -88,7 +88,9 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
+
             }
+
             Rectangle {
                 color: "transparent"
                 height: 36
@@ -101,16 +103,16 @@ Rectangle {
                     text: qsTr("Color Theme")
                     verticalAlignment: Text.AlignVCenter
                 }
+
                 ComboBox {
                     id: themeComboBox
 
                     anchors.right: parent.right
                     currentIndex: {
-                        if (Style.isDark) {
+                        if (Style.isDark)
                             return 1;
-                        } else {
+                        else
                             return 0;
-                        }
                     }
                     flat: true
                     model: [{
@@ -122,7 +124,6 @@ Rectangle {
                     }]
                     textRole: "text"
                     valueRole: "value"
-
                     onActivated: {
                         Style.isDark = themeComboBox.currentValue;
                         ui.colorStyle = Style.isDark;
@@ -136,6 +137,7 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
+
             }
 
             Rectangle {
@@ -150,16 +152,16 @@ Rectangle {
                     text: qsTr("System tray theme")
                     verticalAlignment: Text.AlignVCenter
                 }
+
                 ComboBox {
                     id: trayThemeComboBox
 
                     anchors.right: parent.right
                     currentIndex: {
-                        if (ui.flatSystemTray) {
+                        if (ui.flatSystemTray)
                             return 1;
-                        } else {
+                        else
                             return 0;
-                        }
                     }
                     flat: true
                     model: [{
@@ -171,7 +173,6 @@ Rectangle {
                     }]
                     textRole: "text"
                     valueRole: "value"
-
                     onActivated: {
                         ui.flatSystemTray = trayThemeComboBox.currentValue;
                     }
@@ -184,6 +185,7 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
+
             }
 
             Rectangle {
@@ -222,9 +224,8 @@ Rectangle {
                     icon.source: "qrc:/qt/qml/RxUI/assets/add.svg"
                     display: AbstractButton.TextBesideIcon
                     flat: true
-
                     onClicked: {
-                        mediaFolderDialog.open()
+                        mediaFolderDialog.open();
                     }
                 }
 
@@ -234,6 +235,7 @@ Rectangle {
                     anchors.topMargin: 36
                     anchors.right: parent.right
                     anchors.left: parent.left
+                    model: library.folders
 
                     delegate: Rectangle {
                         color: "transparent"
@@ -268,14 +270,13 @@ Rectangle {
                             icon.height: 16
                             icon.width: 16
                             flat: true
-
                             onClicked: {
                                 library.removeFolderPath(modelData);
                             }
                         }
+
                     }
 
-                    model: library.folders
                 }
 
                 Rectangle {
@@ -285,12 +286,16 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
+
             }
+
         }
+
     }
 
     FolderDialog {
         id: mediaFolderDialog
+
         title: qsTr("Open Media Folder")
         folder: StandardPaths.writableLocation(StandardPaths.MusicLocation)
         options: FolderDialog.ShowDirsOnly | FolderDialog.DontResolveSymlinks
@@ -298,4 +303,5 @@ Rectangle {
             library.addFolderPath(folder);
         }
     }
+
 }

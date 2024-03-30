@@ -15,13 +15,6 @@ Rectangle {
     color: Color.transparent(Style.palette.window, 0.95)
     height: ui.hideControls ? 0 : 100
 
-    Behavior on height {
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.OutExpo
-        }
-    }
-
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
@@ -286,16 +279,9 @@ Rectangle {
                     visible: queueButton.hovered
                 }
 
-                Behavior on rotation {
-                    NumberAnimation {
-                        duration: 300
-                        easing.type: Easing.OutExpo
-                    }
-
-                }
-
                 Rectangle {
                     id: queueLoadingCover
+
                     color: Color.transparent(Style.palette.window, 0.8)
                     anchors.fill: parent
                     visible: queue.loading
@@ -303,8 +289,15 @@ Rectangle {
                     Loader {
                         anchors.centerIn: parent
                         radius: 8
-
                         running: queue.loading
+                    }
+
+                }
+
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutExpo
                     }
 
                 }
@@ -314,7 +307,6 @@ Rectangle {
         }
 
     }
-
 
     InteractiveProgressBar {
         id: progressBar
@@ -333,13 +325,22 @@ Rectangle {
 
     HoverHandler {
         onHoveredChanged: {
-            if (hovered) {
-                // console.log("control hovered");
+            // console.log("control hovered");
+            // console.log("control unhovered");
+
+            if (hovered)
                 ui.blockHideControls();
-            } else {
-                // console.log("control unhovered");
+            else
                 ui.autoHideControls();
-            }
         }
     }
+
+    Behavior on height {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+
+    }
+
 }

@@ -110,6 +110,10 @@ class PlayQueue : public QObject {
 
     Q_INVOKABLE void loadFromLibrary(int pos);
 
+    Q_INVOKABLE void loadFromPlaylist(int pos);
+
+    Q_INVOKABLE void addToPlaylist(const QString& playlist);
+
    signals:
 
     void modeChanged(int mode);

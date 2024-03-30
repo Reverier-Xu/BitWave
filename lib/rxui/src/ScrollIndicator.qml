@@ -14,12 +14,15 @@ T.ScrollIndicator {
         implicitWidth: 4
         radius: width > height ? height / 2 : width / 2
         opacity: control.active ? 1 : 0
-        visible: control.size < 1.0
+        visible: control.size < 1
 
-        Behavior on opacity  {
+        Behavior on opacity {
             NumberAnimation {
                 duration: 200
             }
+
         }
+
     }
+
 }

@@ -11,7 +11,9 @@ T.StackView {
             from: control.height
             to: 0
         }
+
     }
+
     popExit: Transition {
         YAnimator {
             duration: 400
@@ -19,7 +21,9 @@ T.StackView {
             from: control.height
             to: 0
         }
+
     }
+
     pushEnter: Transition {
         YAnimator {
             duration: 400
@@ -27,7 +31,9 @@ T.StackView {
             from: 0
             to: -control.height
         }
+
     }
+
     pushExit: Transition {
         YAnimator {
             duration: 400
@@ -35,5 +41,7 @@ T.StackView {
             from: 0
             to: -control.height
         }
+
     }
+
 }

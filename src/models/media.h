@@ -17,6 +17,15 @@
 
 enum MediaType { MUSIC = 0, VIDEO, UNKNOWN };
 
+enum SortStatus {
+    TitleAsc = 0,
+    TitleDesc,
+    ArtistsAsc,
+    ArtistsDesc,
+    AlbumAsc,
+    AlbumDesc,
+};
+
 // enum MediaFormat {
 //     // popular audio formats
 //     MP3, FLAC, WAV, APE, OGG, AAC, M4A, WMA, OPUS,

@@ -51,7 +51,6 @@ set(
 set(
     PLAYLIST_SRCS
     playlist/playlist.cc
-    playlist/interface.h
 )
 
 set(

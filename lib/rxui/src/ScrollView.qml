@@ -15,6 +15,7 @@ T.ScrollView {
         x: control.leftPadding
         y: control.height - height
     }
+
     ScrollBar.vertical: ScrollBar {
         active: control.ScrollBar.horizontal.active
         height: control.availableHeight
@@ -22,4 +23,5 @@ T.ScrollView {
         x: control.mirrored ? 0 : control.width - width
         y: control.topPadding
     }
+
 }

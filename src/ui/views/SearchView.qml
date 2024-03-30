@@ -4,6 +4,7 @@ import RxUI
 
 Rectangle {
     id: view
+
     color: Style.palette.window
 
     ScrollView {
@@ -24,6 +25,9 @@ Rectangle {
                 text: qsTr("Search Results")
                 verticalAlignment: Text.AlignVCenter
             }
+
         }
+
     }
+
 }

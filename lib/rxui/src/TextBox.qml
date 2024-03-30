@@ -16,14 +16,14 @@ Rectangle {
     property color normalColor: "transparent"
     property string placeholder: ""
 
-    signal enterPressed
-    signal escPressed
-    signal inputActive
+    signal enterPressed()
+    signal escPressed()
+    signal inputActive()
     signal inputEdited(string input)
     signal inputFinished(string input)
-    signal inputInactive
-    signal inputRejected
-    signal tabPressed
+    signal inputInactive()
+    signal inputRejected()
+    signal tabPressed()
 
     function setInputFocus() {
         inputTextBox.forceActiveFocus();
@@ -33,7 +33,6 @@ Rectangle {
     clip: true
     implicitHeight: 36
     state: "Normal"
-
     states: [
         State {
             name: "Hovering"
@@ -43,6 +42,7 @@ Rectangle {
                 color: hoverColor
                 target: root
             }
+
         },
         State {
             name: "Normal"
@@ -52,6 +52,7 @@ Rectangle {
                 color: normalColor
                 target: root
             }
+
         },
         State {
             name: "Focus"
@@ -61,9 +62,9 @@ Rectangle {
                 color: focusColor
                 target: root
             }
+
         }
     ]
-
     //define transmission for the states
     transitions: [
         Transition {
@@ -73,6 +74,7 @@ Rectangle {
             ColorAnimation {
                 duration: 150
             }
+
         },
         Transition {
             from: "*"
@@ -81,6 +83,7 @@ Rectangle {
             ColorAnimation {
                 duration: 150
             }
+
         },
         Transition {
             from: "*"
@@ -89,6 +92,7 @@ Rectangle {
             ColorAnimation {
                 duration: 200
             }
+
         }
     ]
 
@@ -113,74 +117,13 @@ Rectangle {
         text: inputText
         verticalAlignment: Text.AlignVCenter
         wrapMode: TextEdit.NoWrap
-
-        cursorDelegate: Rectangle {
-            id: cursorDelegate
-
-            color: Color.transparent(Style.palette.buttonText, 0.6)
-            width: 2
-
-            Connections {
-                function onActiveFocusChanged() {
-                    if (target.activeFocus) {
-                        cursorAnimation.start();
-                    } else {
-                        cursorAnimation.stop();
-                    }
-                }
-                function onCursorPositionChanged() {
-                    if (target.activeFocus) {
-                        cursorAnimation.restart();
-                    }
-                }
-
-                target: inputTextBox
-            }
-            SequentialAnimation {
-                id: cursorAnimation
-
-                loops: SequentialAnimation.Infinite
-                running: false
-
-                onStarted: {
-                    cursorDelegate.visible = true;
-                }
-                onStopped: {
-                    cursorDelegate.visible = false;
-                }
-
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.OutCurve
-                    from: 1
-                    property: "opacity"
-                    target: cursorDelegate
-                    to: 0
-                }
-                PauseAnimation {
-                    duration: 300
-                }
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.InCurve
-                    from: 0
-                    property: "opacity"
-                    target: cursorDelegate
-                    to: 1
-                }
-                PauseAnimation {
-                    duration: 300
-                }
-            }
-        }
-
-        Keys.onPressed: function (event) {
+        Keys.onPressed: function(event) {
             if (event.key === Qt.Key_Enter) {
                 root.enterPressed();
                 root.inputFinished(inputTextBox.text);
-            } else if (event.key === Qt.Key_Esc)
+            } else if (event.key === Qt.Key_Esc) {
                 root.escPressed();
-            else if (event.key === Qt.Key_Tab) {
+            } else if (event.key === Qt.Key_Tab) {
                 root.tabPressed();
                 root.inputText = root.placeholder;
             }
@@ -206,7 +149,6 @@ Rectangle {
             anchors.fill: parent
             cursorShape: Qt.IBeamCursor
             hoverEnabled: true
-
             onClicked: {
                 contentMenu.popup();
             }
@@ -217,30 +159,98 @@ Rectangle {
                 MenuItem {
                     icon.source: "qrc:/qt/qml/RxUI/assets/add-square-multiple.svg"
                     text: qsTr("Select All")
-
                     onTriggered: inputTextBox.selectAll()
                 }
+
                 MenuItem {
                     icon.source: "qrc:/qt/qml/RxUI/assets/cut-24.svg"
                     text: qsTr("Cut")
-
                     onTriggered: inputTextBox.cut()
                 }
+
                 MenuItem {
                     icon.source: "qrc:/qt/qml/RxUI/assets/copy.svg"
                     text: qsTr("Copy")
-
                     onTriggered: inputTextBox.copy()
                 }
+
                 MenuItem {
                     icon.source: "qrc:/qt/qml/RxUI/assets/clipboard-paste.svg"
                     text: qsTr("Paste")
-
                     onTriggered: inputTextBox.paste()
                 }
+
             }
+
         }
+
+        cursorDelegate: Rectangle {
+            id: cursorDelegate
+
+            color: Color.transparent(Style.palette.buttonText, 0.6)
+            width: 2
+
+            Connections {
+                function onActiveFocusChanged() {
+                    if (target.activeFocus)
+                        cursorAnimation.start();
+                    else
+                        cursorAnimation.stop();
+                }
+
+                function onCursorPositionChanged() {
+                    if (target.activeFocus)
+                        cursorAnimation.restart();
+
+                }
+
+                target: inputTextBox
+            }
+
+            SequentialAnimation {
+                id: cursorAnimation
+
+                loops: SequentialAnimation.Infinite
+                running: false
+                onStarted: {
+                    cursorDelegate.visible = true;
+                }
+                onStopped: {
+                    cursorDelegate.visible = false;
+                }
+
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.OutCurve
+                    from: 1
+                    property: "opacity"
+                    target: cursorDelegate
+                    to: 0
+                }
+
+                PauseAnimation {
+                    duration: 300
+                }
+
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.InCurve
+                    from: 0
+                    property: "opacity"
+                    target: cursorDelegate
+                    to: 1
+                }
+
+                PauseAnimation {
+                    duration: 300
+                }
+
+            }
+
+        }
+
     }
+
     Text {
         id: placeHolderText
 
@@ -254,6 +264,7 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         visible: inputTextBox.text === "" ? true : false
     }
+
     MouseArea {
         id: hoverArea
 
@@ -261,20 +272,22 @@ Rectangle {
         cursorShape: Qt.IBeamCursor
         hoverEnabled: parent.enabled
         propagateComposedEvents: true
-
-        onClicked: function (mouse) {
+        onClicked: function(mouse) {
             mouse.accepted = false;
         }
         onEntered: {
             if (!inputTextBox.activeFocus)
                 root.state = "Hovering";
+
         }
         onExited: {
             if (!inputTextBox.activeFocus)
                 root.state = "Normal";
+
         }
-        onPressed: function (mouse) {
+        onPressed: function(mouse) {
             mouse.accepted = false;
         }
     }
+
 }

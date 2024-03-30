@@ -11,26 +11,19 @@
 #pragma once
 
 #include <QObject>
+
 #include "models/media.h"
 #include "models/media_list.h"
 
-
-enum SortStatus {
-    TitleAsc = 0,
-    TitleDesc,
-    ArtistsAsc,
-    ArtistsDesc,
-    AlbumAsc,
-    AlbumDesc,
-};
-
 class Library : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(bool scanning READ scanning NOTIFY scanningChanged)
-    Q_PROPERTY(QStringList folders READ folders WRITE setFolders NOTIFY foldersChanged)
-    Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY sortStatusChanged)
+    Q_PROPERTY(
+        QStringList folders READ folders WRITE setFolders NOTIFY foldersChanged)
+    Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY
+                   sortStatusChanged)
 
    private:
     QVector<Media> m_musics{};
@@ -55,7 +48,6 @@ class Library : public QObject {
     ~Library() override;
 
    public:
-
     static Library* instance(QObject* parent = nullptr);
 
     void loadSettings();
@@ -99,6 +91,9 @@ class Library : public QObject {
     Q_INVOKABLE void sortByAlbum();
 
     Q_INVOKABLE const QVector<Media>& currentMedias();
+
+    Q_INVOKABLE void addMediaIndexToPlaylist(const int index,
+                                             const QString& playlist);
 
    signals:
 

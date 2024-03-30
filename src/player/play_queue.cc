@@ -15,6 +15,7 @@
 
 #include "library/library.h"
 #include "parser/parser.h"
+#include "playlist/playlist.h"
 #include "storage/storage.h"
 
 PlayQueue::PlayQueue(QObject* parent) : QObject(parent) {
@@ -104,7 +105,8 @@ void PlayQueue::addMedia(const Media& media) {
         m_playlist->insert(cursor() + 1, media);
         m_model->insertMedia(cursor() + 1);
     }
-    // qDebug() << "after addMedia" << m_playlist->length() << m_playlist->first().title();
+    // qDebug() << "after addMedia" << m_playlist->length() <<
+    // m_playlist->first().title();
     m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos,
                                           (int)m_playlist->size());
 }
@@ -295,7 +297,8 @@ void PlayQueue::saveStorage() {
             // database operation is slow, read the playlist with const
             // reference may cause crash.
             auto storedPlaylist = *m_playlist;
-            // qDebug() << "in saveStorage" << m_playlist->length() << m_playlist->first().title();
+            // qDebug() << "in saveStorage" << m_playlist->length() <<
+            // m_playlist->first().title();
             Storage::instance()->storePlayQueue(storedPlaylist);
         } catch (std::runtime_error& e) {
             // ...
@@ -320,4 +323,16 @@ void PlayQueue::loadFromLibrary(int pos) {
     loadPlaylist_(Library::instance()->currentMedias());
     play(pos);
     saveStorage();
+}
+
+void PlayQueue::loadFromPlaylist(int pos) {
+    m_playlist->clear();
+    loadPlaylist_(Playlist::instance()->currentMedias());
+    play(pos);
+    saveStorage();
+}
+
+Q_INVOKABLE void PlayQueue::addToPlaylist(const QString& playlist) {
+    auto media = current();
+    Storage::instance()->linkMediaToPlaylist(media, playlist);
 }

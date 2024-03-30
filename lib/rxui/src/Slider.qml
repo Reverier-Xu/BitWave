@@ -28,6 +28,7 @@ T.Slider {
             x: control.horizontal ? (control.position * (parent.width - 16) + 18) : (parent.width - width) / 2
             y: control.horizontal ? (parent.height - height) / 2 : 0
         }
+
         Rectangle {
             color: enabled ? Style.primary : Style.palette.dark
             height: !control.horizontal ? (control.position * (parent.height - 16) - 2) : hovered || pressed ? 4 : 2 // SliderTrackThemeHeight
@@ -36,7 +37,9 @@ T.Slider {
             x: control.horizontal ? 0 : (parent.width - width) / 2
             y: control.horizontal ? (parent.height - height) / 2 : ((control.position * parent.height - 16) + 18)
         }
+
     }
+
     handle: Rectangle {
         border.color: enabled ? Style.primary : Style.palette.dark
         border.width: 4
@@ -47,10 +50,13 @@ T.Slider {
         x: control.leftPadding + (control.horizontal ? control.position * (control.availableWidth - width) : (control.availableWidth - width) / 2)
         y: control.topPadding + (control.horizontal ? (control.availableHeight - height) / 2 : control.visualPosition * (control.availableHeight - height))
 
-        Behavior on color  {
+        Behavior on color {
             ColorAnimation {
                 duration: 200
             }
+
         }
+
     }
+
 }

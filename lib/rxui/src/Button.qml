@@ -1,7 +1,7 @@
 import QtQuick
-import QtQuick.Templates as T
 import QtQuick.Controls
 import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import RxUI
 
 T.Button {
@@ -23,12 +23,17 @@ T.Button {
     padding: 6
     spacing: 6
 
+    HoverHandler {
+        cursorShape: Qt.PointingHandCursor
+    }
+
     background: Rectangle {
         border.color: Style.palette.mid
         border.width: flat ? 0 : 1
         color: {
             if (!enabled)
                 return Style.palette.midlight;
+
             if (pressed)
                 return control.pressedColor;
             else if (hovered)
@@ -42,15 +47,18 @@ T.Button {
         implicitWidth: 36
         radius: control.radius
 
-        Behavior on color  {
+        Behavior on color {
             ColorAnimation {
                 duration: 120
             }
+
         }
+
     }
+
     contentItem: IconLabel {
         alignment: control.alignment
-        color: Color.transparent(Style.palette.buttonText, enabled ? 1.0 : 0.2)
+        color: Color.transparent(Style.palette.buttonText, enabled ? 1 : 0.2)
         display: control.display
         font: control.font
         icon: control.icon
@@ -60,7 +68,4 @@ T.Button {
         opacity: control.enabled ? 1 : 0.6
     }
 
-    HoverHandler {
-        cursorShape: Qt.PointingHandCursor
-    }
 }

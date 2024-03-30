@@ -52,7 +52,7 @@ class Storage : public QObject {
    public slots:
     Q_INVOKABLE void addMedia(const Media& media);
 
-    Q_INVOKABLE void addPlaylist(const QString& title, MediaType type);
+    Q_INVOKABLE void addPlaylist(const QString& title);
 
     Q_INVOKABLE void linkMediaToPlaylist(const Media& media, const QString& playlist);
 

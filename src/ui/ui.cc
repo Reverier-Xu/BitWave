@@ -18,6 +18,7 @@
 #include "lyrics/lyrics.h"
 #include "player/video_player.h"
 #include "library/library.h"
+#include "playlist/playlist.h"
 
 
 Ui* Ui::m_instance = nullptr;
@@ -74,6 +75,11 @@ void Ui::exportProperties() {
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
     m_engine->rootContext()->setContextProperty("library", Library::instance(this->parent()));
     m_engine->rootContext()->setContextProperty("libraryModel", Library::instance(this->parent())->model());
+    m_engine->rootContext()->setContextProperty(
+        "playlist", Playlist::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty(
+        "playlistModel", Playlist::instance(this->parent())->model());
+    
     m_engine->rootContext()->setContextProperty(
         "lyrics", Lyrics::instance(this->parent()));
     m_engine->rootContext()->setContextProperty(

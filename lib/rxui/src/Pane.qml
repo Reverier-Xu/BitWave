@@ -12,4 +12,5 @@ T.Pane {
     background: Rectangle {
         color: "transparent"
     }
+
 }

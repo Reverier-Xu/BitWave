@@ -14,6 +14,9 @@ Button {
     property bool playing
     property bool canDelete: true
 
+    signal addToPlaylistClicked(int index, string playlistName)
+    signal deleteClicked(int index)
+
     function getTimeString(displayTime) {
         let secs = Math.floor(displayTime);
         let minutes = Math.floor(secs / 60);
@@ -24,9 +27,6 @@ Button {
     flat: true
     implicitHeight: 36
     height: 36
-
-    signal addToPlaylistClicked(int index)
-    signal deleteClicked(int index)
 
     Label {
         id: idLabel
@@ -136,6 +136,9 @@ Button {
             display: AbstractButton.IconOnly
             flat: true
             icon.source: "qrc:/qt/qml/RxUI/assets/add.svg"
+            onClicked: {
+                playlistsPopup.open();
+            }
 
             ToolTip {
                 parent: addToButton
@@ -143,8 +146,76 @@ Button {
                 visible: addToButton.hovered
             }
 
-            onClicked: {
-                addToPlaylistClicked(control.mIndex);
+            Popup {
+                id: playlistsPopup
+
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                padding: 0
+                margins: 0
+                x: 0
+                y: parent.height
+                height: playlist.size * 40
+                width: 200
+
+                ListView {
+                    id: listView
+
+                    model: playlist
+                    anchors.fill: parent
+                    clip: true
+
+                    delegate: Button {
+                        text: name
+                        height: 40
+                        width: ListView.view.width
+                        flat: true
+                        alignment: Qt.AlignVCenter | Qt.AlignLeft
+                        display: AbstractButton.TextBesideIcon
+                        icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
+                        onClicked: {
+                            addToPlaylistClicked(control.mIndex, name);
+                            playlistsPopup.close();
+                        }
+                    }
+
+                }
+
+                enter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 120
+                    }
+
+                    NumberAnimation {
+                        property: "height"
+                        from: playlist.size * 20
+                        to: playlist.size * 40
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+
+                }
+
+                exit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 120
+                    }
+
+                    NumberAnimation {
+                        property: "height"
+                        from: playlist.size * 40
+                        to: playlist.size * 20
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+
+                }
+
             }
 
         }
@@ -159,15 +230,14 @@ Button {
             icon.source: "qrc:/qt/qml/RxUI/assets/delete.svg"
             icon.color: "#FF3333"
             visible: canDelete
+            onClicked: {
+                deleteClicked(control.mIndex);
+            }
 
             ToolTip {
                 parent: deleteButton
                 text: qsTr("Remove from play queue")
                 visible: deleteButton.hovered
-            }
-
-            onClicked: {
-                deleteClicked(control.mIndex);
             }
 
         }

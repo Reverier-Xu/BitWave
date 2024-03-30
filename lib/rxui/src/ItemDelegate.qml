@@ -1,13 +1,13 @@
 import QtQuick
-import QtQuick.Templates as T
 import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import RxUI
 
 T.ItemDelegate {
     id: control
 
     bottomPadding: padding + 1
-    icon.color: Color.transparent(Style.palette.buttonText, enabled ? 1.0 : 0.2)
+    icon.color: Color.transparent(Style.palette.buttonText, enabled ? 1 : 0.2)
     icon.height: 16
     icon.width: 16
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding, implicitIndicatorHeight + topPadding + bottomPadding)
@@ -21,12 +21,6 @@ T.ItemDelegate {
         implicitHeight: 36
         implicitWidth: 200
 
-        Behavior on color  {
-            ColorAnimation {
-                duration: 120
-            }
-        }
-
         Rectangle {
             color: Style.palette.highlight
             height: parent.height - 2
@@ -36,7 +30,16 @@ T.ItemDelegate {
             x: 1
             y: 1
         }
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 120
+            }
+
+        }
+
     }
+
     contentItem: IconLabel {
         readonly property real arrowPadding: control.subMenu && control.arrow ? control.arrow.width + control.spacing : 0
         readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
@@ -52,4 +55,5 @@ T.ItemDelegate {
         spacing: control.spacing
         text: control.text
     }
+
 }

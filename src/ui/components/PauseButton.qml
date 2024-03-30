@@ -34,15 +34,20 @@ Button {
         }
         radius: width / 2
 
-        Behavior on border.color  {
+        Behavior on border.color {
             ColorAnimation {
                 duration: 120
             }
+
         }
-        Behavior on color  {
+
+        Behavior on color {
             ColorAnimation {
                 duration: 120
             }
+
         }
+
     }
+
 }

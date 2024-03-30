@@ -20,20 +20,49 @@ T.ToolTip {
         border.width: 1
         color: Style.palette.toolTipBase
     }
+
     contentItem: Text {
         color: Style.palette.toolTipText
         font: control.font
-        opacity: enabled ? 1.0 : 0.2
+        opacity: enabled ? 1 : 0.2
         text: control.text
         wrapMode: Text.Wrap
     }
 
     enter: Transition {
-        NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 120 }
-        NumberAnimation { property: "height"; from: implicitHeight / 2; to: implicitHeight; duration: 300; easing.type: Easing.OutExpo }
+        NumberAnimation {
+            property: "opacity"
+            from: 0
+            to: 1
+            duration: 120
+        }
+
+        NumberAnimation {
+            property: "height"
+            from: implicitHeight / 2
+            to: implicitHeight
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+
     }
+
     exit: Transition {
-        NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 120 }
-        NumberAnimation { property: "height"; from: implicitHeight; to: implicitHeight / 2; duration: 300; easing.type: Easing.OutExpo }
+        NumberAnimation {
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: 120
+        }
+
+        NumberAnimation {
+            property: "height"
+            from: implicitHeight
+            to: implicitHeight / 2
+            duration: 300
+            easing.type: Easing.OutExpo
+        }
+
     }
+
 }
