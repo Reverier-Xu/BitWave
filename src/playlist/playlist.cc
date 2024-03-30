@@ -183,6 +183,7 @@ void Playlist::switchPlaylist(const QString& playlist) {
     m_playlist.clear();
     auto medias = Storage::instance()->loadPlaylist(playlist);
     m_playlist.append(medias);
+    m_model->reload();
     emit currentChanged(m_current);
 }
 

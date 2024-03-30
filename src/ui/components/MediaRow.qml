@@ -174,7 +174,6 @@ Button {
                         icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
                         onClicked: {
                             addToPlaylistClicked(control.mIndex, name);
-                            playlistsPopup.close();
                         }
                     }
 
