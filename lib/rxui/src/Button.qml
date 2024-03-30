@@ -12,6 +12,7 @@ T.Button {
     property color normalColor: Style.palette.button
     property color pressedColor: Style.palette.dark
     property int radius: 0
+    property color textColor: Color.transparent(Style.palette.buttonText, enabled ? 1 : 0.2)
 
     display: AbstractButton.TextOnly
     flat: false
@@ -58,7 +59,7 @@ T.Button {
 
     contentItem: IconLabel {
         alignment: control.alignment
-        color: Color.transparent(Style.palette.buttonText, enabled ? 1 : 0.2)
+        color: control.textColor
         display: control.display
         font: control.font
         icon: control.icon

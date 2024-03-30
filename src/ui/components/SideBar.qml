@@ -97,9 +97,19 @@ Rectangle {
         anchors.top: libraryTab.bottom
         anchors.topMargin: 4
         text: qsTr("Playlists")
+        textColor: Color.transparent(Style.palette.windowText, 0.6)
+
         icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
         hoverColor: "transparent"
         pressedColor: "transparent"
+
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 1
+            color: Color.transparent(Style.palette.windowText, 0.08)
+        }
 
         Button {
             anchors.right: parent.right
@@ -189,6 +199,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: playlistTitle.bottom
+        spacing: 4
         clip: true
         model: playlist
 
@@ -196,7 +207,6 @@ Rectangle {
         }
 
         delegate: ActiveTab {
-            anchors.topMargin: 4
             icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
             text: name
             width: ListView.view.width

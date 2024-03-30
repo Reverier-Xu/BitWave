@@ -13,6 +13,7 @@ Button {
     property int time
     property bool playing
     property bool canDelete: true
+    property bool playlistsOpened: false
 
     signal addToPlaylistClicked(int index, string playlistName)
     signal deleteClicked(int index)
@@ -137,7 +138,7 @@ Button {
             flat: true
             icon.source: "qrc:/qt/qml/RxUI/assets/add.svg"
             onClicked: {
-                playlistsPopup.open();
+                control.playlistsOpened = true;
             }
 
             ToolTip {
@@ -156,6 +157,7 @@ Button {
                 y: parent.height
                 height: playlist.size * 40
                 width: 200
+                visible: control.playlistsOpened
 
                 ListView {
                     id: listView
@@ -173,10 +175,10 @@ Button {
                         display: AbstractButton.TextBesideIcon
                         icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
                         onClicked: {
+                            control.playlistsOpened = false;
                             addToPlaylistClicked(control.mIndex, name);
                         }
                     }
-
                 }
 
                 enter: Transition {
