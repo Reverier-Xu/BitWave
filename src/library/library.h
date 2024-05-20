@@ -20,6 +20,8 @@ class Library : public QObject {
 
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(bool scanning READ scanning NOTIFY scanningChanged)
+    Q_PROPERTY(bool recursiveScanning READ recursiveScanning WRITE setRecursiveScanning
+                   NOTIFY recursiveScanningChanged)
     Q_PROPERTY(
         QStringList folders READ folders WRITE setFolders NOTIFY foldersChanged)
     Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY
@@ -37,6 +39,8 @@ class Library : public QObject {
     QString m_filter{};
 
     bool m_scanning = false;
+
+    bool m_recursiveScanning = false;
 
     SortStatus m_sortStatus = TitleAsc;
 
@@ -74,6 +78,10 @@ class Library : public QObject {
 
     void setSortStatus(SortStatus sortStatus);
 
+    [[nodiscard]] bool recursiveScanning() const;
+
+    void setRecursiveScanning(bool n);
+
    public slots:
 
     Q_INVOKABLE void load(const QString& route);
@@ -104,4 +112,6 @@ class Library : public QObject {
     void foldersChanged(const QStringList& folders);
 
     void sortStatusChanged(SortStatus sortStatus);
+
+    void recursiveScanningChanged(bool recursiveScanning);
 };

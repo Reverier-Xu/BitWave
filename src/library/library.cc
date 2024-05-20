@@ -70,11 +70,19 @@ void Library::scan() {
             if (!dir.exists()) {
                 continue;
             }
-            auto files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot |
-                                           QDir::NoSymLinks);
-            for (auto& file : files) {
-                if (Parser::accept(file.absoluteFilePath()))
-                    medias.append(file.absoluteFilePath());
+            // auto files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot |
+            //                                QDir::NoSymLinks);
+            // for (auto& file : files) {
+            //     if (Parser::accept(file.absoluteFilePath()))
+            //         medias.append(file.absoluteFilePath());
+            // }
+            QDirIterator it(path, QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks,
+                            recursiveScanning() ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags);
+            while (it.hasNext()) {
+                it.next();
+                auto fileInfo = it.fileInfo();
+                if (Parser::accept(fileInfo.absoluteFilePath()))
+                    medias.append(fileInfo.absoluteFilePath());
             }
         }
         // qDebug() << medias;
@@ -140,6 +148,7 @@ void Library::loadSettings() {
                     .value("Folders", QStandardPaths::standardLocations(
                                           QStandardPaths::MusicLocation))
                     .toStringList();
+    m_recursiveScanning = settings.value("RecursiveScanning", false).toBool();
     settings.endGroup();
 }
 
@@ -147,6 +156,7 @@ void Library::saveSettings() {
     QSettings settings;
     settings.beginGroup("Library");
     settings.setValue("Folders", m_folders);
+    settings.setValue("RecursiveScanning", m_recursiveScanning);
     settings.endGroup();
 }
 
@@ -177,6 +187,16 @@ void Library::setScanning(bool scanning) {
     }
     m_scanning = scanning;
     emit scanningChanged(m_scanning);
+}
+
+bool Library::recursiveScanning() const { return m_recursiveScanning; }
+
+void Library::setRecursiveScanning(bool n) {
+    if (m_recursiveScanning == n) {
+        return;
+    }
+    m_recursiveScanning = n;
+    emit recursiveScanningChanged(n);
 }
 
 QStringList Library::folders() const { return m_folders; }

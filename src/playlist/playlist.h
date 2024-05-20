@@ -22,8 +22,6 @@ class Playlist : public QAbstractListModel {
                    sortStatusChanged)
     Q_PROPERTY(
         QString current READ current WRITE setCurrent NOTIFY currentChanged)
-    Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY
-                   sortStatusChanged)
     Q_PROPERTY(qsizetype size READ size NOTIFY sizeChanged)
 
    private:

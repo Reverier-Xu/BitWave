@@ -1,6 +1,7 @@
 import Qt.labs.platform
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import RxUI
 
 Rectangle {
@@ -217,6 +218,23 @@ Rectangle {
                 }
 
                 Button {
+                    anchors.right: scanButton.left
+                    anchors.top: parent.top
+                    height: 36
+                    display: AbstractButton.TextBesideIcon
+                    icon.source: "qrc:/qt/qml/RxUI/assets/branch.svg"
+                    icon.color: library.recursiveScanning ? Style.primary : Style.palette.buttonText
+                    icon.height: 16
+                    icon.width: 16
+                    text: qsTr("Scan folder recursively")
+                    flat: true
+                    onClicked: {
+                        library.recursiveScanning = !library.recursiveScanning;
+                    }
+                }
+
+                Button {
+                    id: scanButton
                     anchors.right: parent.right
                     anchors.top: parent.top
                     height: 36
@@ -242,36 +260,33 @@ Rectangle {
                         height: 36
                         width: ListView.view.width
 
-                        Image {
-                            anchors.left: parent.left
+                        RowLayout {
+                            anchors.fill: parent
+                            spacing: 0
                             anchors.leftMargin: 16
-                            anchors.verticalCenter: parent.verticalCenter
-                            height: 16
-                            width: 16
-                            source: "qrc:/qt/qml/RxUI/assets/folder.svg"
-                        }
 
-                        Label {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 40
-                            anchors.top: parent.top
-                            height: 36
-                            text: modelData
-                            verticalAlignment: Text.AlignVCenter
-                        }
+                            Button {
+                                Layout.fillWidth: true
+                                alignment: Qt.AlignVCenter | Qt.AlignLeft
+                                display: AbstractButton.TextBesideIcon
+                                icon.source: "qrc:/qt/qml/RxUI/assets/folder.svg"
+                                icon.height: 16
+                                icon.width: 16
+                                text: modelData
+                                flat: true
+                            }
 
-                        Button {
-                            anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            height: 36
-                            width: 36
-                            display: AbstractButton.IconOnly
-                            icon.source: "qrc:/qt/qml/RxUI/assets/dismiss.svg"
-                            icon.height: 16
-                            icon.width: 16
-                            flat: true
-                            onClicked: {
-                                library.removeFolderPath(modelData);
+                            Button {
+                                height: 36
+                                width: 36
+                                display: AbstractButton.IconOnly
+                                icon.source: "qrc:/qt/qml/RxUI/assets/dismiss.svg"
+                                icon.height: 16
+                                icon.width: 16
+                                flat: true
+                                onClicked: {
+                                    library.removeFolderPath(modelData);
+                                }
                             }
                         }
 

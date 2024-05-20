@@ -95,14 +95,14 @@
 <context>
     <name>MediaRow</name>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="145"/>
-        <location filename="../components/MediaRow.qml" line="145"/>
+        <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="146"/>
+        <location filename="../components/MediaRow.qml" line="146"/>
         <source>Add to playlist</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="239"/>
-        <location filename="../components/MediaRow.qml" line="239"/>
+        <location filename="../../../build/src/qml/BitWave/ui/components/MediaRow.qml" line="240"/>
+        <location filename="../components/MediaRow.qml" line="240"/>
         <source>Remove from play queue</source>
         <translation></translation>
     </message>
@@ -270,80 +270,86 @@
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="28"/>
-        <location filename="../views/SettingsView.qml" line="28"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="29"/>
+        <location filename="../views/SettingsView.qml" line="29"/>
         <source>Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="55"/>
-        <location filename="../views/SettingsView.qml" line="55"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="56"/>
+        <location filename="../views/SettingsView.qml" line="56"/>
         <source>Language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="103"/>
-        <location filename="../views/SettingsView.qml" line="103"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="104"/>
+        <location filename="../views/SettingsView.qml" line="104"/>
         <source>Color Theme</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="119"/>
-        <location filename="../views/SettingsView.qml" line="119"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="120"/>
+        <location filename="../views/SettingsView.qml" line="120"/>
         <source>Light</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="122"/>
-        <location filename="../views/SettingsView.qml" line="122"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="123"/>
+        <location filename="../views/SettingsView.qml" line="123"/>
         <source>Dark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="42"/>
-        <location filename="../views/SettingsView.qml" line="42"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="43"/>
+        <location filename="../views/SettingsView.qml" line="43"/>
         <source>Theme Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="152"/>
-        <location filename="../views/SettingsView.qml" line="152"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="153"/>
+        <location filename="../views/SettingsView.qml" line="153"/>
         <source>System tray theme</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="168"/>
-        <location filename="../views/SettingsView.qml" line="168"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="169"/>
+        <location filename="../views/SettingsView.qml" line="169"/>
         <source>Colorful</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="171"/>
-        <location filename="../views/SettingsView.qml" line="171"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="172"/>
+        <location filename="../views/SettingsView.qml" line="172"/>
         <source>Flat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="201"/>
-        <location filename="../views/SettingsView.qml" line="201"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="202"/>
+        <location filename="../views/SettingsView.qml" line="202"/>
         <source>Library Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="215"/>
-        <location filename="../views/SettingsView.qml" line="215"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="216"/>
+        <location filename="../views/SettingsView.qml" line="216"/>
         <source>Library Folders</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="223"/>
-        <location filename="../views/SettingsView.qml" line="223"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="229"/>
+        <location filename="../views/SettingsView.qml" line="229"/>
+        <source>Scan folder recursively</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="241"/>
+        <location filename="../views/SettingsView.qml" line="241"/>
         <source>Add</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="299"/>
-        <location filename="../views/SettingsView.qml" line="299"/>
+        <location filename="../../../build/src/qml/BitWave/ui/views/SettingsView.qml" line="314"/>
+        <location filename="../views/SettingsView.qml" line="314"/>
         <source>Open Media Folder</source>
         <translation></translation>
     </message>
@@ -369,20 +375,20 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="130"/>
-        <location filename="../components/SideBar.qml" line="130"/>
+        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="142"/>
+        <location filename="../components/SideBar.qml" line="142"/>
         <source>Playlist name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="134"/>
-        <location filename="../components/SideBar.qml" line="134"/>
+        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="146"/>
+        <location filename="../components/SideBar.qml" line="146"/>
         <source>Create</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="246"/>
-        <location filename="../components/SideBar.qml" line="246"/>
+        <location filename="../../../build/src/qml/BitWave/ui/components/SideBar.qml" line="260"/>
+        <location filename="../components/SideBar.qml" line="260"/>
         <source>Settings</source>
         <translation></translation>
     </message>
