@@ -48,16 +48,26 @@ const unsigned char NCM_DEC_PNG_HEADER[8] = {
 };
 
 QByteArray inline getDecryptedData(const QString &comment) {
-    QByteArray modifyData = comment.toLocal8Bit();
     QByteArray swapModifyData;
     QByteArray modifyOutData;
     QByteArray modifyDecryptData;
 
     QAESEncryption encryption(QAESEncryption::AES_128, QAESEncryption::ECB);
 
-    if (!comment.startsWith("163 key(Don't modify):")) {
+    auto comments = comment.split(';');
+    QString keyComment;
+
+    for (auto &c : comments) {
+        if (c.startsWith("163 key(Don't modify):")) {
+            keyComment = c;
+            break;
+        }
+    }
+
+    if (!keyComment.startsWith("163 key(Don't modify):")) {
         throw std::runtime_error("Netease 163 key comment not found.");
     }
+    QByteArray modifyData = keyComment.toLocal8Bit();
 
     swapModifyData = modifyData.right(modifyData.length() - 22);
 
