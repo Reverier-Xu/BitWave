@@ -33,6 +33,7 @@ Engine::Engine(QObject* parent) : QObject(parent) {
         throw std::runtime_error("could not initialize mpv context");
 
     // Request hardware decoding, maybe useful on some laptops.
+    setMpvProperty("vo", "libmpv");
     setMpvProperty("hwdec", "auto");
 
     mpv_observe_property(m_mpvHandle, 0, "duration", MPV_FORMAT_DOUBLE);
