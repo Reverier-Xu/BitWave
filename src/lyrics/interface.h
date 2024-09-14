@@ -7,17 +7,17 @@
 
 typedef struct Lyric {
     QString content;
-    QString translation;  // optional
+    QString translation;    // optional
     double time;
 } Lyric;
 
 class ILyrics : public QObject {
     Q_OBJECT
     Q_PROPERTY(qint64 taskId READ taskId WRITE setTaskId NOTIFY taskIdChanged)
-   private:
+  private:
     qint64 m_taskId;
 
-   public:
+  public:
     explicit ILyrics(QObject* parent = nullptr) : QObject(parent) {}
 
     virtual ~ILyrics() = default;
@@ -38,7 +38,7 @@ class ILyrics : public QObject {
         emit taskIdChanged(m_taskId);
     }
 
-   signals:
+  signals:
     void lyricsFetched(QString lyrics, QString translation = "");
 
     void taskIdChanged(qint64 taskId);

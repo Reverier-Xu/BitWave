@@ -15,10 +15,10 @@
 #include <QApplication>
 #include <QQmlContext>
 
+#include "library/library.h"
 #include "lyrics/lyrics.h"
 #include "player/video_player.h"
-#include "library/library.h"
-
+#include "playlist/playlist.h"
 
 Ui* Ui::m_instance = nullptr;
 
@@ -48,26 +48,33 @@ Ui* Ui::instance(QObject* parent) {
     return m_instance;
 }
 
-void Ui::onSecondaryInstanceStarted() {
-    emit m_uiConfig->raiseWindowRequested();
+Q_INVOKABLE void Ui::requestQuit() {
+    Player::instance(this->parent())->saveSettings();
+    Player::instance(this->parent())->queue()->saveSettings();
+    Library::instance(this->parent())->saveSettings();
+
+    QApplication::quit();
 }
 
+void Ui::onSecondaryInstanceStarted() { emit m_uiConfig->raiseWindowRequested(); }
+
 void Ui::exportProperties() {
-    m_engine->rootContext()->setContextProperty(
-        "player", Player::instance(this->parent()));
-    m_engine->rootContext()->setContextProperty(
-        "queue", Player::instance(this->parent())->queue());
-    m_engine->rootContext()->setContextProperty(
-        "queueModel", Player::instance(this->parent())->queue()->model());
+    m_engine->rootContext()->setContextProperty("player", Player::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty("queue", Player::instance(this->parent())->queue());
+    m_engine->rootContext()->setContextProperty("queueModel", Player::instance(this->parent())->queue()->model());
+
+    m_engine->rootContext()->setContextProperty("app", this);
     m_engine->rootContext()->setContextProperty("ui", m_uiConfig);
     m_engine->rootContext()->setContextProperty("router", m_router);
     m_engine->rootContext()->setContextProperty("colorize", m_colorize);
     m_engine->rootContext()->setContextProperty("library", Library::instance(this->parent()));
     m_engine->rootContext()->setContextProperty("libraryModel", Library::instance(this->parent())->model());
-    m_engine->rootContext()->setContextProperty(
-        "lyrics", Lyrics::instance(this->parent()));
-    m_engine->rootContext()->setContextProperty(
-        "lyricsModel", Lyrics::instance(this->parent())->lyricsModel());
+    m_engine->rootContext()->setContextProperty("searchModel", Library::instance(this->parent())->searchModel());
+    m_engine->rootContext()->setContextProperty("playlist", Playlist::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty("playlistModel", Playlist::instance(this->parent())->model());
+
+    m_engine->rootContext()->setContextProperty("lyrics", Lyrics::instance(this->parent()));
+    m_engine->rootContext()->setContextProperty("lyricsModel", Lyrics::instance(this->parent())->lyricsModel());
     qmlRegisterType<VideoPlayer>("RxUI.MediaWidgets", 1, 0, "VideoPlayer");
     //    qmlRegisterType<Media>("RxUI.Models", 1, 0, "Media");
 }
@@ -81,6 +88,5 @@ void Ui::createUi() {
 void Ui::connectSignals() {
     connect(Player::instance(this->parent()), &Player::coverChanged, this,
             [=](const QImage& image) { m_colorize->requestColorize(image); });
-    connect(m_uiConfig, &UiConfig::languageChanged, this,
-            [=]() { m_engine->retranslate(); });
+    connect(m_uiConfig, &UiConfig::languageChanged, this, [=]() { m_engine->retranslate(); });
 }

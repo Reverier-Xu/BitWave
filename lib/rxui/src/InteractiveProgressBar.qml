@@ -10,23 +10,12 @@ Rectangle {
     property bool onDragging: false
     property double totalValue: 1000
     property bool showHandle: true
-    clip: true
 
     signal endDragging(double finalTime)
     signal startDragging
 
+    clip: true
     color: "transparent"
-
-    Behavior on color {
-        ColorAnimation {
-            duration: 200
-        }
-    }
-    Behavior on lineHeight  {
-        NumberAnimation {
-            duration: 80
-        }
-    }
     states: [
         State {
             name: "Hovering"
@@ -35,6 +24,7 @@ Rectangle {
                 pointColor: Style.primary
                 target: currentProgressPoint
             }
+
             PropertyChanges {
                 lineHeight: 4
                 target: root
@@ -47,6 +37,7 @@ Rectangle {
                 pointColor: Style.palette.window
                 target: currentProgressPoint
             }
+
             PropertyChanges {
                 lineHeight: 2
                 target: root
@@ -58,10 +49,12 @@ Rectangle {
             PropertyChanges {
                 target: root
             }
+
             PropertyChanges {
                 pointColor: Style.primary
                 target: currentProgressPoint
             }
+
             PropertyChanges {
                 lineHeight: 4
                 target: root
@@ -79,6 +72,7 @@ Rectangle {
         height: root.lineHeight
         radius: root.showHandle ? height / 2 : 0
     }
+
     Rectangle {
         id: differPart
 
@@ -90,6 +84,7 @@ Rectangle {
         radius: root.showHandle ? height / 2 : 0
         visible: root.onDragging
     }
+
     Rectangle {
         id: unExplorePart
 
@@ -100,12 +95,14 @@ Rectangle {
         height: root.lineHeight
         radius: root.showHandle ? height / 2 : 0
     }
+
     Rectangle {
         id: currentProgressPoint
 
+        property color pointColor: Style.palette.window
+
         anchors.verticalCenter: parent.verticalCenter
         color: "transparent"
-        property color pointColor: Style.palette.window
         height: 16
         width: 24
         x: (root.width - 16) * (totalValue > 0 ? (currentValue / totalValue) : 0) - 4
@@ -139,7 +136,7 @@ Rectangle {
             visible: !root.showHandle
         }
 
-        Behavior on x  {
+        Behavior on x {
             NumberAnimation {
                 duration: 100
                 easing.type: Easing.OutQuad
@@ -165,13 +162,13 @@ Rectangle {
             color: Style.warning
         }
     }
+
     MouseArea {
         id: hoverArea
 
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-
         onEntered: {
             if (!pressed)
                 parent.state = "Hovering";
@@ -214,6 +211,18 @@ Rectangle {
                 parent.state = "Normal";
             root.onDragging = false;
             root.endDragging(root.dragValue);
+        }
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 200
+        }
+    }
+
+    Behavior on lineHeight {
+        NumberAnimation {
+            duration: 80
         }
     }
 }

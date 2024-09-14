@@ -5,11 +5,11 @@ import RxUI
 T.Label {
     id: control
 
+    property alias hovered: hoverHandler.hovered
+
     color: Style.palette.windowText
     linkColor: Style.palette.link
     elide: Text.ElideRight
-
-    property alias hovered: hoverHandler.hovered
 
     HoverHandler {
         id: hoverHandler

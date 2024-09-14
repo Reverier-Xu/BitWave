@@ -10,22 +10,21 @@
 
 #pragma once
 
+#include "models/media.h"
 #include <QObject>
 #include <QSqlDatabase>
-#include "models/media.h"
-
 
 class Storage : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
-   private:
+  private:
     QSqlDatabase m_libraryDb;
 
     QSqlDatabase m_queueDb;
 
     bool m_isValid = false;
 
-   protected:
+  protected:
     static Storage* m_instance;
 
     explicit Storage(QObject* parent = nullptr);
@@ -38,7 +37,7 @@ class Storage : public QObject {
 
     void createPlayQueue();
 
-   public:
+  public:
     static Storage* instance(QObject* parent = nullptr);
 
     QVector<Media> loadLibrary();
@@ -49,10 +48,12 @@ class Storage : public QObject {
 
     QVector<Media> loadPlaylist(const QString& playlist);
 
-   public slots:
+    QVector<Media> searchMedia(const QString& keyword);
+
+  public slots:
     Q_INVOKABLE void addMedia(const Media& media);
 
-    Q_INVOKABLE void addPlaylist(const QString& title, MediaType type);
+    Q_INVOKABLE void addPlaylist(const QString& title);
 
     Q_INVOKABLE void linkMediaToPlaylist(const Media& media, const QString& playlist);
 

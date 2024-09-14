@@ -1,10 +1,10 @@
+import "../components"
+import Qt.labs.platform as Platform
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import RxUI
 import RxUI.MediaWidgets
-import Qt.labs.platform as Platform
-import "../components"
 
 Rectangle {
     id: view
@@ -17,7 +17,8 @@ Rectangle {
 
         Rectangle {
             id: videoTimeIndicator
-            color: Color.transparent(Style.palette.window, 0.60)
+
+            color: Color.transparent(Style.palette.window, 0.6)
             height: 36
             anchors.right: parent.right
             anchors.top: parent.top
@@ -26,25 +27,20 @@ Rectangle {
             radius: 4
             width: timeLabel.width + 32
 
-            Behavior on anchors.topMargin {
-                NumberAnimation {
-                    duration: 300
-                    easing.type: Easing.OutExpo
-                }
-            }
-
             Label {
                 id: timeLabel
-                anchors.centerIn: parent
-                font.pixelSize: 24
-                font.bold: true
 
                 function currentDateTime() {
                     return Qt.formatDateTime(new Date(), "hh:mm");
                 }
 
+                anchors.centerIn: parent
+                font.pixelSize: 24
+                font.bold: true
+
                 Timer {
                     id: timeLabelTimer
+
                     interval: 3
                     repeat: true
                     running: true
@@ -53,34 +49,39 @@ Rectangle {
                     }
                 }
             }
+
+            Behavior on anchors.topMargin {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
         }
 
         Rectangle {
             id: videoPlayerLoaderContainer
+
             anchors.fill: parent
             color: Style.palette.mid
             opacity: player.loading ? 1 : 0
 
             MouseArea {
                 id: pauseArea
+
                 enabled: player.media.type === 1
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: ui.hideControls ? Qt.BlankCursor : Qt.ArrowCursor
-
                 onPositionChanged: {
                     ui.hideControls = false;
                     ui.autoHideControls();
                 }
-
                 onClicked: {
-                    if (player.playing) {
+                    if (player.playing)
                         player.pause();
-                    } else {
+                    else
                         player.resume();
-                    }
                 }
-
                 onDoubleClicked: {
                     if (window.visibility === Window.FullScreen) {
                         window.showNormal();
@@ -88,26 +89,25 @@ Rectangle {
                         window.showFullScreen();
                         ui.sideBarExpanded = false;
                     }
-
-                    if (player.playing) {
+                    if (player.playing)
                         player.pause();
-                    } else {
+                    else
                         player.resume();
-                    }
                 }
+            }
+
+            Loader {
+                id: videoLoader
+
+                radius: 64
+                anchors.centerIn: parent
+                running: player.loading
             }
 
             Behavior on opacity {
                 NumberAnimation {
                     duration: 200
                 }
-            }
-
-            Loader {
-                id: videoLoader
-                radius: 64
-                anchors.centerIn: parent
-                running: player.loading
             }
         }
     }
@@ -137,12 +137,6 @@ Rectangle {
             radius: width / 2
             width: Math.min(parent.width / 3.5, (parent.height - 132) / 1.5)
 
-            Behavior on border.color {
-                ColorAnimation {
-                    duration: 300
-                }
-            }
-
             MouseArea {
                 id: mouseArea
 
@@ -150,7 +144,6 @@ Rectangle {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-
                 onClicked: {
                     contentMenu.popup();
                 }
@@ -161,21 +154,21 @@ Rectangle {
                     MenuItem {
                         icon.source: "qrc:/qt/qml/RxUI/assets/save.svg"
                         text: qsTr("Save Album Cover")
-
                         onTriggered: saveDialog.open()
                     }
                 }
             }
+
             Platform.FileDialog {
                 id: saveDialog
 
                 fileMode: Platform.FileDialog.SaveFile
                 title: qsTr("Save Album Cover")
-
                 onAccepted: {
                     player.saveMediaCover(file);
                 }
             }
+
             Image {
                 id: cover
 
@@ -188,6 +181,7 @@ Rectangle {
                 sourceSize: parent.size
                 visible: false
             }
+
             MultiEffect {
                 id: clippedCover
 
@@ -197,6 +191,17 @@ Rectangle {
                 maskSpreadAtMin: 1
                 maskThresholdMin: 0.5
                 source: cover
+
+                PropertyAnimation {
+                    duration: 30000
+                    from: 0
+                    loops: Animation.Infinite
+                    paused: !player.playing || (player.media.type === 1)
+                    property: "rotation"
+                    running: true
+                    target: clippedCover
+                    to: 360
+                }
 
                 maskSource: ShaderEffectSource {
                     height: cover.height
@@ -209,30 +214,13 @@ Rectangle {
                         width: cover.width
                     }
                 }
-
-                PropertyAnimation {
-                    duration: 30000
-                    from: 0
-                    loops: Animation.Infinite
-                    paused: !player.playing || (player.media.type === 1)
-                    property: "rotation"
-                    running: true
-                    target: clippedCover
-                    to: 360
-                }
             }
+
             Rectangle {
                 anchors.fill: parent
-                color: Color.transparent(Style.palette.window, 0.60)
+                color: Color.transparent(Style.palette.window, 0.6)
                 opacity: (player.loading || player.coverLoading) ? 1 : 0
                 radius: width / 2
-
-                Behavior on opacity  {
-                    NumberAnimation {
-                        duration: 300
-                        easing.type: Easing.OutExpo
-                    }
-                }
 
                 Loader {
                     id: loader
@@ -241,8 +229,101 @@ Rectangle {
                     radius: 32
                     running: player.loading || player.coverLoading
                 }
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                }
+            }
+
+            Button {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                display: AbstractButton.IconOnly
+                icon.source: "qrc:/qt/qml/RxUI/assets/heart.svg"
+                flat: true
+                onClicked: {
+                    playlistsPopup.open();
+                }
+
+                Popup {
+                    id: playlistsPopup
+
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    padding: 0
+                    margins: 0
+                    x: 0
+                    y: parent.height
+                    height: playlist.size * 40
+                    width: 200
+
+                    ListView {
+                        id: listView
+
+                        model: playlist
+                        anchors.fill: parent
+                        clip: true
+
+                        delegate: Button {
+                            text: name
+                            height: 40
+                            width: ListView.view.width
+                            flat: true
+                            alignment: Qt.AlignVCenter | Qt.AlignLeft
+                            display: AbstractButton.TextBesideIcon
+                            icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
+                            onClicked: {
+                                queue.addToPlaylist(name);
+                                playlistsPopup.close();
+                            }
+                        }
+                    }
+
+                    enter: Transition {
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 0
+                            to: 1
+                            duration: 120
+                        }
+
+                        NumberAnimation {
+                            property: "height"
+                            from: playlist.size * 20
+                            to: playlist.size * 40
+                            duration: 300
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+
+                    exit: Transition {
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 1
+                            to: 0
+                            duration: 120
+                        }
+
+                        NumberAnimation {
+                            property: "height"
+                            from: playlist.size * 40
+                            to: playlist.size * 20
+                            duration: 300
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+                }
+            }
+
+            Behavior on border.color {
+                ColorAnimation {
+                    duration: 300
+                }
             }
         }
+
         Rectangle {
             id: lyricBox
 
@@ -276,6 +357,7 @@ Rectangle {
                     y: 48
                 }
             }
+
             Label {
                 id: artistAndAlbum
 
@@ -295,6 +377,7 @@ Rectangle {
                     visible: artistAndAlbum.hovered
                 }
             }
+
             ListView {
                 id: lyricsContent
 
@@ -324,8 +407,8 @@ Rectangle {
                     }
                 }
 
-                ScrollBar.vertical: ScrollBar {
-                }
+                ScrollBar.vertical: ScrollBar {}
+
                 delegate: Lyric {
                     content: lyricsContent
                     isCurrent: lyrics.currentIndex === lyricsId
@@ -333,30 +416,33 @@ Rectangle {
                     seekTime: lyricsTime
                     width: ListView.view.width
                 }
+
                 footer: Item {
                     height: 64
                 }
+
                 header: Item {
                     height: 64
                 }
             }
+
             Rectangle {
                 anchors.fill: lyricsContent
                 anchors.leftMargin: 64
-                color: Color.transparent(Style.palette.window, 0.60)
+                color: Color.transparent(Style.palette.window, 0.6)
                 opacity: lyrics.loading ? 1 : 0
                 radius: width / 2
-
-                Behavior on opacity  {
-                    NumberAnimation {
-                        duration: 120
-                    }
-                }
 
                 Loader {
                     anchors.centerIn: parent
                     radius: 24
                     running: lyrics.loading
+                }
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 120
+                    }
                 }
             }
         }

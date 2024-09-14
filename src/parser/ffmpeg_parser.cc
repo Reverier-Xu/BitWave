@@ -17,12 +17,12 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 
-Media FfmpegParser::parse(const QString &path) {
+Media FfmpegParser::parse(const QString& path) {
     auto media = Media();
     media.setUrl(QUrl(path).toString());
-    AVFormatContext *ctx = nullptr;
-    AVDictionaryEntry *tag = nullptr;
-    AVDictionaryEntry *read_tag;
+    AVFormatContext* ctx = nullptr;
+    AVDictionaryEntry* tag = nullptr;
+    AVDictionaryEntry* read_tag;
     std::string raw_path = path.toStdString();
     //    qDebug() << "Parsing media: " << raw_path.c_str();
     int ret = avformat_open_input(&ctx, raw_path.c_str(), nullptr, nullptr);
@@ -43,14 +43,13 @@ Media FfmpegParser::parse(const QString &path) {
         media.setAlbum(read_tag->value);
     else
         media.setAlbum(QObject::tr("Unknown Album"));
-    read_tag =
-        av_dict_get(ctx->metadata, "comment", tag, AV_DICT_IGNORE_SUFFIX);
+    read_tag = av_dict_get(ctx->metadata, "comment", tag, AV_DICT_IGNORE_SUFFIX);
     if (read_tag)
         media.setComment(read_tag->value);
     else
         media.setComment("");
-    if ((read_tag = av_dict_get(ctx->metadata, "lyrics", tag, AV_DICT_IGNORE_SUFFIX)) or (read_tag = av_dict_get
-        (ctx->metadata, "LYRICS", tag, AV_DICT_IGNORE_SUFFIX))) {
+    if ((read_tag = av_dict_get(ctx->metadata, "lyrics", tag, AV_DICT_IGNORE_SUFFIX)) or
+        (read_tag = av_dict_get(ctx->metadata, "LYRICS", tag, AV_DICT_IGNORE_SUFFIX))) {
         media.setEmbeddedLyrics(read_tag->value);
     } else {
         media.setEmbeddedLyrics("");
@@ -77,10 +76,9 @@ Media FfmpegParser::parse(const QString &path) {
     return media;
 }
 
-QImage FfmpegParser::extractCover(const Media &src) {
-    AVFormatContext *ctx = nullptr;
-    int ret = avformat_open_input(&ctx, src.url().toStdString().c_str(),
-                                  nullptr, nullptr);
+QImage FfmpegParser::extractCover(const Media& src) {
+    AVFormatContext* ctx = nullptr;
+    int ret = avformat_open_input(&ctx, src.url().toStdString().c_str(), nullptr, nullptr);
     if (ret < 0) throw std::runtime_error("Failed to open media file.");
     if (avformat_find_stream_info(ctx, nullptr) < 0) {
         avformat_close_input(&ctx);
@@ -92,13 +90,13 @@ QImage FfmpegParser::extractCover(const Media &src) {
     if (!pkt.size) {
         throw std::runtime_error("Failed to read frame.");
     }
-    auto img = QImage::fromData((uchar *)pkt.data, pkt.size);
+    auto img = QImage::fromData((uchar*)pkt.data, pkt.size);
     // find the first attached picture, if any
     avformat_close_input(&ctx);
     return img;
 }
 
-bool FfmpegParser::accepted(const QString &path) {
+bool FfmpegParser::accepted(const QString& path) {
     auto fileInfo = QFileInfo(path);
     return m_supportedAudioFormats.contains(fileInfo.suffix().toLower()) ||
            m_supportedVideoFormats.contains(fileInfo.suffix().toLower());

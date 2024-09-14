@@ -1,6 +1,6 @@
 import QtQuick
-import QtQuick.Templates as T
 import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import RxUI
 
 T.MenuItem {
@@ -16,6 +16,10 @@ T.MenuItem {
     rightPadding: 12
     spacing: 12
 
+    HoverHandler {
+        cursorShape: Qt.PointingHandCursor
+    }
+
     arrow: ColorImage {
         color: !enabled ? Color.transparent(Style.palette.text, 0.4) : Style.palette.text
         mirror: control.mirrored
@@ -24,11 +28,9 @@ T.MenuItem {
         x: control.mirrored ? control.leftPadding : control.width - width - control.rightPadding
         y: control.topPadding + (control.availableHeight - height) / 2
     }
+
     background: Rectangle {
         color: !control.enabled ? Color.transparent(Style.palette.text, 0.2) : control.down ? Style.palette.dark : control.highlighted ? Style.palette.mid : "transparent"
-        Behavior on color {
-            ColorAnimation { duration: 120 }
-        }
         implicitHeight: 36
         implicitWidth: 200
 
@@ -41,7 +43,14 @@ T.MenuItem {
             x: 1
             y: 1
         }
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 120
+            }
+        }
     }
+
     contentItem: IconLabel {
         readonly property real arrowPadding: control.subMenu && control.arrow ? control.arrow.width + control.spacing : 0
         readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
@@ -57,15 +66,12 @@ T.MenuItem {
         spacing: control.spacing
         text: control.text
     }
+
     indicator: ColorImage {
         color: !control.enabled ? Color.transparent(Style.palette.text, 0.4) : control.down ? Style.palette.text : Style.palette.highlightText
         source: !control.checkable ? "" : "qrc:/qt/qml/RxUI/assets/checkmark.svg"
         visible: control.checked
         x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
         y: control.topPadding + (control.availableHeight - height) / 2
-    }
-
-    HoverHandler {
-        cursorShape: Qt.PointingHandCursor
     }
 }

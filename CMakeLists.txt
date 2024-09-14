@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(
     BitWave
-    DESCRIPTION "Simple media-player."
-    VERSION 2.0.0
+    DESCRIPTION "A simple media player that wrappers MPV."
+    VERSION 1.0.5
     LANGUAGES C CXX
 )
 
@@ -18,6 +18,7 @@ include(cmake/Summary.cmake)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Quick Gui QuickControls2 Widgets Network Sql OpenGL Concurrent)
 qt_standard_project_setup()

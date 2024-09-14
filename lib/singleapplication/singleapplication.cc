@@ -20,13 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <QtCore/QElapsedTimer>
 #include <QtCore/QByteArray>
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QSharedMemory>
 
 #include "singleapplication.h"
 #include "singleapplication_p.h"
-
 
 /**
  * @brief Constructor. Checks and fires up LocalServer or closes the program
@@ -37,11 +36,7 @@
  * @param options Optional flags to toggle specific behaviour
  * @param timeout Maximum time blocking functions are allowed during app load
  */
-SingleApplication::SingleApplication(int& argc,
-                                     char* argv[],
-                                     bool allowSecondary,
-                                     Options options,
-                                     int timeout,
+SingleApplication::SingleApplication(int& argc, char* argv[], bool allowSecondary, Options options, int timeout,
                                      const QString& userData)
     : app_t(argc, argv), d_ptr(new SingleApplicationPrivate(this)) {
     Q_D(SingleApplication);
@@ -57,8 +52,7 @@ SingleApplication::SingleApplication(int& argc,
     d->options = options;
 
     // Add any unique user data
-    if (!userData.isEmpty())
-        d->addAppData(userData);
+    if (!userData.isEmpty()) d->addAppData(userData);
 
     // Generating an application ID used for identifying the shared memory
     // block and QLocalServer
@@ -103,7 +97,7 @@ SingleApplication::SingleApplication(int& argc,
         }
     }
 
-    auto* inst = static_cast<InstancesInfo*>( d->memory->data());
+    auto* inst = static_cast<InstancesInfo*>(d->memory->data());
     QElapsedTimer time;
     time.start();
 
@@ -115,8 +109,8 @@ SingleApplication::SingleApplication(int& argc,
         // If more than 5s have elapsed, assume the primary instance crashed and
         // assume it's position
         if (time.elapsed() > 5000) {
-            qWarning()
-                << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
+            qWarning() << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5s. "
+                          "Assuming primary instance failure.";
             d->initializeMemoryBlock();
         }
 
@@ -226,9 +220,7 @@ QString SingleApplication::primaryUser() const {
  * Returns the username the current instance is running as.
  * @return Returns the username the current instance is running as.
  */
-QString SingleApplication::currentUser() const {
-    return SingleApplicationPrivate::getUsername();
-}
+QString SingleApplication::currentUser() const { return SingleApplicationPrivate::getUsername(); }
 
 /**
  * Sends message to the Primary Instance.
@@ -244,8 +236,7 @@ bool SingleApplication::sendMessage(const QByteArray& message, int timeout, Send
     if (isPrimary()) return false;
 
     // Make sure the socket is connected
-    if (!d->connectToPrimary(timeout, SingleApplicationPrivate::Reconnect))
-        return false;
+    if (!d->connectToPrimary(timeout, SingleApplicationPrivate::Reconnect)) return false;
 
     return d->writeConfirmedMessage(timeout, message, sendMode);
 }

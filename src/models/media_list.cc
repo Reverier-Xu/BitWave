@@ -10,14 +10,11 @@
 
 #include "media_list.h"
 
-
 MediaList::MediaList(QObject* parent) : QAbstractListModel(parent) {}
 
 MediaList::~MediaList() = default;
 
-int MediaList::rowCount(const QModelIndex& parent) const {
-    return (int)m_list->size();
-}
+int MediaList::rowCount(const QModelIndex& parent) const { return (int)m_list->size(); }
 
 QVariant MediaList::data(const QModelIndex& index, int role) const {
     if (!index.isValid()) {
@@ -29,18 +26,20 @@ QVariant MediaList::data(const QModelIndex& index, int role) const {
     }
 
     switch (role) {
-        case MediaTitleRole:
-            return m_list->at(index.row()).title();
-        case MediaTypeRole:
-            return m_list->at(index.row()).type();
-        case MediaArtistsRole:
-            return m_list->at(index.row()).artists();
-        case MediaAlbumRole:
-            return m_list->at(index.row()).album();
-        case MediaTimeRole:
-            return m_list->at(index.row()).time();
-        default:
-            return {};
+    case MediaTitleRole:
+        return m_list->at(index.row()).title();
+    case MediaTypeRole:
+        return m_list->at(index.row()).type();
+    case MediaArtistsRole:
+        return m_list->at(index.row()).artists();
+    case MediaAlbumRole:
+        return m_list->at(index.row()).album();
+    case MediaTimeRole:
+        return m_list->at(index.row()).time();
+    case MediaUrlRole:
+        return m_list->at(index.row()).url();
+    default:
+        return {};
     }
 }
 
@@ -51,6 +50,7 @@ QHash<int, QByteArray> MediaList::roleNames() const {
     roles[MediaArtistsRole] = "mediaArtists";
     roles[MediaAlbumRole] = "mediaAlbum";
     roles[MediaTimeRole] = "mediaTime";
+    roles[MediaUrlRole] = "mediaUrl";
     return roles;
 }
 

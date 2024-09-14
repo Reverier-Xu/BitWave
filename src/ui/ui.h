@@ -20,13 +20,13 @@
 class Ui : public QObject {
     Q_OBJECT
 
-   private:
+  private:
     QQmlApplicationEngine* m_engine;
     Colorize* m_colorize;
     Router* m_router;
     UiConfig* m_uiConfig;
 
-   protected:
+  protected:
     static Ui* m_instance;
 
     explicit Ui(QObject* parent = nullptr);
@@ -39,13 +39,15 @@ class Ui : public QObject {
 
     void createUi();
 
-   public:
+  public:
     void initialize();
 
     static Ui* instance(QObject* parent = nullptr);
 
     UiConfig* uiConfig() const { return m_uiConfig; }
 
-   public slots:
+  public slots:
     Q_INVOKABLE void onSecondaryInstanceStarted();
+
+    Q_INVOKABLE void requestQuit();
 };

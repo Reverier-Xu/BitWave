@@ -1,7 +1,7 @@
 import QtQuick
-import QtQuick.Window
 import QtQuick.Controls.impl
 import QtQuick.Templates as T
+import QtQuick.Window
 import RxUI
 
 T.ComboBox {
@@ -13,6 +13,10 @@ T.ComboBox {
     padding: 8
     rightPadding: padding + (control.mirrored || !indicator || !indicator.visible ? 0 : indicator.width + spacing)
 
+    HoverHandler {
+        cursorShape: Qt.PointingHandCursor
+    }
+
     background: Rectangle {
         border.color: control.enabled ? Style.palette.dark : Style.palette.mid
         border.width: control.flat ? 0 : 2 // ComboBoxBorderThemeThickness
@@ -21,6 +25,7 @@ T.ComboBox {
         implicitWidth: 120
         visible: !control.flat || control.pressed || control.hovered || control.visualFocus
     }
+
     contentItem: T.TextField {
         autoScroll: control.editable
         color: control.enabled ? Style.palette.buttonText : Style.palette.placeholderText
@@ -36,37 +41,39 @@ T.ComboBox {
         validator: control.validator
         verticalAlignment: Text.AlignVCenter
     }
+
     delegate: ItemDelegate {
         required property int index
 
         hoverEnabled: control.hoverEnabled
         implicitHeight: 36
-
         text: control.model[index][control.textRole]
         width: ListView.view.width
+
+        HoverHandler {
+            cursorShape: Qt.PointingHandCursor
+        }
 
         background: Rectangle {
             color: hovered ? Style.palette.mid : "transparent"
             implicitHeight: 36
             implicitWidth: 200
 
-            Behavior on color  {
+            Behavior on color {
                 ColorAnimation {
                     duration: 120
                 }
             }
         }
-
-        HoverHandler {
-            cursorShape: Qt.PointingHandCursor
-        }
     }
+
     indicator: ColorImage {
         color: control.enabled ? Style.palette.buttonText : Style.palette.mid
         source: "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
         x: control.mirrored ? control.padding : control.width - width - control.padding
         y: control.topPadding + (control.availableHeight - height) / 2
     }
+
     popup: T.Popup {
         bottomMargin: 8
         height: Math.min(contentItem.implicitHeight, control.Window.height - topMargin - bottomMargin)
@@ -81,6 +88,7 @@ T.ComboBox {
             border.width: 1
             color: Style.palette.toolTipBase
         }
+
         contentItem: ListView {
             clip: true
             currentIndex: control.currentIndex
@@ -88,16 +96,17 @@ T.ComboBox {
             interactive: Window.window ? contentHeight + control.topPadding + control.bottomPadding > Window.window.height : false
             model: control.delegateModel
 
-            ScrollIndicator.vertical: ScrollIndicator {
-            }
+            ScrollIndicator.vertical: ScrollIndicator {}
         }
+
         enter: Transition {
             NumberAnimation {
                 duration: 120
-                from: 0.0
+                from: 0
                 property: "opacity"
-                to: 1.0
+                to: 1
             }
+
             NumberAnimation {
                 duration: 300
                 easing.type: Easing.OutExpo
@@ -106,13 +115,15 @@ T.ComboBox {
                 to: control.popup.implicitHeight
             }
         }
+
         exit: Transition {
             NumberAnimation {
                 duration: 120
-                from: 1.0
+                from: 1
                 property: "opacity"
-                to: 0.0
+                to: 0
             }
+
             NumberAnimation {
                 duration: 300
                 easing.type: Easing.OutExpo
@@ -121,9 +132,5 @@ T.ComboBox {
                 to: control.popup.implicitHeight / 2
             }
         }
-    }
-
-    HoverHandler {
-        cursorShape: Qt.PointingHandCursor
     }
 }

@@ -13,6 +13,10 @@ Button {
     property int time
     property bool playing
     property bool canDelete: true
+    property bool playlistsOpened: false
+
+    signal addToPlaylistClicked(int index, string playlistName)
+    signal deleteClicked(int index)
 
     function getTimeString(displayTime) {
         let secs = Math.floor(displayTime);
@@ -24,9 +28,6 @@ Button {
     flat: true
     implicitHeight: 36
     height: 36
-
-    signal addToPlaylistClicked(int index)
-    signal deleteClicked(int index)
 
     Label {
         id: idLabel
@@ -136,6 +137,9 @@ Button {
             display: AbstractButton.IconOnly
             flat: true
             icon.source: "qrc:/qt/qml/RxUI/assets/add.svg"
+            onClicked: {
+                control.playlistsOpened = true;
+            }
 
             ToolTip {
                 parent: addToButton
@@ -143,10 +147,74 @@ Button {
                 visible: addToButton.hovered
             }
 
-            onClicked: {
-                addToPlaylistClicked(control.mIndex);
-            }
+            Popup {
+                id: playlistsPopup
 
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                padding: 0
+                margins: 0
+                x: 0
+                y: parent.height
+                height: playlist.size * 40
+                width: 200
+                visible: control.playlistsOpened
+
+                ListView {
+                    id: listView
+
+                    model: playlist
+                    anchors.fill: parent
+                    clip: true
+
+                    delegate: Button {
+                        text: name
+                        height: 40
+                        width: ListView.view.width
+                        flat: true
+                        alignment: Qt.AlignVCenter | Qt.AlignLeft
+                        display: AbstractButton.TextBesideIcon
+                        icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
+                        onClicked: {
+                            control.playlistsOpened = false;
+                            addToPlaylistClicked(control.mIndex, name);
+                        }
+                    }
+                }
+
+                enter: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 120
+                    }
+
+                    NumberAnimation {
+                        property: "height"
+                        from: playlist.size * 20
+                        to: playlist.size * 40
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                }
+
+                exit: Transition {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 120
+                    }
+
+                    NumberAnimation {
+                        property: "height"
+                        from: playlist.size * 40
+                        to: playlist.size * 20
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                }
+            }
         }
 
         Button {
@@ -159,19 +227,15 @@ Button {
             icon.source: "qrc:/qt/qml/RxUI/assets/delete.svg"
             icon.color: "#FF3333"
             visible: canDelete
+            onClicked: {
+                deleteClicked(control.mIndex);
+            }
 
             ToolTip {
                 parent: deleteButton
                 text: qsTr("Remove from play queue")
                 visible: deleteButton.hovered
             }
-
-            onClicked: {
-                deleteClicked(control.mIndex);
-            }
-
         }
-
     }
-
 }

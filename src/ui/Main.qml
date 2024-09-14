@@ -1,11 +1,11 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-import QtQuick.Effects
-import QtQuick.Window
-import RxUI
 import "./components"
 import "./views"
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Effects
+import QtQuick.Layouts
+import QtQuick.Window
+import RxUI
 
 FramelessWindow {
     id: window
@@ -18,30 +18,26 @@ FramelessWindow {
     objectName: "mainWindow"
     visible: true
     width: 1200
-
-    Behavior on color {
-        ColorAnimation {
-            duration: 280
-        }
-    }
-
     Component.onCompleted: {
         setX(Screen.width / 2 - width / 2);
         setY(Screen.height / 2 - height / 2);
         Style.isDark = ui.colorStyle;
     }
-
-    SystemTray {
+    onVisibilityChanged: {
+        ui.fullscreen = (window.visibility === Window.FullScreen);
     }
+
+    SystemTray {}
 
     KeyTapEvent {
         id: spaceEvent
+
         customKey: "Space"
         onClicked: {
             if (player.playing)
-                player.pause()
+                player.pause();
             else
-                player.resume()
+                player.resume();
         }
         onDoubleClicked: {
             if (window.visibility === Window.FullScreen) {
@@ -55,16 +51,17 @@ FramelessWindow {
 
     KeyTapEvent {
         id: exitFullScreenEvent
+
         customKey: "Escape"
         onClicked: {
-            if (window.visibility === Window.FullScreen) {
+            if (window.visibility === Window.FullScreen)
                 window.showNormal();
-            }
         }
     }
 
     KeyTapEvent {
         id: nextEvent
+
         customKey: "End"
         onClicked: {
             queue.next();
@@ -73,6 +70,7 @@ FramelessWindow {
 
     KeyTapEvent {
         id: prevEvent
+
         customKey: "Home"
         onClicked: {
             queue.prev();
@@ -81,30 +79,34 @@ FramelessWindow {
 
     KeyTapEvent {
         id: exitAppEvent
+
         customKey: "Ctrl+Q"
         onClicked: {
-            Qt.exit(0);
+            app.requestQuit();
         }
     }
 
     KeyTapEvent {
         id: increaseTimeEvent
+
         customKey: "Right"
         onClicked: {
-            player.seek(player.currentTime + 3)
+            player.seek(player.currentTime + 3);
         }
     }
 
     KeyTapEvent {
         id: decreaseTimeEvent
+
         customKey: "Left"
         onClicked: {
-            player.seek(player.currentTime - 3)
+            player.seek(player.currentTime - 3);
         }
     }
 
     KeyTapEvent {
         id: increaseVolumeEvent
+
         customKey: "Up"
         onClicked: {
             player.toggleVolume(player.volume + 10);
@@ -113,6 +115,7 @@ FramelessWindow {
 
     KeyTapEvent {
         id: decreaseVolumeEvent
+
         customKey: "Down"
         onClicked: {
             player.toggleVolume(player.volume - 10);
@@ -152,48 +155,48 @@ FramelessWindow {
                 currentIndex: {
                     let rootRoute = router.currentRoute.split("/")[0];
                     switch (rootRoute) {
-                        case "player":
-                            return 0;
-                        case "search":
-                            return 1;
-                        case "explore":
-                            return 2;
-                        case "libraries":
-                            return 3;
-                        case "playlists":
-                            return 4;
-                        case "settings":
-                            return 5;
-                        default:
-                            return 0;
+                    case "player":
+                        return 0;
+                    case "search":
+                        return 1;
+                    case "explore":
+                        return 2;
+                    case "libraries":
+                        return 3;
+                    case "playlists":
+                        return 4;
+                    case "settings":
+                        return 5;
+                    default:
+                        return 0;
                     }
                 }
 
                 PlayerView {
                     id: playerView
-
                 }
+
                 SearchView {
                     id: searchView
-
                 }
+
                 ExploreView {
                     id: exploreView
-
                 }
+
                 LibraryView {
                     id: libraryView
-
                 }
+
                 PlaylistView {
                     id: playlistView
-
                 }
+
                 SettingsView {
                     id: settingsView
-
                 }
             }
+
             StackLayout {
                 id: bottomStack
 
@@ -203,18 +206,18 @@ FramelessWindow {
                 currentIndex: controlBar.queueVisible ? 0 : 1
                 height: ui.controlWidgetExpanded ? sideBar.height - titleBar.height - controlBar.height : 0
 
+                QueueWidget {}
+
+                OptionWidget {}
+
                 Behavior on height {
                     NumberAnimation {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
                 }
-
-                QueueWidget {
-                }
-                OptionWidget {
-                }
             }
+
             TitleBar {
                 id: titleBar
 
@@ -223,6 +226,7 @@ FramelessWindow {
                 anchors.top: sideBar.top
                 objectName: "titleBar"
             }
+
             ControlBar {
                 id: controlBar
 
@@ -232,8 +236,8 @@ FramelessWindow {
                 objectName: "controlBar"
             }
         }
-
     }
+
     Connections {
         function onRaiseWindowRequested() {
             window.show();
@@ -243,7 +247,10 @@ FramelessWindow {
 
         target: ui
     }
-    onVisibilityChanged: {
-        ui.fullscreen = (window.visibility === Window.FullScreen);
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 280
+        }
     }
 }

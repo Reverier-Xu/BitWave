@@ -5,6 +5,8 @@ import RxUI
 Button {
     id: control
 
+    property bool selected: false
+
     alignment: Qt.AlignVCenter | Qt.AlignLeft
     display: AbstractButton.TextBesideIcon
     flat: true
@@ -13,11 +15,11 @@ Button {
     leftPadding: 12
     rightPadding: 12
     spacing: 12
-    property bool selected: false
     font.bold: selected
 
     Rectangle {
         id: indicator
+
         anchors.verticalCenter: parent.verticalCenter
         radius: control.hovered ? 0 : width / 2
         width: 3

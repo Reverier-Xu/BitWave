@@ -1,6 +1,6 @@
 import QtQuick
-import QtQuick.Templates as T
 import QtQuick.Controls
+import QtQuick.Templates as T
 import RxUI
 
 T.Frame {

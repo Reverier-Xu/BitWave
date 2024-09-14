@@ -13,10 +13,10 @@
 #include "interface.h"
 
 class NcmParser : public IParser {
-   private:
+  private:
     QStringList m_supportedFormats = {"ncm"};
 
-   public:
+  public:
     bool accepted(const QString& path) override;
 
     Media parse(const QString& path) override;

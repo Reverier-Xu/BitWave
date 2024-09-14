@@ -12,9 +12,7 @@
 
 #include <QFileInfo>
 
-QString MpvCodec::decode(const Media& src) {
-  return src.url();
-}
+QString MpvCodec::decode(const Media& src) { return src.url(); }
 
 const QStringList& MpvCodec::supportedFormats() { return m_supportedFormats; }
 

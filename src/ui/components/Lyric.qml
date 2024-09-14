@@ -4,16 +4,18 @@ import RxUI
 
 Rectangle {
     id: control
+
     property string content: ""
     property string translation: ""
     property bool isCurrent: false
     property double seekTime: 0
-    color: "transparent"
 
+    color: "transparent"
     height: textItem.contentHeight + 16
 
     Button {
         id: timeIndicator
+
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
         width: 64
@@ -29,19 +31,20 @@ Rectangle {
             return minutes.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0');
         }
         opacity: hoverHandler.hovered ? 0.6 : 0
+        onClicked: {
+            player.seek(seekTime);
+        }
+
         Behavior on opacity {
             NumberAnimation {
                 duration: 200
             }
         }
-
-        onClicked: {
-            player.seek(seekTime);
-        }
     }
 
     Rectangle {
         id: background
+
         anchors.fill: textItem
         color: hoverHandler.hovered ? Style.palette.dark : "transparent"
         opacity: 0.3
@@ -50,6 +53,7 @@ Rectangle {
 
     TextEdit {
         id: textItem
+
         readOnly: true
         text: content + (translation.length > 0 ? "\n" + translation : "")
         font.bold: control.isCurrent
@@ -64,24 +68,17 @@ Rectangle {
         // font.bold: root.isActive
         color: Style.palette.text
         opacity: control.isCurrent ? 1 : 0.4
-
         selectByMouse: true
         selectedTextColor: Style.palette.text
         selectionColor: Color.transparent(Style.primary, 0.4)
 
-        Behavior on color {
-            ColorAnimation {
-                duration: 200
-            }
-        }
-
         MouseArea {
             id: mouseArea
+
             acceptedButtons: Qt.RightButton
             anchors.fill: parent
             cursorShape: Qt.IBeamCursor
             hoverEnabled: true
-
             onClicked: {
                 contentMenu.popup();
             }
@@ -92,13 +89,18 @@ Rectangle {
                 MenuItem {
                     icon.source: "qrc:/qt/qml/RxUI/assets/copy.svg"
                     text: qsTr("Copy")
-
                     onTriggered: {
                         textItem.selectAll();
                         textItem.copy();
                         textItem.select(0, 0);
                     }
                 }
+            }
+        }
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
             }
         }
     }

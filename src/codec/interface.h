@@ -7,7 +7,7 @@
 #include "models/media.h"
 
 class ICodec {
-   public:
+  public:
     virtual ~ICodec() = default;
     virtual const QStringList& supportedFormats() = 0;
     virtual bool accepted(const Media& src) = 0;

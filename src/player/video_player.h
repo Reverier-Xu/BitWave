@@ -24,27 +24,27 @@ class MpvRenderer;
 class VideoPlayer : public QQuickFramebufferObject {
     Q_OBJECT
 
-   public:
-    static void on_update(void *ctx);
+  public:
+    static void on_update(void* ctx);
 
-    explicit VideoPlayer(QQuickItem *parent = nullptr);
+    explicit VideoPlayer(QQuickItem* parent = nullptr);
 
     ~VideoPlayer() override;
 
-    [[nodiscard]] Renderer *createRenderer() const override;
+    [[nodiscard]] Renderer* createRenderer() const override;
 
-   public slots:
+  public slots:
 
     void doUpdate();
 
-   signals:
+  signals:
 
     void onUpdate();
 
-   private:
-    mpv_handle *mpv;
+  private:
+    mpv_handle* mpv;
 
-    mpv_render_context *mpv_gl;
+    mpv_render_context* mpv_gl;
 
     friend class MpvRenderer;
 };

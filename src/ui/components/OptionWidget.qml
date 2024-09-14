@@ -4,6 +4,7 @@ import RxUI
 
 Rectangle {
     id: control
+
     color: Color.transparent(Style.palette.window, 0.95)
 
     MouseArea {
@@ -16,6 +17,7 @@ Rectangle {
 
     Item {
         id: title
+
         height: 36
         anchors.top: parent.top
         anchors.topMargin: 16
@@ -33,12 +35,12 @@ Rectangle {
 
     ComboBox {
         id: deviceComboBox
+
         anchors.top: title.bottom
         anchors.topMargin: 16
         anchors.left: title.left
         anchors.right: parent.horizontalCenter
         anchors.rightMargin: 32
-
         currentIndex: {
             // player.audioDevice is name
             let index = player.audioDeviceList.findIndex(function (item) {
@@ -51,7 +53,6 @@ Rectangle {
         model: player.audioDeviceList
         textRole: "description"
         valueRole: "name"
-
         onActivated: {
             // console.log(deviceComboBox.currentValue.name);
             player.audioDevice = deviceComboBox.currentValue;

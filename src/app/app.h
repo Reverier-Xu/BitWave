@@ -19,22 +19,21 @@ class Ui;
 class App : public QObject {
     Q_OBJECT
 
-   private:
+  private:
     Ui* m_ui;
 
-   protected:
+  protected:
     static void registerTypes();
 
-   public:
+  public:
     explicit App(QObject* parent = nullptr);
 
     ~App() override;
 
     void initialize(const QString& file);
 
-   public slots:
-    Q_INVOKABLE void onSecondaryInstanceMessageReceived(
-        quint32 instanceId, const QByteArray& message);
+  public slots:
+    Q_INVOKABLE void onSecondaryInstanceMessageReceived(quint32 instanceId, const QByteArray& message);
 
     Q_INVOKABLE void onSecondaryInstanceStarted();
 };

@@ -23,11 +23,11 @@
 
 namespace mpris {
 
-const char *Mpris2::kMprisObjectPath = "/org/mpris/MediaPlayer2";
-const char *Mpris2::kServiceName = "org.mpris.MediaPlayer2.BitWave";
-const char *Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
+const char* Mpris2::kMprisObjectPath = "/org/mpris/MediaPlayer2";
+const char* Mpris2::kServiceName = "org.mpris.MediaPlayer2.BitWave";
+const char* Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
 
-Mpris2::Mpris2(QObject *parent) : QObject(parent) {
+Mpris2::Mpris2(QObject* parent) : QObject(parent) {
     new Mpris2Root(this);
     new Mpris2Player(this);
 
@@ -38,18 +38,12 @@ Mpris2::Mpris2(QObject *parent) : QObject(parent) {
     QDBusConnection::sessionBus().registerObject(kMprisObjectPath, this);
 
     connect(Player::instance(), &Player::coverPathChanged,
-            [=](const QString &n) {
-                MetadataLoaded(Player::instance()->media(), n);
-            });
-    connect(Player::instance(), &Player::volumeChanged, this,
-            &Mpris2::VolumeChanged);
-    connect(Player::instance(), &Player::userSeeked, this, [=](double n) {
-        emit Seeked((qlonglong)(floor(n)) * 1000 * 1000);
-    });
-    connect(Player::instance(), &Player::mediaChanged, this,
-            &Mpris2::CurrentSongChanged);
-    connect(Player::instance(), &Player::stateChanged, this,
-            &Mpris2::EngineStateChanged);
+            [=](const QString& n) { MetadataLoaded(Player::instance()->media(), n); });
+    connect(Player::instance(), &Player::volumeChanged, this, &Mpris2::VolumeChanged);
+    connect(Player::instance(), &Player::userSeeked, this,
+            [=](double n) { emit Seeked((qint64)(floor(n)) * 1000 * 1000); });
+    connect(Player::instance(), &Player::mediaChanged, this, &Mpris2::CurrentSongChanged);
+    connect(Player::instance(), &Player::stateChanged, this, &Mpris2::EngineStateChanged);
 }
 
 Mpris2::~Mpris2() {
@@ -60,14 +54,12 @@ Mpris2::~Mpris2() {
 
 void Mpris2::VolumeChanged() { EmitNotification("Volume"); }
 
-void Mpris2::EmitNotification(const QString &name, const QVariant &val) {
+void Mpris2::EmitNotification(const QString& name, const QVariant& val) {
     EmitNotification(name, val, "org.mpris.MediaPlayer2.Player");
 }
 
-void Mpris2::EmitNotification(const QString &name, const QVariant &val,
-                              const QString &mprisEntity) {
-    QDBusMessage msg = QDBusMessage::createSignal(
-        kMprisObjectPath, kFreedesktopPath, "PropertiesChanged");
+void Mpris2::EmitNotification(const QString& name, const QVariant& val, const QString& mprisEntity) {
+    QDBusMessage msg = QDBusMessage::createSignal(kMprisObjectPath, kFreedesktopPath, "PropertiesChanged");
     QVariantMap map;
     map.insert(name, val);
     //     qDebug() << "Name and Val to MPRIS2: " << name << val;
@@ -77,12 +69,14 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &val,
     QDBusConnection::sessionBus().send(msg);
 }
 
-void Mpris2::EmitNotification(const QString &name) {
+void Mpris2::EmitNotification(const QString& name) {
     QVariant value;
     if (name == "Metadata")
         value = Metadata();
     else if (name == "PlaybackStatus")
         value = PlaybackStatus();
+    else if (name == "LoopStatus")
+        value = LoopStatus();
     else if (name == "Volume")
         value = Volume();
     else if (name == "Position")
@@ -105,6 +99,8 @@ bool Mpris2::CanQuit() { return true; }
 
 bool Mpris2::CanRaise() { return true; }
 
+bool Mpris2::HasTrackList() { return false; }
+
 QString Mpris2::Identity() { return QApplication::applicationName(); }
 
 QString Mpris2::DesktopEntryAbsolutePath() {
@@ -112,18 +108,14 @@ QString Mpris2::DesktopEntryAbsolutePath() {
     xdg_data_dirs.append("/usr/local/share/");
     xdg_data_dirs.append("/usr/share/");
 
-    for (const QString &directory : xdg_data_dirs) {
-        QString path =
-            QString("%1/applications/%2.desktop")
-                .arg(directory, QApplication::applicationName().toLower());
+    for (const QString& directory : xdg_data_dirs) {
+        QString path = QString("%1/applications/%2.desktop").arg(directory, QApplication::applicationName().toLower());
         if (QFile::exists(path)) return path;
     }
     return QString();
 }
 
-QString Mpris2::DesktopEntry() {
-    return QApplication::applicationName().toLower();
-}
+QString Mpris2::DesktopEntry() { return QApplication::applicationName().toLower(); }
 
 QStringList Mpris2::SupportedUriSchemes() {
     static QStringList res = QStringList() << "file"
@@ -177,7 +169,7 @@ QVariantMap Mpris2::Metadata() const { return m_lastMetadata; }
 
 // We send Metadata change notification as soon as the process of
 // changing song starts...
-void Mpris2::CurrentSongChanged(const Media &song) {
+void Mpris2::CurrentSongChanged(const Media& song) {
     MetadataLoaded(song, "");
     EmitNotification("CanPlay", CanPlay());
     EmitNotification("CanPause", CanPause());
@@ -187,7 +179,7 @@ void Mpris2::CurrentSongChanged(const Media &song) {
 }
 
 // ... and we add the cover information later, when it's available.
-void Mpris2::MetadataLoaded(const Media &song, const QString &art_uri) {
+void Mpris2::MetadataLoaded(const Media& song, const QString& art_uri) {
     m_lastMetadata = QVariantMap();
 
     using mpris::AddMetadata;
@@ -196,8 +188,8 @@ void Mpris2::MetadataLoaded(const Media &song, const QString &art_uri) {
     AddMetadata("xesam:title", song.title(), &m_lastMetadata);
     AddMetadata("xesam:album", song.album(), &m_lastMetadata);
     AddMetadata("xesam:url", song.url(), &m_lastMetadata);
-    AddMetadata("mpris:length", song.time() * 1000000, &m_lastMetadata);
-    AddMetadata("mpris:trackid", "/org/mpris/MediaPlayer2/TrackList/NoTrack", &m_lastMetadata);
+    AddMetadata("mpris:length", (qint64)floor(song.time() * 1000000.0), &m_lastMetadata);
+    AddMetadata("mpris:trackid", QDBusObjectPath("/org/mpris/MediaPlayer2/TrackList/NoTrack"), &m_lastMetadata);
 
     if (!art_uri.isEmpty()) {
         AddMetadata("mpris:artUrl", art_uri, &m_lastMetadata);
@@ -210,8 +202,9 @@ double Mpris2::Volume() const { return Player::instance()->volume(); }
 
 void Mpris2::SetVolume(double value) { Player::instance()->setVolume(value); }
 
-qlonglong Mpris2::Position() const {
-    return qlonglong(Player::instance()->currentTime() * 1000 * 1000);
+qint64 Mpris2::Position() const {
+    // qDebug() << Player::instance()->currentTime() * 1000 * 1000;
+    return qint64(Player::instance()->currentTime() * 1000 * 1000);
 }
 
 double Mpris2::MaximumRate() { return 1.0; }
@@ -223,54 +216,69 @@ bool Mpris2::CanGoNext() { return true; }
 bool Mpris2::CanGoPrevious() { return true; }
 
 bool Mpris2::CanPlay() const {
-    return Player::instance()->valid() && !Player::instance()->playing();
+    // qDebug() << "CanPlay: " << (Player::instance()->valid() &&
+    // !Player::instance()->playing());
+    return Player::instance()->valid() && Player::instance()->queue()->queue()->length() > 0;
 }
 
 // This one's a bit different from MPRIS 1 - we want this to be true even when
 // the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-    return Player::instance()->valid() && Player::instance()->playing();
+    // qDebug() << "CanPause: " << (Player::instance()->valid() &&
+    // Player::instance()->playing());
+    return Player::instance()->valid() && Player::instance()->queue()->queue()->length() > 0 &&
+               Player::instance()->playing() ||
+           PlaybackStatus() == "Paused" || PlaybackStatus() == "Stopped";
 }
 
-bool Mpris2::CanSeek() const { return true; }
+bool Mpris2::CanSeek() const {
+    // qDebug() << "CanSeek";
+    return true;
+}
 
 bool Mpris2::CanControl() const { return true; }
 
-void Mpris2::Next() { Player::instance()->queue()->next(); }
+void Mpris2::Next() {
+    // qDebug() << "Next";
+    Player::instance()->queue()->next();
+}
 
-void Mpris2::Previous() { Player::instance()->queue()->prev(); }
+void Mpris2::Previous() {
+    // qDebug() << "Previous";
+    Player::instance()->queue()->prev();
+}
 
 void Mpris2::Pause() {
+    // qDebug() << "Pause";
     if (CanPause()) {
         Player::instance()->pause();
     }
 }
 
 void Mpris2::PlayPause() {
-    if (CanPause()) {
+    // qDebug() << "PlayPause";
+    if (Player::instance()->playing()) {
         Player::instance()->pause();
     } else if (CanPlay()) {
         Player::instance()->resume();
     }
 }
 
-void Mpris2::Stop() { Player::instance()->reset(); }
+void Mpris2::Stop() {
+    // qDebug() << "Stop";
+    Player::instance()->reset();
+}
 
 void Mpris2::Play() {
-    if (CanPlay()) {
-        Player::instance()->resume();
-    }
+    // qDebug() << "Play";
+    Player::instance()->resume();
 }
 
-void Mpris2::OpenUri(const QString &uri) {
-    Player::instance()->queue()->addMediaByUrl(uri);
-}
+void Mpris2::OpenUri(const QString& uri) { Player::instance()->queue()->addMediaByUrl(uri); }
 
 bool Mpris2::CanSetFullscreen() const { return false; }
 
-bool Mpris2::Fullscreen() const {
-    return Ui::instance()->uiConfig()->fullscreen();
-}
+bool Mpris2::Fullscreen() const { return Ui::instance()->uiConfig()->fullscreen(); }
 
 QString Mpris2::PlaybackStatus() const {
     if (Player::instance()->valid()) {
@@ -283,6 +291,8 @@ QString Mpris2::PlaybackStatus() const {
     }
 }
 
+QString Mpris2::LoopStatus() const { return "None"; }
+
 void Mpris2::EngineStateChanged() {
     //         qDebug() << "engine state changed";
     if (!Player::instance()->valid()) {
@@ -290,8 +300,7 @@ void Mpris2::EngineStateChanged() {
         EmitNotification("Metadata", m_lastMetadata);
     }
     if (m_lastMetadata.isEmpty() && Player::instance()->valid()) {
-        MetadataLoaded(Player::instance()->media(),
-                       Player::instance()->coverPath());
+        MetadataLoaded(Player::instance()->media(), Player::instance()->coverPath());
     }
     EmitNotification("PlaybackStatus", PlaybackStatus());
 
@@ -302,10 +311,8 @@ void Mpris2::EngineStateChanged() {
     EmitNotification("CanSeek", CanSeek());
 }
 
-void Mpris2::Seek(qlonglong offset) {
-    Player::instance()->seek((double)offset / 1000000.0);
-}
-void Mpris2::SetPosition(const QVariant &trackId, qlonglong position) {
+void Mpris2::Seek(qint64 offset) { Player::instance()->seek((double)offset / 1000000.0); }
+void Mpris2::SetPosition(const QDBusObjectPath& trackId, qint64 position) {
     Player::instance()->seek((double)position / 1000000.0);
 }
-}  // namespace mpris
+}    // namespace mpris

@@ -10,17 +10,16 @@
 
 #pragma once
 
-#include <QAbstractListModel>
 #include "media.h"
-
+#include <QAbstractListModel>
 
 class MediaList : public QAbstractListModel {
-   Q_OBJECT
+    Q_OBJECT
 
-   private:
+  private:
     QVector<Media>* m_list{};
 
-   public:
+  public:
     explicit MediaList(QObject* parent = nullptr);
 
     ~MediaList() override;
@@ -31,6 +30,7 @@ class MediaList : public QAbstractListModel {
         MediaArtistsRole,
         MediaAlbumRole,
         MediaTimeRole,
+        MediaUrlRole,
     };
 
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
@@ -43,7 +43,7 @@ class MediaList : public QAbstractListModel {
 
     void reload();
 
-    void removeMedia(int pos);  // [begin, end]
+    void removeMedia(int pos);    // [begin, end]
 
     void insertMedia(int pos);
 };

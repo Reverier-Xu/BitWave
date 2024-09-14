@@ -15,6 +15,7 @@ T.ScrollView {
         x: control.leftPadding
         y: control.height - height
     }
+
     ScrollBar.vertical: ScrollBar {
         active: control.ScrollBar.horizontal.active
         height: control.availableHeight

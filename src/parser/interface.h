@@ -3,7 +3,7 @@
 #include <models/media.h>
 
 class IParser {
-   public:
+  public:
     virtual ~IParser() = default;
 
     virtual bool accepted(const QString& path) = 0;

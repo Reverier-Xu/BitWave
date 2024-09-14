@@ -15,13 +15,6 @@ Rectangle {
     color: Color.transparent(Style.palette.window, 0.95)
     height: ui.hideControls ? 0 : 100
 
-    Behavior on height {
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.OutExpo
-        }
-    }
-
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
@@ -79,9 +72,7 @@ Rectangle {
                         smooth: true
                         antialiasing: true
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -102,11 +93,8 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
 
         Label {
@@ -128,7 +116,6 @@ Rectangle {
                 visible: title.hovered
                 x: 0
             }
-
         }
 
         Label {
@@ -148,7 +135,6 @@ Rectangle {
                 visible: artistAndAlbum.hovered
                 x: 0
             }
-
         }
 
         RowLayout {
@@ -189,7 +175,6 @@ Rectangle {
                     queue.next();
                 }
             }
-
         }
 
         RowLayout {
@@ -241,7 +226,6 @@ Rectangle {
                 onClicked: {
                     if (control.queueVisible)
                         control.queueVisible = false;
-
                     control.optionVisible = !control.optionVisible;
                     ui.controlWidgetExpanded = control.optionVisible === true;
                 }
@@ -257,9 +241,7 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
 
             Button {
@@ -275,7 +257,6 @@ Rectangle {
                 onClicked: {
                     if (control.optionVisible)
                         control.optionVisible = false;
-
                     control.queueVisible = !control.queueVisible;
                     ui.controlWidgetExpanded = control.queueVisible === true;
                 }
@@ -286,16 +267,9 @@ Rectangle {
                     visible: queueButton.hovered
                 }
 
-                Behavior on rotation {
-                    NumberAnimation {
-                        duration: 300
-                        easing.type: Easing.OutExpo
-                    }
-
-                }
-
                 Rectangle {
                     id: queueLoadingCover
+
                     color: Color.transparent(Style.palette.window, 0.8)
                     anchors.fill: parent
                     visible: queue.loading
@@ -303,18 +277,19 @@ Rectangle {
                     Loader {
                         anchors.centerIn: parent
                         radius: 8
-
                         running: queue.loading
                     }
-
                 }
 
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: 300
+                        easing.type: Easing.OutExpo
+                    }
+                }
             }
-
         }
-
     }
-
 
     InteractiveProgressBar {
         id: progressBar
@@ -326,20 +301,27 @@ Rectangle {
         height: 24
         totalValue: player.totalTime
         showHandle: !ui.hideControls
-        onEndDragging: function(time) {
+        onEndDragging: function (time) {
             player.seek(time);
         }
     }
 
     HoverHandler {
         onHoveredChanged: {
-            if (hovered) {
-                // console.log("control hovered");
+            // console.log("control hovered");
+            // console.log("control unhovered");
+
+            if (hovered)
                 ui.blockHideControls();
-            } else {
-                // console.log("control unhovered");
+            else
                 ui.autoHideControls();
-            }
+        }
+    }
+
+    Behavior on height {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutExpo
         }
     }
 }

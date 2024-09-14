@@ -15,7 +15,7 @@
 #include "models/media.h"
 
 class Parser {
-   public:
+  public:
     static void initParsers();
 
     static void destroyParsers();
@@ -23,6 +23,6 @@ class Parser {
     static Media parse(const QString& path);
 
     static bool accept(const QString& path);
-    
+
     static QImage extractCover(const Media& src);
 };

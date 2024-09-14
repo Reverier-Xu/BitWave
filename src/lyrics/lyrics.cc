@@ -23,10 +23,8 @@ Lyrics::Lyrics(QObject* parent) : QObject(parent) {
     initLyrics();
     m_lyricsModel = new LyricsModel(this);
 
-    connect(Player::instance(parent), &Player::currentTimeChanged, this,
-            &Lyrics::updateCurrentIndex);
-    connect(Player::instance(parent), &Player::mediaChanged, this,
-            &Lyrics::requestFetch);
+    connect(Player::instance(parent), &Player::currentTimeChanged, this, &Lyrics::updateCurrentIndex);
+    connect(Player::instance(parent), &Player::mediaChanged, this, &Lyrics::requestFetch);
 }
 
 Lyrics::~Lyrics() { destroyLyrics(); }
@@ -58,7 +56,7 @@ LyricsModel* Lyrics::lyricsModel() { return m_lyricsModel; }
 void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
     QStringList rawList = raw.split("\n");
     QRegularExpression rx(R"(\[\d+:\d+\.\d+\])");
-    for (const auto & line : rawList) {
+    for (const auto& line : rawList) {
         auto match = rx.match(line);
         if (match.hasMatch()) {
             QString content = line;
@@ -70,8 +68,7 @@ void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
                 if (capturedList.size() == 2) {
                     Lyric lyric;
                     lyric.content = content;
-                    lyric.time = capturedList.at(0).toDouble() * 60 +
-                                 capturedList.at(1).toDouble();
+                    lyric.time = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
                     lyrics << lyric;
 
                     // NOTE: do not parse lyrics that have per-character timelines.
@@ -91,7 +88,7 @@ void splitLyrics(QList<Lyric>& lyrics, const QString& raw) {
 void insertLyricsTranslation(QList<Lyric>& lyrics, const QString& tr) {
     QStringList trList = tr.split("\n");
     QRegularExpression rx(R"(\[\d+:\d+\.\d+\])");
-    for (const auto & line : trList) {
+    for (const auto& line : trList) {
         // qDebug() << "Insert translation: " << line;
         auto match = rx.match(line);
         if (match.hasMatch()) {
@@ -102,8 +99,7 @@ void insertLyricsTranslation(QList<Lyric>& lyrics, const QString& tr) {
                 captured = captured.mid(1, captured.length() - 2);
                 QStringList capturedList = captured.split(":");
                 if (capturedList.size() == 2) {
-                    double time = capturedList.at(0).toDouble() * 60 +
-                                  capturedList.at(1).toDouble();
+                    double time = capturedList.at(0).toDouble() * 60 + capturedList.at(1).toDouble();
                     int left = 0;
                     int right = lyrics.size() - 1;
                     while (left <= right) {
@@ -115,7 +111,8 @@ void insertLyricsTranslation(QList<Lyric>& lyrics, const QString& tr) {
                         else
                             break;
                     }
-                    // qDebug() << "Inserted \"" << lyrics.at((left + right) / 2).content << "\" translation \"" << content << "\" at " << (left + right) / 2 << ", lyric time "
+                    // qDebug() << "Inserted \"" << lyrics.at((left + right) / 2).content << "\" translation \"" <<
+                    // content << "\" at " << (left + right) / 2 << ", lyric time "
                     //          << lyrics.at((left + right) / 2).time << ", tr time " << time;
                     if (lyrics.at((left + right) / 2).time == time) {
                         lyrics[(left + right) / 2].translation = content;
@@ -131,8 +128,7 @@ void Lyrics::handleLyrics(const QString& lyrics, const QString& translation) {
     splitLyrics(result, lyrics);
 
     if (!translation.isEmpty()) insertLyricsTranslation(result, translation);
-    std::sort(result.begin(), result.end(),
-              [](const Lyric& a, const Lyric& b) { return a.time < b.time; });
+    std::sort(result.begin(), result.end(), [](const Lyric& a, const Lyric& b) { return a.time < b.time; });
     m_lyricsModel->setLyrics(result);
 }
 
@@ -179,14 +175,13 @@ void Lyrics::requestFetch(const Media& media) {
             auto worker = lyric->clone();
             worker->setTaskId(++m_taskId);
             worker->requestFetch(media);
-            connect(worker, &ILyrics::lyricsFetched, this,
-                    [=](const QString& lyrics, const QString& translation) {
-                        if (worker->taskId() == m_taskId) {
-                            handleLyrics(lyrics, translation);
-                            setLoading(false);
-                        }
-                        worker->deleteLater();
-                    });
+            connect(worker, &ILyrics::lyricsFetched, this, [=](const QString& lyrics, const QString& translation) {
+                if (worker->taskId() == m_taskId) {
+                    handleLyrics(lyrics, translation);
+                    setLoading(false);
+                }
+                worker->deleteLater();
+            });
             return;
         }
     }
@@ -200,9 +195,7 @@ LyricsModel::LyricsModel(QObject* parent) : QAbstractListModel(parent) {}
 
 LyricsModel::~LyricsModel() = default;
 
-int LyricsModel::rowCount(const QModelIndex& parent) const {
-    return m_lyrics.size();
-}
+int LyricsModel::rowCount(const QModelIndex& parent) const { return m_lyrics.size(); }
 
 QVariant LyricsModel::data(const QModelIndex& index, int role) const {
     if (!index.isValid()) {

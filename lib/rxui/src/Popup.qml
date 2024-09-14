@@ -12,9 +12,11 @@ T.Popup {
     T.Overlay.modal: Rectangle {
         color: "transparent"
     }
+
     T.Overlay.modeless: Rectangle {
         color: "transparent"
     }
+
     background: Rectangle {
         border.color: Style.palette.mid
         border.width: 1

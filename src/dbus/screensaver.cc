@@ -26,27 +26,23 @@
 #include "windowsscreensaver.h"
 #endif
 
-const char *Screensaver::kGnomeService = "org.gnome.ScreenSaver";
-const char *Screensaver::kGnomePath = "/";
-const char *Screensaver::kGnomeInterface = "org.gnome.ScreenSaver";
-const char *Screensaver::kKdeService = "org.freedesktop.ScreenSaver";
-const char *Screensaver::kKdePath = "/ScreenSaver";
-const char *Screensaver::kKdeInterface = "org.freedesktop.ScreenSaver";
+const char* Screensaver::kGnomeService = "org.gnome.ScreenSaver";
+const char* Screensaver::kGnomePath = "/";
+const char* Screensaver::kGnomeInterface = "org.gnome.ScreenSaver";
+const char* Screensaver::kKdeService = "org.freedesktop.ScreenSaver";
+const char* Screensaver::kKdePath = "/ScreenSaver";
+const char* Screensaver::kKdeInterface = "org.freedesktop.ScreenSaver";
 
-Screensaver *Screensaver::m_screensaver = nullptr;
+Screensaver* Screensaver::m_screensaver = nullptr;
 
-Screensaver *Screensaver::getScreensaver() {
+Screensaver* Screensaver::getScreensaver() {
     if (!m_screensaver) {
 #ifdef QT_DBUS_LIB
         // qDebug() << "ScreenSaver inited here.";
-        if (QDBusConnection::sessionBus().interface()->isServiceRegistered(
-                kGnomeService)) {
-            m_screensaver =
-                new DBusScreensaver(kGnomeService, kGnomePath, kGnomeInterface);
-        } else if (QDBusConnection::sessionBus().interface()
-                       ->isServiceRegistered(kKdeService)) {
-            m_screensaver =
-                new DBusScreensaver(kKdeService, kKdePath, kKdeInterface);
+        if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kGnomeService)) {
+            m_screensaver = new DBusScreensaver(kGnomeService, kGnomePath, kGnomeInterface);
+        } else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService)) {
+            m_screensaver = new DBusScreensaver(kKdeService, kKdePath, kKdeInterface);
         }
         // qDebug() << &screensaver;
 #endif

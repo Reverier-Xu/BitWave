@@ -4,7 +4,14 @@ import QtQuick
 QtObject {
     id: rxStyle
 
-    property ColorGroup darkPalette: ColorGroup {
+    property ColorGroup darkPalette
+    property bool isDark: false
+    property ColorGroup lightPalette
+    property ColorGroup palette: isDark ? darkPalette : lightPalette
+    property color primary: "#3399FF"
+    property color warning: "#FF9933"
+
+    darkPalette: ColorGroup {
         alternateBase: "#202020"
         base: "transparent"
         brightText: "#ffffff"
@@ -26,8 +33,8 @@ QtObject {
         window: "#151515"
         windowText: "#f0f0f0"
     }
-    property bool isDark: false
-    property ColorGroup lightPalette: ColorGroup {
+
+    lightPalette: ColorGroup {
         alternateBase: "#10000000"
         base: "transparent"
         brightText: "#000000"
@@ -49,7 +56,4 @@ QtObject {
         window: "#eef4f9"
         windowText: "#101010"
     }
-    property ColorGroup palette: isDark ? darkPalette : lightPalette
-    property color primary: "#3399FF"
-    property color warning: "#FF9933"
 }
