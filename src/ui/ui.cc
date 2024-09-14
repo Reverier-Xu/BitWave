@@ -14,6 +14,7 @@
 
 #include <QApplication>
 #include <QQmlContext>
+#include <clocale>
 
 #include "library/library.h"
 #include "lyrics/lyrics.h"
