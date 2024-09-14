@@ -114,7 +114,8 @@ set(
 )
 
 # DBUS and MPRIS - Unix specific
-if (UNIX)
+if (LINUX)
+    message(STATUS "Setup Linux specific DBUS interfaces")
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
     # MPRIS 2.0 DBUS interfaces
     qt_add_dbus_adaptor(
@@ -154,9 +155,9 @@ if (UNIX)
             dbus/org.kde.kglobalaccel.Component.xml
             dbus/kglobalaccelcomponent
     )
-endif (UNIX)
+endif (LINUX)
 
-if (Qt6DBus_FOUND)
+if (Qt6DBus_FOUND AND LINUX)
     list(
         APPEND SRCS
         dbus/mpris.cc
