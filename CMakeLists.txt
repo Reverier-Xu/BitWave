@@ -26,13 +26,10 @@ set(QT_LIBRARIES Qt6::Core Qt6::Widgets Qt6::Network Qt6::Sql Qt6::OpenGL Qt6::Q
 
 set(QT_QML_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml)
 
-if(APPLE)
-    find_package(Qt6 REQUIRED COMPONENTS MacExtras)
-    list(APPEND QT_LIBRARIES Qt6::MacExtras)
-elseif(WIN32)
+if(WIN32)
     find_package(Qt6 REQUIRED COMPONENTS WinExtras)
     list(APPEND QT_LIBRARIES Qt6::WinExtras)
-else()
+elseif(LINUX)
     find_package(Qt6 REQUIRED COMPONENTS DBus)
     list(APPEND QT_LIBRARIES Qt6::DBus)
     get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt6::qdbusxml2cpp LOCATION)
