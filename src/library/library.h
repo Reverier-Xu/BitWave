@@ -11,6 +11,7 @@
 #pragma once
 
 #include <QObject>
+#include <qtmetamacros.h>
 
 #include "models/media.h"
 #include "models/media_list.h"
@@ -20,19 +21,21 @@ class Library : public QObject {
 
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(bool scanning READ scanning NOTIFY scanningChanged)
-    Q_PROPERTY(bool recursiveScanning READ recursiveScanning WRITE setRecursiveScanning
-                   NOTIFY recursiveScanningChanged)
-    Q_PROPERTY(
-        QStringList folders READ folders WRITE setFolders NOTIFY foldersChanged)
-    Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY
-                   sortStatusChanged)
+    Q_PROPERTY(bool recursiveScanning READ recursiveScanning WRITE setRecursiveScanning NOTIFY recursiveScanningChanged)
+    Q_PROPERTY(QStringList folders READ folders WRITE setFolders NOTIFY foldersChanged)
+    Q_PROPERTY(SortStatus sortStatus READ sortStatus WRITE setSortStatus NOTIFY sortStatusChanged)
+    Q_PROPERTY(QString searchKeyword READ searchKeyword WRITE setSearchKeyword NOTIFY searchKeywordChanged)
 
-   private:
+  private:
     QVector<Media> m_musics{};
 
     QVector<Media> m_videos{};
 
+    QVector<Media> m_searchResult{};
+
     MediaList* m_model;
+
+    MediaList* m_searchModel;
 
     QStringList m_folders{};
 
@@ -44,14 +47,16 @@ class Library : public QObject {
 
     SortStatus m_sortStatus = TitleAsc;
 
-   protected:
+    QString m_searchKeyword{};
+
+  protected:
     static Library* m_instance;
 
     explicit Library(QObject* parent = nullptr);
 
     ~Library() override;
 
-   public:
+  public:
     static Library* instance(QObject* parent = nullptr);
 
     void loadSettings();
@@ -61,6 +66,8 @@ class Library : public QObject {
     void saveSettings();
 
     [[nodiscard]] MediaList* model();
+
+    [[nodiscard]] MediaList* searchModel();
 
     [[nodiscard]] QString filter() const;
 
@@ -82,7 +89,11 @@ class Library : public QObject {
 
     void setRecursiveScanning(bool n);
 
-   public slots:
+    [[nodiscard]] QString searchKeyword() const;
+
+    void setSearchKeyword(const QString& keyword);
+
+  public slots:
 
     Q_INVOKABLE void load(const QString& route);
 
@@ -100,10 +111,9 @@ class Library : public QObject {
 
     Q_INVOKABLE const QVector<Media>& currentMedias();
 
-    Q_INVOKABLE void addMediaIndexToPlaylist(const int index,
-                                             const QString& playlist);
+    Q_INVOKABLE void addMediaIndexToPlaylist(const int index, const QString& playlist);
 
-   signals:
+  signals:
 
     void filterChanged(const QString& filter);
 
@@ -114,4 +124,6 @@ class Library : public QObject {
     void sortStatusChanged(SortStatus sortStatus);
 
     void recursiveScanningChanged(bool recursiveScanning);
+
+    void searchKeywordChanged(const QString& keyword);
 };

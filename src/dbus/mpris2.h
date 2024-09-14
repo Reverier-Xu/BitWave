@@ -26,8 +26,8 @@ namespace mpris {
 class Mpris2 : public QObject {
     Q_OBJECT
 
-   public:
-    explicit Mpris2(QObject *parent = nullptr);
+  public:
+    explicit Mpris2(QObject* parent = nullptr);
 
     ~Mpris2() override;
 
@@ -127,34 +127,33 @@ class Mpris2 : public QObject {
 
     void Seek(qint64 offset);
 
-    void SetPosition(const QDBusObjectPath &trackId, qint64 offset);
+    void SetPosition(const QDBusObjectPath& trackId, qint64 offset);
 
-    void OpenUri(const QString &uri);
+    void OpenUri(const QString& uri);
 
-   signals:
+  signals:
 
     // Player
     void Seeked(qint64 offset);
 
     void RaiseMainWindow();
 
-   private slots:
+  private slots:
 
-    void MetadataLoaded(const Media &song, const QString &art_uri = "");
+    void MetadataLoaded(const Media& song, const QString& art_uri = "");
 
     void VolumeChanged();
 
     void EngineStateChanged();
 
-    void CurrentSongChanged(const Media &song);
+    void CurrentSongChanged(const Media& song);
 
-   private:
-    void EmitNotification(const QString &name);
+  private:
+    void EmitNotification(const QString& name);
 
-    static void EmitNotification(const QString &name, const QVariant &val);
+    static void EmitNotification(const QString& name, const QVariant& val);
 
-    static void EmitNotification(const QString &name, const QVariant &val,
-                                 const QString &mprisEntity);
+    static void EmitNotification(const QString& name, const QVariant& val, const QString& mprisEntity);
 
     [[nodiscard]] QString PlaybackStatus() const;
 
@@ -162,12 +161,12 @@ class Mpris2 : public QObject {
 
     [[nodiscard]] static QString DesktopEntryAbsolutePath();
 
-   private:
-    static const char *kMprisObjectPath;
-    static const char *kServiceName;
-    static const char *kFreedesktopPath;
+  private:
+    static const char* kMprisObjectPath;
+    static const char* kServiceName;
+    static const char* kFreedesktopPath;
 
     QVariantMap m_lastMetadata;
 };
 
-}  // namespace mpris
+}    // namespace mpris

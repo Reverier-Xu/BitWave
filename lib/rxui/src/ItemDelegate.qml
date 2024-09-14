@@ -35,9 +35,7 @@ T.ItemDelegate {
             ColorAnimation {
                 duration: 120
             }
-
         }
-
     }
 
     contentItem: IconLabel {
@@ -55,5 +53,4 @@ T.ItemDelegate {
         spacing: control.spacing
         text: control.text
     }
-
 }

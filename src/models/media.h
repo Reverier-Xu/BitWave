@@ -46,7 +46,7 @@ class Media : public QObject {
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString embeddedLyrics READ embeddedLyrics WRITE setEmbeddedLyrics)
 
-   private:
+  private:
     QString m_url;
 
     double m_time{};
@@ -63,10 +63,9 @@ class Media : public QObject {
 
     QString m_embeddedLyrics;
 
-   public:
-    explicit Media(const QString& rawUrl = "", const QString& title = "",
-                   const QStringList& artists = {""}, const QString& album = "",
-                   MediaType type = UNKNOWN, double duration = 0.0,
+  public:
+    explicit Media(const QString& rawUrl = "", const QString& title = "", const QStringList& artists = {""},
+                   const QString& album = "", MediaType type = UNKNOWN, double duration = 0.0,
                    const QString& comment = "", const QString& embeddedLyrics = "");
 
     Media(const Media& media);

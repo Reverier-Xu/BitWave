@@ -14,5 +14,4 @@ T.Frame {
         implicitHeight: 100
         implicitWidth: 100
     }
-
 }

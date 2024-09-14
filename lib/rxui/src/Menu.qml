@@ -27,7 +27,6 @@ T.Menu {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
 
     exit: Transition {
@@ -45,7 +44,6 @@ T.Menu {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
 
     T.Overlay.modal: Rectangle {
@@ -71,12 +69,8 @@ T.Menu {
         interactive: Window.window ? contentHeight + control.topPadding + control.bottomPadding > Window.window.height : false
         model: control.contentModel
 
-        ScrollIndicator.vertical: ScrollIndicator {
-        }
-
+        ScrollIndicator.vertical: ScrollIndicator {}
     }
 
-    delegate: MenuItem {
-    }
-
+    delegate: MenuItem {}
 }

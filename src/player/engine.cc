@@ -12,10 +12,7 @@
 
 #include <utils/mpv_helper.h>
 
-static void wakeup(void* ctx) {
-    QMetaObject::invokeMethod((Engine*)ctx, &Engine::onMpvEvents,
-                              Qt::QueuedConnection);
-}
+static void wakeup(void* ctx) { QMetaObject::invokeMethod((Engine*)ctx, &Engine::onMpvEvents, Qt::QueuedConnection); }
 
 Engine::Engine(QObject* parent) : QObject(parent) {
     m_mpvHandle = mpv_create();
@@ -29,8 +26,7 @@ Engine::Engine(QObject* parent) : QObject(parent) {
     setMpvProperty("audio-client-name", "Bit Wave");
     setMpvProperty("pause", true);
 
-    if (mpv_initialize(m_mpvHandle) < 0)
-        throw std::runtime_error("could not initialize mpv context");
+    if (mpv_initialize(m_mpvHandle) < 0) throw std::runtime_error("could not initialize mpv context");
 
     // Request hardware decoding, maybe useful on some laptops.
     setMpvProperty("vo", "libmpv");
@@ -46,58 +42,57 @@ Engine::Engine(QObject* parent) : QObject(parent) {
 
 void Engine::handleMpvEvent(mpv_event* event) {
     switch (event->event_id) {
-        // qDebug() << event->event_id;
-        case MPV_EVENT_PROPERTY_CHANGE: {
-            auto* prop = (mpv_event_property*)event->data;
-            if (strcmp(prop->name, "time-pos") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double*)prop->data;
-                    emit currentTimeChanged(time);
-                    //                     qDebug() << "cursor: " << time;
-                }
-            } else if (strcmp(prop->name, "duration") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double time = *(double*)prop->data;
-                    emit totalTimeChanged(time);
-                    //                     qDebug() << "total: " << time;
-                }
-            } else if (strcmp(prop->name, "volume") == 0) {
-                if (prop->format == MPV_FORMAT_DOUBLE) {
-                    double volume = *(double*)prop->data;
-                    emit volumeChanged(volume);
-                    //                    qDebug() << "volume changed: " <<
-                    //                    volume;
-                }
-            } else if (strcmp(prop->name, "pause") == 0) {
-                if (prop->format == MPV_FORMAT_FLAG) {
-                    bool isPaused = *(bool*)prop->data;
-                    if (isPaused) {
-                        emit paused();
-                    } else {
-                        emit resumed();
-                    }
-                }
-            } else if (strcmp(prop->name, "audio-device") == 0) {
-                if (prop->format == MPV_FORMAT_STRING) {
-                    QString device = QString::fromUtf8(*(char**)prop->data);
-                    emit audioDeviceChanged(device);
+    // qDebug() << event->event_id;
+    case MPV_EVENT_PROPERTY_CHANGE: {
+        auto* prop = (mpv_event_property*)event->data;
+        if (strcmp(prop->name, "time-pos") == 0) {
+            if (prop->format == MPV_FORMAT_DOUBLE) {
+                double time = *(double*)prop->data;
+                emit currentTimeChanged(time);
+                //                     qDebug() << "cursor: " << time;
+            }
+        } else if (strcmp(prop->name, "duration") == 0) {
+            if (prop->format == MPV_FORMAT_DOUBLE) {
+                double time = *(double*)prop->data;
+                emit totalTimeChanged(time);
+                //                     qDebug() << "total: " << time;
+            }
+        } else if (strcmp(prop->name, "volume") == 0) {
+            if (prop->format == MPV_FORMAT_DOUBLE) {
+                double volume = *(double*)prop->data;
+                emit volumeChanged(volume);
+                //                    qDebug() << "volume changed: " <<
+                //                    volume;
+            }
+        } else if (strcmp(prop->name, "pause") == 0) {
+            if (prop->format == MPV_FORMAT_FLAG) {
+                bool isPaused = *(bool*)prop->data;
+                if (isPaused) {
+                    emit paused();
+                } else {
+                    emit resumed();
                 }
             }
-            break;
+        } else if (strcmp(prop->name, "audio-device") == 0) {
+            if (prop->format == MPV_FORMAT_STRING) {
+                QString device = QString::fromUtf8(*(char**)prop->data);
+                emit audioDeviceChanged(device);
+            }
         }
-        case MPV_EVENT_FILE_LOADED:
-            emit started();
-            break;
-        case MPV_EVENT_END_FILE: {
-            auto* eventPtr = (mpv_event_end_file*)event->data;
-            if (eventPtr->reason != MPV_END_FILE_REASON_STOP &&
-                eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
-                emit ended();
-            }
-        } break;
-        default:;
-            // Ignore uninteresting or unknown events.
-            break;
+        break;
+    }
+    case MPV_EVENT_FILE_LOADED:
+        emit started();
+        break;
+    case MPV_EVENT_END_FILE: {
+        auto* eventPtr = (mpv_event_end_file*)event->data;
+        if (eventPtr->reason != MPV_END_FILE_REASON_STOP && eventPtr->reason != MPV_END_FILE_REASON_REDIRECT) {
+            emit ended();
+        }
+    } break;
+    default:;
+        // Ignore uninteresting or unknown events.
+        break;
     }
 }
 
@@ -117,17 +112,13 @@ void Engine::onMpvEvents() {
     }
 }
 
-QVariant Engine::command(const QVariant& params) {
-    return mpv::qt::command(m_mpvHandle, params);
-}
+QVariant Engine::command(const QVariant& params) { return mpv::qt::command(m_mpvHandle, params); }
 
 void Engine::setMpvProperty(const QString& name, const QVariant& value) {
     mpv::qt::set_property(m_mpvHandle, name, value);
 }
 
-QVariant Engine::getMpvProperty(const QString& name) const {
-    return mpv::qt::get_property(m_mpvHandle, name);
-}
+QVariant Engine::getMpvProperty(const QString& name) const { return mpv::qt::get_property(m_mpvHandle, name); }
 
 QList<QMap<QString, QString>> Engine::getAudioDeviceList() {
     QList<QMap<QString, QString>> ret;
@@ -157,8 +148,6 @@ void Engine::pause() { setMpvProperty("pause", true); }
 
 void Engine::seek(double secs) { setMpvProperty("time-pos", secs); }
 
-void Engine::loadFile(const QString& path) {
-    command(QStringList() << "loadfile" << path);
-}
+void Engine::loadFile(const QString& path) { command(QStringList() << "loadfile" << path); }
 
 void Engine::stop() { command(QStringList() << "stop"); }

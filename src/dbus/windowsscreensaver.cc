@@ -15,10 +15,7 @@ WindowsScreensaver::WindowsScreensaver() : previous_state_(0) {}
 
 void WindowsScreensaver::inhibit() {
     // TODO: use PowerCreateRequest on Win7+
-    previous_state_ =
-        SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
+    previous_state_ = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
 }
 
-void WindowsScreensaver::unInhibit() {
-    SetThreadExecutionState(ES_CONTINUOUS | previous_state_);
-}
+void WindowsScreensaver::unInhibit() { SetThreadExecutionState(ES_CONTINUOUS | previous_state_); }

@@ -16,13 +16,13 @@
 #include "screensaver.h"
 
 class WindowsScreensaver : public Screensaver {
-   public:
+  public:
     WindowsScreensaver();
 
     void inhibit() override;
 
     void unInhibit() override;
 
-   private:
+  private:
     EXECUTION_STATE previous_state_;
 };

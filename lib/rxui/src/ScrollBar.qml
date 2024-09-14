@@ -24,7 +24,6 @@ T.ScrollBar {
                 targets: [control.contentItem, control.background]
                 to: 1
             }
-
         },
         Transition {
             from: "active"
@@ -45,9 +44,7 @@ T.ScrollBar {
                     targets: [control.contentItem, control.background]
                     to: 0
                 }
-
             }
-
         }
     ]
 
@@ -71,7 +68,5 @@ T.ScrollBar {
             color: control.pressed ? Style.palette.dark : enabled && control.interactive && control.hovered ? Style.palette.mid : Style.palette.button
             radius: width > height ? height / 2 : width / 2
         }
-
     }
-
 }

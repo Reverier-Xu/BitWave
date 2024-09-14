@@ -12,7 +12,7 @@ Rectangle {
     property bool showHandle: true
 
     signal endDragging(double finalTime)
-    signal startDragging()
+    signal startDragging
 
     clip: true
     color: "transparent"
@@ -29,7 +29,6 @@ Rectangle {
                 lineHeight: 4
                 target: root
             }
-
         },
         State {
             name: "Normal"
@@ -43,7 +42,6 @@ Rectangle {
                 lineHeight: 2
                 target: root
             }
-
         },
         State {
             name: "Pressed"
@@ -61,7 +59,6 @@ Rectangle {
                 lineHeight: 4
                 target: root
             }
-
         }
     ]
 
@@ -144,9 +141,7 @@ Rectangle {
                 duration: 100
                 easing.type: Easing.OutQuad
             }
-
         }
-
     }
 
     Rectangle {
@@ -166,7 +161,6 @@ Rectangle {
             anchors.centerIn: parent
             color: Style.warning
         }
-
     }
 
     MouseArea {
@@ -178,12 +172,10 @@ Rectangle {
         onEntered: {
             if (!pressed)
                 parent.state = "Hovering";
-
         }
         onExited: {
             if (!pressed)
                 parent.state = "Normal";
-
         }
         onPositionChanged: {
             if (root.onDragging) {
@@ -226,14 +218,11 @@ Rectangle {
         ColorAnimation {
             duration: 200
         }
-
     }
 
     Behavior on lineHeight {
         NumberAnimation {
             duration: 80
         }
-
     }
-
 }

@@ -37,16 +37,12 @@ Button {
             ColorAnimation {
                 duration: 120
             }
-
         }
 
         Behavior on border.color {
             ColorAnimation {
                 duration: 120
             }
-
         }
-
     }
-
 }

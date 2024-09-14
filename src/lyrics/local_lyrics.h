@@ -3,11 +3,11 @@
 #include "interface.h"
 
 class LocalLyrics : public ILyrics {
-   Q_OBJECT
-   protected:
+    Q_OBJECT
+  protected:
     void fetchLyrics(const QUrl& fileUrl);
 
-   public:
+  public:
     explicit LocalLyrics(QObject* parent = nullptr);
 
     ILyrics* clone() override;

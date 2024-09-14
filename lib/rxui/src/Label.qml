@@ -14,5 +14,4 @@ T.Label {
     HoverHandler {
         id: hoverHandler
     }
-
 }

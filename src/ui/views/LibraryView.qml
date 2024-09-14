@@ -111,7 +111,6 @@ Rectangle {
                         target: filterIndicator
                         anchors.horizontalCenter: musicFilterButton.horizontalCenter
                     }
-
                 },
                 State {
                     name: "video"
@@ -120,7 +119,6 @@ Rectangle {
                         target: filterIndicator
                         anchors.horizontalCenter: videoFilterButton.horizontalCenter
                     }
-
                 }
             ]
 
@@ -129,11 +127,8 @@ Rectangle {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
-
     }
 
     Row {
@@ -177,7 +172,6 @@ Rectangle {
                 source: library.sortStatus === 0 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: library.sortStatus === 1 || library.sortStatus === 0
             }
-
         }
 
         Button {
@@ -204,7 +198,6 @@ Rectangle {
                 source: library.sortStatus === 2 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: library.sortStatus === 3 || library.sortStatus === 2
             }
-
         }
 
         Button {
@@ -231,7 +224,6 @@ Rectangle {
                 source: library.sortStatus === 4 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: library.sortStatus === 5 || library.sortStatus === 4
             }
-
         }
 
         Rectangle {
@@ -247,9 +239,7 @@ Rectangle {
                 text: qsTr("Duration")
                 font.bold: true
             }
-
         }
-
     }
 
     Rectangle {
@@ -271,8 +261,7 @@ Rectangle {
         anchors.bottomMargin: 16 + 100
         model: libraryModel
 
-        ScrollBar.vertical: ScrollBar {
-        }
+        ScrollBar.vertical: ScrollBar {}
 
         add: Transition {
             NumberAnimation {
@@ -288,7 +277,6 @@ Rectangle {
                 to: 1
                 duration: 200
             }
-
         }
 
         addDisplaced: Transition {
@@ -297,7 +285,6 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.OutExpo
             }
-
         }
 
         removeDisplaced: Transition {
@@ -309,7 +296,6 @@ Rectangle {
                 properties: "y"
                 duration: 200
             }
-
         }
 
         remove: Transition {
@@ -327,7 +313,6 @@ Rectangle {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
 
         delegate: MediaRow {
@@ -348,7 +333,6 @@ Rectangle {
                 library.addMediaIndexToPlaylist(i, n);
             }
         }
-
     }
 
     Connections {
@@ -356,7 +340,6 @@ Rectangle {
             // console.log("route changed", route)
             if (route.startsWith("libraries"))
                 library.load(route);
-
         }
 
         target: router
@@ -369,5 +352,4 @@ Rectangle {
 
         target: library
     }
-
 }

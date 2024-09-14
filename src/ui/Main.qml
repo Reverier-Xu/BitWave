@@ -27,8 +27,7 @@ FramelessWindow {
         ui.fullscreen = (window.visibility === Window.FullScreen);
     }
 
-    SystemTray {
-    }
+    SystemTray {}
 
     KeyTapEvent {
         id: spaceEvent
@@ -57,7 +56,6 @@ FramelessWindow {
         onClicked: {
             if (window.visibility === Window.FullScreen)
                 window.showNormal();
-
         }
     }
 
@@ -197,7 +195,6 @@ FramelessWindow {
                 SettingsView {
                     id: settingsView
                 }
-
             }
 
             StackLayout {
@@ -209,20 +206,16 @@ FramelessWindow {
                 currentIndex: controlBar.queueVisible ? 0 : 1
                 height: ui.controlWidgetExpanded ? sideBar.height - titleBar.height - controlBar.height : 0
 
-                QueueWidget {
-                }
+                QueueWidget {}
 
-                OptionWidget {
-                }
+                OptionWidget {}
 
                 Behavior on height {
                     NumberAnimation {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
 
             TitleBar {
@@ -242,9 +235,7 @@ FramelessWindow {
                 anchors.right: parent.right
                 objectName: "controlBar"
             }
-
         }
-
     }
 
     Connections {
@@ -261,7 +252,5 @@ FramelessWindow {
         ColorAnimation {
             duration: 280
         }
-
     }
-
 }

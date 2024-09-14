@@ -17,7 +17,6 @@
 #include "models/media.h"
 #include "models/media_list.h"
 
-
 enum QueueMode {
     IN_ORDER = 0,
     REVERSED = 1,
@@ -33,7 +32,7 @@ class PlayQueue : public QObject {
     Q_PROPERTY(int cursor READ cursor WRITE setCursor NOTIFY cursorChanged)
     Q_PROPERTY(QString modeIcon READ modeIcon NOTIFY modeIconChanged)
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged)
-   private:
+  private:
     QueueMode m_mode{IN_ORDER};
 
     QVector<Media>* m_playlist{};
@@ -52,7 +51,7 @@ class PlayQueue : public QObject {
 
     void loadPlaylist_(const QVector<Media>& playlist);
 
-   public:
+  public:
     explicit PlayQueue(QObject* parent = nullptr);
 
     ~PlayQueue() override;
@@ -85,10 +84,14 @@ class PlayQueue : public QObject {
 
     [[nodiscard]] const Media& current();
 
-   public slots:
+  public slots:
     Q_INVOKABLE void addMedia(const Media& media);
 
+    Q_INVOKABLE void addMediaThenPlay(const Media& media);
+
     Q_INVOKABLE void addMediaByUrl(const QString& url);
+
+    Q_INVOKABLE void addMediaByUrlThenPlay(const QString& url);
 
     Q_INVOKABLE void addMediasByUrlsThenPlay(const QList<QUrl>& urls);
 
@@ -114,10 +117,9 @@ class PlayQueue : public QObject {
 
     Q_INVOKABLE void addToPlaylist(const QString& playlist);
 
-    Q_INVOKABLE void addMediaIndexToPlaylist(const int index,
-                                            const QString& playlist);
+    Q_INVOKABLE void addMediaIndexToPlaylist(const int index, const QString& playlist);
 
-   signals:
+  signals:
 
     void modeChanged(int mode);
 

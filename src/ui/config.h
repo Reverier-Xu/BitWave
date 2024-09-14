@@ -10,30 +10,23 @@
 
 #pragma once
 
-#include <QObject>
-#include <QTranslator>
-#include <QTimer>
 #include "router.h"
-
+#include <QObject>
+#include <QTimer>
+#include <QTranslator>
 
 class UiConfig : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
-    Q_PROPERTY(bool colorStyle READ colorStyle WRITE setColorStyle NOTIFY
-                   colorStyleChanged)
-    Q_PROPERTY(
-        QString language READ language WRITE setLanguage NOTIFY languageChanged)
-    Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY
-                   fullscreenChanged)
-    Q_PROPERTY(bool flatSystemTray READ flatSystemTray WRITE setFlatSystemTray
-                   NOTIFY flatSystemTrayChanged)
-    Q_PROPERTY(bool hideControls READ hideControls WRITE setHideControls NOTIFY
-                   hideControlsChanged)
-    Q_PROPERTY(bool sideBarExpanded READ sideBarExpanded WRITE setSideBarExpanded
-                   NOTIFY sideBarExpandedChanged)
-    Q_PROPERTY(bool controlWidgetExpanded READ controlWidgetExpanded WRITE setControlWidgetExpanded
-                   NOTIFY controlWidgetExpandedChanged)
-   private:
+    Q_PROPERTY(bool colorStyle READ colorStyle WRITE setColorStyle NOTIFY colorStyleChanged)
+    Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
+    Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
+    Q_PROPERTY(bool flatSystemTray READ flatSystemTray WRITE setFlatSystemTray NOTIFY flatSystemTrayChanged)
+    Q_PROPERTY(bool hideControls READ hideControls WRITE setHideControls NOTIFY hideControlsChanged)
+    Q_PROPERTY(bool sideBarExpanded READ sideBarExpanded WRITE setSideBarExpanded NOTIFY sideBarExpandedChanged)
+    Q_PROPERTY(bool controlWidgetExpanded READ controlWidgetExpanded WRITE setControlWidgetExpanded NOTIFY
+                   controlWidgetExpandedChanged)
+  private:
     QString m_language;
 
     QTranslator m_translator;
@@ -54,7 +47,7 @@ class UiConfig : public QObject {
 
     Router* m_router;
 
-   public:
+  public:
     explicit UiConfig(QObject* parent = nullptr, Router* router = nullptr);
 
     ~UiConfig() override;
@@ -91,12 +84,12 @@ class UiConfig : public QObject {
 
     void saveSettings() const;
 
-   public slots:
+  public slots:
     Q_INVOKABLE void autoHideControls();
 
     Q_INVOKABLE void blockHideControls();
 
-   signals:
+  signals:
 
     void colorStyleChanged(bool n);
 

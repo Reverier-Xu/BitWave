@@ -78,11 +78,8 @@ Item {
                     to: 360 + rect._getStartAngle()
                     easing.type: Easing.OutQuad
                 }
-
             }
-
         }
-
     }
 
     Timer {
@@ -120,5 +117,4 @@ Item {
             }
         }
     }
-
 }

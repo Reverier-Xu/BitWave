@@ -12,7 +12,7 @@
 #include "interface.h"
 
 class Codec {
-   public:
+  public:
     static void initCodecs();
 
     static QStringList supportedFormats();

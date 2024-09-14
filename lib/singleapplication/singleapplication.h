@@ -26,13 +26,11 @@
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QLocalSocket>
 
-
 #ifndef QAPPLICATION_CLASS
 #define QAPPLICATION_CLASS QCoreApplication
 #endif
 
 #include QT_STRINGIFY(QAPPLICATION_CLASS)
-
 
 class SingleApplicationPrivate;
 
@@ -42,11 +40,11 @@ class SingleApplicationPrivate;
  * @see QCoreApplication
  */
 class SingleApplication : public QAPPLICATION_CLASS {
-   Q_OBJECT
+    Q_OBJECT
 
     using app_t = QAPPLICATION_CLASS;
 
-   public:
+  public:
     /**
      * @brief Mode of operation of `SingleApplication`.
      * Whether the block should be user-wide or system-wide and whether the
@@ -101,12 +99,8 @@ class SingleApplication : public QAPPLICATION_CLASS {
      * Usually 4*timeout would be the worst case (fail) scenario.
      * @see See the corresponding `QAPPLICATION_CLASS` constructor for reference
      */
-    explicit SingleApplication(int& argc,
-                               char* argv[],
-                               bool allowSecondary = false,
-                               Options options = Mode::User,
-                               int timeout = 1000,
-                               const QString& userData = {});
+    explicit SingleApplication(int& argc, char* argv[], bool allowSecondary = false, Options options = Mode::User,
+                               int timeout = 1000, const QString& userData = {});
 
     ~SingleApplication() override;
 
@@ -150,8 +144,8 @@ class SingleApplication : public QAPPLICATION_CLASS {
      * @brief Mode of operation of sendMessage.
      */
     enum SendMode {
-        NonBlocking,  /** Do not wait for the primary instance termination and return immediately */
-        BlockUntilPrimaryExit,  /** Wait until the primary instance is terminated */
+        NonBlocking,           /** Do not wait for the primary instance termination and return immediately */
+        BlockUntilPrimaryExit, /** Wait until the primary instance is terminated */
     };
 
     /**
@@ -170,7 +164,7 @@ class SingleApplication : public QAPPLICATION_CLASS {
      */
     QStringList userData() const;
 
-   Q_SIGNALS:
+  Q_SIGNALS:
 
     /**
      * @brief Triggered whenever a new instance had been started,
@@ -183,7 +177,7 @@ class SingleApplication : public QAPPLICATION_CLASS {
      */
     void receivedMessage(quint32 instanceId, QByteArray message);
 
-   private:
+  private:
     SingleApplicationPrivate* d_ptr;
 
     Q_DECLARE_PRIVATE(SingleApplication)
@@ -193,4 +187,4 @@ class SingleApplication : public QAPPLICATION_CLASS {
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleApplication::Options)
 
-#endif // SINGLE_APPLICATION_H
+#endif    // SINGLE_APPLICATION_H

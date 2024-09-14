@@ -48,7 +48,6 @@ Rectangle {
                         timeLabel.text = timeLabel.currentDateTime();
                     }
                 }
-
             }
 
             Behavior on anchors.topMargin {
@@ -56,9 +55,7 @@ Rectangle {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
 
         Rectangle {
@@ -111,11 +108,8 @@ Rectangle {
                 NumberAnimation {
                     duration: 200
                 }
-
             }
-
         }
-
     }
 
     // Cover the video player instead of replacing it.
@@ -162,9 +156,7 @@ Rectangle {
                         text: qsTr("Save Album Cover")
                         onTriggered: saveDialog.open()
                     }
-
                 }
-
             }
 
             Platform.FileDialog {
@@ -221,9 +213,7 @@ Rectangle {
                         radius: width / 2
                         width: cover.width
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -245,9 +235,7 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
 
             Button {
@@ -291,7 +279,6 @@ Rectangle {
                                 playlistsPopup.close();
                             }
                         }
-
                     }
 
                     enter: Transition {
@@ -309,7 +296,6 @@ Rectangle {
                             duration: 300
                             easing.type: Easing.OutExpo
                         }
-
                     }
 
                     exit: Transition {
@@ -327,20 +313,15 @@ Rectangle {
                             duration: 300
                             easing.type: Easing.OutExpo
                         }
-
                     }
-
                 }
-
             }
 
             Behavior on border.color {
                 ColorAnimation {
                     duration: 300
                 }
-
             }
-
         }
 
         Rectangle {
@@ -375,7 +356,6 @@ Rectangle {
                     visible: title.hovered
                     y: 48
                 }
-
             }
 
             Label {
@@ -396,7 +376,6 @@ Rectangle {
                     text: `${player.media.artists.join(', ')} - ${player.media.album}`
                     visible: artistAndAlbum.hovered
                 }
-
             }
 
             ListView {
@@ -426,11 +405,9 @@ Rectangle {
                     NumberAnimation {
                         duration: 120
                     }
-
                 }
 
-                ScrollBar.vertical: ScrollBar {
-                }
+                ScrollBar.vertical: ScrollBar {}
 
                 delegate: Lyric {
                     content: lyricsContent
@@ -447,7 +424,6 @@ Rectangle {
                 header: Item {
                     height: 64
                 }
-
             }
 
             Rectangle {
@@ -467,13 +443,8 @@ Rectangle {
                     NumberAnimation {
                         duration: 120
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

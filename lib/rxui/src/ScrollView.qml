@@ -23,5 +23,4 @@ T.ScrollView {
         x: control.mirrored ? 0 : control.width - width
         y: control.topPadding
     }
-
 }

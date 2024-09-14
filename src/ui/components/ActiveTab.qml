@@ -32,16 +32,12 @@ Button {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
 
         Behavior on height {
             NumberAnimation {
                 duration: 120
             }
-
         }
-
     }
-
 }

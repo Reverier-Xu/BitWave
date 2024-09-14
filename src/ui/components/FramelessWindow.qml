@@ -32,22 +32,16 @@ Window {
                 // Increase the corner size slightly
                 if (p.x < b && p.y < b)
                     return Qt.SizeFDiagCursor;
-
                 if (p.x >= width - b && p.y >= height - b)
                     return Qt.SizeFDiagCursor;
-
                 if (p.x >= width - b && p.y < b)
                     return Qt.SizeBDiagCursor;
-
                 if (p.x < b && p.y >= height - b)
                     return Qt.SizeBDiagCursor;
-
                 if (p.x < b || p.x >= width - b)
                     return Qt.SizeHorCursor;
-
                 if (p.y < b || p.y >= height - b)
                     return Qt.SizeVerCursor;
-
             }
         }
         hoverEnabled: true
@@ -65,19 +59,14 @@ Window {
                 let e = 0;
                 if (p.x < 2 * b)
                     e |= Qt.LeftEdge;
-
                 if (p.x >= width - 2 * b)
                     e |= Qt.RightEdge;
-
                 if (p.y < 2 * b)
                     e |= Qt.TopEdge;
-
                 if (p.y >= height - 2 * b)
                     e |= Qt.BottomEdge;
-
                 root.startSystemResize(e);
             }
         }
     }
-
 }

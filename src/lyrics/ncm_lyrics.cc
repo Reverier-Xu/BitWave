@@ -9,15 +9,12 @@
 
 NcmLyrics::NcmLyrics(QObject* parent) : ILyrics(parent) {
     m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, &QNetworkAccessManager::finished, this,
-            &NcmLyrics::processReply);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &NcmLyrics::processReply);
 }
 
 NcmLyrics::~NcmLyrics() { m_manager->deleteLater(); }
 
-ILyrics* NcmLyrics::clone() {
-    return new NcmLyrics(this->parent());
-}
+ILyrics* NcmLyrics::clone() { return new NcmLyrics(this->parent()); }
 
 void NcmLyrics::processReply(QNetworkReply* reply) {
     if (reply->error() != QNetworkReply::NoError) {
@@ -27,8 +24,7 @@ void NcmLyrics::processReply(QNetworkReply* reply) {
     QString result = QString::fromUtf8(reply->readAll());
     // qDebug() << result;
     QJsonParseError jsonError{};
-    QJsonDocument jsonDoc =
-        QJsonDocument::fromJson(result.toUtf8(), &jsonError);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(result.toUtf8(), &jsonError);
     if (jsonError.error != QJsonParseError::NoError) {
         emit lyricsFetched(tr("[00:00.00]Json parse error"));
         return;
@@ -38,14 +34,12 @@ void NcmLyrics::processReply(QNetworkReply* reply) {
         emit lyricsFetched(tr("[00:00.00]Lyrics not found"));
         return;
     }
-    auto rawLyrics =
-        jsonObj.value("lrc").toObject().value("lyric").toString().trimmed();
+    auto rawLyrics = jsonObj.value("lrc").toObject().value("lyric").toString().trimmed();
     if (rawLyrics.isEmpty()) {
         emit lyricsFetched(tr("[00:00.00]Pure Music\n[00:03.00]Enjoy."));
         return;
     }
-    auto trLyrics =
-        jsonObj.value("tlyric").toObject().value("lyric").toString().trimmed();
+    auto trLyrics = jsonObj.value("tlyric").toObject().value("lyric").toString().trimmed();
     emit lyricsFetched(rawLyrics, trLyrics);
     reply->deleteLater();
 }

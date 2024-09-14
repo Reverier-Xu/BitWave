@@ -13,7 +13,6 @@
 
 #include "parser/parser.h"
 
-
 Media::Media(const Media& media) {
     m_url = media.m_url;
     m_time = media.m_time;
@@ -65,17 +64,12 @@ const QString& Media::comment() const { return m_comment; }
 
 void Media::setComment(const QString& n) { m_comment = n; }
 
-const QString& Media::embeddedLyrics() const {
-    return m_embeddedLyrics;
-}
+const QString& Media::embeddedLyrics() const { return m_embeddedLyrics; }
 
-void Media::setEmbeddedLyrics(const QString& n) {
-    m_embeddedLyrics = n;
-}
+void Media::setEmbeddedLyrics(const QString& n) { m_embeddedLyrics = n; }
 
-Media::Media(const QString& rawUrl, const QString& title,
-             const QStringList& artists, const QString& album, MediaType type,
-             double duration, const QString& comment, const QString& embeddedLyrics) {
+Media::Media(const QString& rawUrl, const QString& title, const QStringList& artists, const QString& album,
+             MediaType type, double duration, const QString& comment, const QString& embeddedLyrics) {
     m_url = rawUrl;
     m_title = title;
     m_artists = artists;
@@ -91,16 +85,12 @@ const Media nullMedia{};
 const Media& Media::null() { return nullMedia; }
 
 bool Media::operator==(const Media& media) const {
-    return m_url == media.m_url && m_time == media.m_time &&
-        m_title == media.m_title && m_artists == media.m_artists &&
-        m_album == media.m_album && m_type == media.m_type &&
-        m_comment == media.m_comment &&
-        m_embeddedLyrics == media.m_embeddedLyrics;
+    return m_url == media.m_url && m_time == media.m_time && m_title == media.m_title && m_artists == media.m_artists &&
+           m_album == media.m_album && m_type == media.m_type && m_comment == media.m_comment &&
+           m_embeddedLyrics == media.m_embeddedLyrics;
 }
 
-bool Media::operator!=(const Media& media) const {
-    return !operator==(media);
-}
+bool Media::operator!=(const Media& media) const { return !operator==(media); }
 
 bool Media::operator<(const Media& media) const {
     if (m_title == media.m_title) {

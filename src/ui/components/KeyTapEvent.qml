@@ -6,8 +6,8 @@ Item {
     property var customKey: "Space"
     property int isPressed: 0
 
-    signal doubleClicked()
-    signal clicked()
+    signal doubleClicked
+    signal clicked
 
     function dClick() {
         if (keyTime.running) {
@@ -45,5 +45,4 @@ Item {
             dClick();
         }
     }
-
 }

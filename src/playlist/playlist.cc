@@ -119,14 +119,12 @@ void Playlist::addMediaToPlaylist(const Media& media, const QString& playlist) {
     }
 }
 
-Q_INVOKABLE void Playlist::addMediaIndexToPlaylist(const int index,
-                                                   const QString& playlist) {
+Q_INVOKABLE void Playlist::addMediaIndexToPlaylist(const int index, const QString& playlist) {
     auto media = m_playlist.at(index);
     addMediaToPlaylist(media, playlist);
 }
 
-void Playlist::removeMediaFromPlaylist(const Media& media,
-                                       const QString& playlist) {
+void Playlist::removeMediaFromPlaylist(const Media& media, const QString& playlist) {
     if (!m_playlists.contains(playlist)) {
         return;
     }
@@ -166,9 +164,7 @@ Q_INVOKABLE void Playlist::sortByAlbum() {
         setSortStatus(AlbumAsc);
 }
 
-Q_INVOKABLE const QVector<Media>& Playlist::currentMedias() {
-    return m_playlist;
-}
+Q_INVOKABLE const QVector<Media>& Playlist::currentMedias() { return m_playlist; }
 
 Q_INVOKABLE void Playlist::reload() {
     beginResetModel();
@@ -195,24 +191,24 @@ void Playlist::setSortStatus(SortStatus sortStatus) {
 
     QVector<Media>& medias = m_playlist;
     switch (m_sortStatus) {
-        case TitleAsc:
-            std::sort(medias.begin(), medias.end(), cmpTitleAsc);
-            break;
-        case TitleDesc:
-            std::sort(medias.begin(), medias.end(), cmpTitleDesc);
-            break;
-        case ArtistsAsc:
-            std::sort(medias.begin(), medias.end(), cmpArtistsAsc);
-            break;
-        case ArtistsDesc:
-            std::sort(medias.begin(), medias.end(), cmpArtistsDesc);
-            break;
-        case AlbumAsc:
-            std::sort(medias.begin(), medias.end(), cmpAlbumAsc);
-            break;
-        case AlbumDesc:
-            std::sort(medias.begin(), medias.end(), cmpAlbumDesc);
-            break;
+    case TitleAsc:
+        std::sort(medias.begin(), medias.end(), cmpTitleAsc);
+        break;
+    case TitleDesc:
+        std::sort(medias.begin(), medias.end(), cmpTitleDesc);
+        break;
+    case ArtistsAsc:
+        std::sort(medias.begin(), medias.end(), cmpArtistsAsc);
+        break;
+    case ArtistsDesc:
+        std::sort(medias.begin(), medias.end(), cmpArtistsDesc);
+        break;
+    case AlbumAsc:
+        std::sort(medias.begin(), medias.end(), cmpAlbumAsc);
+        break;
+    case AlbumDesc:
+        std::sort(medias.begin(), medias.end(), cmpAlbumDesc);
+        break;
     }
 
     m_model->reload();

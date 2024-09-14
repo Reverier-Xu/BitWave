@@ -32,18 +32,17 @@
 #ifndef SINGLEAPPLICATION_P_H
 #define SINGLEAPPLICATION_P_H
 
+#include "singleapplication.h"
 #include <QtCore/QSharedMemory>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
-#include "singleapplication.h"
-
 
 struct InstancesInfo {
     bool primary;
     quint32 secondary;
     qint64 primaryPid;
     char primaryUser[128];
-    quint16 checksum; // Must be the last field
+    quint16 checksum;    // Must be the last field
 };
 
 struct ConnectionInfo {
@@ -53,15 +52,10 @@ struct ConnectionInfo {
 };
 
 class SingleApplicationPrivate : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
-   public:
-    enum ConnectionType : quint8 {
-        InvalidConnection = 0,
-        NewInstance = 1,
-        SecondaryInstance = 2,
-        Reconnect = 3
-    };
+  public:
+    enum ConnectionType : quint8 { InvalidConnection = 0, NewInstance = 1, SecondaryInstance = 2, Reconnect = 3 };
     enum ConnectionStage : quint8 {
         StageInitHeader = 0,
         StageInitBody = 1,
@@ -103,8 +97,7 @@ class SingleApplicationPrivate : public QObject {
 
     bool writeConfirmedFrame(int msecs, const QByteArray& msg);
 
-    bool writeConfirmedMessage(int msecs,
-                               const QByteArray& msg,
+    bool writeConfirmedMessage(int msecs, const QByteArray& msg,
                                SingleApplication::SendMode sendMode = SingleApplication::NonBlocking);
 
     static void randomSleep();
@@ -131,7 +124,7 @@ class SingleApplicationPrivate : public QObject {
 
     QStringList appDataList;
 
-   public Q_SLOTS:
+  public Q_SLOTS:
 
     void slotConnectionEstablished();
 
@@ -140,4 +133,4 @@ class SingleApplicationPrivate : public QObject {
     void slotClientConnectionClosed(QLocalSocket*, quint32);
 };
 
-#endif // SINGLEAPPLICATION_P_H
+#endif    // SINGLEAPPLICATION_P_H

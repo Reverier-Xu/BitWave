@@ -47,9 +47,7 @@ Rectangle {
             NumberAnimation {
                 duration: 100
             }
-
         }
-
     }
 
     Popup {
@@ -75,7 +73,7 @@ Rectangle {
             icon.source: player.muted ? "qrc:/qt/qml/RxUI/assets/speaker-mute.svg" : `qrc:/qt/qml/RxUI/assets/speaker-${Math.floor(player.volume / 34)}.svg`
             radius: width / 2
             width: 36
-            onClicked: function() {
+            onClicked: function () {
                 player.toggleMute();
                 canvas.requestPaint();
             }
@@ -93,7 +91,7 @@ Rectangle {
             orientation: Qt.Horizontal
             to: 100
             value: player.volume
-            onMoved: function() {
+            onMoved: function () {
                 player.toggleVolume(value);
             }
         }
@@ -113,7 +111,6 @@ Rectangle {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
 
         exit: Transition {
@@ -131,9 +128,7 @@ Rectangle {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
-
     }
 
     Connections {
@@ -143,5 +138,4 @@ Rectangle {
 
         target: player
     }
-
 }

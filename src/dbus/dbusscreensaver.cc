@@ -16,17 +16,13 @@
 #include <QDBusReply>
 #include <utility>
 
-DBusScreensaver::DBusScreensaver(QString service, QString path,
-                                 QString interface)
-    : m_service(std::move(service)),
-      m_path(std::move(path)),
-      m_interface(std::move(interface)) {}
+DBusScreensaver::DBusScreensaver(QString service, QString path, QString interface)
+    : m_service(std::move(service)), m_path(std::move(path)), m_interface(std::move(interface)) {}
 
 void DBusScreensaver::inhibit() {
     QDBusInterface screensaver(m_service, m_path, m_interface);
     QDBusReply<quint32> reply =
-        screensaver.call("Inhibit", QApplication::applicationName(),
-                         QObject::tr("Video Playing"));
+        screensaver.call("Inhibit", QApplication::applicationName(), QObject::tr("Video Playing"));
     if (reply.isValid()) {
         m_cookie = reply.value();
     }

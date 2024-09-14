@@ -5,13 +5,13 @@ class QNetworkAccessManager;
 class QNetworkReply;
 
 class NcmLyrics : public ILyrics {
-   Q_OBJECT
-   private:
+    Q_OBJECT
+  private:
     QNetworkAccessManager* m_manager;
 
     void processReply(QNetworkReply* reply);
 
-   public:
+  public:
     explicit NcmLyrics(QObject* parent = nullptr);
 
     ~NcmLyrics() override;

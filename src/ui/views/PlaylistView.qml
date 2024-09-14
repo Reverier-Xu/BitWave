@@ -29,7 +29,6 @@ Rectangle {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
         }
-
     }
 
     Row {
@@ -73,7 +72,6 @@ Rectangle {
                 source: playlist.sortStatus === 0 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: playlist.sortStatus === 1 || playlist.sortStatus === 0
             }
-
         }
 
         Button {
@@ -100,7 +98,6 @@ Rectangle {
                 source: playlist.sortStatus === 2 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: playlist.sortStatus === 3 || playlist.sortStatus === 2
             }
-
         }
 
         Button {
@@ -127,7 +124,6 @@ Rectangle {
                 source: playlist.sortStatus === 4 ? "qrc:/qt/qml/RxUI/assets/chevron-up.svg" : "qrc:/qt/qml/RxUI/assets/chevron-down.svg"
                 visible: playlist.sortStatus === 5 || playlist.sortStatus === 4
             }
-
         }
 
         Rectangle {
@@ -143,9 +139,7 @@ Rectangle {
                 text: qsTr("Duration")
                 font.bold: true
             }
-
         }
-
     }
 
     Rectangle {
@@ -167,8 +161,7 @@ Rectangle {
         anchors.bottomMargin: 16 + 100
         model: playlistModel
 
-        ScrollBar.vertical: ScrollBar {
-        }
+        ScrollBar.vertical: ScrollBar {}
 
         add: Transition {
             NumberAnimation {
@@ -184,7 +177,6 @@ Rectangle {
                 to: 1
                 duration: 200
             }
-
         }
 
         addDisplaced: Transition {
@@ -193,7 +185,6 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.OutExpo
             }
-
         }
 
         removeDisplaced: Transition {
@@ -205,7 +196,6 @@ Rectangle {
                 properties: "y"
                 duration: 200
             }
-
         }
 
         remove: Transition {
@@ -223,7 +213,6 @@ Rectangle {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
 
         delegate: MediaRow {
@@ -243,21 +232,18 @@ Rectangle {
             onAddToPlaylistClicked: (i, n) => {
                 playlist.addMediaIndexToPlaylist(i, n);
             }
-            onDeleteClicked: (i) => {
+            onDeleteClicked: i => {
                 playlist.removeMediaIndex(i);
             }
         }
-
     }
 
     Connections {
         function onCurrentRouteChanged(route) {
             if (route.startsWith("playlists"))
                 playlist.switchPlaylist(route.split("/").slice(1).join('/'));
-
         }
 
         target: router
     }
-
 }

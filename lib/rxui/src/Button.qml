@@ -34,7 +34,6 @@ T.Button {
         color: {
             if (!enabled)
                 return Style.palette.midlight;
-
             if (pressed)
                 return control.pressedColor;
             else if (hovered)
@@ -52,9 +51,7 @@ T.Button {
             ColorAnimation {
                 duration: 120
             }
-
         }
-
     }
 
     contentItem: IconLabel {
@@ -68,5 +65,4 @@ T.Button {
         text: control.text
         opacity: control.enabled ? 1 : 0.6
     }
-
 }

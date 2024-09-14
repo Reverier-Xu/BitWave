@@ -28,8 +28,7 @@ void App::initialize(const QString& file) {
     m_ui->initialize();
     if (!file.isEmpty()) {
         Player::instance(this->parent())->queue()->addMediaByUrl(file);
-        Player::instance()->queue()->play(
-            Player::instance()->queue()->cursor() + 1);
+        Player::instance()->queue()->play(Player::instance()->queue()->cursor() + 1);
     }
 
 #ifdef QT_DBUS_LIB
@@ -37,8 +36,7 @@ void App::initialize(const QString& file) {
 #endif
 }
 
-void App::onSecondaryInstanceMessageReceived(quint32 instanceId,
-                                             const QByteArray& message) {
+void App::onSecondaryInstanceMessageReceived(quint32 instanceId, const QByteArray& message) {
     const char flag = message[0];
     const QString file = message.mid(1);
     // flag is here:
@@ -61,8 +59,7 @@ void App::onSecondaryInstanceMessageReceived(quint32 instanceId,
     }
     if (!file.isEmpty()) {
         Player::instance()->queue()->addMediaByUrl(file);
-        Player::instance()->queue()->play(
-            Player::instance()->queue()->cursor() + 1);
+        Player::instance()->queue()->play(Player::instance()->queue()->cursor() + 1);
     }
 }
 

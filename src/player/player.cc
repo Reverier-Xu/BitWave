@@ -16,7 +16,6 @@
 #include "codec/codec.h"
 #include "parser/parser.h"
 
-
 Player* Player::m_instance = nullptr;
 
 Player::Player(QObject* parent) : QObject(parent) {
@@ -96,9 +95,10 @@ void Player::pause() {
 
 void Player::seek(double n) {
     if (valid()) {
-        if (ended()) m_engine->play(media().url());
+        if (ended())
+            m_engine->play(media().url());
         else {
-            m_engine->seek((double) (n));
+            m_engine->seek((double)(n));
             emit userSeeked(n);
         }
     }
@@ -117,14 +117,12 @@ void Player::togglePause() {
 }
 
 void Player::connectSignals() {
-    connect(m_engine, &Engine::currentTimeChanged, this,
-            [=](double secs) { setCurrentTime(secs); });
+    connect(m_engine, &Engine::currentTimeChanged, this, [=](double secs) { setCurrentTime(secs); });
     connect(m_engine, &Engine::totalTimeChanged, this, [=](double secs) {
         setTotalTime(secs);
         //        qDebug() << "total time changed: " << secs;
     });
-    connect(m_engine, &Engine::volumeChanged, this,
-            [=](double vol) { setVolume(vol); });
+    connect(m_engine, &Engine::volumeChanged, this, [=](double vol) { setVolume(vol); });
     connect(m_engine, &Engine::started, this, [=]() {
         resume();
         setPlaying(true);
@@ -149,11 +147,9 @@ void Player::connectSignals() {
         emit stateChanged();
         //        qDebug() << "resumed";
     });
-    connect(m_engine, &Engine::audioDeviceChanged, this,
-            [=](const QString& n) { emit audioDeviceChanged(n); });
+    connect(m_engine, &Engine::audioDeviceChanged, this, [=](const QString& n) { emit audioDeviceChanged(n); });
 
-    connect(m_queue, &PlayQueue::mediaChanged, this,
-            [=](const Media& media) { play(media); });
+    connect(m_queue, &PlayQueue::mediaChanged, this, [=](const Media& media) { play(media); });
     if (m_screensaver != nullptr) {
         connect(m_engine, &Engine::started, [=]() {
             // qDebug() << "Started";
@@ -275,12 +271,9 @@ QImage Player::cover() const { return m_cover; }
 
 void Player::setCover(const QImage& n) {
     m_cover = n;
-    auto tempCoverPath =
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-            "/BitWave/Covers/" + m_media.title().replace("/", "-") + ".jpg";
-    QDir().mkpath(
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
-            "/BitWave/Covers/");
+    auto tempCoverPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/" +
+                         m_media.title().replace("/", "-") + ".jpg";
+    QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/BitWave/Covers/");
     n.save(tempCoverPath);
     setCoverPath(QUrl::fromLocalFile(tempCoverPath).toString());
 
@@ -336,9 +329,7 @@ QString Player::audioDevice() const {
     return resp.value<QString>();
 }
 
-void Player::setAudioDevice(const QString& n) {
-    m_engine->setMpvProperty("audio-device", n);
-}
+void Player::setAudioDevice(const QString& n) { m_engine->setMpvProperty("audio-device", n); }
 
 void Player::loadSettings() {
     QSettings settings;

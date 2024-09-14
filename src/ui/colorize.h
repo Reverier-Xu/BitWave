@@ -16,12 +16,12 @@
 class Colorize : public QObject {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-   private:
+  private:
     int m_clustNum{16};
     QColor m_color{128, 128, 128};
     int m_taskId{0};
 
-   public:
+  public:
     explicit Colorize(QObject* parent = nullptr);
 
     QColor colorize(const QImage& image);
@@ -30,9 +30,9 @@ class Colorize : public QObject {
 
     void setColor(const QColor& color);
 
-   public slots:
+  public slots:
     Q_INVOKABLE void requestColorize(const QImage& image);
 
-   signals:
+  signals:
     void colorChanged(const QColor& color);
 };

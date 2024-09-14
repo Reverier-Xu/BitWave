@@ -13,7 +13,7 @@
 #include "interface.h"
 
 class MpvCodec : public ICodec {
-   private:
+  private:
     QStringList m_supportedFormats = {
         // popular audio formats
         "mp3",
@@ -61,7 +61,7 @@ class MpvCodec : public ICodec {
         "webm",
     };
 
-   public:
+  public:
     MpvCodec() = default;
     ~MpvCodec() override = default;
     const QStringList& supportedFormats() override;

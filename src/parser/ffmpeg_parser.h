@@ -13,19 +13,16 @@
 #include "interface.h"
 
 class FfmpegParser : public IParser {
-   private:
+  private:
     QStringList m_supportedAudioFormats = {
-        "mp3", "flac", "wav",  "ape", "ogg", "aac", "m4a",
-        "m4b", "wma",  "opus", "m4p", "m4r", "wv",
+        "mp3", "flac", "wav", "ape", "ogg", "aac", "m4a", "m4b", "wma", "opus", "m4p", "m4r", "wv",
     };
     QStringList m_supportedVideoFormats = {
-        "mp4", "avi", "mkv",  "flv", "mov",  "wmv", "mpg",  "mpeg",
-        "m4v", "3gp", "3g2",  "mts", "m2ts", "ts",  "m3u8", "m3u",
-        "mpd", "rm",  "rmvb", "asf", "wma",  "wmv", "flv",  "f4v",
-        "f4p", "f4a", "f4b",  "vob", "webm",
+        "mp4", "avi", "mkv", "flv",  "mov", "wmv", "mpg", "mpeg", "m4v", "3gp", "3g2", "mts", "m2ts", "ts",   "m3u8",
+        "m3u", "mpd", "rm",  "rmvb", "asf", "wma", "wmv", "flv",  "f4v", "f4p", "f4a", "f4b", "vob",  "webm",
     };
 
-   public:
+  public:
     bool accepted(const QString& path) override;
     Media parse(const QString& path) override;
     QImage extractCover(const Media& src) override;

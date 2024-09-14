@@ -19,16 +19,11 @@
 Storage* Storage::m_instance = nullptr;
 
 Storage::Storage(QObject* parent) : QObject(parent) {
-    QDir().mkpath(
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    auto libraryDbPath =
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) +
-        "/library.db";
+    QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    auto libraryDbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/library.db";
     m_libraryDb = QSqlDatabase::addDatabase("QSQLITE", libraryDbPath);
     m_libraryDb.setDatabaseName(libraryDbPath);
-    auto queueDbPath =
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) +
-        "/queue.db";
+    auto queueDbPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/queue.db";
     m_queueDb = QSqlDatabase::addDatabase("QSQLITE", queueDbPath);
     m_queueDb.setDatabaseName(queueDbPath);
     m_isValid = m_libraryDb.open() && m_queueDb.open();
@@ -58,17 +53,10 @@ void Storage::createLibraryStorage() {
         return;
     }
     QStringList sql;
-    sql << "CREATE TABLE IF NOT EXISTS _LIBRARY ("
-        << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
-        << "title           TEXT,"
-        << "artist          TEXT,"
-        << "album           TEXT,"
-        << "time            REAL,"
-        << "url             VARCHAR(511) NOT NULL UNIQUE,"
-        << "type            INTEGER,"
-        << "comment         TEXT,"
-        << "embedded_lyrics TEXT"
-        << ");";
+    sql << "CREATE TABLE IF NOT EXISTS _LIBRARY (" << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
+        << "title           TEXT," << "artist          TEXT," << "album           TEXT," << "time            REAL,"
+        << "url             VARCHAR(511) NOT NULL UNIQUE," << "type            INTEGER," << "comment         TEXT,"
+        << "embedded_lyrics TEXT" << ");";
     QSqlQuery query(sql.join(" "), m_libraryDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _LIBRARY");
@@ -81,20 +69,15 @@ void Storage::createPlaylistStorage() {
         return;
     }
     QStringList sql;
-    sql << "CREATE TABLE IF NOT EXISTS _PLAYLIST ("
-        << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
-        << "title           TEXT NOT NULL UNIQUE"
-        << ");";
+    sql << "CREATE TABLE IF NOT EXISTS _PLAYLIST (" << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
+        << "title           TEXT NOT NULL UNIQUE" << ");";
     QSqlQuery query(sql.join(" "), m_libraryDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _PLAYLIST");
     }
     sql.clear();
-    sql << "CREATE TABLE IF NOT EXISTS _PLAYLIST_2_MEDIA ("
-        << "playlist_id INTEGER NOT NULL,"
-        << "media_id    INTEGER NOT NULL,"
-        << "PRIMARY KEY (playlist_id, media_id)"
-        << ");";
+    sql << "CREATE TABLE IF NOT EXISTS _PLAYLIST_2_MEDIA (" << "playlist_id INTEGER NOT NULL,"
+        << "media_id    INTEGER NOT NULL," << "PRIMARY KEY (playlist_id, media_id)" << ");";
     query.prepare(sql.join(" "));
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _PLAYLIST_2_MEDIA");
@@ -104,17 +87,10 @@ void Storage::createPlaylistStorage() {
 
 void Storage::createPlayQueue() {
     QStringList sql;
-    sql << "CREATE TABLE IF NOT EXISTS _PLAY_QUEUE ("
-        << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
-        << "title           TEXT,"
-        << "artist          TEXT,"
-        << "album           TEXT,"
-        << "time            REAL,"
-        << "url             VARCHAR(511) NOT NULL UNIQUE,"
-        << "type            INTEGER,"
-        << "comment         TEXT,"
-        << "embedded_lyrics TEXT"
-        << ");";
+    sql << "CREATE TABLE IF NOT EXISTS _PLAY_QUEUE (" << "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
+        << "title           TEXT," << "artist          TEXT," << "album           TEXT," << "time            REAL,"
+        << "url             VARCHAR(511) NOT NULL UNIQUE," << "type            INTEGER," << "comment         TEXT,"
+        << "embedded_lyrics TEXT" << ");";
     QSqlQuery query(sql.join(" "), m_queueDb);
     if (!query.exec()) {
         throw std::runtime_error("Failed to create table _PLAY_QUEUE");
@@ -124,22 +100,10 @@ void Storage::createPlayQueue() {
 
 void Storage::addMedia(const Media& media) {
     QStringList sql;
-    sql << "INSERT INTO _LIBRARY ("
-        << "title          ,"
-        << "artist         ,"
-        << "album          ,"
-        << "time           ,"
-        << "url            ,"
-        << "type           ,"
-        << "comment        ,"
-        << "embedded_lyrics) VALUES ("
-        << ":title          ,"
-        << ":artist         ,"
-        << ":album          ,"
-        << ":time           ,"
-        << ":url            ,"
-        << ":type           ,"
-        << ":comment        ,"
+    sql << "INSERT INTO _LIBRARY (" << "title          ," << "artist         ," << "album          ,"
+        << "time           ," << "url            ," << "type           ," << "comment        ,"
+        << "embedded_lyrics) VALUES (" << ":title          ," << ":artist         ," << ":album          ,"
+        << ":time           ," << ":url            ," << ":type           ," << ":comment        ,"
         << ":embedded_lyrics);";
 
     QSqlQuery query(m_libraryDb);
@@ -176,8 +140,7 @@ void Storage::addPlaylist(const QString& title) {
 void Storage::linkMediaToPlaylist(const Media& media, const QString& playlist) {
     QStringList sql;
     sql << "INSERT INTO _PLAYLIST_2_MEDIA (playlist_id, media_id) VALUES ("
-        << "(SELECT id FROM _PLAYLIST WHERE title = :playlist),"
-        << "(SELECT id FROM _LIBRARY WHERE url = :url)"
+        << "(SELECT id FROM _PLAYLIST WHERE title = :playlist)," << "(SELECT id FROM _LIBRARY WHERE url = :url)"
         << ");";
     QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
@@ -259,10 +222,8 @@ QStringList Storage::loadPlaylists() {
 QVector<Media> Storage::loadPlaylist(const QString& playlist) {
     QStringList sql;
     // construct sql to select all media in the playlist, using playlist_2_media
-    sql << "SELECT * FROM _LIBRARY WHERE id IN ("
-        << "SELECT media_id FROM _PLAYLIST_2_MEDIA where playlist_id ="
-        << "(SELECT id FROM _PLAYLIST WHERE title = :playlist)"
-        << ");";
+    sql << "SELECT * FROM _LIBRARY WHERE id IN (" << "SELECT media_id FROM _PLAYLIST_2_MEDIA where playlist_id ="
+        << "(SELECT id FROM _PLAYLIST WHERE title = :playlist)" << ");";
     QSqlQuery query(m_libraryDb);
     query.prepare(sql.join(" "));
     query.bindValue(":playlist", playlist);
@@ -309,8 +270,7 @@ void Storage::removePlaylist(const QString& playlist) {
     m_libraryDb.commit();
 }
 
-void Storage::removeMediaFromPlaylist(const Media& media,
-                                      const QString& playlist) {
+void Storage::removeMediaFromPlaylist(const Media& media, const QString& playlist) {
     QStringList sql;
     sql << "DELETE FROM _PLAYLIST_2_MEDIA WHERE playlist_id = (SELECT id FROM "
            "_PLAYLIST WHERE title = :playlist) AND media_id = (SELECT id FROM "
@@ -367,4 +327,29 @@ void Storage::storePlayQueue(const QVector<Media>& playQueue) {
         }
     }
     m_queueDb.commit();
+}
+
+QVector<Media> Storage::searchMedia(const QString& keyword) {
+    QStringList sql;
+    sql << "SELECT * FROM _LIBRARY WHERE title LIKE :keyword OR artist LIKE :keyword OR album LIKE :keyword;";
+    QSqlQuery query(m_libraryDb);
+    query.prepare(sql.join(" "));
+    query.bindValue(":keyword", "%" + keyword + "%");
+    if (!query.exec()) {
+        throw std::runtime_error("Failed to search media");
+    }
+    QVector<Media> result;
+    while (query.next()) {
+        Media media;
+        media.setTitle(query.value("title").toString());
+        media.setArtists(query.value("artist").toString().split("/"));
+        media.setAlbum(query.value("album").toString());
+        media.setTime(query.value("time").toReal());
+        media.setUrl(query.value("url").toString());
+        media.setType(static_cast<MediaType>(query.value("type").toInt()));
+        media.setComment(query.value("comment").toString());
+        media.setEmbeddedLyrics(query.value("embedded_lyrics").toString());
+        result.append(media);
+    }
+    return result;
 }

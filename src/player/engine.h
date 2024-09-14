@@ -20,7 +20,7 @@
 class Engine : public QObject {
     Q_OBJECT
 
-   private:
+  private:
     mpv_handle* m_mpvHandle;
 
     void handleMpvEvent(mpv_event* event);
@@ -29,7 +29,7 @@ class Engine : public QObject {
 
     void loadFile(const QString& path);
 
-   public:
+  public:
     explicit Engine(QObject* parent = nullptr);
 
     Engine(Engine& other) = delete;
@@ -40,11 +40,10 @@ class Engine : public QObject {
 
     Q_INVOKABLE void setMpvProperty(const QString& name, const QVariant& value);
 
-    [[nodiscard]] Q_INVOKABLE QVariant
-    getMpvProperty(const QString& name) const;
+    [[nodiscard]] Q_INVOKABLE QVariant getMpvProperty(const QString& name) const;
 
     [[nodiscard]] QList<QMap<QString, QString>> getAudioDeviceList();
-    
+
     Q_INVOKABLE void play(const QString& path);
 
     Q_INVOKABLE void resume();
@@ -59,12 +58,11 @@ class Engine : public QObject {
 
     Q_INVOKABLE void setVolume(double vol);
 
-
-   public slots:
+  public slots:
 
     void onMpvEvents();
 
-   signals:
+  signals:
 
     void totalTimeChanged(double secs);
 

@@ -56,7 +56,6 @@ Rectangle {
                 inputText = "";
             }
         }
-
     }
 
     ActiveTab {
@@ -152,7 +151,6 @@ Rectangle {
                             }
                         }
                     }
-
                 }
 
                 enter: Transition {
@@ -170,7 +168,6 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
 
                 exit: Transition {
@@ -188,13 +185,9 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
-
     }
 
     ListView {
@@ -207,8 +200,7 @@ Rectangle {
         clip: true
         model: playlist
 
-        ScrollBar.vertical: ScrollBar {
-        }
+        ScrollBar.vertical: ScrollBar {}
 
         delegate: ActiveTab {
             icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
@@ -240,13 +232,9 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
-
     }
 
     ActiveTab {
@@ -269,7 +257,5 @@ Rectangle {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
-
 }

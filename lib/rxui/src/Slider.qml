@@ -37,7 +37,6 @@ T.Slider {
             x: control.horizontal ? 0 : (parent.width - width) / 2
             y: control.horizontal ? (parent.height - height) / 2 : ((control.position * parent.height - 16) + 18)
         }
-
     }
 
     handle: Rectangle {
@@ -54,9 +53,6 @@ T.Slider {
             ColorAnimation {
                 duration: 200
             }
-
         }
-
     }
-
 }

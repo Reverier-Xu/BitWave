@@ -72,9 +72,7 @@ Rectangle {
                         smooth: true
                         antialiasing: true
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -95,11 +93,8 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
 
         Label {
@@ -121,7 +116,6 @@ Rectangle {
                 visible: title.hovered
                 x: 0
             }
-
         }
 
         Label {
@@ -141,7 +135,6 @@ Rectangle {
                 visible: artistAndAlbum.hovered
                 x: 0
             }
-
         }
 
         RowLayout {
@@ -182,7 +175,6 @@ Rectangle {
                     queue.next();
                 }
             }
-
         }
 
         RowLayout {
@@ -234,7 +226,6 @@ Rectangle {
                 onClicked: {
                     if (control.queueVisible)
                         control.queueVisible = false;
-
                     control.optionVisible = !control.optionVisible;
                     ui.controlWidgetExpanded = control.optionVisible === true;
                 }
@@ -250,9 +241,7 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
 
             Button {
@@ -268,7 +257,6 @@ Rectangle {
                 onClicked: {
                     if (control.optionVisible)
                         control.optionVisible = false;
-
                     control.queueVisible = !control.queueVisible;
                     ui.controlWidgetExpanded = control.queueVisible === true;
                 }
@@ -291,7 +279,6 @@ Rectangle {
                         radius: 8
                         running: queue.loading
                     }
-
                 }
 
                 Behavior on rotation {
@@ -299,13 +286,9 @@ Rectangle {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
-
     }
 
     InteractiveProgressBar {
@@ -318,7 +301,7 @@ Rectangle {
         height: 24
         totalValue: player.totalTime
         showHandle: !ui.hideControls
-        onEndDragging: function(time) {
+        onEndDragging: function (time) {
             player.seek(time);
         }
     }
@@ -340,7 +323,5 @@ Rectangle {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
-
 }

@@ -16,14 +16,14 @@ Rectangle {
     property color normalColor: "transparent"
     property string placeholder: ""
 
-    signal enterPressed()
-    signal escPressed()
-    signal inputActive()
+    signal enterPressed
+    signal escPressed
+    signal inputActive
     signal inputEdited(string input)
     signal inputFinished(string input)
-    signal inputInactive()
-    signal inputRejected()
-    signal tabPressed()
+    signal inputInactive
+    signal inputRejected
+    signal tabPressed
 
     function setInputFocus() {
         inputTextBox.forceActiveFocus();
@@ -42,7 +42,6 @@ Rectangle {
                 color: hoverColor
                 target: root
             }
-
         },
         State {
             name: "Normal"
@@ -52,7 +51,6 @@ Rectangle {
                 color: normalColor
                 target: root
             }
-
         },
         State {
             name: "Focus"
@@ -62,7 +60,6 @@ Rectangle {
                 color: focusColor
                 target: root
             }
-
         }
     ]
     //define transmission for the states
@@ -74,7 +71,6 @@ Rectangle {
             ColorAnimation {
                 duration: 150
             }
-
         },
         Transition {
             from: "*"
@@ -83,7 +79,6 @@ Rectangle {
             ColorAnimation {
                 duration: 150
             }
-
         },
         Transition {
             from: "*"
@@ -92,7 +87,6 @@ Rectangle {
             ColorAnimation {
                 duration: 200
             }
-
         }
     ]
 
@@ -117,7 +111,7 @@ Rectangle {
         text: inputText
         verticalAlignment: Text.AlignVCenter
         wrapMode: TextEdit.NoWrap
-        Keys.onPressed: function(event) {
+        Keys.onPressed: function (event) {
             if (event.key === Qt.Key_Enter) {
                 root.enterPressed();
                 root.inputFinished(inputTextBox.text);
@@ -179,9 +173,7 @@ Rectangle {
                     text: qsTr("Paste")
                     onTriggered: inputTextBox.paste()
                 }
-
             }
-
         }
 
         cursorDelegate: Rectangle {
@@ -201,7 +193,6 @@ Rectangle {
                 function onCursorPositionChanged() {
                     if (target.activeFocus)
                         cursorAnimation.restart();
-
                 }
 
                 target: inputTextBox
@@ -244,11 +235,8 @@ Rectangle {
                 PauseAnimation {
                     duration: 300
                 }
-
             }
-
         }
-
     }
 
     Text {
@@ -272,22 +260,19 @@ Rectangle {
         cursorShape: Qt.IBeamCursor
         hoverEnabled: parent.enabled
         propagateComposedEvents: true
-        onClicked: function(mouse) {
+        onClicked: function (mouse) {
             mouse.accepted = false;
         }
         onEntered: {
             if (!inputTextBox.activeFocus)
                 root.state = "Hovering";
-
         }
         onExited: {
             if (!inputTextBox.activeFocus)
                 root.state = "Normal";
-
         }
-        onPressed: function(mouse) {
+        onPressed: function (mouse) {
             mouse.accepted = false;
         }
     }
-
 }

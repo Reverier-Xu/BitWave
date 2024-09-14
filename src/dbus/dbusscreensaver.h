@@ -16,14 +16,14 @@
 #include "screensaver.h"
 
 class DBusScreensaver : public Screensaver {
-   public:
+  public:
     DBusScreensaver(QString service, QString path, QString interface);
 
     void inhibit() override;
 
     void unInhibit() override;
 
-   private:
+  private:
     QString m_service;
     QString m_path;
     QString m_interface;

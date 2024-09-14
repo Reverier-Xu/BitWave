@@ -56,7 +56,5 @@ SystemTrayIcon {
             text: qsTr("Quit BitWave")
             onTriggered: app.requestQuit()
         }
-
     }
-
 }

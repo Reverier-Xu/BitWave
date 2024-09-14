@@ -20,9 +20,6 @@ T.ScrollIndicator {
             NumberAnimation {
                 duration: 200
             }
-
         }
-
     }
-
 }

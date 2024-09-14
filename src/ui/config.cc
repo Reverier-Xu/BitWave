@@ -14,17 +14,14 @@
 #include <QApplication>
 #include <QSettings>
 
-
 UiConfig::UiConfig(QObject* parent, Router* router) : QObject(parent), m_router(router) {
     loadSettings();
     m_hideTimer = new QTimer(this);
     m_hideTimer->setInterval(1000);
 
     connect(m_hideTimer, &QTimer::timeout, [=]() {
-        if (!this->controlWidgetExpanded() && Player::instance()->playing() && Player::instance()->media().type() ==
-        VIDEO && router &&
-            router->currentRoute()
-                .startsWith("player"))
+        if (!this->controlWidgetExpanded() && Player::instance()->playing() &&
+            Player::instance()->media().type() == VIDEO && router && router->currentRoute().startsWith("player"))
             setHideControls(true);
     });
 
@@ -74,9 +71,7 @@ void UiConfig::setFullscreen(bool n) {
     emit fullscreenChanged(n);
 }
 
-bool UiConfig::fullscreen() const {
-    return m_fullscreen;
-}
+bool UiConfig::fullscreen() const { return m_fullscreen; }
 
 void UiConfig::loadSettings() {
     QSettings settings;
@@ -103,18 +98,14 @@ void UiConfig::setFlatSystemTray(bool n) {
     emit flatSystemTrayChanged(n);
 }
 
-bool UiConfig::flatSystemTray() const {
-    return m_flatSystemTray;
-}
+bool UiConfig::flatSystemTray() const { return m_flatSystemTray; }
 
 void UiConfig::setHideControls(bool n) {
     m_hideControls = n;
     emit hideControlsChanged(n);
 }
 
-bool UiConfig::hideControls() const {
-    return m_hideControls;
-}
+bool UiConfig::hideControls() const { return m_hideControls; }
 
 void UiConfig::autoHideControls() {
     if (m_hideTimer->isActive()) m_hideTimer->stop();
@@ -131,15 +122,11 @@ void UiConfig::setSideBarExpanded(bool n) {
     emit sideBarExpandedChanged(n);
 }
 
-bool UiConfig::sideBarExpanded() const {
-    return m_sideBarExpanded;
-}
+bool UiConfig::sideBarExpanded() const { return m_sideBarExpanded; }
 
 void UiConfig::setControlWidgetExpanded(bool n) {
     m_controlWidgetExpanded = n;
     emit controlWidgetExpandedChanged(n);
 }
 
-bool UiConfig::controlWidgetExpanded() const {
-    return m_controlWidgetExpanded;
-}
+bool UiConfig::controlWidgetExpanded() const { return m_controlWidgetExpanded; }

@@ -22,5 +22,4 @@ T.Popup {
         border.width: 1
         color: Style.palette.toolTipBase
     }
-
 }

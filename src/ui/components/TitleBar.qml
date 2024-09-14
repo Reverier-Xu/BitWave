@@ -132,7 +132,7 @@ Rectangle {
         fileMode: FileDialog.OpenFiles
         folder: StandardPaths.writableLocation(StandardPaths.MusicLocation)
         onAccepted: {
-            let files_path = files.map(function(url) {
+            let files_path = files.map(function (url) {
                 return url.toString().replace("file:///", "/");
             });
             queue.addMediasByUrlsThenPlay(files_path);
@@ -144,7 +144,6 @@ Rectangle {
         onTapped: {
             if (tapCount === 2)
                 window.toggleMaximized();
-
         }
     }
 
@@ -153,7 +152,6 @@ Rectangle {
         onActiveChanged: {
             if (active)
                 window.startSystemMove();
-
         }
     }
 
@@ -171,7 +169,5 @@ Rectangle {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
-
 }

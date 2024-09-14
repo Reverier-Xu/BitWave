@@ -25,8 +25,7 @@ struct Clust {
 };
 
 int getColorDis(const QColor& a, const QColor& b) {
-    return (int)sqrt((a.red() - b.red()) + (a.blue() - b.blue()) +
-                     (a.green() - b.green()));
+    return (int)sqrt((a.red() - b.red()) + (a.blue() - b.blue()) + (a.green() - b.green()));
 }
 
 /**
@@ -130,19 +129,18 @@ QColor Colorize::colorize(const QImage& image_) {
     int max = 0;
     for (auto& i : vec)
         if (i.buff.count() > max) {
-            if (i.center.color.lightness() < 80 ||
-                i.center.color.lightness() > 180)
-                continue;
+            if (i.center.color.lightness() < 80 || i.center.color.lightness() > 180) continue;
             max = (int)(i.buff.count());
             dst = &i;
         }
     //    qDebug() << dst->center.color.lightness();
     auto res = dst->center.color;
     //    qDebug() << res;
-    while (res.lightness() < 80 && res.lightness() > 0) res = res.lighter();
-    while (res.lightness() > 180 && res.lightness() < 255) res = res.darker();
-    if (res.lightness() == 0 or res.lightness() == 255)
-        res = QColor(0x80, 0x80, 0x80);
+    while (res.lightness() < 80 && res.lightness() > 0)
+        res = res.lighter();
+    while (res.lightness() > 180 && res.lightness() < 255)
+        res = res.darker();
+    if (res.lightness() == 0 or res.lightness() == 255) res = QColor(0x80, 0x80, 0x80);
     return res;
 }
 

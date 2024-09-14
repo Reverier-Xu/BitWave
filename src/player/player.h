@@ -13,37 +13,31 @@
 #include <QImage>
 #include <QObject>
 
+#include "dbus/screensaver.h"
 #include "engine.h"
 #include "models/media.h"
 #include "play_queue.h"
-#include "dbus/screensaver.h"
 
 class Player : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(Media media READ media WRITE setMedia NOTIFY mediaChanged)
     Q_PROPERTY(QImage cover READ cover WRITE setCover NOTIFY coverChanged)
-    Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY
-                   coverPathChanged)
+    Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY coverPathChanged)
 
     Q_PROPERTY(bool playing READ playing WRITE setPlaying NOTIFY playingChanged)
     Q_PROPERTY(bool loading READ loading WRITE setLoading NOTIFY loadingChanged)
-    Q_PROPERTY(bool coverLoading READ coverLoading WRITE setCoverLoading NOTIFY
-                   coverLoadingChanged)
+    Q_PROPERTY(bool coverLoading READ coverLoading WRITE setCoverLoading NOTIFY coverLoadingChanged)
     Q_PROPERTY(bool valid READ valid WRITE setValid NOTIFY validChanged)
     Q_PROPERTY(bool ended READ ended WRITE setEnded NOTIFY endedChanged)
-    Q_PROPERTY(double totalTime READ totalTime WRITE setTotalTime NOTIFY
-                   totalTimeChanged)
-    Q_PROPERTY(double currentTime READ currentTime WRITE setCurrentTime NOTIFY
-                   currentTimeChanged)
+    Q_PROPERTY(double totalTime READ totalTime WRITE setTotalTime NOTIFY totalTimeChanged)
+    Q_PROPERTY(double currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
 
     Q_PROPERTY(double volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
-    Q_PROPERTY(QString audioDevice READ audioDevice WRITE setAudioDevice
-                   NOTIFY audioDeviceChanged)
-    Q_PROPERTY(QList<QVariantMap> audioDeviceList READ
-                   audioDeviceList NOTIFY audioDeviceListChanged)
-   private:
+    Q_PROPERTY(QString audioDevice READ audioDevice WRITE setAudioDevice NOTIFY audioDeviceChanged)
+    Q_PROPERTY(QList<QVariantMap> audioDeviceList READ audioDeviceList NOTIFY audioDeviceListChanged)
+  private:
     Media m_media;
 
     Screensaver* m_screensaver{};
@@ -76,7 +70,7 @@ class Player : public QObject {
 
     int m_taskId{0};
 
-   protected:
+  protected:
     static Player* m_instance;
 
     explicit Player(QObject* parent = nullptr);
@@ -87,7 +81,7 @@ class Player : public QObject {
 
     void chooseRandomCover();
 
-   public:
+  public:
     [[nodiscard]] static Player* instance(QObject* parent = nullptr);
 
     [[nodiscard]] Engine* engine() const;
@@ -152,7 +146,7 @@ class Player : public QObject {
 
     void setAudioDevice(const QString& n);
 
-   public slots:
+  public slots:
     Q_INVOKABLE void play(const Media& media);
 
     Q_INVOKABLE void playUrl(const QString& url);
@@ -173,7 +167,7 @@ class Player : public QObject {
 
     Q_INVOKABLE void saveMediaCover(const QUrl& url);
 
-   signals:
+  signals:
 
     void mediaChanged(const Media& n);
 

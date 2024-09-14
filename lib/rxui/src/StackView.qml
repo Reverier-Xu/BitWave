@@ -11,7 +11,6 @@ T.StackView {
             from: control.height
             to: 0
         }
-
     }
 
     popExit: Transition {
@@ -21,7 +20,6 @@ T.StackView {
             from: control.height
             to: 0
         }
-
     }
 
     pushEnter: Transition {
@@ -31,7 +29,6 @@ T.StackView {
             from: 0
             to: -control.height
         }
-
     }
 
     pushExit: Transition {
@@ -41,7 +38,5 @@ T.StackView {
             from: 0
             to: -control.height
         }
-
     }
-
 }

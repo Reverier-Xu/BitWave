@@ -1,8 +1,8 @@
 #pragma once
 
+#include "models/media.h"
 #include <QLocale>
 #include <QString>
-#include "models/media.h"
 
 inline QLocale::Language getChLanguage(const QChar ch) {
     if (ch.unicode() >= 0x4e00 && ch.unicode() <= 0x9fa5) {
@@ -18,11 +18,16 @@ inline QLocale::Language getChLanguage(const QChar ch) {
 
 inline int transformLocaleId(QLocale::Language lang) {
     switch (lang) {
-        case QLocale::Chinese:return 1;
-        case QLocale::Japanese:return 2;
-        case QLocale::Korean:return 3;
-        case QLocale::English:return 0;
-        default:return 0;
+    case QLocale::Chinese:
+        return 1;
+    case QLocale::Japanese:
+        return 2;
+    case QLocale::Korean:
+        return 3;
+    case QLocale::English:
+        return 0;
+    default:
+        return 0;
     }
 }
 
@@ -44,13 +49,9 @@ inline bool cmpStringWithLocale(const QString& a, const QString& b) {
     }
 }
 
-inline bool cmpTitleAsc(const Media& m1, const Media& m2) {
-    return cmpStringWithLocale(m1.title(), m2.title());
-}
+inline bool cmpTitleAsc(const Media& m1, const Media& m2) { return cmpStringWithLocale(m1.title(), m2.title()); }
 
-inline bool cmpTitleDesc(const Media& m1, const Media& m2) {
-    return cmpStringWithLocale(m2.title(), m1.title());
-}
+inline bool cmpTitleDesc(const Media& m1, const Media& m2) { return cmpStringWithLocale(m2.title(), m1.title()); }
 
 inline bool cmpArtistsAsc(const Media& m1, const Media& m2) {
     if (m1.artists().length() == 0)
@@ -68,10 +69,6 @@ inline bool cmpArtistsDesc(const Media& m1, const Media& m2) {
     return cmpStringWithLocale(m2.artists()[0], m1.artists()[0]);
 }
 
-inline bool cmpAlbumAsc(const Media& m1, const Media& m2) {
-    return cmpStringWithLocale(m1.album(), m2.album());
-}
+inline bool cmpAlbumAsc(const Media& m1, const Media& m2) { return cmpStringWithLocale(m1.album(), m2.album()); }
 
-inline bool cmpAlbumDesc(const Media& m1, const Media& m2) {
-    return cmpStringWithLocale(m2.album(), m1.album());
-}
+inline bool cmpAlbumDesc(const Media& m1, const Media& m2) { return cmpStringWithLocale(m2.album(), m1.album()); }

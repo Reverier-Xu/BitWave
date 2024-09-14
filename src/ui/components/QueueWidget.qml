@@ -123,9 +123,7 @@ Rectangle {
                     queue.mode = 4;
                 }
             }
-
         }
-
     }
 
     ListView {
@@ -146,8 +144,7 @@ Rectangle {
         highlightMoveVelocity: -1
         currentIndex: queue.cursor
 
-        ScrollBar.vertical: ScrollBar {
-        }
+        ScrollBar.vertical: ScrollBar {}
 
         add: Transition {
             NumberAnimation {
@@ -163,7 +160,6 @@ Rectangle {
                 to: 1
                 duration: 200
             }
-
         }
 
         addDisplaced: Transition {
@@ -172,7 +168,6 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.OutExpo
             }
-
         }
 
         removeDisplaced: Transition {
@@ -184,7 +179,6 @@ Rectangle {
                 properties: "y"
                 duration: 200
             }
-
         }
 
         remove: Transition {
@@ -202,7 +196,6 @@ Rectangle {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
 
         delegate: MediaRow {
@@ -225,7 +218,6 @@ Rectangle {
                 queue.removeMedia(indexOfThisDelegate);
             }
         }
-
     }
 
     Rectangle {
@@ -240,7 +232,5 @@ Rectangle {
             radius: 32
             running: queue.loading
         }
-
     }
-
 }

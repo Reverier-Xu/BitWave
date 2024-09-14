@@ -38,16 +38,12 @@ Button {
             ColorAnimation {
                 duration: 120
             }
-
         }
 
         Behavior on color {
             ColorAnimation {
                 duration: 120
             }
-
         }
-
     }
-
 }

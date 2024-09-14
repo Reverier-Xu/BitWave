@@ -39,9 +39,7 @@ Rectangle {
             NumberAnimation {
                 duration: 200
             }
-
         }
-
     }
 
     Rectangle {
@@ -97,22 +95,17 @@ Rectangle {
                         textItem.select(0, 0);
                     }
                 }
-
             }
-
         }
 
         Behavior on color {
             ColorAnimation {
                 duration: 200
             }
-
         }
-
     }
 
     HoverHandler {
         id: hoverHandler
     }
-
 }

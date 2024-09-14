@@ -1,5 +1,5 @@
-import QtQuick
 pragma Singleton
+import QtQuick
 
 QtObject {
     id: rxStyle
@@ -56,5 +56,4 @@ QtObject {
         window: "#eef4f9"
         windowText: "#101010"
     }
-
 }

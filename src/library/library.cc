@@ -23,7 +23,9 @@ Library* Library::m_instance = nullptr;
 
 Library::Library(QObject* parent) : QObject(parent) {
     m_model = new MediaList(this);
+    m_searchModel = new MediaList(this);
     m_model->setList(&m_musics);
+    m_searchModel->setList(&m_searchResult);
     loadSettings();
     loadStorage();
 }
@@ -81,21 +83,19 @@ void Library::scan() {
             while (it.hasNext()) {
                 it.next();
                 auto fileInfo = it.fileInfo();
-                if (Parser::accept(fileInfo.absoluteFilePath()))
-                    medias.append(fileInfo.absoluteFilePath());
+                if (Parser::accept(fileInfo.absoluteFilePath())) medias.append(fileInfo.absoluteFilePath());
             }
         }
         // qDebug() << medias;
         auto mediaWatcher = new QFutureWatcher<Media>();
-        auto mediaFuture =
-            QtConcurrent::mapped(medias, [=](const QString& path) {
-                try {
-                    auto media = Parser::parse(path);
-                    return media;
-                } catch (...) {
-                    return Media::null();
-                }
-            });
+        auto mediaFuture = QtConcurrent::mapped(medias, [=](const QString& path) {
+            try {
+                auto media = Parser::parse(path);
+                return media;
+            } catch (...) {
+                return Media::null();
+            }
+        });
         mediaWatcher->setFuture(mediaFuture);
         mediaWatcher->waitForFinished();
         mediaWatcher->deleteLater();
@@ -128,8 +128,7 @@ void Library::scan() {
         }
         std::sort(m_musics.begin(), m_musics.end());
         std::sort(m_videos.begin(), m_videos.end());
-        qDebug() << "Library scanning finished: " << m_musics.size() << " musics, "
-                 << m_videos.size() << " videos";
+        qDebug() << "Library scanning finished: " << m_musics.size() << " musics, " << m_videos.size() << " videos";
     });
     taskWatcher->setFuture(taskFuture);
     connect(taskWatcher, &QFutureWatcher<void>::finished, this, [=]() {
@@ -144,10 +143,8 @@ void Library::scan() {
 void Library::loadSettings() {
     QSettings settings;
     settings.beginGroup("Library");
-    m_folders = settings
-                    .value("Folders", QStandardPaths::standardLocations(
-                                          QStandardPaths::MusicLocation))
-                    .toStringList();
+    m_folders =
+        settings.value("Folders", QStandardPaths::standardLocations(QStandardPaths::MusicLocation)).toStringList();
     m_recursiveScanning = settings.value("RecursiveScanning", false).toBool();
     settings.endGroup();
 }
@@ -206,6 +203,23 @@ void Library::setFolders(const QStringList& folders) {
     emit foldersChanged(folders);
 }
 
+QString Library::searchKeyword() const { return m_searchKeyword; }
+
+void Library::setSearchKeyword(const QString& keyword) {
+    if (m_searchKeyword == keyword) {
+        return;
+    }
+    m_searchKeyword = keyword;
+    m_searchResult.clear();
+    if (m_searchKeyword.isEmpty()) {
+        m_searchModel->reload();
+        return;
+    }
+    auto result = Storage::instance()->searchMedia(m_searchKeyword);
+    m_searchResult.append(result);
+    m_searchModel->reload();
+}
+
 void Library::loadStorage() {
     auto medias = Storage::instance()->loadLibrary();
     for (auto& media : medias) {
@@ -220,6 +234,8 @@ void Library::loadStorage() {
 }
 
 MediaList* Library::model() { return m_model; }
+
+MediaList* Library::searchModel() { return m_searchModel; }
 
 void Library::sortByTitle() {
     if (sortStatus() == TitleAsc)
@@ -252,24 +268,24 @@ void Library::setSortStatus(SortStatus sortStatus) {
 
     QVector<Media>& medias = filter() == "music" ? m_musics : m_videos;
     switch (m_sortStatus) {
-        case TitleAsc:
-            std::sort(medias.begin(), medias.end(), cmpTitleAsc);
-            break;
-        case TitleDesc:
-            std::sort(medias.begin(), medias.end(), cmpTitleDesc);
-            break;
-        case ArtistsAsc:
-            std::sort(medias.begin(), medias.end(), cmpArtistsAsc);
-            break;
-        case ArtistsDesc:
-            std::sort(medias.begin(), medias.end(), cmpArtistsDesc);
-            break;
-        case AlbumAsc:
-            std::sort(medias.begin(), medias.end(), cmpAlbumAsc);
-            break;
-        case AlbumDesc:
-            std::sort(medias.begin(), medias.end(), cmpAlbumDesc);
-            break;
+    case TitleAsc:
+        std::sort(medias.begin(), medias.end(), cmpTitleAsc);
+        break;
+    case TitleDesc:
+        std::sort(medias.begin(), medias.end(), cmpTitleDesc);
+        break;
+    case ArtistsAsc:
+        std::sort(medias.begin(), medias.end(), cmpArtistsAsc);
+        break;
+    case ArtistsDesc:
+        std::sort(medias.begin(), medias.end(), cmpArtistsDesc);
+        break;
+    case AlbumAsc:
+        std::sort(medias.begin(), medias.end(), cmpAlbumAsc);
+        break;
+    case AlbumDesc:
+        std::sort(medias.begin(), medias.end(), cmpAlbumDesc);
+        break;
     }
 
     m_model->reload();
@@ -277,12 +293,9 @@ void Library::setSortStatus(SortStatus sortStatus) {
     emit sortStatusChanged(m_sortStatus);
 }
 
-const QVector<Media>& Library::currentMedias() {
-    return filter() == "music" ? m_musics : m_videos;
-}
+const QVector<Media>& Library::currentMedias() { return filter() == "music" ? m_musics : m_videos; }
 
-Q_INVOKABLE void Library::addMediaIndexToPlaylist(const int index,
-                                                  const QString& playlist) {
+Q_INVOKABLE void Library::addMediaIndexToPlaylist(const int index, const QString& playlist) {
     auto media = currentMedias().at(index);
     Storage::instance()->linkMediaToPlaylist(media, playlist);
 }

@@ -1,11 +1,9 @@
-#include <QtConcurrent>
 #include "local_lyrics.h"
+#include <QtConcurrent>
 
 LocalLyrics::LocalLyrics(QObject* parent) : ILyrics(parent) {}
 
-ILyrics* LocalLyrics::clone() {
-    return new LocalLyrics(this->parent());
-}
+ILyrics* LocalLyrics::clone() { return new LocalLyrics(this->parent()); }
 
 bool LocalLyrics::accepted(const Media& media) {
     const auto fileUrl = QUrl(media.url());
@@ -26,12 +24,8 @@ bool LocalLyrics::accepted(const Media& media) {
 void LocalLyrics::requestFetch(const Media& media) {
     const auto fileUrl = media.url();
     auto watcher = new QFutureWatcher<void>(this);
-    connect(watcher, &QFutureWatcher<void>::finished, this, [=]() {
-        watcher->deleteLater();
-    });
-    watcher->setFuture(QtConcurrent::run([=] () {
-        fetchLyrics(fileUrl);
-    }));
+    connect(watcher, &QFutureWatcher<void>::finished, this, [=]() { watcher->deleteLater(); });
+    watcher->setFuture(QtConcurrent::run([=]() { fetchLyrics(fileUrl); }));
 }
 
 void LocalLyrics::fetchLyrics(const QUrl& fileUrl) {

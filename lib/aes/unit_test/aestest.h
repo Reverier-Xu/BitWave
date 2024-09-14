@@ -5,11 +5,10 @@
 #include <QObject>
 #include <QTest>
 
-
 class AesTest : public QObject {
-   Q_OBJECT
+    Q_OBJECT
 
-   private slots:
+  private slots:
 
     void initTestCase();
 
@@ -43,9 +42,9 @@ class AesTest : public QObject {
 
     void CBC256StringEvenPKCS7();
 
-    void cleanupTestCase() { }
+    void cleanupTestCase() {}
 
-   private:
+  private:
     QByteArray key16;
 
     QByteArray key24;
@@ -69,4 +68,4 @@ class AesTest : public QObject {
     QByteArray outOFB128;
 };
 
-#endif  // AESTEST_H
+#endif    // AESTEST_H

@@ -63,11 +63,8 @@ T.ComboBox {
                 ColorAnimation {
                     duration: 120
                 }
-
             }
-
         }
-
     }
 
     indicator: ColorImage {
@@ -99,9 +96,7 @@ T.ComboBox {
             interactive: Window.window ? contentHeight + control.topPadding + control.bottomPadding > Window.window.height : false
             model: control.delegateModel
 
-            ScrollIndicator.vertical: ScrollIndicator {
-            }
-
+            ScrollIndicator.vertical: ScrollIndicator {}
         }
 
         enter: Transition {
@@ -119,7 +114,6 @@ T.ComboBox {
                 property: "height"
                 to: control.popup.implicitHeight
             }
-
         }
 
         exit: Transition {
@@ -137,9 +131,6 @@ T.ComboBox {
                 property: "height"
                 to: control.popup.implicitHeight / 2
             }
-
         }
-
     }
-
 }

@@ -196,7 +196,6 @@ Button {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
 
                 exit: Transition {
@@ -214,11 +213,8 @@ Button {
                         duration: 300
                         easing.type: Easing.OutExpo
                     }
-
                 }
-
             }
-
         }
 
         Button {
@@ -240,9 +236,6 @@ Button {
                 text: qsTr("Remove from play queue")
                 visible: deleteButton.hovered
             }
-
         }
-
     }
-
 }

@@ -12,10 +12,10 @@
 #include "interface.h"
 
 class NcmCodec : public ICodec {
-   private:
+  private:
     QStringList m_supportedFormats = {"ncm"};
 
-   public:
+  public:
     NcmCodec() = default;
     ~NcmCodec() override = default;
     const QStringList& supportedFormats() override;

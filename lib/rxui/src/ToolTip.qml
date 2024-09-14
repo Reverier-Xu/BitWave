@@ -44,7 +44,6 @@ T.ToolTip {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
 
     exit: Transition {
@@ -62,7 +61,5 @@ T.ToolTip {
             duration: 300
             easing.type: Easing.OutExpo
         }
-
     }
-
 }

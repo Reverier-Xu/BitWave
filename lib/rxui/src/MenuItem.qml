@@ -48,9 +48,7 @@ T.MenuItem {
             ColorAnimation {
                 duration: 120
             }
-
         }
-
     }
 
     contentItem: IconLabel {
@@ -76,5 +74,4 @@ T.MenuItem {
         x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2
         y: control.topPadding + (control.availableHeight - height) / 2
     }
-
 }

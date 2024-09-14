@@ -68,13 +68,16 @@ Rectangle {
                             return 1;
                     }
                     flat: true
-                    model: [{
-                        "text": "English",
-                        "value": "en_US"
-                    }, {
-                        "text": "简体中文",
-                        "value": "zh_CN"
-                    }]
+                    model: [
+                        {
+                            "text": "English",
+                            "value": "en_US"
+                        },
+                        {
+                            "text": "简体中文",
+                            "value": "zh_CN"
+                        }
+                    ]
                     textRole: "text"
                     valueRole: "value"
                     onActivated: {
@@ -89,7 +92,6 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
-
             }
 
             Rectangle {
@@ -116,13 +118,16 @@ Rectangle {
                             return 0;
                     }
                     flat: true
-                    model: [{
-                        "text": qsTr("Light"),
-                        "value": false
-                    }, {
-                        "text": qsTr("Dark"),
-                        "value": true
-                    }]
+                    model: [
+                        {
+                            "text": qsTr("Light"),
+                            "value": false
+                        },
+                        {
+                            "text": qsTr("Dark"),
+                            "value": true
+                        }
+                    ]
                     textRole: "text"
                     valueRole: "value"
                     onActivated: {
@@ -138,7 +143,6 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
-
             }
 
             Rectangle {
@@ -165,13 +169,16 @@ Rectangle {
                             return 0;
                     }
                     flat: true
-                    model: [{
-                        "text": qsTr("Colorful"),
-                        "value": false
-                    }, {
-                        "text": qsTr("Flat"),
-                        "value": true
-                    }]
+                    model: [
+                        {
+                            "text": qsTr("Colorful"),
+                            "value": false
+                        },
+                        {
+                            "text": qsTr("Flat"),
+                            "value": true
+                        }
+                    ]
                     textRole: "text"
                     valueRole: "value"
                     onActivated: {
@@ -186,7 +193,6 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
-
             }
 
             Rectangle {
@@ -289,9 +295,7 @@ Rectangle {
                                 }
                             }
                         }
-
                     }
-
                 }
 
                 Rectangle {
@@ -301,11 +305,8 @@ Rectangle {
                     color: Style.palette.mid
                     height: 1
                 }
-
             }
-
         }
-
     }
 
     FolderDialog {
@@ -318,5 +319,4 @@ Rectangle {
             library.addFolderPath(folder);
         }
     }
-
 }

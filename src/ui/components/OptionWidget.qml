@@ -31,7 +31,6 @@ Rectangle {
             text: qsTr("Player Options")
             anchors.verticalCenter: parent.verticalCenter
         }
-
     }
 
     ComboBox {
@@ -44,7 +43,7 @@ Rectangle {
         anchors.rightMargin: 32
         currentIndex: {
             // player.audioDevice is name
-            let index = player.audioDeviceList.findIndex(function(item) {
+            let index = player.audioDeviceList.findIndex(function (item) {
                 // console.log(item.name, player.audioDevice);
                 return item.name === player.audioDevice;
             });
@@ -59,5 +58,4 @@ Rectangle {
             player.audioDevice = deviceComboBox.currentValue;
         }
     }
-
 }
