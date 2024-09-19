@@ -14,3 +14,4 @@ aur/BitWave/
 aur/pkg/
 aur/
 .cache/
+.DS_Store

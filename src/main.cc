@@ -10,6 +10,7 @@
 
 #include "codec/codec.h"
 #include "parser/parser.h"
+#include <clocale>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QFont>
