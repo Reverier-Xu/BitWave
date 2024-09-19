@@ -36,6 +36,9 @@ int main(int argc, char* argv[]) {
     QApplication::setOrganizationDomain("woooo.tech");
     QApplication::setWindowIcon(QIcon(":/assets/logo-fill.svg"));
     QApplication::setDesktopFileName("tech.woooo.bitwave");
+    auto defaultFont = QFont();
+    defaultFont.setPixelSize(16);
+    QApplication::setFont(defaultFont);
 
     QCommandLineParser parser;
     parser.setApplicationDescription("A simple media player based on MPV and Qt.");
