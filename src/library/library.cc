@@ -299,3 +299,8 @@ Q_INVOKABLE void Library::addMediaIndexToPlaylist(const int index, const QString
     auto media = currentMedias().at(index);
     Storage::instance()->linkMediaToPlaylist(media, playlist);
 }
+
+Q_INVOKABLE void Library::addSearchMediaIndexToPlaylist(const int index, const QString& playlist) {
+    auto media = m_searchResult.at(index);
+    Storage::instance()->linkMediaToPlaylist(media, playlist);
+}

@@ -196,11 +196,13 @@ Rectangle {
             time: mediaTime
             playing: false
             canDelete: false
+            
             onClicked: {
                 queue.addMediaByUrlThenPlay(mediaUrl);
             }
+
             onAddToPlaylistClicked: (i, n) => {
-                playlist.addMediaIndexToPlaylist(i, n);
+                library.addSearchMediaIndexToPlaylist(i, n);
             }
             
         }
