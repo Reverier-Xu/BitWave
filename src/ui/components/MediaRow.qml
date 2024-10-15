@@ -119,7 +119,7 @@ Button {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        color: control.playing ? Color.transparent(Style.primary, 0.6) : Style.palette.mid
+        color: control.playing ? Qt.alpha(Style.primary, 0.6) : Style.palette.mid
     }
 
     Row {

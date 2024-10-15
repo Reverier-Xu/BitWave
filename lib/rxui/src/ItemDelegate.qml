@@ -7,7 +7,7 @@ T.ItemDelegate {
     id: control
 
     bottomPadding: padding + 1
-    icon.color: Color.transparent(Style.palette.buttonText, enabled ? 1 : 0.2)
+    icon.color: Qt.alpha(Style.palette.buttonText, enabled ? 1 : 0.2)
     icon.height: 16
     icon.width: 16
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding, implicitIndicatorHeight + topPadding + bottomPadding)
@@ -17,7 +17,7 @@ T.ItemDelegate {
     topPadding: padding - 1
 
     background: Rectangle {
-        color: !control.enabled ? Color.transparent(Style.palette.text, 0.2) : control.down ? Style.palette.dark : control.highlighted ? Style.palette.mid : "transparent"
+        color: !control.enabled ? Qt.alpha(Style.palette.text, 0.2) : control.down ? Style.palette.dark : control.highlighted ? Style.palette.mid : "transparent"
         implicitHeight: 36
         implicitWidth: 200
 
@@ -43,7 +43,7 @@ T.ItemDelegate {
         readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
 
         alignment: Qt.AlignLeft
-        color: !control.enabled ? Color.transparent(Style.palette.text, 0.6) : Style.palette.text
+        color: !control.enabled ? Qt.alpha(Style.palette.text, 0.6) : Style.palette.text
         display: control.display
         font: control.font
         icon: control.icon

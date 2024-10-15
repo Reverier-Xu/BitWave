@@ -5,7 +5,7 @@ import RxUI
 Rectangle {
     id: control
 
-    color: Color.transparent(Style.palette.window, 0.95)
+    color: Qt.alpha(Style.palette.window, 0.95)
 
     MouseArea {
         anchors.fill: parent

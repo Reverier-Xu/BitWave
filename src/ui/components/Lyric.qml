@@ -70,7 +70,7 @@ Rectangle {
         opacity: control.isCurrent ? 1 : 0.4
         selectByMouse: true
         selectedTextColor: Style.palette.text
-        selectionColor: Color.transparent(Style.primary, 0.4)
+        selectionColor: Qt.alpha(Style.primary, 0.4)
 
         MouseArea {
             id: mouseArea

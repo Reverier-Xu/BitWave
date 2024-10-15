@@ -6,7 +6,7 @@ import RxUI
 Rectangle {
     id: control
 
-    color: Color.transparent(Style.palette.window, 0.95)
+    color: Qt.alpha(Style.palette.window, 0.95)
 
     MouseArea {
         anchors.fill: parent
@@ -223,7 +223,7 @@ Rectangle {
     Rectangle {
         id: queueLoadingCover
 
-        color: Color.transparent(Style.palette.window, 0.8)
+        color: Qt.alpha(Style.palette.window, 0.8)
         anchors.fill: queueList
         visible: queue.loading
 

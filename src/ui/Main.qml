@@ -127,7 +127,7 @@ FramelessWindow {
 
         anchors.fill: parent
         anchors.margins: window.visibility === Window.Windowed ? 10 : 0
-        border.color: Color.transparent(Style.palette.windowText, 0.08)
+        border.color: Qt.alpha(Style.palette.windowText, 0.08)
         border.width: window.visibility === Window.Windowed ? 2 : 0
         color: Style.palette.window
 

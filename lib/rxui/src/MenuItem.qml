@@ -6,7 +6,7 @@ import RxUI
 T.MenuItem {
     id: control
 
-    icon.color: !enabled ? Color.transparent(Style.palette.text, 0.6) : Style.palette.text
+    icon.color: !enabled ? Qt.alpha(Style.palette.text, 0.6) : Style.palette.text
     icon.height: 16
     icon.width: 16
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding, implicitIndicatorHeight + topPadding + bottomPadding)
@@ -21,7 +21,7 @@ T.MenuItem {
     }
 
     arrow: ColorImage {
-        color: !enabled ? Color.transparent(Style.palette.text, 0.4) : Style.palette.text
+        color: !enabled ? Qt.alpha(Style.palette.text, 0.4) : Style.palette.text
         mirror: control.mirrored
         source: "qrc:/qt/qml/RxUI/assets/chevron-right.svg"
         visible: control.subMenu
@@ -30,7 +30,7 @@ T.MenuItem {
     }
 
     background: Rectangle {
-        color: !control.enabled ? Color.transparent(Style.palette.text, 0.2) : control.down ? Style.palette.dark : control.highlighted ? Style.palette.mid : "transparent"
+        color: !control.enabled ? Qt.alpha(Style.palette.text, 0.2) : control.down ? Style.palette.dark : control.highlighted ? Style.palette.mid : "transparent"
         implicitHeight: 36
         implicitWidth: 200
 
@@ -56,7 +56,7 @@ T.MenuItem {
         readonly property real indicatorPadding: control.checkable && control.indicator ? control.indicator.width + control.spacing : 0
 
         alignment: Qt.AlignLeft
-        color: !control.enabled ? Color.transparent(Style.palette.text, 0.6) : Style.palette.text
+        color: !control.enabled ? Qt.alpha(Style.palette.text, 0.6) : Style.palette.text
         display: control.display
         font: control.font
         icon: control.icon
@@ -68,7 +68,7 @@ T.MenuItem {
     }
 
     indicator: ColorImage {
-        color: !control.enabled ? Color.transparent(Style.palette.text, 0.4) : control.down ? Style.palette.text : Style.palette.highlightText
+        color: !control.enabled ? Qt.alpha(Style.palette.text, 0.4) : control.down ? Style.palette.text : Style.palette.highlightText
         source: !control.checkable ? "" : "qrc:/qt/qml/RxUI/assets/checkmark.svg"
         visible: control.checked
         x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) : control.leftPadding + (control.availableWidth - width) / 2

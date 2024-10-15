@@ -7,7 +7,7 @@ Rectangle {
 
     property bool expanded: true
 
-    color: Color.transparent(Style.palette.windowText, 0.08)
+    color: Qt.alpha(Style.palette.windowText, 0.08)
     width: expanded ? 280 : 0
 
     ActiveTab {
@@ -96,7 +96,7 @@ Rectangle {
         anchors.top: libraryTab.bottom
         anchors.topMargin: 4
         text: qsTr("Playlists")
-        textColor: Color.transparent(Style.palette.windowText, 0.6)
+        textColor: Qt.alpha(Style.palette.windowText, 0.6)
 
         icon.source: "qrc:/qt/qml/RxUI/assets/star-line-horizontal-3.svg"
         hoverColor: "transparent"
@@ -107,7 +107,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             height: 1
-            color: Color.transparent(Style.palette.windowText, 0.08)
+            color: Qt.alpha(Style.palette.windowText, 0.08)
         }
 
         Button {

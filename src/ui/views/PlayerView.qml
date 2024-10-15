@@ -18,7 +18,7 @@ Rectangle {
         Rectangle {
             id: videoTimeIndicator
 
-            color: Color.transparent(Style.palette.window, 0.6)
+            color: Qt.alpha(Style.palette.window, 0.6)
             height: 36
             anchors.right: parent.right
             anchors.top: parent.top
@@ -218,7 +218,7 @@ Rectangle {
 
             Rectangle {
                 anchors.fill: parent
-                color: Color.transparent(Style.palette.window, 0.6)
+                color: Qt.alpha(Style.palette.window, 0.6)
                 opacity: (player.loading || player.coverLoading) ? 1 : 0
                 radius: width / 2
 
@@ -429,7 +429,7 @@ Rectangle {
             Rectangle {
                 anchors.fill: lyricsContent
                 anchors.leftMargin: 64
-                color: Color.transparent(Style.palette.window, 0.6)
+                color: Qt.alpha(Style.palette.window, 0.6)
                 opacity: lyrics.loading ? 1 : 0
                 radius: width / 2
 

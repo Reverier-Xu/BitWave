@@ -21,6 +21,8 @@
 #include "player/video_player.h"
 #include "playlist/playlist.h"
 
+using namespace Qt::StringLiterals;
+
 Ui* Ui::m_instance = nullptr;
 
 Ui::Ui(QObject* parent) : QObject(parent) {
@@ -81,8 +83,8 @@ void Ui::exportProperties() {
 }
 
 void Ui::createUi() {
-    const QUrl url(u"qrc:/BitWave/ui/Main.qml"_qs);
-    m_engine->addImportPath(u"qrc:/BitWave"_qs);
+    const QUrl url(u"qrc:/BitWave/ui/Main.qml"_s);
+    m_engine->addImportPath(u"qrc:/BitWave"_s);
     m_engine->load(url);
 }
 

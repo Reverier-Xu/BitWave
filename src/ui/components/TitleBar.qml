@@ -6,7 +6,7 @@ import RxUI
 Rectangle {
     id: titleBar
 
-    color: Color.transparent(Style.palette.window, 0.95)
+    color: Qt.alpha(Style.palette.window, 0.95)
     height: ui.hideControls ? 0 : 36
     clip: true
 

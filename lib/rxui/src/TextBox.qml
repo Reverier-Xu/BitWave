@@ -107,7 +107,7 @@ Rectangle {
         height: parent.height
         selectByMouse: true
         selectedTextColor: Style.palette.text
-        selectionColor: Color.transparent(Style.primary, 0.4)
+        selectionColor: Qt.alpha(Style.primary, 0.4)
         text: inputText
         verticalAlignment: Text.AlignVCenter
         wrapMode: TextEdit.NoWrap
@@ -179,7 +179,7 @@ Rectangle {
         cursorDelegate: Rectangle {
             id: cursorDelegate
 
-            color: Color.transparent(Style.palette.buttonText, 0.6)
+            color: Qt.alpha(Style.palette.buttonText, 0.6)
             width: 2
 
             Connections {

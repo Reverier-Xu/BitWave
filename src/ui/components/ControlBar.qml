@@ -12,7 +12,7 @@ Rectangle {
     property bool queueVisible: false
     property bool optionVisible: false
 
-    color: Color.transparent(Style.palette.window, 0.95)
+    color: Qt.alpha(Style.palette.window, 0.95)
     height: ui.hideControls ? 0 : 100
 
     MouseArea {
@@ -77,7 +77,7 @@ Rectangle {
 
             Rectangle {
                 anchors.fill: parent
-                color: Color.transparent(Style.palette.window, 0.6)
+                color: Qt.alpha(Style.palette.window, 0.6)
                 opacity: (player.loading || player.coverLoading) ? 1 : 0
 
                 Loader {
@@ -270,7 +270,7 @@ Rectangle {
                 Rectangle {
                     id: queueLoadingCover
 
-                    color: Color.transparent(Style.palette.window, 0.8)
+                    color: Qt.alpha(Style.palette.window, 0.8)
                     anchors.fill: parent
                     visible: queue.loading
 
