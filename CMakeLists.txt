@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(
     BitWave
     DESCRIPTION "A simple media player that wrappers MPV."
-    VERSION 1.0.8
+    VERSION 1.1.0
     LANGUAGES C CXX
 )
 
