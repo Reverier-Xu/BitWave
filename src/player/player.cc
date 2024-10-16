@@ -130,10 +130,15 @@ void Player::connectSignals() {
         emit stateChanged();
         //        qDebug() << "started";
     });
-    connect(m_engine, &Engine::ended, this, [=]() {
+    connect(m_engine, &Engine::ended, this, [=](bool ok) {
         setPlaying(false);
         setEnded(true);
-        m_queue->next();
+        if (ok) {
+            m_faillock = 0;
+        } else {
+            m_faillock++;
+        }
+        if (m_faillock < 3) m_queue->next();
         emit stateChanged();
         //        qDebug() << "ended";
     });
@@ -149,7 +154,10 @@ void Player::connectSignals() {
     });
     connect(m_engine, &Engine::audioDeviceChanged, this, [=](const QString& n) { emit audioDeviceChanged(n); });
 
-    connect(m_queue, &PlayQueue::mediaChanged, this, [=](const Media& media) { play(media); });
+    connect(m_queue, &PlayQueue::mediaChanged, this, [=](const Media& media) {
+        m_faillock = 0;
+        play(media);
+    });
     if (m_screensaver != nullptr) {
         connect(m_engine, &Engine::started, [=]() {
             // qDebug() << "Started";

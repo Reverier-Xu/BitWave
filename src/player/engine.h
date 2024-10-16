@@ -76,7 +76,7 @@ class Engine : public QObject {
 
     void resumed();
 
-    void ended();
+    void ended(bool ok);
 
     void audioDeviceChanged(QString n);
 };

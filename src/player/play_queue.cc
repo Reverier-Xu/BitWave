@@ -145,13 +145,10 @@ void PlayQueue::loadPlaylist(const QVector<Media>& playlist) {
 void PlayQueue::toggleChangeMode() { setMode((mode() + 1) % 5); }
 
 void PlayQueue::next() {
-    if (m_faillock > 3) {
-        m_faillock = 0;
+    //    qDebug() << "next" << m_cursorPos << m_mode << m_queuedPlayOrder;
+    if (m_playlist->empty()) {
         return;
     }
-    m_faillock++;
-    //    qDebug() << "next" << m_cursorPos << m_mode << m_queuedPlayOrder;
-    if (m_playlist->empty()) return;
     //    qDebug() << m_cursorPos << m_queuedPlayOrder;
     if (m_cursorPos >= m_queuedPlayOrder.size() - 1) {
         m_queuedPlayOrder = generatePlayOrder(m_mode, m_cursor, &m_cursorPos, (int)m_playlist->size());

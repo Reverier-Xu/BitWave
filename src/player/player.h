@@ -70,6 +70,8 @@ class Player : public QObject {
 
     int m_taskId{0};
 
+    int m_faillock{0};
+
   protected:
     static Player* m_instance;
 

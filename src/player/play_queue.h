@@ -49,8 +49,6 @@ class PlayQueue : public QObject {
 
     bool m_saving{false};
 
-    int m_faillock{0};
-
     void loadPlaylist_(const QVector<Media>& playlist);
 
   public:
