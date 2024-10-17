@@ -20,7 +20,7 @@ const QStringList& NcmCodec::supportedFormats() { return m_supportedFormats; }
 
 bool NcmCodec::accepted(const Media& src) {
     auto fileInfo = QFileInfo(src.url());
-    return m_supportedFormats.contains(fileInfo.suffix());
+    return m_supportedFormats.contains(fileInfo.suffix().toLower());
 }
 
 QString NcmCodec::decode(const Media& src) {
