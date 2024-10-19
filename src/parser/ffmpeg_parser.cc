@@ -64,7 +64,7 @@ Media FfmpegParser::parse(const QString& path) {
 
     // detect file type by iterate ffmpeg streams
     auto fileInfo = QFileInfo(path);
-    auto suffix = fileInfo.suffix();
+    auto suffix = fileInfo.suffix().toLower();
     if (m_supportedVideoFormats.contains(suffix))
         media.setType(VIDEO);
     else if (m_supportedAudioFormats.contains(suffix))

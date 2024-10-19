@@ -18,5 +18,5 @@ const QStringList& MpvCodec::supportedFormats() { return m_supportedFormats; }
 
 bool MpvCodec::accepted(const Media& src) {
     auto fileInfo = QFileInfo(src.url());
-    return m_supportedFormats.contains(fileInfo.suffix());
+    return m_supportedFormats.contains(fileInfo.suffix().toLower());
 }

@@ -121,7 +121,7 @@ void Library::scan() {
         for (auto& media : mediaNew) {
             if (media.type() == MUSIC) {
                 m_musics.append(media);
-            } else {
+            } else if (media.type() == VIDEO) {
                 m_videos.append(media);
             }
             Storage::instance()->addMedia(media);
