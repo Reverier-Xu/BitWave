@@ -92,8 +92,8 @@ T.ComboBox {
         contentItem: ListView {
             clip: true
             currentIndex: control.currentIndex
-            implicitHeight: contentHeight
-            interactive: Window.window ? contentHeight + control.topPadding + control.bottomPadding > Window.window.height : false
+            implicitHeight: Math.min(contentHeight, (Window.window?.height ?? 700) / 2)
+            interactive: contentHeight > (Window.window?.height ?? 700) / 2
             model: control.delegateModel
 
             ScrollIndicator.vertical: ScrollIndicator {}

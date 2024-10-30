@@ -61,7 +61,6 @@ Rectangle {
                 text: qsTr("Title")
                 font.bold: true
             }
-
         }
 
         Button {
@@ -77,7 +76,6 @@ Rectangle {
                 text: qsTr("Artists")
                 font.bold: true
             }
-
         }
 
         Button {
@@ -93,7 +91,6 @@ Rectangle {
                 text: qsTr("Album")
                 font.bold: true
             }
-
         }
 
         Rectangle {
@@ -196,7 +193,7 @@ Rectangle {
             time: mediaTime
             playing: false
             canDelete: false
-            
+
             onClicked: {
                 queue.addMediaByUrlThenPlay(mediaUrl);
             }
@@ -204,7 +201,6 @@ Rectangle {
             onAddToPlaylistClicked: (i, n) => {
                 library.addSearchMediaIndexToPlaylist(i, n);
             }
-            
         }
     }
     Connections {

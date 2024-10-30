@@ -35,7 +35,7 @@ T.Slider {
             radius: 2
             width: control.horizontal ? (control.position * (parent.width - 16) - 2) : hovered || pressed ? 4 : 2 // SliderTrackThemeHeight
             x: control.horizontal ? 0 : (parent.width - width) / 2
-            y: control.horizontal ? (parent.height - height) / 2 : ((control.position * parent.height - 16) + 18)
+            y: control.horizontal ? (parent.height - height) / 2 : (parent.height - control.position * (parent.height - 16) + 2)
         }
     }
 

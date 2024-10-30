@@ -15,7 +15,7 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QObject>
-#include <QtQuick/QQuickFramebufferObject>
+#include <QQuickFramebufferObject>
 
 class Engine : public QObject {
     Q_OBJECT

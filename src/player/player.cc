@@ -339,6 +339,26 @@ QString Player::audioDevice() const {
 
 void Player::setAudioDevice(const QString& n) { m_engine->setMpvProperty("audio-device", n); }
 
+QList<qint8> Player::audioEqualizer() const {
+    auto resp = m_engine->getMpvProperty("af");
+    qDebug() << resp;
+    return {};
+}
+
+void Player::setAudioEqualizer(const QList<qint8>& n) {
+    // TODO: implement this
+}
+
+QList<qint8> Player::audioBalancer() const {
+    auto resp = m_engine->getMpvProperty("af");
+    qDebug() << resp;
+    return {};
+}
+
+void Player::setAudioBalancer(const QList<qint8>& n) {
+    // TODO: implement this
+}
+
 void Player::loadSettings() {
     QSettings settings;
     settings.beginGroup("Player");

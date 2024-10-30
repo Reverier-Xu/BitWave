@@ -37,6 +37,9 @@ class Player : public QObject {
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(QString audioDevice READ audioDevice WRITE setAudioDevice NOTIFY audioDeviceChanged)
     Q_PROPERTY(QList<QVariantMap> audioDeviceList READ audioDeviceList NOTIFY audioDeviceListChanged)
+    Q_PROPERTY(QList<qint8> audioEqualizer READ audioEqualizer WRITE setAudioEqualizer NOTIFY audioEqualizerChanged)
+    Q_PROPERTY(QList<qint8> audioBalancer READ audioBalancer WRITE setAudioBalancer NOTIFY audioBalancerChanged)
+
   private:
     Media m_media;
 
@@ -148,6 +151,14 @@ class Player : public QObject {
 
     void setAudioDevice(const QString& n);
 
+    [[nodiscard]] QList<qint8> audioEqualizer() const;
+
+    void setAudioEqualizer(const QList<qint8>& n);
+
+    [[nodiscard]] QList<qint8> audioBalancer() const;
+
+    void setAudioBalancer(const QList<qint8>& n);
+
   public slots:
     Q_INVOKABLE void play(const Media& media);
 
@@ -202,4 +213,8 @@ class Player : public QObject {
     void audioDeviceChanged(QString n);
 
     void stateChanged();
+
+    void audioEqualizerChanged(QList<qint8> n);
+
+    void audioBalancerChanged(QList<qint8> n);
 };
